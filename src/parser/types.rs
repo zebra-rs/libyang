@@ -537,7 +537,7 @@ mod tests {
     }
 
     #[test]
-    fn test_uin8_range() {
+    fn test_uint8_range() {
         let literal = r#"
         type uint8 {
             range "0..63";
@@ -545,8 +545,9 @@ mod tests {
         let (_, result) = type_uint8_parse(literal).unwrap();
         match result {
             Node::Type(t) => {
-                println!("test_uint8_parse {:?}", t);
+                println!("test_uint8_range {:?}", t);
                 assert_eq!(match_node(&t, "10"), true);
+                assert_eq!(match_node(&t, "64"), false);
             }
             _ => {}
         }
