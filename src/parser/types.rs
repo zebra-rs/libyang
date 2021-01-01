@@ -500,6 +500,23 @@ pub fn match_node(node: &TypeNode, s: &str) -> bool {
     }
 }
 
+// WIP for match function.
+pub fn match_node_with_type(node: &TypeNode, s: &str) -> bool {
+    if node.kind != TypeKind::Yuint8 {
+        return false;
+    }
+    if let Ok(v) = s.parse::<u64>() {
+        if let Some(range) = &node.range_uint {
+            return match_uint_range_node(&range, v);
+        } else {
+            // TODO Type value range check.
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

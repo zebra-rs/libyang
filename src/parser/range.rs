@@ -162,7 +162,7 @@ mod tests {
         struct Test {
             input: &'static str,
             output: IResult<&'static str, &'static str>,
-        };
+        }
         let tests = [
             Test {
                 input: "0",
@@ -208,7 +208,7 @@ mod tests {
         struct Test {
             input: &'static str,
             output: IResult<&'static str, &'static str>,
-        };
+        }
         let tests = [
             Test {
                 input: "0",
@@ -246,7 +246,7 @@ mod tests {
         struct Test {
             input: &'static str,
             output: IResult<&'static str, RangeVal<i64>>,
-        };
+        }
         let tests = [
             Test {
                 input: "100",
@@ -276,7 +276,7 @@ mod tests {
         struct Test {
             input: &'static str,
             output: IResult<&'static str, RangeUint>,
-        };
+        }
         let tests = [
             Test {
                 input: "128",
@@ -332,7 +332,7 @@ mod tests {
         struct Test {
             input: &'static str,
             output: IResult<&'static str, RangeUint>,
-        };
+        }
         let tests = [
             Test {
                 input: "0..1",
