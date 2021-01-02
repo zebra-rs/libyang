@@ -540,6 +540,7 @@ pub fn yang_parse(s: &str) -> IResult<&str, Module> {
         identity_parse,
         feature_parse,
         container_parse,
+        leaf_parse,
     )))(s)?;
     let (s, _) = multispace0(s)?;
     let (s, _) = char('}')(s)?;

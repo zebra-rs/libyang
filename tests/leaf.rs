@@ -14,8 +14,16 @@ fn leaf_test() {
             ms.modules.insert(module.prefix.to_owned(), module);
 
             let entry = ms.modules.get(&"test-leaf".to_string());
-            if let Some(_) = entry {
+            if let Some(e) = entry {
                 // Success.
+                println!("Module found");
+                println!("name: {}", e.name);
+                println!("namespace: {}", e.namespace);
+                println!("prefix: {}", e.prefix);
+                for (_, t) in &e.typedefs {
+                    println!("typedef: {}", t.name);
+                }
+                println!("Module dump: {:?}", e);
             } else {
                 // Module not found.
                 panic!("modules can't find")
