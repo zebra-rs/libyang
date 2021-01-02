@@ -7,8 +7,7 @@ fn leaf_test() {
 
     // Read a module.
     let mut ms = Modules::new();
-    let yang_name = "test-leaf";
-    let data = yang.read(&ms, yang_name).unwrap();
+    let data = yang.read(&ms, "test-leaf").unwrap();
 
     match yang_parse(&data) {
         Ok((_, module)) => {
