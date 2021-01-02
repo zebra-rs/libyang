@@ -1,4 +1,6 @@
 use crate::modules::*;
+use crate::parser::*;
+use std::collections::HashMap;
 use std::ffi::OsStr;
 use std::fs::{self, File};
 use std::io::prelude::*;
@@ -7,11 +9,15 @@ use std::path::PathBuf;
 
 pub struct Yang {
     paths: Vec<PathBuf>,
+    pub modules: HashMap<String, Module>,
 }
 
 impl Yang {
     pub fn new() -> Self {
-        Yang { paths: vec![] }
+        Yang {
+            paths: vec![],
+            modules: HashMap::new(),
+        }
     }
 
     // Add colon ':' separated path to YANG file load paths.
@@ -145,6 +151,27 @@ impl Yang {
         // let ast = parse_data(data)?;
 
         Ok(data)
+    }
+
+    pub fn read_and_parse(&mut self, name: &str) -> Result<(), Error> {
+        // Find and open file.
+        let file = self.find_file(name)?;
+
+        // Read file contents.
+        let data = self.read_file(file)?;
+
+        // Parse file.
+        let ast = yang_parse(&data);
+        match ast {
+            Ok((_, module)) => {
+                self.modules.insert(module.prefix.to_owned(), module);
+                Ok(())
+            }
+            Err(e) => {
+                println!("module parse: {:?}", e);
+                Err(std::io::Error::from(std::io::ErrorKind::InvalidInput))
+            }
+        }
     }
 }
 
