@@ -7,8 +7,7 @@ fn main() {
 
     // Read a module.
     let mut ms = Modules::new();
-    let yang_name = "iana-if-type";
-    let data = yang.read(&ms, yang_name).unwrap();
+    let data = yang.read(&ms, "iana-if-type").unwrap();
 
     match yang_parse(&data) {
         Ok((_, module)) => {
