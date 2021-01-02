@@ -1,8 +1,8 @@
 module test-leaf {
   yang-version "1";
 
-  namespace "http://coreswitch.io/";
-  prefix "coreswitch";
+  namespace "http://libyang.zebra.dev/";
+  prefix "test-leaf";
 
   leaf leaf-empty {
     type empty;
