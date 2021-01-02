@@ -15,7 +15,7 @@ fn main() {
         }
     }
 
-    let entry = yang.modules.get(&"ianaift".to_string());
+    let entry = yang.modules.get("ianaift");
     if let Some(e) = entry {
         println!("Module found");
         println!("name: {}", e.name);
