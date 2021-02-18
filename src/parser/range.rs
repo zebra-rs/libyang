@@ -4,7 +4,7 @@ use nom::bytes::complete::tag;
 use nom::character::complete::{char, digit0, multispace0, one_of};
 use nom::combinator::{opt, recognize};
 use nom::error::ErrorKind;
-use nom::multi::separated_nonempty_list;
+use nom::multi::separated_list1;
 use nom::sequence::pair;
 use nom::Err::Error;
 use nom::IResult;
@@ -36,7 +36,7 @@ where
             if let Ok(n) = v.parse::<T>() {
                 Ok((s, RangeVal::<T>::Val(n)))
             } else {
-                Err(Error((s, ErrorKind::Digit)))
+                Err(Error(nom::error::Error::new(s, ErrorKind::Digit)))
             }
         }
     }
@@ -98,14 +98,14 @@ fn range_uint_pair_parse(s: &str) -> IResult<&str, Range<u64>> {
 }
 
 pub fn range_int_parse(s: &str) -> IResult<&str, Vec<Range<i64>>> {
-    separated_nonempty_list(
+    separated_list1(
         permutation((multispace0, char('|'), multispace0)),
         alt((range_int_pair_parse, range_int_single_parse)),
     )(s)
 }
 
 pub fn range_uint_parse(s: &str) -> IResult<&str, Vec<Range<u64>>> {
-    separated_nonempty_list(
+    separated_list1(
         permutation((multispace0, char('|'), multispace0)),
         alt((range_uint_pair_parse, range_uint_single_parse)),
     )(s)
@@ -232,7 +232,7 @@ mod tests {
             },
             Test {
                 input: "-2020",
-                output: Err(Error(("-2020", ErrorKind::OneOf))),
+                output: Err(Error(nom::error::Error::new("-2020", ErrorKind::OneOf))),
             },
         ];
         for t in &tests {
@@ -310,15 +310,15 @@ mod tests {
             },
             Test {
                 input: "-0",
-                output: Err(Error(("-0", ErrorKind::OneOf))),
+                output: Err(Error(nom::error::Error::new("-0", ErrorKind::OneOf))),
             },
             Test {
                 input: "-100",
-                output: Err(Error(("-100", ErrorKind::OneOf))),
+                output: Err(Error(nom::error::Error::new("-100", ErrorKind::OneOf))),
             },
             Test {
                 input: "abc",
-                output: Err(Error(("abc", ErrorKind::OneOf))),
+                output: Err(Error(nom::error::Error::new("abc", ErrorKind::OneOf))),
             },
         ];
         for t in &tests {
@@ -366,15 +366,15 @@ mod tests {
             },
             Test {
                 input: "-0..1",
-                output: Err(Error(("-0..1", ErrorKind::OneOf))),
+                output: Err(Error(nom::error::Error::new("-0..1", ErrorKind::OneOf))),
             },
             Test {
                 input: "-1..1",
-                output: Err(Error(("-1..1", ErrorKind::OneOf))),
+                output: Err(Error(nom::error::Error::new("-1..1", ErrorKind::OneOf))),
             },
             Test {
                 input: "100..-1",
-                output: Err(Error(("-1", ErrorKind::OneOf))),
+                output: Err(Error(nom::error::Error::new("-1", ErrorKind::OneOf))),
             },
         ];
         for t in &tests {

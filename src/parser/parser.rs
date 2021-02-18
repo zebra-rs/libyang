@@ -6,7 +6,7 @@ use nom::bytes::complete::{tag, take_until, take_while, take_while1};
 use nom::character::complete::{anychar, char, multispace0, multispace1, none_of};
 use nom::combinator::{recognize, verify};
 use nom::error::{make_error, ErrorKind};
-use nom::multi::{many0, separated_list};
+use nom::multi::{many0, separated_list0};
 use nom::sequence::{delimited, pair};
 use nom::Err;
 use nom::IResult;
@@ -90,7 +90,7 @@ pub fn quoted_string(s: &str) -> IResult<&str, String> {
 }
 
 pub fn quoted_string_list(s: &str) -> IResult<&str, String> {
-    let (s, v) = separated_list(
+    let (s, v) = separated_list0(
         permutation((multispace0, char('+'), multispace0)),
         quoted_string,
     )(s)?;
@@ -671,6 +671,9 @@ mod tests {
 
         let literal = "hoge";
         let result = boolean_parse(literal);
-        assert_eq!(result, Err(Err::Error((literal, ErrorKind::Tag))));
+        assert_eq!(
+            result,
+            Err(Err::Error(nom::error::Error::new(literal, ErrorKind::Tag)))
+        );
     }
 }
