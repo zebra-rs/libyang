@@ -1,0 +1,817 @@
+%start Yang
+%title "Yang grammar"
+%comment "YANG grammar by `parol`"
+%line_comment "//"
+%block_comment  "/\*" "\*/"
+
+%scanner DQString {
+    %auto_newline_off
+    %auto_ws_off
+}
+
+%scanner SQString {
+    %auto_newline_off
+    %auto_ws_off
+}
+
+%scanner Esc {
+    %auto_newline_off
+    %auto_ws_off
+}
+
+%scanner Keyword {
+}
+
+%scanner YVersion {
+}
+
+%scanner Range {
+}
+
+%scanner Enum {
+}
+
+%scanner Default {
+}
+
+%scanner Revision {
+}
+
+%scanner Mandatory {
+}
+
+%scanner IfFeature {
+}
+
+%scanner Status {
+}
+
+%scanner Value {
+}
+
+%scanner Fraction {
+}
+
+%scanner Ordered {
+}
+
+%%
+
+Yang
+    : ModuleStmt
+    | SubmoduleStmt;
+
+ModuleStmt
+    : 'module'^ IdentifierArgStr
+      '{'^
+      { ModuleHeaderStmts }
+      { LinkageStmts }
+      { MetaStmts }
+      { RevisionStmt }
+      { BodyStmts }
+      '}'^;
+
+SubmoduleStmt
+    : 'submodule'^ IdentifierArgStr
+      '{'^
+      { SubmoduleHeaderStmts }
+      { LinkageStmts }
+      { MetaStmts }
+      { RevisionStmt }
+      { BodyStmts }
+      '}'^;
+
+ModuleHeaderStmts
+    : YangVersionStmt
+    | NamespaceStmt
+    | PrefixStmt;
+
+SubmoduleHeaderStmts
+    : YangVersionStmt
+    | BelongsToStmt;
+
+MetaStmts
+    : OrganizationStmt
+    | ContactStmt
+    | DescriptionStmt
+    | ReferenceStmt;
+
+LinkageStmts
+    : ImportStmt
+    | IncludeStmt;
+
+BodyStmts
+    : ExtensionStmt
+    | FeatureStmt
+    | IdentityStmt
+    | TypedefStmt
+    | GroupingStmt
+    | DataDefStmt
+    | AugmentStmt
+    | RpcStmt
+    | NotificationStmt
+    | DeviationStmt
+    | UnknownStmt;
+
+DataDefStmt
+    : ContainerStmt
+    | LeafStmt
+    | LeafListStmt
+    | ListStmt
+    | ChoiceStmt
+    | AnydataStmt
+    | AnyxmlStmt
+    | UsesStmt;
+
+YangVersionStmt
+    : 'yang-version'^ YangVersionArgStr Semicolon^;
+
+YangVersionArgStr
+    : %push(YVersion) YangVersionArg %sc()
+    | %push(YVersion) <YVersion>'"'^ YangVersionArg <YVersion>'"'^ %sc();
+
+//
+
+DeviationStmt
+    : 'deviation' AbsoluteSchemaNodeid Semicolon;
+
+RpcStmt
+    : 'rpc' IdentifierArgStr Semicolon
+    | 'rpc' IdentifierArgStr
+    '{'
+    { IfFeatureStmt
+    | StatusStmt
+    | DescriptionStmt
+    | ReferenceStmt
+    | TypedefStmt
+    | GroupingStmt
+    | InputStmt
+    | OutputStmt }
+    '}';
+
+ExtensionStmt
+    : 'extension'^ IdentifierArgStr Semicolon^
+    | 'extension'^ IdentifierArgStr
+    '{'^
+    { ArgumentStmt
+    | StatusStmt
+    | DescriptionStmt
+    | ReferenceStmt }
+    '}'^;
+
+ArgumentStmt
+    : 'argument'^ IdentifierArgStr Semicolon^;
+
+FeatureStmt
+    : 'feature'^ IdentifierArgStr Semicolon^
+    | 'feature'^ IdentifierArgStr
+    '{'
+    { IfFeatureStmt
+    | StatusStmt
+    | DescriptionStmt
+    | ReferenceStmt }
+    '}';
+
+TypedefStmt
+    : 'typedef'^ IdentifierArgStr
+    '{'^
+    { TypeStmt
+    | UnitsStmt
+    | DefaultStmt
+    | StatusStmt
+    | DescriptionStmt
+    | ReferenceStmt }
+    '}'^;
+
+AugmentStmt
+    : 'augment'^ AugmentArgStr
+      '{'^
+      { WhenStmt
+      | IfFeatureStmt
+      | StatusStmt
+      | DescriptionStmt
+      | ReferenceStmt
+      | DataDefStmt
+      | NotificationStmt }
+      '}'^;
+
+AugmentArgStr
+    : %sc(Keyword) AugmentArg %sc()
+    | %sc(Keyword) AugmentArgStrList %sc();
+
+AugmentArgStrList
+    : AugmentArgStrQuote [ <Keyword>'+' AugmentArgStrList ];
+
+AugmentArgStrQuote
+    : %sc(Keyword) <Keyword>'"' AugmentArg <Keyword>'"' %sc();
+
+AugmentArg
+    : AbsoluteSchemaNodeid
+    | IdentifierRef;
+
+WhenStmt
+    : 'when'^ Ystring Semicolon^
+    | 'when'^ Ystring
+      '{'
+      { DescriptionStmt
+      | ReferenceStmt }
+      '}';
+
+GroupingStmt
+    : 'grouping'^ IdentifierArgStr
+      '{'^
+      { StatusStmt
+      | DescriptionStmt
+      | ReferenceStmt
+      | TypedefStmt
+      | GroupingStmt
+      | DataDefStmt
+      | ActionStmt
+      | NotificationStmt
+      | UnknownStmt }
+      '}'^;
+
+
+IdentityStmt
+    : 'identity'^ IdentifierArgStr
+      '{'^
+      { IfFeatureStmt
+      | BaseStmt
+      | DescriptionStmt
+      | ReferenceStmt }
+      '}'^;
+
+BaseStmt
+    : 'base'^ IdentifierRefArgStr Semicolon^;
+
+AnyxmlStmt
+    : 'anyxml'^ IdentifierArgStr Semicolon^
+    | 'anyxml'^ IdentifierArgStr
+    '{'^
+    { WhenStmt
+    | IfFeatureStmt
+    | MustStmt
+    | ConfigStmt
+    | MandatoryStmt
+    | StatusStmt
+    | DescriptionStmt
+    | ReferenceStmt }
+    '}'^;
+
+ChoiceStmt
+    : 'choice'^ IdentifierRefArgStr Semicolon^
+    | 'choice'^ IdentifierRefArgStr
+    '{'
+    { WhenStmt
+    | IfFeatureStmt
+    | DefaultStmt
+    | ConfigStmt
+    | MandatoryStmt
+    | StatusStmt
+    | DescriptionStmt
+    | ReferenceStmt
+    | ShortCaseStmt
+    | CaseStmt }
+    '}';
+
+ShortCaseStmt
+    : ChoiceStmt
+    | ContainerStmt
+    | LeafStmt
+    | LeafListStmt
+    | ListStmt
+    | AnydataStmt
+    | AnyxmlStmt;
+
+AnydataStmt
+    : 'anydata'^ IdentifierArgStr Semicolon^
+    | 'anydata'^ IdentifierArgStr
+    '{'^
+    { WhenStmt
+    | IfFeatureStmt
+    | MustStmt
+    | ConfigStmt
+    | MandatoryStmt
+    | StatusStmt
+    | DescriptionStmt
+    | ReferenceStmt }
+    '}'^;
+
+CaseStmt
+    : 'case'^ IdentifierArgStr Semicolon^
+    | 'case'^ IdentifierArgStr
+    '{'^
+    { WhenStmt
+    | IfFeatureStmt
+    | DataDefStmt
+    | DescriptionStmt
+    | ReferenceStmt }
+    '}'^;
+
+StatusStmt
+    : 'status'^ StatusArgStr Semicolon^;
+
+StatusArgStr
+    : %sc(Status) StatusArg %sc()
+    | %sc(Status) <Status>'"'^ StatusArg <Status>'"'^ %sc();
+
+StatusArg
+    : <Status>/current|obsolete|deprecated/;
+
+ContainerStmt
+    : 'container'^ IdentifierArgStr Semicolon^
+    | 'container'^ IdentifierArgStr
+      '{'^
+      { WhenStmt
+      | IfFeatureStmt
+      | MustStmt
+      | PresenceStmt
+      | ConfigStmt
+      | StatusStmt
+      | DescriptionStmt
+      | ReferenceStmt
+      | DataDefStmt
+      | ActionStmt
+      | NotificationStmt
+      | UnknownStmt }
+      '}'^;
+
+ActionStmt
+    : 'action' IdentifierArgStr Semicolon
+    | 'action' IdentifierArgStr
+    '{'
+    { IfFeatureStmt
+    | StatusStmt
+    | DescriptionStmt
+    | ReferenceStmt
+    | InputStmt
+    | OutputStmt }
+    '}';
+
+InputStmt
+    : 'input'
+    '{'
+    { DataDefStmt }
+    '}';
+
+OutputStmt
+    : 'output'
+    '{'
+    { DataDefStmt }
+    '}';
+
+NotificationStmt
+    : 'notification' IdentifierArgStr
+    '{'
+    { IfFeatureStmt
+    | MustStmt
+    | StatusStmt
+    | DescriptionStmt
+    | ReferenceStmt
+    | TypedefStmt
+    | GroupingStmt
+    | DataDefStmt }
+    '}';
+
+IfFeatureStmt
+    : 'if-feature'^ IfFeatureExprStr Semicolon^;
+
+IfFeatureExprStr
+    : %sc(IfFeature) IfFeatureExpr %sc();
+
+IfFeatureExpr
+    : IfFeatureTerm [ <IfFeature>'or' IfFeatureExpr ];
+
+IfFeatureTerm
+    : IfFeatureFactor [ <IfFeature>'and' IfFeatureTerm ];
+
+IfFeatureFactor
+    : <IfFeature>'not' IfFeatureFactor
+    | <IfFeature>'(' IfFeatureExpr <IfFeature>')'
+    | IdentifierRefArgStr;
+
+PresenceStmt
+    : 'presence'^ Ystring Semicolon^;
+
+UsesStmt
+    : 'uses'^ IdentifierRefArgStr Semicolon^
+    | 'uses'^ IdentifierRefArgStr
+      '{'^
+      { WhenStmt
+      | IfFeatureStmt
+      | StatusStmt
+      | DescriptionStmt
+      | ReferenceStmt
+      | RefineStmt
+      | AugmentStmt }
+      '}'^;
+
+RefineStmt
+    : 'refine'^ RefineArgStr Semicolon^
+    | 'refine'^ RefineArgStr
+    '{'^
+    { IfFeatureStmt
+    | MustStmt
+    | PresenceStmt
+    | DefaultStmt
+    | ConfigStmt
+    | MandatoryStmt
+    | MinElementsStmt
+    | MaxElementsStmt
+    | DescriptionStmt
+    | ReferenceStmt }
+    '}'^;
+
+RefineArgStr
+    : %sc(Keyword) RefineArg %sc()
+    | %sc(Keyword) <Keyword>'"' RefineArg <Keyword>'"' %sc();
+
+RefineArg
+    : DescendantSchemaNodeid;
+
+DescendantSchemaNodeid
+    : IdentifierRef
+    | AbsoluteSchemaNodeid;
+
+UnknownStmt
+    : IdentifierRef Ystring Semicolon^
+    | IdentifierRef Ystring
+    '{'^
+    { TypeStmt
+    | DescriptionStmt }
+    '}'^
+    | IdentifierRef Identifier
+    '{'^
+    { TypeStmt
+    | DescriptionStmt }
+    '}'^;
+
+LeafListStmt
+    : 'leaf-list'^ IdentifierArgStr
+      '{'^
+      { WhenStmt
+      | IfFeatureStmt
+      | TypeStmt
+      | UnitsStmt
+      | MustStmt
+      | DefaultStmt
+      | ConfigStmt
+      | MinElementsStmt
+      | MaxElementsStmt
+      | OrderedByStmt
+      | StatusStmt
+      | DescriptionStmt
+      | ReferenceStmt
+      | UnknownStmt }
+      '}'^;
+
+LeafStmt
+    : 'leaf'^ IdentifierArgStr
+      '{'^
+      { WhenStmt
+      | StatusStmt
+      | IfFeatureStmt
+      | TypeStmt
+      | UnitsStmt
+      | MustStmt
+      | DefaultStmt
+      | ConfigStmt
+      | MandatoryStmt
+      | DescriptionStmt
+      | ReferenceStmt
+      | UnknownStmt }
+      '}'^;
+
+MustStmt
+    : 'must'^ Ystring Semicolon^
+    | 'must'^ Ystring
+    '{'^
+    { ErrorMessage
+    | DescriptionStmt }
+    '}'^;
+
+ErrorMessage
+    : 'error-message' Ystring Semicolon;
+
+UnitsStmt
+    : 'units' Ystring Semicolon;
+
+ConfigStmt
+    : 'config' MandatoryArgStr Semicolon;
+
+MandatoryStmt
+    : 'mandatory' MandatoryArgStr Semicolon;
+
+MandatoryArgStr
+    : %push(Mandatory) MandatoryArg %sc()
+    | %push(Mandatory) <Mandatory>'"' MandatoryArg <Mandatory>'"' %sc();
+
+MandatoryArg
+    : <Mandatory>/true|false/;
+
+ListStmt
+    : 'list'^ IdentifierArgStr
+      '{'^
+      { WhenStmt
+      | IfFeatureStmt
+      | MustStmt
+      | KeyStmt
+      | ConfigStmt
+      | MinElementsStmt
+      | MaxElementsStmt
+      | OrderedByStmt
+      | StatusStmt
+      | DescriptionStmt
+      | ReferenceStmt
+      | DataDefStmt
+      | ActionStmt
+      | NotificationStmt
+      | UnknownStmt }
+      '}'^;
+
+OrderedByStmt
+    : 'ordered-by'^ OrderedByArgStr Semicolon^;
+
+OrderedByArgStr
+    : %sc(Ordered) OrderedByArg %sc()
+    | %sc(Ordered) <Ordered>'"' OrderedByArg <Ordered>'"' %sc();
+
+OrderedByArg
+    : <Ordered>/user|system/;
+
+DefaultStmt
+    : 'default'^ %sc(Default) AsciiNoSemicolon %sc() Semicolon^
+    | 'default'^ %sc(Default) <Default>'"' AsciiNoSemicolon <Default>'"' %sc() Semicolon^;
+
+MaxElementsStmt
+    : 'max-elements'^ /[1-9][0-9]*/ Semicolon^;
+
+MinElementsStmt
+    : 'min-elements'^ /[1-9][0-9]*/ Semicolon^;
+
+TypeStmt
+    : 'type'^ IdentifierRefArgStr Semicolon^
+    | 'type'^ IdentifierRefArgStr
+      <INITIAL, Keyword>'{'^
+      { FractionDigitsStmt
+      | EnumStmt
+      | BaseStmt
+      | LeafrefSpecification
+      | StringRestrictions
+      | RangeStmt
+      | BitStmt
+      | TypeStmt }
+      <INITIAL, Keyword>'}'^;
+
+FractionDigitsStmt
+    : 'fraction-digits'^ %sc(Fraction) FractionDigitsArg %sc() Semicolon^;
+
+FractionDigitsArg
+    : <Fraction>/1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|/;
+
+BitStmt
+    : 'bit'^ IdentifierArgStr Semicolon^
+    | 'bit'^ IdentifierArgStr
+    '{'^
+    { PositionStmt
+    | DescriptionStmt
+    | ReferenceStmt }
+    '}'^;
+
+PositionStmt
+    : 'position'^ IntegerValueStr Semicolon^;
+
+LeafrefSpecification
+    : PathStmt
+    | RequireInstanceStmt;
+
+RequireInstanceStmt
+    : 'require-instance' RequireInstanceArgStr Semicolon;
+
+RequireInstanceArgStr
+    : %push(Mandatory) MandatoryArg %sc()
+    | %push(Mandatory) <Mandatory>'"' MandatoryArg <Mandatory>'"' %sc();
+
+PathStmt
+    : 'path'^ Ystring Semicolon^;
+
+StringRestrictions
+    : LengthStmt
+    | PatternStmt;
+
+PatternStmt
+    : 'pattern' Ystring Semicolon;
+
+LengthStmt
+    : 'length'^ %sc(Range) RangeArgStr %sc() Semicolon^;
+
+EnumStmt
+    : 'enum'^ EnumArgStr Semicolon^
+    | 'enum'^ EnumArgStr 
+    '{'^
+    { IfFeatureStmt
+    | DescriptionStmt
+    | ValueStmt
+    | ReferenceStmt }
+    '}'^;
+
+ValueStmt
+    : 'value'^ IntegerValueStr Semicolon^;
+
+IntegerValueStr
+    : %sc(Value) IntegerValue %sc()
+    | %sc(Value) <Value>'"' IntegerValue <Value>'"' %sc();
+
+IntegerValue
+    : <Value>/[0-9]+/;
+
+EnumArgStr
+    : %sc(Enum) AsciiNoBrace %sc()
+    | %sc(Enum) <Enum>'"'^ AsciiNoBrace <Enum>'"'^ %sc();
+
+RangeStmt
+    : 'range'^ %sc(Range) RangeArgStr %sc() Semicolon^;
+
+RangeArgStr
+    : RangeArg
+    | <Range>'"'^ RangeArg <Range>'"'^;
+
+RangeArg
+    : RangePart [ <Range>'|' RangeArg ];
+
+RangePart
+    : RangeBoundary [ <Range>'..' RangeBoundary ];
+
+RangeBoundary
+    : <Range>'min'
+    | <Range>'max'
+    | <Range>"-?[0-9]+";
+
+IdentifierRefArgStr
+    : %push(Keyword) IdentifierRef %sc()
+    | %push(Keyword) <Keyword, IfFeature>'"' IdentifierRef <Keyword, IfFeature>'"' %sc();
+
+IdentifierRef
+    : [ Identifier <Keyword, IfFeature>':' ] Identifier;
+
+KeyStmt
+    : 'key'^ KeyArgStr Semicolon^;
+
+KeyArgStr
+    : %push(Keyword) KeyArg %pop() 
+    | %push(Keyword) <Keyword>'"'^ KeyArg <Keyword>'"'^ %pop();
+
+Semicolon
+    : <INITIAL, Keyword, Range, YVersion, Enum, Revision, Mandatory, IfFeature>';';
+
+KeyArg
+    : IdentifierRef [ KeyArg ];
+
+AbsoluteSchemaNodeid
+    : <Keyword, IfFeature>'/' IdentifierRef;
+
+ImportStmt
+    : 'import'^ IdentifierArgStr
+    '{'^
+    { PrefixStmt
+    | RevisionDateStmt
+    | DescriptionStmt
+    | ReferenceStmt }
+    '}'^;
+
+IncludeStmt
+    : 'include'^ IdentifierArgStr Semicolon^
+    | 'include'^ IdentifierArgStr
+      '{'^
+      { RevisionDateStmt
+      | DescriptionStmt
+      | ReferenceStmt }
+      '}'^;
+
+RevisionDateStmt
+    : 'revision-date'^ DateArgStr Semicolon^;
+
+NamespaceStmt
+    : 'namespace'^ UriStr Semicolon^;
+
+UriStr
+    : UriArg
+    | '"'^ UriArg '"'^;
+
+UriArg
+    : "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+    | "urn:[a-zA-Z0-9\-\.:]+";
+
+PrefixStmt
+    : 'prefix'^ IdentifierArgStr Semicolon^;
+
+BelongsToStmt
+    : 'belongs-to'^ IdentifierArgStr
+      '{'^
+      PrefixStmt
+      '}'^;
+
+OrganizationStmt
+    : 'organization'^ Ystring Semicolon;
+
+ContactStmt
+    : 'contact'^ Ystring Semicolon;
+
+DescriptionStmt
+    : 'description'^ Ystring Semicolon^;
+
+ReferenceStmt
+    : 'reference'^ Ystring Semicolon^;
+
+RevisionStmt
+    : 'revision'^ DateArgStr
+      '{'^
+      { DescriptionStmt
+      | ReferenceStmt }
+      '}'^;
+
+DateArgStr
+    : %sc(Revision) DateArg %sc()
+    | %sc(Revision) <Revision>'"'^ DateArg <Revision>'"'^ %sc();
+
+DateArg
+    : <Revision>/\d{4}-\d{2}-\d{2}/;
+
+// Ystring definition starts here.
+Ystring
+    : BasicString [ '+' Ystring ];
+
+BasicString
+    : DQString
+    | SQString;
+
+DoubleQuotation
+    : <INITIAL, DQString, Esc>'"';
+
+DQString
+    : DoubleQuotation^ %push(DQString) { DQChar } %pop() DoubleQuotation^;
+
+DQChar
+    : DQUnescaped
+    | %push(Esc) DQEscaped %pop();
+
+DQUnescaped
+    : DQNoEscape
+    | NonAscii;
+
+DQEscaped
+    : Escape DQEscapeSeqChar;
+
+DQEscapeSeqChar
+    : Escape
+    | DoubleQuotation
+    | <Esc>"n"
+    | <Esc>"t";
+
+Escape
+    : <DQString, SQString, Esc>"\u{5C}";
+
+NonAscii
+    : <DQString, SQString>"[\n\r\u{80}-\u{D7FF}\u{E000}-\u{10FFFF}]";
+
+DQNoEscape
+    : <DQString>"[ \n\r\t\u{21}\u{23}-\u{5B}\u{5D}-\u{7E}]+";
+
+SQString
+    : SingleQuotation %push(SQString) { SQChar } %pop() SingleQuotation;
+
+SQChar
+    : SQUnescaped
+    | %push(Esc) SQEscaped %pop();
+
+SQEscaped
+    : Escape SQEscapeSeqChar;
+
+SQEscapeSeqChar
+    : <Esc>".";
+
+SQUnescaped
+    : SQNoEscape
+    | NonAscii;
+
+SQNoEscape
+    : <SQString>"[ \t\u{21}-\u{26}\u{28}-\u{5B}\u{5D}-\u{7E}]+";
+
+SingleQuotation
+    : <INITIAL, SQString>"\u{27}";
+
+IdentifierArgStr
+    : %push(Keyword) Identifier %pop()
+    | %push(Keyword) <Keyword>'"'^ Identifier <Keyword>'"'^ %pop();
+
+Identifier
+    : <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/.:]*/;
+
+AsciiNoSemicolon
+    : <Default>/[ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7e}]+/;
+
+AsciiNoBrace
+    : <Enum>/[ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7a}\u{7c}\u{7e}]+/;
+
+YangVersionArg
+    : <YVersion>"1.1|1";
