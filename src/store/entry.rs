@@ -213,6 +213,11 @@ impl ModuleNode {
     }
 
     pub fn container_entry(&self, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>) {
+        if let Some(config) = &c.config {
+            if !config.config {
+                return;
+            }
+        }
         let mut e = Entry::new_dir(c.name.clone());
         for u in c.unknown.iter() {
             e.extension.insert(u.name.clone(), u.argument.clone());
@@ -241,6 +246,11 @@ impl ModuleNode {
     }
 
     fn list_entry(&self, store: &YangStore, l: &ListNode, ent: Rc<Entry>) {
+        if let Some(config) = &l.config {
+            if !config.config {
+                return;
+            }
+        }
         let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
         for u in l.unknown.iter() {
             e.extension.insert(u.name.clone(), u.argument.clone());
@@ -322,6 +332,11 @@ impl ModuleNode {
     }
 
     fn leaf_entry(&self, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>) {
+        if let Some(config) = &leaf.config {
+            if !config.config {
+                return;
+            }
+        }
         let mut e = Entry::new_leaf(leaf.name.to_owned());
         for u in leaf.unknown.iter() {
             e.extension.insert(u.name.clone(), u.argument.clone());
@@ -335,6 +350,11 @@ impl ModuleNode {
     }
 
     fn leaf_list_entry(&self, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>) {
+        if let Some(config) = &leaf.config {
+            if !config.config {
+                return;
+            }
+        }
         let mut e = Entry::new_leaf(leaf.name.clone());
         for u in leaf.unknown.iter() {
             e.extension.insert(u.name.clone(), u.argument.clone());
@@ -435,6 +455,11 @@ impl SubmoduleNode {
     }
 
     pub fn container_entry(&self, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>) {
+        if let Some(config) = &c.config {
+            if !config.config {
+                return;
+            }
+        }
         let mut e = Entry::new_dir(c.name.clone());
         for u in c.unknown.iter() {
             e.extension.insert(u.name.clone(), u.argument.clone());
@@ -463,6 +488,11 @@ impl SubmoduleNode {
     }
 
     fn list_entry(&self, store: &YangStore, l: &ListNode, ent: Rc<Entry>) {
+        if let Some(config) = &l.config {
+            if !config.config {
+                return;
+            }
+        }
         let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
         for u in l.unknown.iter() {
             e.extension.insert(u.name.clone(), u.argument.clone());
@@ -544,6 +574,11 @@ impl SubmoduleNode {
     }
 
     fn leaf_entry(&self, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>) {
+        if let Some(config) = &leaf.config {
+            if !config.config {
+                return;
+            }
+        }
         let mut e = Entry::new_leaf(leaf.name.to_owned());
         for u in leaf.unknown.iter() {
             e.extension.insert(u.name.clone(), u.argument.clone());
@@ -557,6 +592,11 @@ impl SubmoduleNode {
     }
 
     fn leaf_list_entry(&self, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>) {
+        if let Some(config) = &leaf.config {
+            if !config.config {
+                return;
+            }
+        }
         let mut e = Entry::new_leaf(leaf.name.clone());
         for u in leaf.unknown.iter() {
             e.extension.insert(u.name.clone(), u.argument.clone());
