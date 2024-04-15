@@ -230,9 +230,17 @@ impl ModuleNode {
         for uses in l.d.uses.iter() {
             self.group_resolve(store, &uses.name, rc.clone());
         }
-
+        for c in l.d.container.iter() {
+            self.container_entry(store, c, rc.clone());
+        }
         for leaf in l.d.leaf.iter() {
             self.leaf_entry(store, leaf, rc.clone());
+        }
+        for list in l.d.list.iter() {
+            self.list_entry(store, list, rc.clone());
+        }
+        for leaf_list in l.d.leaf_list.iter() {
+            self.leaf_list_entry(store, leaf_list, rc.clone());
         }
 
         ent.dir.borrow_mut().push(rc.clone());
@@ -399,9 +407,17 @@ impl SubmoduleNode {
         for uses in l.d.uses.iter() {
             self.group_resolve(store, &uses.name, rc.clone());
         }
-
+        for c in l.d.container.iter() {
+            self.container_entry(store, c, rc.clone());
+        }
         for leaf in l.d.leaf.iter() {
             self.leaf_entry(store, leaf, rc.clone());
+        }
+        for list in l.d.list.iter() {
+            self.list_entry(store, list, rc.clone());
+        }
+        for leaf_list in l.d.leaf_list.iter() {
+            self.leaf_list_entry(store, leaf_list, rc.clone());
         }
 
         ent.dir.borrow_mut().push(rc.clone());
