@@ -130,6 +130,28 @@ pub fn path_module(path: &str) -> Option<(String, String)> {
 }
 
 impl ModuleNode {
+    pub fn identity_resolve(&mut self) {
+        for identity in self.identity.iter() {
+            if identity.base.is_empty() {
+                self.identities.insert(identity.name.clone(), Vec::new());
+            } else {
+                for base in identity.base.iter() {
+                    if let Some((_module, _name)) = path_module(base) {
+                        // TODO: println!("B: {} : {}", module, name);
+                    } else {
+                        for i in self.identity.iter() {
+                            if base == &i.name {
+                                if let Some(identities) = self.identities.get_mut(base) {
+                                    identities.push(identity.name.clone());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     fn prefix_resolve(&self, name: String) -> String {
         for import in self.import.iter() {
             if let Some(prefix) = &import.prefix {
@@ -271,6 +293,29 @@ impl ModuleNode {
                     }
                 }
             }
+        } else if type_node.kind == TypeKind::Yidentityref {
+            if let Some(base) = &type_node.base {
+                if let Some((module, name)) = path_module(&base) {
+                    let prefix = self.prefix_resolve(module);
+                    let module = store.find_module(&prefix);
+                    if let Some(m) = module {
+                        let mut node = type_node.clone();
+                        node.kind = TypeKind::Yenumeration;
+                        if let Some(identities) = m.identities.get(&name) {
+                            for i in identities.iter() {
+                                node.enum_stmt.push(EnumNode { name: i.clone() });
+                            }
+                        }
+                        ent.type_node = Some(node);
+                        return;
+                    } else {
+                        // println!("XXX: module not found {}", name);
+                    }
+                } else {
+                    // println!("XXX: self {}", base);
+                }
+            }
+            ent.type_node = Some(type_node.clone());
         } else {
             ent.type_node = Some(type_node.clone());
         }
@@ -307,6 +352,28 @@ impl ModuleNode {
 }
 
 impl SubmoduleNode {
+    pub fn identity_resolve(&mut self) {
+        for identity in self.identity.iter() {
+            if identity.base.is_empty() {
+                self.identities.insert(identity.name.clone(), Vec::new());
+            } else {
+                for base in identity.base.iter() {
+                    if let Some((_module, _name)) = path_module(base) {
+                        // TODO: println!("B: {} : {}", module, name);
+                    } else {
+                        for i in self.identity.iter() {
+                            if base == &i.name {
+                                if let Some(identities) = self.identities.get_mut(base) {
+                                    identities.push(identity.name.clone());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     fn prefix_resolve(&self, name: String) -> String {
         for import in self.import.iter() {
             if let Some(prefix) = &import.prefix {
@@ -448,6 +515,29 @@ impl SubmoduleNode {
                     }
                 }
             }
+        } else if type_node.kind == TypeKind::Yidentityref {
+            if let Some(base) = &type_node.base {
+                if let Some((module, name)) = path_module(&base) {
+                    let prefix = self.prefix_resolve(module);
+                    let module = store.find_module(&prefix);
+                    if let Some(m) = module {
+                        let mut node = type_node.clone();
+                        node.kind = TypeKind::Yenumeration;
+                        if let Some(identities) = m.identities.get(&name) {
+                            for i in identities.iter() {
+                                node.enum_stmt.push(EnumNode { name: i.clone() });
+                            }
+                        }
+                        ent.type_node = Some(node);
+                        return;
+                    } else {
+                        // println!("XXX: module not found {}", name);
+                    }
+                } else {
+                    // println!("XXX: self {}", base);
+                }
+            }
+            ent.type_node = Some(type_node.clone());
         } else {
             ent.type_node = Some(type_node.clone());
         }

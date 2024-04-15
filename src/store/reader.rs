@@ -47,6 +47,15 @@ impl YangStore {
         Ok(())
     }
 
+    pub fn identity_resolve(&mut self) {
+        for (_, m) in self.modules.iter_mut() {
+            m.identity_resolve();
+        }
+        for (_, m) in self.submodules.iter_mut() {
+            m.identity_resolve();
+        }
+    }
+
     pub fn read_with_resolve(&mut self, name: &str) -> Result<(), YangError> {
         let node = self.load_module(name)?;
         let mut imports = Vec::<String>::new();
