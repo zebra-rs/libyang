@@ -1,5 +1,5 @@
 use crate::RangeNode;
-use std::fmt::Debug;
+use std::{collections::HashMap, fmt::Debug};
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Node {
@@ -26,6 +26,7 @@ pub struct ModuleNode {
     pub extension: Vec<ExtensionNode>,
     pub grouping: Vec<GroupingNode>,
     pub unknown: Vec<UnknownNode>,
+    pub identities: HashMap<String, Vec<String>>,
 }
 
 impl ModuleNode {
@@ -54,6 +55,7 @@ pub struct SubmoduleNode {
     pub typedef: Vec<TypedefNode>,
     pub grouping: Vec<GroupingNode>,
     pub unknown: Vec<UnknownNode>,
+    pub identities: HashMap<String, Vec<String>>,
 }
 
 impl SubmoduleNode {
@@ -479,6 +481,7 @@ pub struct TypeNode {
     pub pattern: Option<String>,
     pub range: Option<RangeNode>,
     pub enum_stmt: Vec<EnumNode>,
+    pub base: Option<String>,
 }
 
 #[derive(Debug, PartialEq, Clone, Copy, Default)]
@@ -501,6 +504,7 @@ pub enum TypeKind {
     Yuint64,
     Yunion,
     Yleafref,
+    Yidentityref,
     Ypath,
 }
 

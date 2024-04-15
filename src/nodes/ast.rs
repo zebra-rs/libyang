@@ -728,6 +728,7 @@ fn type_kind(name: &str) -> TypeKind {
         "uint64" => TypeKind::Yuint64,
         "union" => TypeKind::Yunion,
         "leafref" => TypeKind::Yleafref,
+        "identityref" => TypeKind::Yidentityref,
         _ => TypeKind::Ypath,
     }
 }
@@ -834,6 +835,10 @@ fn enum_stmt(m: &EnumStmt) -> EnumNode {
     EnumNode::new(name)
 }
 
+fn base_stmt(m: &BaseStmt) -> String {
+    identifier_ref_arg_str(&m.identifier_ref_arg_str)
+}
+
 fn type_stmt(m: &TypeStmt) -> TypeNode {
     let name = identifier_ref_arg_str(&m.identifier_ref_arg_str);
     let kind = type_kind(&name);
@@ -847,7 +852,10 @@ fn type_stmt(m: &TypeStmt) -> TypeNode {
                     let n = enum_stmt(&m.enum_stmt);
                     node.enum_stmt.push(n);
                 }
-                TypeStmtListGroup::BaseStmt(_m) => {}
+                TypeStmtListGroup::BaseStmt(m) => {
+                    let base = base_stmt(&m.base_stmt);
+                    node.base = Some(base);
+                }
                 TypeStmtListGroup::LeafrefSpecification(_m) => {}
                 TypeStmtListGroup::StringRestrictions(_m) => {}
                 TypeStmtListGroup::RangeStmt(m) => {
