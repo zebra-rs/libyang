@@ -863,7 +863,10 @@ fn type_stmt(m: &TypeStmt) -> TypeNode {
                     node.range = Some(n);
                 }
                 TypeStmtListGroup::BitStmt(_m) => {}
-                TypeStmtListGroup::TypeStmt(_m) => {}
+                TypeStmtListGroup::TypeStmt(m) => {
+                    let n = type_stmt(&m.type_stmt);
+                    node.union.push(n);
+                }
             }
         }
     }

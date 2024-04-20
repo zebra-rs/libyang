@@ -482,6 +482,7 @@ pub struct TypeNode {
     pub range: Option<RangeNode>,
     pub enum_stmt: Vec<EnumNode>,
     pub base: Option<String>,
+    pub union: Vec<TypeNode>,
 }
 
 #[derive(Debug, PartialEq, Clone, Copy, Default, Eq, Hash)]
