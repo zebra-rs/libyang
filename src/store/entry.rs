@@ -35,7 +35,7 @@ pub struct Entry {
     pub extension: HashMap<String, String>,
     pub parent: RefCell<Option<Rc<Entry>>>,
     pub type_node: Option<TypeNode>,
-    pub typedef: Option<String>,
+    //pub typedef: Option<String>,
     pub list_attr: Option<ListAttr>,
 }
 
@@ -281,15 +281,16 @@ impl ModuleNode {
 
     fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
         if type_node.kind == YangType::Path {
-            ent.typedef = Some(type_node.name.clone());
             if let Some((module, name)) = path_module(&type_node.name) {
                 let prefix = self.prefix_resolve(module);
                 let module = store.find_module(&prefix);
                 if let Some(m) = module {
                     for typedef in m.typedef.iter() {
                         if typedef.name == name {
-                            if let Some(type_node) = &typedef.type_node {
-                                ent.type_node = Some(type_node.clone());
+                            if let Some(node) = &typedef.type_node {
+                                let mut node = node.clone();
+                                node.typedef = Some(type_node.name.clone());
+                                ent.type_node = Some(node.clone());
                             }
                         }
                     }
@@ -523,15 +524,16 @@ impl SubmoduleNode {
 
     fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
         if type_node.kind == YangType::Path {
-            ent.typedef = Some(type_node.name.clone());
             if let Some((module, name)) = path_module(&type_node.name) {
                 let prefix = self.prefix_resolve(module);
                 let module = store.find_module(&prefix);
                 if let Some(m) = module {
                     for typedef in m.typedef.iter() {
                         if typedef.name == name {
-                            if let Some(type_node) = &typedef.type_node {
-                                ent.type_node = Some(type_node.clone());
+                            if let Some(node) = &typedef.type_node {
+                                let mut node = node.clone();
+                                node.typedef = Some(type_node.name.clone());
+                                ent.type_node = Some(node.clone());
                             }
                         }
                     }
