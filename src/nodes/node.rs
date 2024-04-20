@@ -483,6 +483,7 @@ pub struct TypeNode {
     pub enum_stmt: Vec<EnumNode>,
     pub base: Option<String>,
     pub union: Vec<TypeNode>,
+    pub typedef: Option<String>,
 }
 
 #[derive(Debug, PartialEq, Clone, Copy, Default, Eq, Hash)]
