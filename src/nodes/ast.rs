@@ -709,27 +709,27 @@ fn ystring(s: &Ystring) -> String {
     line
 }
 
-fn type_kind(name: &str) -> TypeKind {
+fn type_kind(name: &str) -> YangType {
     match name {
-        "binary" => TypeKind::Ybinary,
-        "bits" => TypeKind::Ybits,
-        "boolean" => TypeKind::Yboolean,
-        "decimal64" => TypeKind::Ydecimal64,
-        "empty" => TypeKind::Yempty,
-        "enumeration" => TypeKind::Yenumeration,
-        "int8" => TypeKind::Yint8,
-        "int16" => TypeKind::Yint16,
-        "int32" => TypeKind::Yint32,
-        "int64" => TypeKind::Yint64,
-        "string" => TypeKind::Ystring,
-        "uint8" => TypeKind::Yuint8,
-        "uint16" => TypeKind::Yuint16,
-        "uint32" => TypeKind::Yuint32,
-        "uint64" => TypeKind::Yuint64,
-        "union" => TypeKind::Yunion,
-        "leafref" => TypeKind::Yleafref,
-        "identityref" => TypeKind::Yidentityref,
-        _ => TypeKind::Ypath,
+        "binary" => YangType::Binary,
+        "bits" => YangType::Bits,
+        "boolean" => YangType::Boolean,
+        "decimal64" => YangType::Decimal64,
+        "empty" => YangType::Empty,
+        "enumeration" => YangType::Enumeration,
+        "int8" => YangType::Int8,
+        "int16" => YangType::Int16,
+        "int32" => YangType::Int32,
+        "int64" => YangType::Int64,
+        "string" => YangType::String,
+        "uint8" => YangType::Uint8,
+        "uint16" => YangType::Uint16,
+        "uint32" => YangType::Uint32,
+        "uint64" => YangType::Uint64,
+        "union" => YangType::Union,
+        "leafref" => YangType::Leafref,
+        "identityref" => YangType::Identityref,
+        _ => YangType::Path,
     }
 }
 
@@ -769,44 +769,44 @@ fn range_arg_type<T: FromStr>(v: &mut Vec<Range<T>>, m: &RangeArg) {
     }
 }
 
-fn range_arg(m: &RangeArg, kind: TypeKind) -> RangeNode {
+fn range_arg(m: &RangeArg, kind: YangType) -> RangeNode {
     match kind {
-        TypeKind::Yint8 => {
+        YangType::Int8 => {
             let mut ranges = Vec::<_>::new();
             range_arg_type::<i8>(&mut ranges, m);
             RangeNode::I8(ranges)
         }
-        TypeKind::Yint16 => {
+        YangType::Int16 => {
             let mut ranges = Vec::<_>::new();
             range_arg_type::<i16>(&mut ranges, m);
             RangeNode::I16(ranges)
         }
-        TypeKind::Yint32 => {
+        YangType::Int32 => {
             let mut ranges = Vec::<_>::new();
             range_arg_type::<i32>(&mut ranges, m);
             RangeNode::I32(ranges)
         }
-        TypeKind::Yint64 => {
+        YangType::Int64 => {
             let mut ranges = Vec::<_>::new();
             range_arg_type::<i64>(&mut ranges, m);
             RangeNode::I64(ranges)
         }
-        TypeKind::Yuint8 => {
+        YangType::Uint8 => {
             let mut ranges = Vec::<_>::new();
             range_arg_type::<u8>(&mut ranges, m);
             RangeNode::U8(ranges)
         }
-        TypeKind::Yuint16 => {
+        YangType::Uint16 => {
             let mut ranges = Vec::<_>::new();
             range_arg_type::<u16>(&mut ranges, m);
             RangeNode::U16(ranges)
         }
-        TypeKind::Yuint32 => {
+        YangType::Uint32 => {
             let mut ranges = Vec::<_>::new();
             range_arg_type::<u32>(&mut ranges, m);
             RangeNode::U32(ranges)
         }
-        TypeKind::Yuint64 => {
+        YangType::Uint64 => {
             let mut ranges = Vec::<_>::new();
             range_arg_type::<u64>(&mut ranges, m);
             RangeNode::U64(ranges)
@@ -818,7 +818,7 @@ fn range_arg(m: &RangeArg, kind: TypeKind) -> RangeNode {
     }
 }
 
-fn range(m: &RangeStmt, kind: TypeKind) -> RangeNode {
+fn range(m: &RangeStmt, kind: YangType) -> RangeNode {
     match &*m.range_arg_str {
         RangeArgStr::RangeArg(m) => range_arg(&m.range_arg, kind),
         RangeArgStr::DoubleQuotationRangeArgDoubleQuotation(m) => range_arg(&m.range_arg, kind),

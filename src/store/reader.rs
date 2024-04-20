@@ -57,6 +57,7 @@ impl YangStore {
     }
 
     pub fn read_with_resolve(&mut self, name: &str) -> Result<(), YangError> {
+        println!("name {}", name);
         let node = self.load_module(name)?;
         let mut imports = Vec::<String>::new();
         let mut includes = Vec::<String>::new();
