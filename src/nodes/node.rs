@@ -476,7 +476,7 @@ impl CaseNode {
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct TypeNode {
     pub name: String,
-    pub kind: TypeKind,
+    pub kind: YangType,
     pub description: Option<String>,
     pub pattern: Option<String>,
     pub range: Option<RangeNode>,
@@ -484,32 +484,37 @@ pub struct TypeNode {
     pub base: Option<String>,
 }
 
-#[derive(Debug, PartialEq, Clone, Copy, Default)]
-pub enum TypeKind {
+#[derive(Debug, PartialEq, Clone, Copy, Default, Eq, Hash)]
+pub enum YangType {
     #[default]
-    Ybinary,
-    Ybits,
-    Yboolean,
-    Ydecimal64,
-    Yempty,
-    Yenumeration,
-    Yint8,
-    Yint16,
-    Yint32,
-    Yint64,
-    Ystring,
-    Yuint8,
-    Yuint16,
-    Yuint32,
-    Yuint64,
-    Yunion,
-    Yleafref,
-    Yidentityref,
-    Ypath,
+    Binary,
+    Bits,
+    Boolean,
+    Decimal64,
+    Empty,
+    Enumeration,
+    Int8,
+    Int16,
+    Int32,
+    Int64,
+    String,
+    Uint8,
+    Uint16,
+    Uint32,
+    Uint64,
+    Union,
+    Leafref,
+    Identityref,
+    Path,
+    // Extension for zebra.
+    Ipv4Addr,
+    Ipv4Prefix,
+    Ipv6Addr,
+    Ipv6Prefix,
 }
 
 impl TypeNode {
-    pub fn new(name: String, kind: TypeKind) -> Self {
+    pub fn new(name: String, kind: YangType) -> Self {
         Self {
             name,
             kind,

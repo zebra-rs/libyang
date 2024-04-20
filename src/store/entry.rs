@@ -102,7 +102,7 @@ impl Entry {
     pub fn is_empty_leaf(&self) -> bool {
         if self.kind == EntryKind::LeafEntry {
             if let Some(n) = self.type_node.as_ref() {
-                if n.kind == TypeKind::Yempty {
+                if n.kind == YangType::Empty {
                     return true;
                 }
             }
@@ -280,7 +280,7 @@ impl ModuleNode {
     }
 
     fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
-        if type_node.kind == TypeKind::Ypath {
+        if type_node.kind == YangType::Path {
             ent.typedef = Some(type_node.name.clone());
             if let Some((module, name)) = path_module(&type_node.name) {
                 let prefix = self.prefix_resolve(module);
@@ -303,14 +303,14 @@ impl ModuleNode {
                     }
                 }
             }
-        } else if type_node.kind == TypeKind::Yidentityref {
+        } else if type_node.kind == YangType::Identityref {
             if let Some(base) = &type_node.base {
                 if let Some((module, name)) = path_module(&base) {
                     let prefix = self.prefix_resolve(module);
                     let module = store.find_module(&prefix);
                     if let Some(m) = module {
                         let mut node = type_node.clone();
-                        node.kind = TypeKind::Yenumeration;
+                        node.kind = YangType::Enumeration;
                         if let Some(identities) = m.identities.get(&name) {
                             for i in identities.iter() {
                                 node.enum_stmt.push(EnumNode { name: i.clone() });
@@ -522,7 +522,7 @@ impl SubmoduleNode {
     }
 
     fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
-        if type_node.kind == TypeKind::Ypath {
+        if type_node.kind == YangType::Path {
             ent.typedef = Some(type_node.name.clone());
             if let Some((module, name)) = path_module(&type_node.name) {
                 let prefix = self.prefix_resolve(module);
@@ -545,14 +545,14 @@ impl SubmoduleNode {
                     }
                 }
             }
-        } else if type_node.kind == TypeKind::Yidentityref {
+        } else if type_node.kind == YangType::Identityref {
             if let Some(base) = &type_node.base {
                 if let Some((module, name)) = path_module(&base) {
                     let prefix = self.prefix_resolve(module);
                     let module = store.find_module(&prefix);
                     if let Some(m) = module {
                         let mut node = type_node.clone();
-                        node.kind = TypeKind::Yenumeration;
+                        node.kind = YangType::Enumeration;
                         if let Some(identities) = m.identities.get(&name) {
                             for i in identities.iter() {
                                 node.enum_stmt.push(EnumNode { name: i.clone() });
