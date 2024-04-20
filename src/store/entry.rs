@@ -35,7 +35,7 @@ pub struct Entry {
     pub extension: HashMap<String, String>,
     pub parent: RefCell<Option<Rc<Entry>>>,
     pub type_node: Option<TypeNode>,
-    pub typedef: Option<String>,
+    //pub typedef: Option<String>,
     pub list_attr: Option<ListAttr>,
 }
 
@@ -279,29 +279,72 @@ impl ModuleNode {
         rc.parent.replace(Some(ent.clone()));
     }
 
-    fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
-        if type_node.kind == YangType::Path {
-            ent.typedef = Some(type_node.name.clone());
-            if let Some((module, name)) = path_module(&type_node.name) {
-                let prefix = self.prefix_resolve(module);
-                let module = store.find_module(&prefix);
-                if let Some(m) = module {
-                    for typedef in m.typedef.iter() {
-                        if typedef.name == name {
-                            if let Some(type_node) = &typedef.type_node {
-                                ent.type_node = Some(type_node.clone());
+    fn type_union_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
+        let mut nodes = Vec::<TypeNode>::new();
+        for node in type_node.union.iter() {
+            if node.kind == YangType::Path {
+                if let Some(n) = self.type_path_resolve(store, node) {
+                    if n.kind == YangType::String {
+                        let mut m = n.clone();
+                        m.typedef = Some(node.name.clone());
+                        nodes.push(m);
+                    }
+                    if n.kind == YangType::Union {
+                        for m in n.union.iter() {
+                            if m.kind == YangType::Path {
+                                if let Some(o) = self.type_path_resolve(store, m) {
+                                    if o.kind == YangType::String {
+                                        let mut o = o.clone();
+                                        o.typedef = Some(m.name.clone());
+                                        nodes.push(o);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            } else {
-                for typedef in self.typedef.iter() {
-                    if typedef.name == type_node.name {
-                        if let Some(type_node) = &typedef.type_node {
-                            ent.type_node = Some(type_node.clone());
+            }
+        }
+        let mut type_node = type_node.clone();
+        type_node.union = nodes;
+        Some(type_node)
+    }
+
+    fn type_path_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
+        if let Some((module, name)) = path_module(&type_node.name) {
+            let prefix = self.prefix_resolve(module);
+            let module = store.find_module(&prefix);
+            if let Some(m) = module {
+                for typedef in m.typedef.iter() {
+                    if typedef.name == name {
+                        if let Some(node) = &typedef.type_node {
+                            let mut node = node.clone();
+                            node.typedef = Some(type_node.name.clone());
+                            if node.kind == YangType::Union {
+                                return self.type_union_resolve(store, &node);
+                            } else {
+                                return Some(node);
+                            }
                         }
                     }
                 }
+            }
+        } else {
+            for typedef in self.typedef.iter() {
+                if typedef.name == type_node.name {
+                    if let Some(node) = &typedef.type_node {
+                        return Some(node.clone());
+                    }
+                }
+            }
+        }
+        None
+    }
+
+    fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
+        if type_node.kind == YangType::Path {
+            if let Some(node) = self.type_path_resolve(store, type_node) {
+                ent.type_node = Some(node);
             }
         } else if type_node.kind == YangType::Identityref {
             if let Some(base) = &type_node.base {
@@ -326,6 +369,15 @@ impl ModuleNode {
                 }
             }
             ent.type_node = Some(type_node.clone());
+        } else if type_node.kind == YangType::Union {
+            for node in type_node.union.iter() {
+                if node.kind == YangType::Path {
+                    println!("X: {} ({})", node.name, self.name);
+                    if let Some(node) = self.type_path_resolve(store, node) {
+                        println!("X: found {}", node.name);
+                    }
+                }
+            }
         } else {
             ent.type_node = Some(type_node.clone());
         }
@@ -521,29 +573,67 @@ impl SubmoduleNode {
         rc.parent.replace(Some(ent.clone()));
     }
 
-    fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
-        if type_node.kind == YangType::Path {
-            ent.typedef = Some(type_node.name.clone());
-            if let Some((module, name)) = path_module(&type_node.name) {
-                let prefix = self.prefix_resolve(module);
-                let module = store.find_module(&prefix);
-                if let Some(m) = module {
-                    for typedef in m.typedef.iter() {
-                        if typedef.name == name {
-                            if let Some(type_node) = &typedef.type_node {
-                                ent.type_node = Some(type_node.clone());
+    fn type_union_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
+        let mut nodes = Vec::<TypeNode>::new();
+        for node in type_node.union.iter() {
+            if node.kind == YangType::Path {
+                if let Some(node) = self.type_path_resolve(store, node) {
+                    if node.kind == YangType::Union {
+                        for n in node.union.iter() {
+                            if n.kind == YangType::Path {
+                                if let Some(m) = self.type_path_resolve(store, n) {
+                                    if m.kind == YangType::String {
+                                        let mut m = m.clone();
+                                        m.typedef = Some(n.name.clone());
+                                        nodes.push(m);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            } else {
-                for typedef in self.typedef.iter() {
-                    if typedef.name == type_node.name {
-                        if let Some(type_node) = &typedef.type_node {
-                            ent.type_node = Some(type_node.clone());
+            }
+        }
+        let mut type_node = type_node.clone();
+        type_node.union = nodes;
+        Some(type_node)
+    }
+
+    fn type_path_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
+        if let Some((module, name)) = path_module(&type_node.name) {
+            let prefix = self.prefix_resolve(module);
+            let module = store.find_module(&prefix);
+            if let Some(m) = module {
+                for typedef in m.typedef.iter() {
+                    if typedef.name == name {
+                        if let Some(node) = &typedef.type_node {
+                            let mut node = node.clone();
+                            node.typedef = Some(type_node.name.clone());
+                            if node.kind == YangType::Union {
+                                return self.type_union_resolve(store, &node);
+                            } else {
+                                return Some(node);
+                            }
                         }
                     }
                 }
+            }
+        } else {
+            for typedef in self.typedef.iter() {
+                if typedef.name == type_node.name {
+                    if let Some(node) = &typedef.type_node {
+                        return Some(node.clone());
+                    }
+                }
+            }
+        }
+        None
+    }
+
+    fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
+        if type_node.kind == YangType::Path {
+            if let Some(node) = self.type_path_resolve(store, type_node) {
+                ent.type_node = Some(node);
             }
         } else if type_node.kind == YangType::Identityref {
             if let Some(base) = &type_node.base {
@@ -568,6 +658,8 @@ impl SubmoduleNode {
                 }
             }
             ent.type_node = Some(type_node.clone());
+        } else if type_node.kind == YangType::Union {
+            ent.type_node = self.type_union_resolve(store, type_node);
         } else {
             ent.type_node = Some(type_node.clone());
         }
