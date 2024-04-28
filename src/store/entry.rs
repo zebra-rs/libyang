@@ -35,7 +35,6 @@ pub struct Entry {
     pub extension: HashMap<String, String>,
     pub parent: RefCell<Option<Rc<Entry>>>,
     pub type_node: Option<TypeNode>,
-    //pub typedef: Option<String>,
     pub list_attr: Option<ListAttr>,
 }
 
@@ -372,9 +371,8 @@ impl ModuleNode {
         } else if type_node.kind == YangType::Union {
             for node in type_node.union.iter() {
                 if node.kind == YangType::Path {
-                    println!("X: {} ({})", node.name, self.name);
-                    if let Some(node) = self.type_path_resolve(store, node) {
-                        println!("X: found {}", node.name);
+                    if let Some(_node) = self.type_path_resolve(store, node) {
+                        // println!("X: found {}", node.name);
                     }
                 }
             }
@@ -706,7 +704,7 @@ impl SubmoduleNode {
 }
 
 pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
-    let entry = Rc::new(Entry::new_dir(String::from("")));
+    let entry = Rc::new(Entry::new_dir(module.name.clone()));
     for c in module.d.container.iter() {
         module.container_entry(store, c, entry.clone());
     }
