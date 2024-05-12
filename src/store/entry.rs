@@ -129,42 +129,9 @@ pub fn path_module(path: &str) -> Option<(String, String)> {
 }
 
 impl ModuleNode {
-    pub fn identity_resolve(&mut self) {
-        for identity in self.identity.iter() {
-            if identity.base.is_empty() {
-                self.identities.insert(identity.name.clone(), Vec::new());
-            } else {
-                for base in identity.base.iter() {
-                    if let Some((_module, _name)) = path_module(base) {
-                        // TODO: println!("B: {} : {}", module, name);
-                    } else {
-                        for i in self.identity.iter() {
-                            if base == &i.name {
-                                if let Some(identities) = self.identities.get_mut(base) {
-                                    identities.push(identity.name.clone());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fn prefix_resolve(&self, name: String) -> String {
-        for import in self.import.iter() {
-            if let Some(prefix) = &import.prefix {
-                if name == *prefix {
-                    return import.name.clone();
-                }
-            }
-        }
-        name
-    }
-
     pub fn group_resolve(&self, store: &YangStore, name: &str, ent: Rc<Entry>) {
         if let Some((m, n)) = path_module(name) {
-            let prefix = self.prefix_resolve(m);
+            let prefix = prefix_resolve(self, m);
             if let Some(m) = store.find_module(&prefix) {
                 for g in m.grouping.iter() {
                     if g.name == n {
@@ -311,7 +278,7 @@ impl ModuleNode {
 
     fn type_path_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
         if let Some((module, name)) = path_module(&type_node.name) {
-            let prefix = self.prefix_resolve(module);
+            let prefix = prefix_resolve(self, module);
             let module = store.find_module(&prefix);
             if let Some(m) = module {
                 for typedef in m.typedef.iter() {
@@ -348,7 +315,7 @@ impl ModuleNode {
         } else if type_node.kind == YangType::Identityref {
             if let Some(base) = &type_node.base {
                 if let Some((module, name)) = path_module(&base) {
-                    let prefix = self.prefix_resolve(module);
+                    let prefix = prefix_resolve(self, module);
                     let module = store.find_module(&prefix);
                     if let Some(m) = module {
                         let mut node = type_node.clone();
@@ -422,42 +389,9 @@ impl ModuleNode {
 }
 
 impl SubmoduleNode {
-    pub fn identity_resolve(&mut self) {
-        for identity in self.identity.iter() {
-            if identity.base.is_empty() {
-                self.identities.insert(identity.name.clone(), Vec::new());
-            } else {
-                for base in identity.base.iter() {
-                    if let Some((_module, _name)) = path_module(base) {
-                        // TODO: println!("B: {} : {}", module, name);
-                    } else {
-                        for i in self.identity.iter() {
-                            if base == &i.name {
-                                if let Some(identities) = self.identities.get_mut(base) {
-                                    identities.push(identity.name.clone());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fn prefix_resolve(&self, name: String) -> String {
-        for import in self.import.iter() {
-            if let Some(prefix) = &import.prefix {
-                if name == *prefix {
-                    return import.name.clone();
-                }
-            }
-        }
-        name
-    }
-
     pub fn group_resolve(&self, store: &YangStore, name: &str, ent: Rc<Entry>) {
         if let Some((m, n)) = path_module(name) {
-            let prefix = self.prefix_resolve(m);
+            let prefix = prefix_resolve(self, m);
             if let Some(m) = store.find_module(&prefix) {
                 for g in m.grouping.iter() {
                     if g.name == n {
@@ -599,7 +533,7 @@ impl SubmoduleNode {
 
     fn type_path_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
         if let Some((module, name)) = path_module(&type_node.name) {
-            let prefix = self.prefix_resolve(module);
+            let prefix = prefix_resolve(self, module);
             let module = store.find_module(&prefix);
             if let Some(m) = module {
                 for typedef in m.typedef.iter() {
@@ -636,7 +570,7 @@ impl SubmoduleNode {
         } else if type_node.kind == YangType::Identityref {
             if let Some(base) = &type_node.base {
                 if let Some((module, name)) = path_module(&base) {
-                    let prefix = self.prefix_resolve(module);
+                    let prefix = prefix_resolve(self, module);
                     let module = store.find_module(&prefix);
                     if let Some(m) = module {
                         let mut node = type_node.clone();
@@ -718,4 +652,83 @@ pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
         module.leaf_list_entry(store, leaf_list, entry.clone());
     }
     entry.clone()
+}
+
+pub trait ModuleCommon {
+    fn get_identity(&self) -> &Vec<IdentityNode>;
+    fn get_identities_mut(&mut self) -> &mut HashMap<String, Vec<String>>;
+    fn get_import(&self) -> &Vec<ImportNode>;
+}
+
+pub fn identity_resolve<T>(node: &mut T)
+where
+    T: ModuleCommon,
+{
+    // Iterate over node.identity and collect the necessary information
+    let mut identity_bases: HashMap<String, Vec<String>> = HashMap::new();
+    {
+        let identity = node.get_identity();
+        for identity in identity.iter() {
+            if !identity.base.is_empty() {
+                for base in &identity.base {
+                    if let Some((_module, _name)) = path_module(base) {
+                        // TODO: Resolve only local identity reference
+                    } else {
+                        for i in node.get_identity().iter() {
+                            if base == &i.name {
+                                let items = identity_bases.entry(base.clone()).or_default();
+                                items.push(identity.name.clone());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for (key, value) in identity_bases.iter() {
+        node.get_identities_mut()
+            .insert(key.clone(), value.to_vec());
+    }
+}
+
+fn prefix_resolve<T>(node: &T, name: String) -> String
+where
+    T: ModuleCommon,
+{
+    for import in node.get_import().iter() {
+        if let Some(prefix) = &import.prefix {
+            if name == *prefix {
+                return import.name.clone();
+            }
+        }
+    }
+    name
+}
+
+impl ModuleCommon for ModuleNode {
+    fn get_identity(&self) -> &Vec<IdentityNode> {
+        &self.identity
+    }
+
+    fn get_identities_mut(&mut self) -> &mut HashMap<String, Vec<String>> {
+        &mut self.identities
+    }
+
+    fn get_import(&self) -> &Vec<ImportNode> {
+        &self.import
+    }
+}
+
+impl ModuleCommon for SubmoduleNode {
+    fn get_identity(&self) -> &Vec<IdentityNode> {
+        &self.identity
+    }
+
+    fn get_identities_mut(&mut self) -> &mut HashMap<String, Vec<String>> {
+        &mut self.identities
+    }
+
+    fn get_import(&self) -> &Vec<ImportNode> {
+        &self.import
+    }
 }
