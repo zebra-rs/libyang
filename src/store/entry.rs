@@ -174,7 +174,7 @@ impl ModuleNode {
             self.list_entry(store, list, ent.clone());
         }
         for leaf_list in g.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, ent.clone());
+            leaf_list_entry(self, store, leaf_list, ent.clone());
         }
     }
 
@@ -204,7 +204,7 @@ impl ModuleNode {
             self.list_entry(store, list, rc.clone());
         }
         for leaf_list in c.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, rc.clone());
+            leaf_list_entry(self, store, leaf_list, rc.clone());
         }
 
         ent.dir.borrow_mut().push(rc.clone());
@@ -238,7 +238,7 @@ impl ModuleNode {
             self.list_entry(store, list, rc.clone());
         }
         for leaf_list in l.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, rc.clone());
+            leaf_list_entry(self, store, leaf_list, rc.clone());
         }
 
         ent.dir.borrow_mut().push(rc.clone());
@@ -366,26 +366,26 @@ impl ModuleNode {
         rc.parent.replace(Some(ent.clone()));
     }
 
-    fn leaf_list_entry(&self, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>) {
-        if let Some(config) = &leaf.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_leaf(leaf.name.clone());
-        for u in leaf.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        if let Some(t) = leaf.type_stmt.as_ref() {
-            self.type_resolve(store, t, &mut e);
-        }
-        let list_attr = ListAttr::new();
-        e.list_attr = Some(list_attr);
+    // fn leaf_list_entry(&self, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>) {
+    //     if let Some(config) = &leaf.config {
+    //         if !config.config {
+    //             return;
+    //         }
+    //     }
+    //     let mut e = Entry::new_leaf(leaf.name.clone());
+    //     for u in leaf.unknown.iter() {
+    //         e.extension.insert(u.name.clone(), u.argument.clone());
+    //     }
+    //     if let Some(t) = leaf.type_stmt.as_ref() {
+    //         self.type_resolve(store, t, &mut e);
+    //     }
+    //     let list_attr = ListAttr::new();
+    //     e.list_attr = Some(list_attr);
 
-        let rc = Rc::new(e);
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
+    //     let rc = Rc::new(e);
+    //     ent.dir.borrow_mut().push(rc.clone());
+    //     rc.parent.replace(Some(ent.clone()));
+    // }
 }
 
 impl SubmoduleNode {
@@ -434,7 +434,7 @@ impl SubmoduleNode {
             self.list_entry(store, list, ent.clone());
         }
         for leaf_list in g.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, ent.clone());
+            leaf_list_entry(self, store, leaf_list, ent.clone());
         }
     }
 
@@ -464,7 +464,7 @@ impl SubmoduleNode {
             self.list_entry(store, list, rc.clone());
         }
         for leaf_list in c.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, rc.clone());
+            leaf_list_entry(self, store, leaf_list, rc.clone());
         }
 
         ent.dir.borrow_mut().push(rc.clone());
@@ -498,7 +498,7 @@ impl SubmoduleNode {
             self.list_entry(store, list, rc.clone());
         }
         for leaf_list in l.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, rc.clone());
+            leaf_list_entry(self, store, leaf_list, rc.clone());
         }
 
         ent.dir.borrow_mut().push(rc.clone());
@@ -615,26 +615,26 @@ impl SubmoduleNode {
         rc.parent.replace(Some(ent.clone()));
     }
 
-    fn leaf_list_entry(&self, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>) {
-        if let Some(config) = &leaf.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_leaf(leaf.name.clone());
-        for u in leaf.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        if let Some(t) = leaf.type_stmt.as_ref() {
-            self.type_resolve(store, t, &mut e);
-        }
-        let list_attr = ListAttr::new();
-        e.list_attr = Some(list_attr);
+    // fn leaf_list_entry(&self, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>) {
+    //     if let Some(config) = &leaf.config {
+    //         if !config.config {
+    //             return;
+    //         }
+    //     }
+    //     let mut e = Entry::new_leaf(leaf.name.clone());
+    //     for u in leaf.unknown.iter() {
+    //         e.extension.insert(u.name.clone(), u.argument.clone());
+    //     }
+    //     if let Some(t) = leaf.type_stmt.as_ref() {
+    //         self.type_resolve(store, t, &mut e);
+    //     }
+    //     let list_attr = ListAttr::new();
+    //     e.list_attr = Some(list_attr);
 
-        let rc = Rc::new(e);
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
+    //     let rc = Rc::new(e);
+    //     ent.dir.borrow_mut().push(rc.clone());
+    //     rc.parent.replace(Some(ent.clone()));
+    // }
 }
 
 pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
@@ -649,7 +649,7 @@ pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
         module.list_entry(store, list, entry.clone());
     }
     for leaf_list in module.d.leaf_list.iter() {
-        module.leaf_list_entry(store, leaf_list, entry.clone());
+        leaf_list_entry(module, store, leaf_list, entry.clone());
     }
     entry.clone()
 }
@@ -703,6 +703,30 @@ where
         }
     }
     name
+}
+
+fn leaf_list_entry<T>(node: &T, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some(config) = &leaf.config {
+        if !config.config {
+            return;
+        }
+    }
+    let mut e = Entry::new_leaf(leaf.name.clone());
+    for u in leaf.unknown.iter() {
+        e.extension.insert(u.name.clone(), u.argument.clone());
+    }
+    if let Some(t) = leaf.type_stmt.as_ref() {
+        // self.type_resolve(store, t, &mut e);
+    }
+    let list_attr = ListAttr::new();
+    e.list_attr = Some(list_attr);
+
+    let rc = Rc::new(e);
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
 }
 
 impl ModuleCommon for ModuleNode {
