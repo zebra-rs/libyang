@@ -49,10 +49,10 @@ impl YangStore {
 
     pub fn identity_resolve(&mut self) {
         for (_, m) in self.modules.iter_mut() {
-            m.identity_resolve();
+            identity_resolve(m);
         }
         for (_, m) in self.submodules.iter_mut() {
-            m.identity_resolve();
+            identity_resolve(m);
         }
     }
 

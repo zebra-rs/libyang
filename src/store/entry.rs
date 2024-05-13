@@ -128,594 +128,418 @@ pub fn path_module(path: &str) -> Option<(String, String)> {
     }
 }
 
-impl ModuleNode {
-    pub fn identity_resolve(&mut self) {
-        for identity in self.identity.iter() {
-            if identity.base.is_empty() {
-                self.identities.insert(identity.name.clone(), Vec::new());
-            } else {
-                for base in identity.base.iter() {
-                    if let Some((_module, _name)) = path_module(base) {
-                        // TODO: println!("B: {} : {}", module, name);
-                    } else {
-                        for i in self.identity.iter() {
-                            if base == &i.name {
-                                if let Some(identities) = self.identities.get_mut(base) {
-                                    identities.push(identity.name.clone());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fn prefix_resolve(&self, name: String) -> String {
-        for import in self.import.iter() {
-            if let Some(prefix) = &import.prefix {
-                if name == *prefix {
-                    return import.name.clone();
-                }
-            }
-        }
-        name
-    }
-
-    pub fn group_resolve(&self, store: &YangStore, name: &str, ent: Rc<Entry>) {
-        if let Some((m, n)) = path_module(name) {
-            let prefix = self.prefix_resolve(m);
-            if let Some(m) = store.find_module(&prefix) {
-                for g in m.grouping.iter() {
-                    if g.name == n {
-                        m.group_entry(store, g, ent);
-                        return;
-                    }
-                }
-            }
-        } else {
-            for g in self.grouping.iter() {
-                if g.name == name {
-                    self.group_entry(store, g, ent);
-                    return;
-                }
-            }
-            for include in self.include.iter() {
-                if let Some(submodule) = store.find_submodule(&include.name) {
-                    for g in submodule.grouping.iter() {
-                        if g.name == *name {
-                            submodule.group_entry(store, g, ent);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    pub fn group_entry(&self, store: &YangStore, g: &GroupingNode, ent: Rc<Entry>) {
-        for uses in g.d.uses.iter() {
-            self.group_resolve(store, &uses.name, ent.clone());
-        }
-        for c in g.d.container.iter() {
-            self.container_entry(store, c, ent.clone());
-        }
-        for leaf in g.d.leaf.iter() {
-            self.leaf_entry(store, leaf, ent.clone());
-        }
-        for list in g.d.list.iter() {
-            self.list_entry(store, list, ent.clone());
-        }
-        for leaf_list in g.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, ent.clone());
-        }
-    }
-
-    pub fn container_entry(&self, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>) {
-        if let Some(config) = &c.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_dir(c.name.clone());
-        for u in c.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        e.presence = c.presence.is_some();
-        let rc = Rc::new(e);
-
-        for uses in c.d.uses.iter() {
-            self.group_resolve(store, &uses.name, rc.clone());
-        }
-        for c in c.d.container.iter() {
-            self.container_entry(store, c, rc.clone());
-        }
-        for leaf in c.d.leaf.iter() {
-            self.leaf_entry(store, leaf, rc.clone());
-        }
-        for list in c.d.list.iter() {
-            self.list_entry(store, list, rc.clone());
-        }
-        for leaf_list in c.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, rc.clone());
-        }
-
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn list_entry(&self, store: &YangStore, l: &ListNode, ent: Rc<Entry>) {
-        if let Some(config) = &l.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
-        for u in l.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        let list_attr = ListAttr::new();
-        e.list_attr = Some(list_attr);
-        let rc = Rc::new(e);
-
-        for uses in l.d.uses.iter() {
-            self.group_resolve(store, &uses.name, rc.clone());
-        }
-        for c in l.d.container.iter() {
-            self.container_entry(store, c, rc.clone());
-        }
-        for leaf in l.d.leaf.iter() {
-            self.leaf_entry(store, leaf, rc.clone());
-        }
-        for list in l.d.list.iter() {
-            self.list_entry(store, list, rc.clone());
-        }
-        for leaf_list in l.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, rc.clone());
-        }
-
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn type_union_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
-        let mut nodes = Vec::<TypeNode>::new();
-        for node in type_node.union.iter() {
-            if node.kind == YangType::Path {
-                if let Some(n) = self.type_path_resolve(store, node) {
-                    if n.kind == YangType::String {
-                        let mut m = n.clone();
-                        m.typedef = Some(node.name.clone());
-                        nodes.push(m);
-                    }
-                    if n.kind == YangType::Union {
-                        for m in n.union.iter() {
-                            if m.kind == YangType::Path {
-                                if let Some(o) = self.type_path_resolve(store, m) {
-                                    if o.kind == YangType::String {
-                                        let mut o = o.clone();
-                                        o.typedef = Some(m.name.clone());
-                                        nodes.push(o);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        let mut type_node = type_node.clone();
-        type_node.union = nodes;
-        Some(type_node)
-    }
-
-    fn type_path_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
-        if let Some((module, name)) = path_module(&type_node.name) {
-            let prefix = self.prefix_resolve(module);
-            let module = store.find_module(&prefix);
-            if let Some(m) = module {
-                for typedef in m.typedef.iter() {
-                    if typedef.name == name {
-                        if let Some(node) = &typedef.type_node {
-                            let mut node = node.clone();
-                            node.typedef = Some(type_node.name.clone());
-                            if node.kind == YangType::Union {
-                                return self.type_union_resolve(store, &node);
-                            } else {
-                                return Some(node);
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            for typedef in self.typedef.iter() {
-                if typedef.name == type_node.name {
-                    if let Some(node) = &typedef.type_node {
-                        return Some(node.clone());
-                    }
-                }
-            }
-        }
-        None
-    }
-
-    fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
-        if type_node.kind == YangType::Path {
-            if let Some(node) = self.type_path_resolve(store, type_node) {
-                ent.type_node = Some(node);
-            }
-        } else if type_node.kind == YangType::Identityref {
-            if let Some(base) = &type_node.base {
-                if let Some((module, name)) = path_module(&base) {
-                    let prefix = self.prefix_resolve(module);
-                    let module = store.find_module(&prefix);
-                    if let Some(m) = module {
-                        let mut node = type_node.clone();
-                        node.kind = YangType::Enumeration;
-                        if let Some(identities) = m.identities.get(&name) {
-                            for i in identities.iter() {
-                                node.enum_stmt.push(EnumNode { name: i.clone() });
-                            }
-                        }
-                        ent.type_node = Some(node);
-                        return;
-                    } else {
-                        // println!("XXX: module not found {}", name);
-                    }
-                } else {
-                    // println!("XXX: self {}", base);
-                }
-            }
-            ent.type_node = Some(type_node.clone());
-        } else if type_node.kind == YangType::Union {
-            for node in type_node.union.iter() {
-                if node.kind == YangType::Path {
-                    if let Some(_node) = self.type_path_resolve(store, node) {
-                        // println!("X: found {}", node.name);
-                    }
-                }
-            }
-        } else {
-            ent.type_node = Some(type_node.clone());
-        }
-    }
-
-    fn leaf_entry(&self, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>) {
-        if let Some(config) = &leaf.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_leaf(leaf.name.to_owned());
-        for u in leaf.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        if let Some(t) = leaf.type_stmt.as_ref() {
-            self.type_resolve(store, t, &mut e);
-        }
-        let rc = Rc::new(e);
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn leaf_list_entry(&self, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>) {
-        if let Some(config) = &leaf.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_leaf(leaf.name.clone());
-        for u in leaf.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        if let Some(t) = leaf.type_stmt.as_ref() {
-            self.type_resolve(store, t, &mut e);
-        }
-        let list_attr = ListAttr::new();
-        e.list_attr = Some(list_attr);
-
-        let rc = Rc::new(e);
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-}
-
-impl SubmoduleNode {
-    pub fn identity_resolve(&mut self) {
-        for identity in self.identity.iter() {
-            if identity.base.is_empty() {
-                self.identities.insert(identity.name.clone(), Vec::new());
-            } else {
-                for base in identity.base.iter() {
-                    if let Some((_module, _name)) = path_module(base) {
-                        // TODO: println!("B: {} : {}", module, name);
-                    } else {
-                        for i in self.identity.iter() {
-                            if base == &i.name {
-                                if let Some(identities) = self.identities.get_mut(base) {
-                                    identities.push(identity.name.clone());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fn prefix_resolve(&self, name: String) -> String {
-        for import in self.import.iter() {
-            if let Some(prefix) = &import.prefix {
-                if name == *prefix {
-                    return import.name.clone();
-                }
-            }
-        }
-        name
-    }
-
-    pub fn group_resolve(&self, store: &YangStore, name: &str, ent: Rc<Entry>) {
-        if let Some((m, n)) = path_module(name) {
-            let prefix = self.prefix_resolve(m);
-            if let Some(m) = store.find_module(&prefix) {
-                for g in m.grouping.iter() {
-                    if g.name == n {
-                        m.group_entry(store, g, ent);
-                        return;
-                    }
-                }
-            }
-        } else {
-            for g in self.grouping.iter() {
-                if g.name == name {
-                    self.group_entry(store, g, ent);
-                    return;
-                }
-            }
-            for include in self.include.iter() {
-                if let Some(submodule) = store.find_submodule(&include.name) {
-                    for g in submodule.grouping.iter() {
-                        if g.name == *name {
-                            submodule.group_entry(store, g, ent);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    pub fn group_entry(&self, store: &YangStore, g: &GroupingNode, ent: Rc<Entry>) {
-        for uses in g.d.uses.iter() {
-            self.group_resolve(store, &uses.name, ent.clone());
-        }
-        for c in g.d.container.iter() {
-            self.container_entry(store, c, ent.clone());
-        }
-        for leaf in g.d.leaf.iter() {
-            self.leaf_entry(store, leaf, ent.clone());
-        }
-        for list in g.d.list.iter() {
-            self.list_entry(store, list, ent.clone());
-        }
-        for leaf_list in g.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, ent.clone());
-        }
-    }
-
-    pub fn container_entry(&self, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>) {
-        if let Some(config) = &c.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_dir(c.name.clone());
-        for u in c.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        e.presence = c.presence.is_some();
-        let rc = Rc::new(e);
-
-        for uses in c.d.uses.iter() {
-            self.group_resolve(store, &uses.name, rc.clone());
-        }
-        for c in c.d.container.iter() {
-            self.container_entry(store, c, rc.clone());
-        }
-        for leaf in c.d.leaf.iter() {
-            self.leaf_entry(store, leaf, rc.clone());
-        }
-        for list in c.d.list.iter() {
-            self.list_entry(store, list, rc.clone());
-        }
-        for leaf_list in c.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, rc.clone());
-        }
-
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn list_entry(&self, store: &YangStore, l: &ListNode, ent: Rc<Entry>) {
-        if let Some(config) = &l.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
-        for u in l.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        let list_attr = ListAttr::new();
-        e.list_attr = Some(list_attr);
-        let rc = Rc::new(e);
-
-        for uses in l.d.uses.iter() {
-            self.group_resolve(store, &uses.name, rc.clone());
-        }
-        for c in l.d.container.iter() {
-            self.container_entry(store, c, rc.clone());
-        }
-        for leaf in l.d.leaf.iter() {
-            self.leaf_entry(store, leaf, rc.clone());
-        }
-        for list in l.d.list.iter() {
-            self.list_entry(store, list, rc.clone());
-        }
-        for leaf_list in l.d.leaf_list.iter() {
-            self.leaf_list_entry(store, leaf_list, rc.clone());
-        }
-
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn type_union_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
-        let mut nodes = Vec::<TypeNode>::new();
-        for node in type_node.union.iter() {
-            if node.kind == YangType::Path {
-                if let Some(node) = self.type_path_resolve(store, node) {
-                    if node.kind == YangType::Union {
-                        for n in node.union.iter() {
-                            if n.kind == YangType::Path {
-                                if let Some(m) = self.type_path_resolve(store, n) {
-                                    if m.kind == YangType::String {
-                                        let mut m = m.clone();
-                                        m.typedef = Some(n.name.clone());
-                                        nodes.push(m);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        let mut type_node = type_node.clone();
-        type_node.union = nodes;
-        Some(type_node)
-    }
-
-    fn type_path_resolve(&self, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode> {
-        if let Some((module, name)) = path_module(&type_node.name) {
-            let prefix = self.prefix_resolve(module);
-            let module = store.find_module(&prefix);
-            if let Some(m) = module {
-                for typedef in m.typedef.iter() {
-                    if typedef.name == name {
-                        if let Some(node) = &typedef.type_node {
-                            let mut node = node.clone();
-                            node.typedef = Some(type_node.name.clone());
-                            if node.kind == YangType::Union {
-                                return self.type_union_resolve(store, &node);
-                            } else {
-                                return Some(node);
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            for typedef in self.typedef.iter() {
-                if typedef.name == type_node.name {
-                    if let Some(node) = &typedef.type_node {
-                        return Some(node.clone());
-                    }
-                }
-            }
-        }
-        None
-    }
-
-    fn type_resolve(&self, store: &YangStore, type_node: &TypeNode, ent: &mut Entry) {
-        if type_node.kind == YangType::Path {
-            if let Some(node) = self.type_path_resolve(store, type_node) {
-                ent.type_node = Some(node);
-            }
-        } else if type_node.kind == YangType::Identityref {
-            if let Some(base) = &type_node.base {
-                if let Some((module, name)) = path_module(&base) {
-                    let prefix = self.prefix_resolve(module);
-                    let module = store.find_module(&prefix);
-                    if let Some(m) = module {
-                        let mut node = type_node.clone();
-                        node.kind = YangType::Enumeration;
-                        if let Some(identities) = m.identities.get(&name) {
-                            for i in identities.iter() {
-                                node.enum_stmt.push(EnumNode { name: i.clone() });
-                            }
-                        }
-                        ent.type_node = Some(node);
-                        return;
-                    } else {
-                        // println!("XXX: module not found {}", name);
-                    }
-                } else {
-                    // println!("XXX: self {}", base);
-                }
-            }
-            ent.type_node = Some(type_node.clone());
-        } else if type_node.kind == YangType::Union {
-            ent.type_node = self.type_union_resolve(store, type_node);
-        } else {
-            ent.type_node = Some(type_node.clone());
-        }
-    }
-
-    fn leaf_entry(&self, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>) {
-        if let Some(config) = &leaf.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_leaf(leaf.name.to_owned());
-        for u in leaf.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        if let Some(t) = leaf.type_stmt.as_ref() {
-            self.type_resolve(store, t, &mut e);
-        }
-        let rc = Rc::new(e);
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn leaf_list_entry(&self, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>) {
-        if let Some(config) = &leaf.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_leaf(leaf.name.clone());
-        for u in leaf.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        if let Some(t) = leaf.type_stmt.as_ref() {
-            self.type_resolve(store, t, &mut e);
-        }
-        let list_attr = ListAttr::new();
-        e.list_attr = Some(list_attr);
-
-        let rc = Rc::new(e);
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-}
-
 pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
     let entry = Rc::new(Entry::new_dir(module.name.clone()));
     for c in module.d.container.iter() {
-        module.container_entry(store, c, entry.clone());
+        container_entry(module, store, c, entry.clone());
     }
     for leaf in module.d.leaf.iter() {
-        module.leaf_entry(store, leaf, entry.clone());
+        leaf_entry(module, store, leaf, entry.clone());
     }
     for list in module.d.list.iter() {
-        module.list_entry(store, list, entry.clone());
+        list_entry(module, store, list, entry.clone());
     }
     for leaf_list in module.d.leaf_list.iter() {
-        module.leaf_list_entry(store, leaf_list, entry.clone());
+        leaf_list_entry(module, store, leaf_list, entry.clone());
     }
     entry.clone()
+}
+
+pub trait ModuleCommon {
+    fn get_identity(&self) -> &Vec<IdentityNode>;
+    fn get_identities_mut(&mut self) -> &mut HashMap<String, Vec<String>>;
+    fn get_include(&self) -> &Vec<IncludeNode>;
+    fn get_import(&self) -> &Vec<ImportNode>;
+    fn get_typedef(&self) -> &Vec<TypedefNode>;
+    fn get_grouping(&self) -> &Vec<GroupingNode>;
+    fn get_d(&self) -> &DatadefNode;
+}
+
+pub fn group_entry<T>(top: &T, store: &YangStore, g: &GroupingNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    for uses in g.d.uses.iter() {
+        group_resolve(top, store, &uses.name, ent.clone());
+    }
+    for c in g.d.container.iter() {
+        container_entry(top, store, c, ent.clone());
+    }
+    for leaf in g.d.leaf.iter() {
+        leaf_entry(top, store, leaf, ent.clone());
+    }
+    for list in g.d.list.iter() {
+        list_entry(top, store, list, ent.clone());
+    }
+    for leaf_list in g.d.leaf_list.iter() {
+        leaf_list_entry(top, store, leaf_list, ent.clone());
+    }
+}
+
+pub fn group_resolve<T>(top: &T, store: &YangStore, name: &str, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some((m, n)) = path_module(name) {
+        let prefix = prefix_resolve(top, m);
+        if let Some(m) = store.find_module(&prefix) {
+            for g in m.grouping.iter() {
+                if g.name == n {
+                    group_entry(m, store, g, ent);
+                    return;
+                }
+            }
+        }
+    } else {
+        for g in top.get_grouping().iter() {
+            if g.name == name {
+                group_entry(top, store, g, ent);
+                return;
+            }
+        }
+        for include in top.get_include().iter() {
+            if let Some(submodule) = store.find_submodule(&include.name) {
+                for g in submodule.grouping.iter() {
+                    if g.name == *name {
+                        group_entry(submodule, store, g, ent);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}
+
+pub fn identity_resolve<T>(top: &mut T)
+where
+    T: ModuleCommon,
+{
+    // Iterate over node.identity and collect the necessary information
+    let mut identity_bases: HashMap<String, Vec<String>> = HashMap::new();
+    {
+        let identity = top.get_identity();
+        for identity in identity.iter() {
+            if !identity.base.is_empty() {
+                for base in &identity.base {
+                    if let Some((_module, _name)) = path_module(base) {
+                        // TODO: Resolve only local identity reference
+                    } else {
+                        for i in top.get_identity().iter() {
+                            if base == &i.name {
+                                let items = identity_bases.entry(base.clone()).or_default();
+                                items.push(identity.name.clone());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for (key, value) in identity_bases.iter() {
+        top.get_identities_mut().insert(key.clone(), value.to_vec());
+    }
+}
+
+fn prefix_resolve<T>(node: &T, name: String) -> String
+where
+    T: ModuleCommon,
+{
+    for import in node.get_import().iter() {
+        if let Some(prefix) = &import.prefix {
+            if name == *prefix {
+                return import.name.clone();
+            }
+        }
+    }
+    name
+}
+
+fn type_union_resolve<T>(top: &T, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode>
+where
+    T: ModuleCommon,
+{
+    let mut nodes = Vec::<TypeNode>::new();
+    for node in type_node.union.iter() {
+        if node.kind == YangType::Path {
+            if let Some(n) = type_path_resolve(top, store, node) {
+                if n.kind == YangType::String {
+                    let mut m = n.clone();
+                    m.typedef = Some(node.name.clone());
+                    nodes.push(m);
+                }
+                if n.kind == YangType::Union {
+                    for m in n.union.iter() {
+                        if m.kind == YangType::Path {
+                            if let Some(o) = type_path_resolve(top, store, m) {
+                                if o.kind == YangType::String {
+                                    let mut o = o.clone();
+                                    o.typedef = Some(m.name.clone());
+                                    nodes.push(o);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    let mut type_node = type_node.clone();
+    type_node.union = nodes;
+    Some(type_node)
+}
+
+fn type_path_resolve<T>(top: &T, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode>
+where
+    T: ModuleCommon,
+{
+    if let Some((module, name)) = path_module(&type_node.name) {
+        let prefix = prefix_resolve(top, module);
+        let module = store.find_module(&prefix);
+        if let Some(m) = module {
+            for typedef in m.typedef.iter() {
+                if typedef.name == name {
+                    if let Some(node) = &typedef.type_node {
+                        let mut node = node.clone();
+                        node.typedef = Some(type_node.name.clone());
+                        if node.kind == YangType::Union {
+                            return type_union_resolve(top, store, &node);
+                        } else {
+                            return Some(node);
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        for typedef in top.get_typedef().iter() {
+            if typedef.name == type_node.name {
+                if let Some(node) = &typedef.type_node {
+                    return Some(node.clone());
+                }
+            }
+        }
+    }
+    None
+}
+
+fn type_resolve<T>(top: &T, store: &YangStore, type_node: &TypeNode, ent: &mut Entry)
+where
+    T: ModuleCommon,
+{
+    if type_node.kind == YangType::Path {
+        if let Some(node) = type_path_resolve(top, store, type_node) {
+            ent.type_node = Some(node);
+        }
+    } else if type_node.kind == YangType::Identityref {
+        if let Some(base) = &type_node.base {
+            if let Some((module, name)) = path_module(&base) {
+                let prefix = prefix_resolve(top, module);
+                let module = store.find_module(&prefix);
+                if let Some(m) = module {
+                    let mut node = type_node.clone();
+                    node.kind = YangType::Enumeration;
+                    if let Some(identities) = m.identities.get(&name) {
+                        for i in identities.iter() {
+                            node.enum_stmt.push(EnumNode { name: i.clone() });
+                        }
+                    }
+                    ent.type_node = Some(node);
+                    return;
+                } else {
+                    // println!("XXX: module not found {}", name);
+                }
+            } else {
+                // println!("XXX: self {}", base);
+            }
+        }
+        ent.type_node = Some(type_node.clone());
+    } else if type_node.kind == YangType::Union {
+        for node in type_node.union.iter() {
+            if node.kind == YangType::Path {
+                if let Some(_node) = type_path_resolve(top, store, node) {
+                    // println!("X: found {}", node.name);
+                }
+            }
+        }
+    } else {
+        ent.type_node = Some(type_node.clone());
+    }
+}
+
+pub fn container_entry<T>(top: &T, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some(config) = &c.config {
+        if !config.config {
+            return;
+        }
+    }
+    let mut e = Entry::new_dir(c.name.clone());
+    for u in c.unknown.iter() {
+        e.extension.insert(u.name.clone(), u.argument.clone());
+    }
+    e.presence = c.presence.is_some();
+    let rc = Rc::new(e);
+
+    for uses in c.d.uses.iter() {
+        group_resolve(top, store, &uses.name, rc.clone());
+    }
+    for c in c.d.container.iter() {
+        container_entry(top, store, c, rc.clone());
+    }
+    for leaf in c.d.leaf.iter() {
+        leaf_entry(top, store, leaf, rc.clone());
+    }
+    for list in c.d.list.iter() {
+        list_entry(top, store, list, rc.clone());
+    }
+    for leaf_list in c.d.leaf_list.iter() {
+        leaf_list_entry(top, store, leaf_list, rc.clone());
+    }
+
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
+}
+
+fn list_entry<T>(top: &T, store: &YangStore, l: &ListNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some(config) = &l.config {
+        if !config.config {
+            return;
+        }
+    }
+    let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
+    for u in l.unknown.iter() {
+        e.extension.insert(u.name.clone(), u.argument.clone());
+    }
+    let list_attr = ListAttr::new();
+    e.list_attr = Some(list_attr);
+    let rc = Rc::new(e);
+
+    for uses in l.d.uses.iter() {
+        group_resolve(top, store, &uses.name, rc.clone());
+    }
+    for c in l.d.container.iter() {
+        container_entry(top, store, c, rc.clone());
+    }
+    for leaf in l.d.leaf.iter() {
+        leaf_entry(top, store, leaf, rc.clone());
+    }
+    for list in l.d.list.iter() {
+        list_entry(top, store, list, rc.clone());
+    }
+    for leaf_list in l.d.leaf_list.iter() {
+        leaf_list_entry(top, store, leaf_list, rc.clone());
+    }
+
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
+}
+
+fn leaf_entry<T>(top: &T, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some(config) = &leaf.config {
+        if !config.config {
+            return;
+        }
+    }
+    let mut e = Entry::new_leaf(leaf.name.to_owned());
+    for u in leaf.unknown.iter() {
+        e.extension.insert(u.name.clone(), u.argument.clone());
+    }
+    if let Some(t) = leaf.type_stmt.as_ref() {
+        type_resolve(top, store, t, &mut e);
+    }
+    let rc = Rc::new(e);
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
+}
+
+fn leaf_list_entry<T>(top: &T, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some(config) = &leaf.config {
+        if !config.config {
+            return;
+        }
+    }
+    let mut e = Entry::new_leaf(leaf.name.clone());
+    for u in leaf.unknown.iter() {
+        e.extension.insert(u.name.clone(), u.argument.clone());
+    }
+    if let Some(t) = leaf.type_stmt.as_ref() {
+        type_resolve(top, store, t, &mut e);
+    }
+    let list_attr = ListAttr::new();
+    e.list_attr = Some(list_attr);
+
+    let rc = Rc::new(e);
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
+}
+
+impl ModuleCommon for ModuleNode {
+    fn get_identity(&self) -> &Vec<IdentityNode> {
+        &self.identity
+    }
+
+    fn get_identities_mut(&mut self) -> &mut HashMap<String, Vec<String>> {
+        &mut self.identities
+    }
+
+    fn get_include(&self) -> &Vec<IncludeNode> {
+        &self.include
+    }
+
+    fn get_import(&self) -> &Vec<ImportNode> {
+        &self.import
+    }
+
+    fn get_typedef(&self) -> &Vec<TypedefNode> {
+        &self.typedef
+    }
+
+    fn get_grouping(&self) -> &Vec<GroupingNode> {
+        &self.grouping
+    }
+
+    fn get_d(&self) -> &DatadefNode {
+        &self.d
+    }
+}
+
+impl ModuleCommon for SubmoduleNode {
+    fn get_identity(&self) -> &Vec<IdentityNode> {
+        &self.identity
+    }
+
+    fn get_identities_mut(&mut self) -> &mut HashMap<String, Vec<String>> {
+        &mut self.identities
+    }
+
+    fn get_include(&self) -> &Vec<IncludeNode> {
+        &self.include
+    }
+
+    fn get_import(&self) -> &Vec<ImportNode> {
+        &self.import
+    }
+
+    fn get_typedef(&self) -> &Vec<TypedefNode> {
+        &self.typedef
+    }
+
+    fn get_grouping(&self) -> &Vec<GroupingNode> {
+        &self.grouping
+    }
+
+    fn get_d(&self) -> &DatadefNode {
+        &self.d
+    }
 }
