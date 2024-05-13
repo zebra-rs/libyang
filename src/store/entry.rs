@@ -128,288 +128,16 @@ pub fn path_module(path: &str) -> Option<(String, String)> {
     }
 }
 
-impl ModuleNode {
-    pub fn group_resolve(&self, store: &YangStore, name: &str, ent: Rc<Entry>) {
-        if let Some((m, n)) = path_module(name) {
-            let prefix = prefix_resolve(self, m);
-            if let Some(m) = store.find_module(&prefix) {
-                for g in m.grouping.iter() {
-                    if g.name == n {
-                        m.group_entry(store, g, ent);
-                        return;
-                    }
-                }
-            }
-        } else {
-            for g in self.grouping.iter() {
-                if g.name == name {
-                    self.group_entry(store, g, ent);
-                    return;
-                }
-            }
-            for include in self.include.iter() {
-                if let Some(submodule) = store.find_submodule(&include.name) {
-                    for g in submodule.grouping.iter() {
-                        if g.name == *name {
-                            submodule.group_entry(store, g, ent);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    pub fn group_entry(&self, store: &YangStore, g: &GroupingNode, ent: Rc<Entry>) {
-        for uses in g.d.uses.iter() {
-            self.group_resolve(store, &uses.name, ent.clone());
-        }
-        for c in g.d.container.iter() {
-            self.container_entry(store, c, ent.clone());
-        }
-        for leaf in g.d.leaf.iter() {
-            self.leaf_entry(store, leaf, ent.clone());
-        }
-        for list in g.d.list.iter() {
-            self.list_entry(store, list, ent.clone());
-        }
-        for leaf_list in g.d.leaf_list.iter() {
-            leaf_list_entry(self, store, leaf_list, ent.clone());
-        }
-    }
-
-    pub fn container_entry(&self, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>) {
-        if let Some(config) = &c.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_dir(c.name.clone());
-        for u in c.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        e.presence = c.presence.is_some();
-        let rc = Rc::new(e);
-
-        for uses in c.d.uses.iter() {
-            self.group_resolve(store, &uses.name, rc.clone());
-        }
-        for c in c.d.container.iter() {
-            self.container_entry(store, c, rc.clone());
-        }
-        for leaf in c.d.leaf.iter() {
-            self.leaf_entry(store, leaf, rc.clone());
-        }
-        for list in c.d.list.iter() {
-            self.list_entry(store, list, rc.clone());
-        }
-        for leaf_list in c.d.leaf_list.iter() {
-            leaf_list_entry(self, store, leaf_list, rc.clone());
-        }
-
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn list_entry(&self, store: &YangStore, l: &ListNode, ent: Rc<Entry>) {
-        if let Some(config) = &l.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
-        for u in l.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        let list_attr = ListAttr::new();
-        e.list_attr = Some(list_attr);
-        let rc = Rc::new(e);
-
-        for uses in l.d.uses.iter() {
-            self.group_resolve(store, &uses.name, rc.clone());
-        }
-        for c in l.d.container.iter() {
-            self.container_entry(store, c, rc.clone());
-        }
-        for leaf in l.d.leaf.iter() {
-            self.leaf_entry(store, leaf, rc.clone());
-        }
-        for list in l.d.list.iter() {
-            self.list_entry(store, list, rc.clone());
-        }
-        for leaf_list in l.d.leaf_list.iter() {
-            leaf_list_entry(self, store, leaf_list, rc.clone());
-        }
-
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn leaf_entry(&self, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>) {
-        if let Some(config) = &leaf.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_leaf(leaf.name.to_owned());
-        for u in leaf.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        if let Some(t) = leaf.type_stmt.as_ref() {
-            type_resolve(self, store, t, &mut e);
-        }
-        let rc = Rc::new(e);
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-}
-
-impl SubmoduleNode {
-    pub fn group_resolve(&self, store: &YangStore, name: &str, ent: Rc<Entry>) {
-        if let Some((m, n)) = path_module(name) {
-            let prefix = prefix_resolve(self, m);
-            if let Some(m) = store.find_module(&prefix) {
-                for g in m.grouping.iter() {
-                    if g.name == n {
-                        m.group_entry(store, g, ent);
-                        return;
-                    }
-                }
-            }
-        } else {
-            for g in self.grouping.iter() {
-                if g.name == name {
-                    self.group_entry(store, g, ent);
-                    return;
-                }
-            }
-            for include in self.include.iter() {
-                if let Some(submodule) = store.find_submodule(&include.name) {
-                    for g in submodule.grouping.iter() {
-                        if g.name == *name {
-                            submodule.group_entry(store, g, ent);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    pub fn group_entry(&self, store: &YangStore, g: &GroupingNode, ent: Rc<Entry>) {
-        for uses in g.d.uses.iter() {
-            self.group_resolve(store, &uses.name, ent.clone());
-        }
-        for c in g.d.container.iter() {
-            self.container_entry(store, c, ent.clone());
-        }
-        for leaf in g.d.leaf.iter() {
-            self.leaf_entry(store, leaf, ent.clone());
-        }
-        for list in g.d.list.iter() {
-            self.list_entry(store, list, ent.clone());
-        }
-        for leaf_list in g.d.leaf_list.iter() {
-            leaf_list_entry(self, store, leaf_list, ent.clone());
-        }
-    }
-
-    pub fn container_entry(&self, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>) {
-        if let Some(config) = &c.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_dir(c.name.clone());
-        for u in c.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        e.presence = c.presence.is_some();
-        let rc = Rc::new(e);
-
-        for uses in c.d.uses.iter() {
-            self.group_resolve(store, &uses.name, rc.clone());
-        }
-        for c in c.d.container.iter() {
-            self.container_entry(store, c, rc.clone());
-        }
-        for leaf in c.d.leaf.iter() {
-            self.leaf_entry(store, leaf, rc.clone());
-        }
-        for list in c.d.list.iter() {
-            self.list_entry(store, list, rc.clone());
-        }
-        for leaf_list in c.d.leaf_list.iter() {
-            leaf_list_entry(self, store, leaf_list, rc.clone());
-        }
-
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn list_entry(&self, store: &YangStore, l: &ListNode, ent: Rc<Entry>) {
-        if let Some(config) = &l.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
-        for u in l.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        let list_attr = ListAttr::new();
-        e.list_attr = Some(list_attr);
-        let rc = Rc::new(e);
-
-        for uses in l.d.uses.iter() {
-            self.group_resolve(store, &uses.name, rc.clone());
-        }
-        for c in l.d.container.iter() {
-            self.container_entry(store, c, rc.clone());
-        }
-        for leaf in l.d.leaf.iter() {
-            self.leaf_entry(store, leaf, rc.clone());
-        }
-        for list in l.d.list.iter() {
-            self.list_entry(store, list, rc.clone());
-        }
-        for leaf_list in l.d.leaf_list.iter() {
-            leaf_list_entry(self, store, leaf_list, rc.clone());
-        }
-
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-
-    fn leaf_entry(&self, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>) {
-        if let Some(config) = &leaf.config {
-            if !config.config {
-                return;
-            }
-        }
-        let mut e = Entry::new_leaf(leaf.name.to_owned());
-        for u in leaf.unknown.iter() {
-            e.extension.insert(u.name.clone(), u.argument.clone());
-        }
-        if let Some(t) = leaf.type_stmt.as_ref() {
-            type_resolve(self, store, t, &mut e);
-        }
-        let rc = Rc::new(e);
-        ent.dir.borrow_mut().push(rc.clone());
-        rc.parent.replace(Some(ent.clone()));
-    }
-}
-
 pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
     let entry = Rc::new(Entry::new_dir(module.name.clone()));
     for c in module.d.container.iter() {
-        module.container_entry(store, c, entry.clone());
+        container_entry(module, store, c, entry.clone());
     }
     for leaf in module.d.leaf.iter() {
-        module.leaf_entry(store, leaf, entry.clone());
+        leaf_entry(module, store, leaf, entry.clone());
     }
     for list in module.d.list.iter() {
-        module.list_entry(store, list, entry.clone());
+        list_entry(module, store, list, entry.clone());
     }
     for leaf_list in module.d.leaf_list.iter() {
         leaf_list_entry(module, store, leaf_list, entry.clone());
@@ -420,8 +148,66 @@ pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
 pub trait ModuleCommon {
     fn get_identity(&self) -> &Vec<IdentityNode>;
     fn get_identities_mut(&mut self) -> &mut HashMap<String, Vec<String>>;
+    fn get_include(&self) -> &Vec<IncludeNode>;
     fn get_import(&self) -> &Vec<ImportNode>;
     fn get_typedef(&self) -> &Vec<TypedefNode>;
+    fn get_grouping(&self) -> &Vec<GroupingNode>;
+    fn get_d(&self) -> &DatadefNode;
+}
+
+pub fn group_entry<T>(top: &T, store: &YangStore, g: &GroupingNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    for uses in g.d.uses.iter() {
+        group_resolve(top, store, &uses.name, ent.clone());
+    }
+    for c in g.d.container.iter() {
+        container_entry(top, store, c, ent.clone());
+    }
+    for leaf in g.d.leaf.iter() {
+        leaf_entry(top, store, leaf, ent.clone());
+    }
+    for list in g.d.list.iter() {
+        list_entry(top, store, list, ent.clone());
+    }
+    for leaf_list in g.d.leaf_list.iter() {
+        leaf_list_entry(top, store, leaf_list, ent.clone());
+    }
+}
+
+pub fn group_resolve<T>(top: &T, store: &YangStore, name: &str, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some((m, n)) = path_module(name) {
+        let prefix = prefix_resolve(top, m);
+        if let Some(m) = store.find_module(&prefix) {
+            for g in m.grouping.iter() {
+                if g.name == n {
+                    group_entry(m, store, g, ent);
+                    return;
+                }
+            }
+        }
+    } else {
+        for g in top.get_grouping().iter() {
+            if g.name == name {
+                group_entry(top, store, g, ent);
+                return;
+            }
+        }
+        for include in top.get_include().iter() {
+            if let Some(submodule) = store.find_submodule(&include.name) {
+                for g in submodule.grouping.iter() {
+                    if g.name == *name {
+                        group_entry(submodule, store, g, ent);
+                        return;
+                    }
+                }
+            }
+        }
+    }
 }
 
 pub fn identity_resolve<T>(top: &mut T)
@@ -580,6 +366,100 @@ where
     }
 }
 
+pub fn container_entry<T>(top: &T, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some(config) = &c.config {
+        if !config.config {
+            return;
+        }
+    }
+    let mut e = Entry::new_dir(c.name.clone());
+    for u in c.unknown.iter() {
+        e.extension.insert(u.name.clone(), u.argument.clone());
+    }
+    e.presence = c.presence.is_some();
+    let rc = Rc::new(e);
+
+    for uses in c.d.uses.iter() {
+        group_resolve(top, store, &uses.name, rc.clone());
+    }
+    for c in c.d.container.iter() {
+        container_entry(top, store, c, rc.clone());
+    }
+    for leaf in c.d.leaf.iter() {
+        leaf_entry(top, store, leaf, rc.clone());
+    }
+    for list in c.d.list.iter() {
+        list_entry(top, store, list, rc.clone());
+    }
+    for leaf_list in c.d.leaf_list.iter() {
+        leaf_list_entry(top, store, leaf_list, rc.clone());
+    }
+
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
+}
+
+fn list_entry<T>(top: &T, store: &YangStore, l: &ListNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some(config) = &l.config {
+        if !config.config {
+            return;
+        }
+    }
+    let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
+    for u in l.unknown.iter() {
+        e.extension.insert(u.name.clone(), u.argument.clone());
+    }
+    let list_attr = ListAttr::new();
+    e.list_attr = Some(list_attr);
+    let rc = Rc::new(e);
+
+    for uses in l.d.uses.iter() {
+        group_resolve(top, store, &uses.name, rc.clone());
+    }
+    for c in l.d.container.iter() {
+        container_entry(top, store, c, rc.clone());
+    }
+    for leaf in l.d.leaf.iter() {
+        leaf_entry(top, store, leaf, rc.clone());
+    }
+    for list in l.d.list.iter() {
+        list_entry(top, store, list, rc.clone());
+    }
+    for leaf_list in l.d.leaf_list.iter() {
+        leaf_list_entry(top, store, leaf_list, rc.clone());
+    }
+
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
+}
+
+fn leaf_entry<T>(top: &T, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some(config) = &leaf.config {
+        if !config.config {
+            return;
+        }
+    }
+    let mut e = Entry::new_leaf(leaf.name.to_owned());
+    for u in leaf.unknown.iter() {
+        e.extension.insert(u.name.clone(), u.argument.clone());
+    }
+    if let Some(t) = leaf.type_stmt.as_ref() {
+        type_resolve(top, store, t, &mut e);
+    }
+    let rc = Rc::new(e);
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
+}
+
 fn leaf_list_entry<T>(top: &T, store: &YangStore, leaf: &LeafListNode, ent: Rc<Entry>)
 where
     T: ModuleCommon,
@@ -613,12 +493,24 @@ impl ModuleCommon for ModuleNode {
         &mut self.identities
     }
 
+    fn get_include(&self) -> &Vec<IncludeNode> {
+        &self.include
+    }
+
     fn get_import(&self) -> &Vec<ImportNode> {
         &self.import
     }
 
     fn get_typedef(&self) -> &Vec<TypedefNode> {
         &self.typedef
+    }
+
+    fn get_grouping(&self) -> &Vec<GroupingNode> {
+        &self.grouping
+    }
+
+    fn get_d(&self) -> &DatadefNode {
+        &self.d
     }
 }
 
@@ -631,11 +523,23 @@ impl ModuleCommon for SubmoduleNode {
         &mut self.identities
     }
 
+    fn get_include(&self) -> &Vec<IncludeNode> {
+        &self.include
+    }
+
     fn get_import(&self) -> &Vec<ImportNode> {
         &self.import
     }
 
     fn get_typedef(&self) -> &Vec<TypedefNode> {
         &self.typedef
+    }
+
+    fn get_grouping(&self) -> &Vec<GroupingNode> {
+        &self.grouping
+    }
+
+    fn get_d(&self) -> &DatadefNode {
+        &self.d
     }
 }
