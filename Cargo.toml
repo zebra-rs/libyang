@@ -1,17 +1,17 @@
 [package]
 name = "libyang"
-version = "0.7.4"
+version = "0.7.5"
 edition = "2021"
 
 [dependencies]
 anyhow = "1"
-env_logger = "0.10"
-parol_runtime = { version = "0.20", features = ["auto_generation"] }
+env_logger = "0.11"
+parol_runtime = { version = "0.24", features = ["auto_generation"] }
 thiserror = "1"
 
 [build-dependencies]
-parol = "0.26"
-parol_runtime = { version = "0.20", features = ["auto_generation"] }
+parol = "0.31"
+parol_runtime = { version = "0.24", features = ["auto_generation"] }
 
 # For faster builds.
 [profile.dev.build-override]
