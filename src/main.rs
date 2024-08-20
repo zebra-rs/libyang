@@ -1,4 +1,4 @@
-use libyang::*;
+use libyang_rs::*;
 
 extern crate parol_runtime;
 use crate::yang_grammar::YangGrammar;
