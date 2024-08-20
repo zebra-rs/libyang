@@ -1,5 +1,5 @@
 [package]
-name = "libyang"
+name = "libyang-rs"
 version = "0.7.6"
 edition = "2021"
 
