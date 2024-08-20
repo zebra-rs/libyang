@@ -640,20 +640,9 @@ fn identity(m: &BodyStmtsIdentityStmt) -> IdentityNode {
 }
 
 fn namespace(m: &ModuleHeaderStmtsNamespaceStmt) -> String {
-    let uri_arg_parse = |x: &UriArg| -> String {
-        match x {
-	    UriArg::HttpLBracketSRBracketQuestColonSlashSlashLParenQuestColonLBracketAMinusZAMinusZRBracketOrLBracket0Minus9RBracketOrLBracketDollarMinusUnderscoreAtDotAmpPlusRBracketOrLBracketBangStarLParenRParenCommaRBracketOrLParenQuestColonPercentLBracket0Minus9aMinusFAMinusFRBracketLBracket0Minus9aMinusFAMinusFRBracketRParenRParenPlus(m) => {
-		m.http_l_bracket_s_r_bracket_quest_colon_slash_slash_l_paren_quest_colon_l_bracket_a_minus_z_a_minus_z_r_bracket_or_l_bracket0_minus9_r_bracket_or_l_bracket_dollar_minus_underscore_at_dot_amp_plus_r_bracket_or_l_bracket_bang_star_l_paren_r_paren_comma_r_bracket_or_l_paren_quest_colon_percent_l_bracket0_minus9a_minus_f_a_minus_f_r_bracket_l_bracket0_minus9a_minus_f_a_minus_f_r_bracket_r_paren_r_paren_plus.text().to_string()
-	    }
-	    UriArg::UrnColonLBracketAMinusZAMinusZ0Minus9MinusDotColonRBracketPlus(m)=> {
-		m.urn_colon_l_bracket_a_minus_z_a_minus_z0_minus9_minus_dot_colon_r_bracket_plus.text().to_string()
-	    }
-
-	}
-    };
     match &*m.namespace_stmt.uri_str {
-        UriStr::UriArg(m) => uri_arg_parse(&m.uri_arg),
-        UriStr::DoubleQuotationUriArgDoubleQuotation(m) => uri_arg_parse(&m.uri_arg),
+        UriStr::UriArg(m) => m.uri_arg.uri_arg.to_string(),
+        UriStr::DoubleQuotationUriArgDoubleQuotation(m) => m.uri_arg.uri_arg.to_string(),
     }
 }
 
