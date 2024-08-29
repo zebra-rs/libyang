@@ -222,6 +222,14 @@ impl LeafNode {
             ..Default::default()
         }
     }
+
+    pub fn is_mandatory(&self) -> bool {
+        if let Some(node) = &self.mandatory {
+            node.mandatory
+        } else {
+            false
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
