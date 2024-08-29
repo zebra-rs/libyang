@@ -30,6 +30,7 @@ pub struct Entry {
     pub name: String,
     pub kind: EntryKind,
     pub presence: bool,
+    pub mandatory: bool,
     pub dir: RefCell<Vec<Rc<Entry>>>,
     pub key: Vec<String>,
     pub extension: HashMap<String, String>,
@@ -449,6 +450,7 @@ where
         }
     }
     let mut e = Entry::new_leaf(leaf.name.to_owned());
+    e.mandatory = leaf.is_mandatory();
     for u in leaf.unknown.iter() {
         e.extension.insert(u.name.clone(), u.argument.clone());
     }

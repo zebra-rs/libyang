@@ -950,7 +950,13 @@ fn config(m: &ConfigStmt) -> ConfigNode {
 }
 
 fn mandatory(m: &MandatoryStmt) -> MandatoryNode {
-    MandatoryNode::new(m.mandatory.text() == "true")
+    let text = match &*m.mandatory_arg_str.mandatory_arg_str_suffix {
+        MandatoryArgStrSuffix::MandatoryArg(m) => m.mandatory_arg.mandatory_arg.text(),
+        MandatoryArgStrSuffix::DoubleQuotationMandatoryArgDoubleQuotation(m) => {
+            m.mandatory_arg.mandatory_arg.text()
+        }
+    };
+    MandatoryNode::new(text == "true")
 }
 
 fn min_elements(m: &MinElementsStmt) -> MinElementsNode {
