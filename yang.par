@@ -607,7 +607,7 @@ LengthStmt
 
 EnumStmt
     : 'enum'^ EnumArgStr Semicolon^
-    | 'enum'^ EnumArgStr 
+    | 'enum'^ EnumArgStr
     '{'^
     { IfFeatureStmt
     | DescriptionStmt
@@ -810,7 +810,7 @@ AsciiNoSemicolon
     : <Default>/[ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7e}]+/;
 
 AsciiNoBrace
-    : <Enum>/[ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7a}\u{7c}\u{7e}]+/;
+    : <Enum>/[\t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7a}\u{7c}\u{7e}]+/;
 
 YangVersionArg
     : <YVersion>"1.1|1";
