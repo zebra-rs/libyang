@@ -521,6 +521,8 @@ pub enum YangType {
     Ipv4Prefix,
     Ipv6Addr,
     Ipv6Prefix,
+    MacAddr,
+    NsapAddr,
 }
 
 impl TypeNode {
