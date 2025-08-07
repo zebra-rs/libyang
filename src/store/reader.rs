@@ -100,7 +100,7 @@ impl YangStore {
         match parse(&input, &path, &mut yang_grammar) {
             Ok(_) => yang(yang_grammar),
             Err(err) => {
-                println!("{:?}", err);
+                println!("{err:?}");
                 Err(YangError::ParseError)
             }
         }

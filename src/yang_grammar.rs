@@ -20,14 +20,14 @@ impl YangGrammar<'_> {
 
 impl Display for Yang<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::result::Result<(), Error> {
-        write!(f, "{:?}", self)
+        write!(f, "{self:?}")
     }
 }
 
 impl Display for YangGrammar<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::result::Result<(), Error> {
         match &self.yang {
-            Some(yang) => writeln!(f, "{}", yang),
+            Some(yang) => writeln!(f, "{yang}"),
             None => write!(f, "No parse result"),
         }
     }

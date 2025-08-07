@@ -333,7 +333,7 @@ where
         }
     } else if type_node.kind == YangType::Identityref {
         if let Some(base) = &type_node.base {
-            if let Some((module, name)) = path_module(&base) {
+            if let Some((module, name)) = path_module(base) {
                 let prefix = prefix_resolve(top, module);
                 let module = store.find_module(&prefix);
                 if let Some(m) = module {
@@ -355,13 +355,15 @@ where
         }
         ent.type_node = Some(type_node.clone());
     } else if type_node.kind == YangType::Union {
+        let mut union_node = TypeNode::new(type_node.name.clone(), YangType::Union);
         for node in type_node.union.iter() {
             if node.kind == YangType::Path {
-                if let Some(_node) = type_path_resolve(top, store, node) {
-                    // println!("X: found {}", node.name);
+                if let Some(node) = type_path_resolve(top, store, node) {
+                    union_node.union.push(node);
                 }
             }
         }
+        ent.type_node = Some(union_node);
     } else {
         ent.type_node = Some(type_node.clone());
     }
