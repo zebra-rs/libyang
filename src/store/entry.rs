@@ -333,7 +333,7 @@ where
         }
     } else if type_node.kind == YangType::Identityref {
         if let Some(base) = &type_node.base {
-            if let Some((module, name)) = path_module(&base) {
+            if let Some((module, name)) = path_module(base) {
                 let prefix = prefix_resolve(top, module);
                 let module = store.find_module(&prefix);
                 if let Some(m) = module {

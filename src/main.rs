@@ -29,7 +29,7 @@ fn main2() -> Result<()> {
     // let file_name = "yang/iana-bfd-types@2021-10-21.yang";
     // let file_name = "yang/ietf-bgp-rib-attributes@2023-07-05.yang";
     let input =
-        fs::read_to_string(file_name).with_context(|| format!("Can't read file {}", file_name))?;
+        fs::read_to_string(file_name).with_context(|| format!("Can't read file {file_name}"))?;
     let mut yang_grammar = YangGrammar::new();
     match parse(&input, file_name, &mut yang_grammar) {
         Ok(_) => {
@@ -54,7 +54,7 @@ fn main() -> Result<()> {
         }
         println!("path {file_name}");
         let input = fs::read_to_string(file_name.clone())
-            .with_context(|| format!("Can't read file {}", file_name))?;
+            .with_context(|| format!("Can't read file {file_name}"))?;
         let mut yang_grammar = YangGrammar::new();
         let now = Instant::now();
         match parse(&input, &file_name, &mut yang_grammar) {

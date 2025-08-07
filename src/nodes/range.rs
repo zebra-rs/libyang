@@ -12,7 +12,7 @@ impl<T: fmt::Display> fmt::Display for RangeVal<T> {
         match &self {
             RangeVal::Min => write!(f, "min"),
             RangeVal::Max => write!(f, "max"),
-            RangeVal::Val(v) => write!(f, "{}", v),
+            RangeVal::Val(v) => write!(f, "{v}"),
         }
     }
 }
@@ -54,7 +54,7 @@ impl RangeNode {
                     if !out.is_empty() {
                         out.push('|');
                     }
-                    out.push_str(&format!("{}", r));
+                    out.push_str(&format!("{r}"));
                 }
             }
             RangeNode::I16(range) => {
@@ -62,7 +62,7 @@ impl RangeNode {
                     if !out.is_empty() {
                         out.push('|');
                     }
-                    out.push_str(&format!("{}", r));
+                    out.push_str(&format!("{r}"));
                 }
             }
             RangeNode::I32(range) => {
@@ -70,7 +70,7 @@ impl RangeNode {
                     if !out.is_empty() {
                         out.push('|');
                     }
-                    out.push_str(&format!("{}", r));
+                    out.push_str(&format!("{r}"));
                 }
             }
             RangeNode::I64(range) => {
@@ -78,7 +78,7 @@ impl RangeNode {
                     if !out.is_empty() {
                         out.push('|');
                     }
-                    out.push_str(&format!("{}", r));
+                    out.push_str(&format!("{r}"));
                 }
             }
             RangeNode::U8(range) => {
@@ -86,7 +86,7 @@ impl RangeNode {
                     if !out.is_empty() {
                         out.push('|');
                     }
-                    out.push_str(&format!("{}", r));
+                    out.push_str(&format!("{r}"));
                 }
             }
             RangeNode::U16(range) => {
@@ -94,7 +94,7 @@ impl RangeNode {
                     if !out.is_empty() {
                         out.push('|');
                     }
-                    out.push_str(&format!("{}", r));
+                    out.push_str(&format!("{r}"));
                 }
             }
             RangeNode::U32(range) => {
@@ -102,7 +102,7 @@ impl RangeNode {
                     if !out.is_empty() {
                         out.push('|');
                     }
-                    out.push_str(&format!("{}", r));
+                    out.push_str(&format!("{r}"));
                 }
             }
             RangeNode::U64(range) => {
@@ -110,11 +110,11 @@ impl RangeNode {
                     if !out.is_empty() {
                         out.push('|');
                     }
-                    out.push_str(&format!("{}", r));
+                    out.push_str(&format!("{r}"));
                 }
             }
         }
-        format!("<{}>", out)
+        format!("<{out}>")
     }
 }
 
