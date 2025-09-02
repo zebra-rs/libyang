@@ -338,7 +338,10 @@ fn container(m: &ContainerStmt) -> ContainerNode {
                 ContainerStmtListGroup::DataDefStmt(m) => {
                     datadef(&mut node.d, &m.data_def_stmt);
                 }
-                ContainerStmtListGroup::ActionStmt(_m) => {}
+                ContainerStmtListGroup::ActionStmt(m) => {
+                    let n = action(&m.action_stmt);
+                    node.action.push(n);
+                }
                 ContainerStmtListGroup::NotificationStmt(_m) => {}
                 ContainerStmtListGroup::UnknownStmt(m) => {
                     let n = unknown(&m.unknown_stmt);
@@ -1154,4 +1157,53 @@ fn date_arg_str(m: &DateArgStrSuffix) -> String {
             m.date_arg.date_arg.text().to_string()
         }
     }
+}
+
+fn action(m: &ActionStmt) -> ActionNode {
+    let name = identifier_arg_str(&m.identifier_arg_str);
+    let mut node = ActionNode::new(name);
+    
+    if let ActionStmtSuffix::LBraceActionStmtListRBrace(m) = &*m.action_stmt_suffix {
+        for m in m.action_stmt_list.iter() {
+            match &*m.action_stmt_list_group {
+                ActionStmtListGroup::IfFeatureStmt(_m) => {}
+                ActionStmtListGroup::StatusStmt(m) => {
+                    let n = status(&m.status_stmt);
+                    node.status = Some(n);
+                }
+                ActionStmtListGroup::DescriptionStmt(m) => {
+                    node.description = Some(ystring(&m.description_stmt.ystring));
+                }
+                ActionStmtListGroup::ReferenceStmt(m) => {
+                    node.reference = Some(ystring(&m.reference_stmt.ystring));
+                }
+                ActionStmtListGroup::InputStmt(m) => {
+                    let n = input(&m.input_stmt);
+                    node.input = Some(n);
+                }
+                ActionStmtListGroup::OutputStmt(m) => {
+                    let n = output(&m.output_stmt);
+                    node.output = Some(n);
+                }
+            }
+        }
+    }
+    
+    node
+}
+
+fn input(m: &InputStmt) -> InputNode {
+    let mut node = InputNode::new();
+    for m in m.input_stmt_list.iter() {
+        datadef(&mut node.d, &m.data_def_stmt);
+    }
+    node
+}
+
+fn output(m: &OutputStmt) -> OutputNode {
+    let mut node = OutputNode::new();
+    for m in m.output_stmt_list.iter() {
+        datadef(&mut node.d, &m.data_def_stmt);
+    }
+    node
 }

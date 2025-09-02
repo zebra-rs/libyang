@@ -190,6 +190,7 @@ pub struct ContainerNode {
     pub d: DatadefNode,
     pub must: Vec<MustNode>,
     pub unknown: Vec<UnknownNode>,
+    pub action: Vec<ActionNode>,
 }
 
 impl ContainerNode {
@@ -453,9 +454,39 @@ impl PresenceNode {
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
+pub struct InputNode {
+    pub d: DatadefNode,
+}
+
+impl InputNode {
+    pub fn new() -> Self {
+        Self {
+            d: DatadefNode::new(),
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, Clone, Default)]
+pub struct OutputNode {
+    pub d: DatadefNode,
+}
+
+impl OutputNode {
+    pub fn new() -> Self {
+        Self {
+            d: DatadefNode::new(),
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, Clone, Default)]
 pub struct ActionNode {
     pub name: String,
     pub description: Option<String>,
+    pub reference: Option<String>,
+    pub status: Option<StatusNode>,
+    pub input: Option<InputNode>,
+    pub output: Option<OutputNode>,
 }
 
 impl ActionNode {
