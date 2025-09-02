@@ -930,9 +930,51 @@ fn choice(m: &ChoiceStmt) -> ChoiceNode {
                 ChoiceStmtListGroup::ReferenceStmt(m) => {
                     node.reference = Some(ystring(&m.reference_stmt.ystring));
                 }
-                ChoiceStmtListGroup::ShortCaseStmt(_m) => {}
+                ChoiceStmtListGroup::ShortCaseStmt(m) => {
+                    // ShortCaseStmt creates an implicit case with the same name as the data definition
+                    let mut case_node = CaseNode::new(String::from(""));
+                    match &*m.short_case_stmt {
+                        ShortCaseStmt::ChoiceStmt(m) => {
+                            let n = choice(&m.choice_stmt);
+                            case_node.name = n.name.clone();
+                            case_node.d.choice.push(n);
+                        }
+                        ShortCaseStmt::ContainerStmt(m) => {
+                            let n = container(&m.container_stmt);
+                            case_node.name = n.name.clone();
+                            case_node.d.container.push(n);
+                        }
+                        ShortCaseStmt::LeafStmt(m) => {
+                            let n = leaf(&m.leaf_stmt);
+                            case_node.name = n.name.clone();
+                            case_node.d.leaf.push(n);
+                        }
+                        ShortCaseStmt::LeafListStmt(m) => {
+                            let n = leaf_list(&m.leaf_list_stmt);
+                            case_node.name = n.name.clone();
+                            case_node.d.leaf_list.push(n);
+                        }
+                        ShortCaseStmt::ListStmt(m) => {
+                            let n = list(&m.list_stmt);
+                            case_node.name = n.name.clone();
+                            case_node.d.list.push(n);
+                        }
+                        ShortCaseStmt::AnydataStmt(m) => {
+                            let n = anydata(&m.anydata_stmt);
+                            case_node.name = n.name.clone();
+                            case_node.d.anydata.push(n);
+                        }
+                        ShortCaseStmt::AnyxmlStmt(m) => {
+                            let n = anyxml(&m.anyxml_stmt);
+                            case_node.name = n.name.clone();
+                            case_node.d.anyxml.push(n);
+                        }
+                    }
+                    node.cases.push(case_node);
+                }
                 ChoiceStmtListGroup::CaseStmt(m) => {
-                    let _n = case(&m.case_stmt);
+                    let n = case(&m.case_stmt);
+                    node.cases.push(n);
                 }
             }
         }
@@ -942,7 +984,30 @@ fn choice(m: &ChoiceStmt) -> ChoiceNode {
 
 fn case(m: &CaseStmt) -> CaseNode {
     let name = identifier_arg_str(&m.identifier_arg_str);
-    CaseNode::new(name)
+    let mut node = CaseNode::new(name);
+    
+    if let CaseStmtSuffix::LBraceCaseStmtListRBrace(m) = &*m.case_stmt_suffix {
+        for m in m.case_stmt_list.iter() {
+            match &*m.case_stmt_list_group {
+                CaseStmtListGroup::WhenStmt(m) => {
+                    let n = when(&m.when_stmt);
+                    node.when = Some(n);
+                }
+                CaseStmtListGroup::IfFeatureStmt(_m) => {}
+                CaseStmtListGroup::DataDefStmt(m) => {
+                    datadef(&mut node.d, &m.data_def_stmt);
+                }
+                CaseStmtListGroup::DescriptionStmt(m) => {
+                    node.description = Some(ystring(&m.description_stmt.ystring));
+                }
+                CaseStmtListGroup::ReferenceStmt(m) => {
+                    node.reference = Some(ystring(&m.reference_stmt.ystring));
+                }
+            }
+        }
+    }
+    
+    node
 }
 
 fn config(m: &ConfigStmt) -> ConfigNode {
