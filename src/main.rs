@@ -11,14 +11,31 @@ struct ErrorReporter;
 impl Report for ErrorReporter {}
 
 #[allow(dead_code)]
-fn main3() -> Result<()> {
-    let mut yang = YangStore::new();
-    yang.add_path("./...");
-    yang.read("coreswitch")?;
-    // yang.process()?;
-    let m = yang.find_module("coreswitch").unwrap();
-    let _entry = to_entry(&yang, m);
+fn main() -> Result<()> {
+    env_logger::init();
+    debug!("env logger started");
 
+    let mut args: Vec<String> = env::args().collect();
+    while let Some(file_name) = args.pop() {
+        if args.is_empty() {
+            return Ok(());
+        }
+        println!("path {file_name}");
+        let input = fs::read_to_string(file_name.clone())
+            .with_context(|| format!("Can't read file {}", file_name))?;
+        let mut yang_grammar = YangGrammar::new();
+        let now = Instant::now();
+        match parse(&input, &file_name, &mut yang_grammar) {
+            Ok(_) => {
+                let elapsed_time = now.elapsed();
+                println!("Parsing took {} milliseconds.", elapsed_time.as_millis());
+                // println!("Success!\n{}", yang_grammar);
+            }
+            Err(e) => {
+                return ErrorReporter::report_error(&e, file_name);
+            }
+        }
+    }
     Ok(())
 }
 
@@ -43,7 +60,7 @@ fn main2() -> Result<()> {
 }
 
 #[allow(dead_code)]
-fn main() -> Result<()> {
+fn main3() -> Result<()> {
     env_logger::init();
     debug!("env logger started");
 

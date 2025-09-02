@@ -8,6 +8,7 @@ pub enum EntryKind {
     #[default]
     LeafEntry,
     DirectoryEntry,
+    ChoiceEntry,
 }
 
 #[derive(Default, Debug)]
@@ -37,6 +38,7 @@ pub struct Entry {
     pub parent: RefCell<Option<Rc<Entry>>>,
     pub type_node: Option<TypeNode>,
     pub list_attr: Option<ListAttr>,
+    pub choice_cases: Option<Vec<Rc<Entry>>>,
 }
 
 impl Entry {
@@ -67,6 +69,15 @@ impl Entry {
             name,
             kind: EntryKind::DirectoryEntry,
             key,
+            ..Default::default()
+        }
+    }
+
+    pub fn new_choice(name: String) -> Self {
+        Self {
+            name,
+            kind: EntryKind::ChoiceEntry,
+            choice_cases: Some(Vec::new()),
             ..Default::default()
         }
     }
@@ -109,6 +120,10 @@ impl Entry {
         }
         false
     }
+
+    pub fn is_choice(&self) -> bool {
+        self.kind == EntryKind::ChoiceEntry
+    }
 }
 
 pub fn path_split(path: String) -> (String, String) {
@@ -143,6 +158,9 @@ pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
     for leaf_list in module.d.leaf_list.iter() {
         leaf_list_entry(module, store, leaf_list, entry.clone());
     }
+    for choice in module.d.choice.iter() {
+        choice_entry(module, store, choice, entry.clone());
+    }
     entry.clone()
 }
 
@@ -174,6 +192,9 @@ where
     }
     for leaf_list in g.d.leaf_list.iter() {
         leaf_list_entry(top, store, leaf_list, ent.clone());
+    }
+    for choice in g.d.choice.iter() {
+        choice_entry(top, store, choice, ent.clone());
     }
 }
 
@@ -369,6 +390,63 @@ where
     }
 }
 
+pub fn choice_entry<T>(top: &T, store: &YangStore, c: &ChoiceNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    if let Some(config) = &c.config {
+        if !config.config {
+            return;
+        }
+    }
+    let mut e = Entry::new_choice(c.name.clone());
+    e.mandatory = c.mandatory.as_ref().map(|m| m.mandatory).unwrap_or(false);
+    
+    // Collect all cases first
+    let mut cases = Vec::new();
+    
+    // Process each case in the choice
+    for case in c.cases.iter() {
+        let mut case_entry = Entry::new_dir(case.name.clone());
+        case_entry.extension.insert("case".to_string(), "true".to_string());
+        let case_rc = Rc::new(case_entry);
+
+        // Process data definitions within the case
+        for uses in case.d.uses.iter() {
+            group_resolve(top, store, &uses.name, case_rc.clone());
+        }
+        for c in case.d.container.iter() {
+            container_entry(top, store, c, case_rc.clone());
+        }
+        for leaf in case.d.leaf.iter() {
+            leaf_entry(top, store, leaf, case_rc.clone());
+        }
+        for list in case.d.list.iter() {
+            list_entry(top, store, list, case_rc.clone());
+        }
+        for leaf_list in case.d.leaf_list.iter() {
+            leaf_list_entry(top, store, leaf_list, case_rc.clone());
+        }
+        for choice in case.d.choice.iter() {
+            choice_entry(top, store, choice, case_rc.clone());
+        }
+
+        cases.push(case_rc);
+    }
+    
+    // Set the cases
+    e.choice_cases = Some(cases.clone());
+    let rc = Rc::new(e);
+    
+    // Set parent references
+    for case_rc in cases {
+        case_rc.parent.replace(Some(rc.clone()));
+    }
+
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
+}
+
 pub fn container_entry<T>(top: &T, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>)
 where
     T: ModuleCommon,
@@ -399,6 +477,9 @@ where
     }
     for leaf_list in c.d.leaf_list.iter() {
         leaf_list_entry(top, store, leaf_list, rc.clone());
+    }
+    for choice in c.d.choice.iter() {
+        choice_entry(top, store, choice, rc.clone());
     }
 
     ent.dir.borrow_mut().push(rc.clone());
@@ -436,6 +517,9 @@ where
     }
     for leaf_list in l.d.leaf_list.iter() {
         leaf_list_entry(top, store, leaf_list, rc.clone());
+    }
+    for choice in l.d.choice.iter() {
+        choice_entry(top, store, choice, rc.clone());
     }
 
     ent.dir.borrow_mut().push(rc.clone());

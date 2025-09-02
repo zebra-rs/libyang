@@ -301,6 +301,7 @@ pub struct ChoiceNode {
     pub mandatory: Option<MandatoryNode>,
     pub when: Option<WhenNode>,
     pub config: Option<ConfigNode>,
+    pub cases: Vec<CaseNode>,
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
@@ -470,6 +471,10 @@ impl ActionNode {
 pub struct CaseNode {
     pub name: String,
     pub description: Option<String>,
+    pub reference: Option<String>,
+    pub status: Option<StatusNode>,
+    pub when: Option<WhenNode>,
+    pub d: DatadefNode,
 }
 
 impl CaseNode {
