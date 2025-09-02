@@ -9,6 +9,7 @@ pub enum EntryKind {
     LeafEntry,
     DirectoryEntry,
     ChoiceEntry,
+    ActionEntry,
 }
 
 #[derive(Default, Debug)]
@@ -82,6 +83,14 @@ impl Entry {
         }
     }
 
+    pub fn new_action(name: String) -> Self {
+        Self {
+            name,
+            kind: EntryKind::ActionEntry,
+            ..Default::default()
+        }
+    }
+
     pub fn has_key(&self) -> bool {
         !self.key.is_empty()
     }
@@ -123,6 +132,10 @@ impl Entry {
 
     pub fn is_choice(&self) -> bool {
         self.kind == EntryKind::ChoiceEntry
+    }
+
+    pub fn is_action(&self) -> bool {
+        self.kind == EntryKind::ActionEntry
     }
 }
 
@@ -390,6 +403,77 @@ where
     }
 }
 
+pub fn action_entry<T>(top: &T, store: &YangStore, a: &ActionNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    let e = Entry::new_action(a.name.clone());
+    let rc = Rc::new(e);
+
+    // Process input parameters if present
+    if let Some(input) = &a.input {
+        let mut input_entry = Entry::new_dir("input".to_string());
+        input_entry.extension.insert("input".to_string(), "true".to_string());
+        let input_rc = Rc::new(input_entry);
+
+        // Process input data definitions
+        for uses in input.d.uses.iter() {
+            group_resolve(top, store, &uses.name, input_rc.clone());
+        }
+        for c in input.d.container.iter() {
+            container_entry(top, store, c, input_rc.clone());
+        }
+        for leaf in input.d.leaf.iter() {
+            leaf_entry(top, store, leaf, input_rc.clone());
+        }
+        for list in input.d.list.iter() {
+            list_entry(top, store, list, input_rc.clone());
+        }
+        for leaf_list in input.d.leaf_list.iter() {
+            leaf_list_entry(top, store, leaf_list, input_rc.clone());
+        }
+        for choice in input.d.choice.iter() {
+            choice_entry(top, store, choice, input_rc.clone());
+        }
+
+        rc.dir.borrow_mut().push(input_rc.clone());
+        input_rc.parent.replace(Some(rc.clone()));
+    }
+
+    // Process output parameters if present
+    if let Some(output) = &a.output {
+        let mut output_entry = Entry::new_dir("output".to_string());
+        output_entry.extension.insert("output".to_string(), "true".to_string());
+        let output_rc = Rc::new(output_entry);
+
+        // Process output data definitions
+        for uses in output.d.uses.iter() {
+            group_resolve(top, store, &uses.name, output_rc.clone());
+        }
+        for c in output.d.container.iter() {
+            container_entry(top, store, c, output_rc.clone());
+        }
+        for leaf in output.d.leaf.iter() {
+            leaf_entry(top, store, leaf, output_rc.clone());
+        }
+        for list in output.d.list.iter() {
+            list_entry(top, store, list, output_rc.clone());
+        }
+        for leaf_list in output.d.leaf_list.iter() {
+            leaf_list_entry(top, store, leaf_list, output_rc.clone());
+        }
+        for choice in output.d.choice.iter() {
+            choice_entry(top, store, choice, output_rc.clone());
+        }
+
+        rc.dir.borrow_mut().push(output_rc.clone());
+        output_rc.parent.replace(Some(rc.clone()));
+    }
+
+    ent.dir.borrow_mut().push(rc.clone());
+    rc.parent.replace(Some(ent.clone()));
+}
+
 pub fn choice_entry<T>(top: &T, store: &YangStore, c: &ChoiceNode, ent: Rc<Entry>)
 where
     T: ModuleCommon,
@@ -480,6 +564,9 @@ where
     }
     for choice in c.d.choice.iter() {
         choice_entry(top, store, choice, rc.clone());
+    }
+    for action in c.action.iter() {
+        action_entry(top, store, action, rc.clone());
     }
 
     ent.dir.borrow_mut().push(rc.clone());
