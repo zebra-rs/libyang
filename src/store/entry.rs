@@ -413,7 +413,9 @@ where
     // Process input parameters if present
     if let Some(input) = &a.input {
         let mut input_entry = Entry::new_dir("input".to_string());
-        input_entry.extension.insert("input".to_string(), "true".to_string());
+        input_entry
+            .extension
+            .insert("input".to_string(), "true".to_string());
         let input_rc = Rc::new(input_entry);
 
         // Process input data definitions
@@ -443,7 +445,9 @@ where
     // Process output parameters if present
     if let Some(output) = &a.output {
         let mut output_entry = Entry::new_dir("output".to_string());
-        output_entry.extension.insert("output".to_string(), "true".to_string());
+        output_entry
+            .extension
+            .insert("output".to_string(), "true".to_string());
         let output_rc = Rc::new(output_entry);
 
         // Process output data definitions
@@ -485,14 +489,16 @@ where
     }
     let mut e = Entry::new_choice(c.name.clone());
     e.mandatory = c.mandatory.as_ref().map(|m| m.mandatory).unwrap_or(false);
-    
+
     // Collect all cases first
     let mut cases = Vec::new();
-    
+
     // Process each case in the choice
     for case in c.cases.iter() {
         let mut case_entry = Entry::new_dir(case.name.clone());
-        case_entry.extension.insert("case".to_string(), "true".to_string());
+        case_entry
+            .extension
+            .insert("case".to_string(), "true".to_string());
         let case_rc = Rc::new(case_entry);
 
         // Process data definitions within the case
@@ -517,11 +523,11 @@ where
 
         cases.push(case_rc);
     }
-    
+
     // Set the cases
     e.choice_cases = Some(cases.clone());
     let rc = Rc::new(e);
-    
+
     // Set parent references
     for case_rc in cases {
         case_rc.parent.replace(Some(rc.clone()));
@@ -584,6 +590,9 @@ where
     }
     let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
     for u in l.unknown.iter() {
+        if u.name == "ext:presence" {
+            e.presence = true;
+        }
         e.extension.insert(u.name.clone(), u.argument.clone());
     }
     let list_attr = ListAttr::new();
