@@ -4,7 +4,7 @@ extern crate parol_runtime;
 use crate::yang_grammar::YangGrammar;
 use crate::yang_parser::parse;
 use anyhow::{Context, Result};
-use parol_runtime::{log::debug, Report};
+use parol_runtime::{Report, log::debug};
 use std::{env, fs, time::Instant};
 
 struct ErrorReporter;

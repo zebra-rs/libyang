@@ -1,6 +1,6 @@
 use std::process;
 
-use parol::{build::Builder, InnerAttributes, ParolErrorReporter};
+use parol::{InnerAttributes, ParolErrorReporter, build::Builder};
 use parol_runtime::Report;
 
 fn main() {

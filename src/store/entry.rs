@@ -40,6 +40,16 @@ pub struct Entry {
     pub type_node: Option<TypeNode>,
     pub list_attr: Option<ListAttr>,
     pub choice_cases: Option<Vec<Rc<Entry>>>,
+
+    // When this entry was introduced by a `case` inside a `choice`,
+    // these record the choice and case names so consumers can reason
+    // about mutual exclusion at commit time. Per RFC 7950 §7.9.2,
+    // choice/case nodes do not themselves appear in the data tree;
+    // only the case's direct children do. We flatten accordingly —
+    // the case's children land in the choice's parent `dir`, tagged
+    // here with the choice and case names.
+    pub choice: RefCell<Option<String>>,
+    pub case: RefCell<Option<String>>,
 }
 
 impl Entry {
@@ -487,54 +497,48 @@ where
             return;
         }
     }
-    let mut e = Entry::new_choice(c.name.clone());
-    e.mandatory = c.mandatory.as_ref().map(|m| m.mandatory).unwrap_or(false);
 
-    // Collect all cases first
-    let mut cases = Vec::new();
+    // Per RFC 7950 §7.9.2, neither the `choice` node nor its `case`
+    // nodes appear in the data tree — only the case's direct data
+    // children do. We flatten each case's children into the choice's
+    // parent `ent.dir` and tag each added entry with (choice, case)
+    // metadata so consumers can enforce mutual exclusion later.
+    let choice_name = c.name.clone();
 
-    // Process each case in the choice
     for case in c.cases.iter() {
-        let mut case_entry = Entry::new_dir(case.name.clone());
-        case_entry
-            .extension
-            .insert("case".to_string(), "true".to_string());
-        let case_rc = Rc::new(case_entry);
+        let case_name = case.name.clone();
+        let len_before = ent.dir.borrow().len();
 
-        // Process data definitions within the case
         for uses in case.d.uses.iter() {
-            group_resolve(top, store, &uses.name, case_rc.clone());
+            group_resolve(top, store, &uses.name, ent.clone());
         }
-        for c in case.d.container.iter() {
-            container_entry(top, store, c, case_rc.clone());
+        for cnode in case.d.container.iter() {
+            container_entry(top, store, cnode, ent.clone());
         }
         for leaf in case.d.leaf.iter() {
-            leaf_entry(top, store, leaf, case_rc.clone());
+            leaf_entry(top, store, leaf, ent.clone());
         }
         for list in case.d.list.iter() {
-            list_entry(top, store, list, case_rc.clone());
+            list_entry(top, store, list, ent.clone());
         }
         for leaf_list in case.d.leaf_list.iter() {
-            leaf_list_entry(top, store, leaf_list, case_rc.clone());
+            leaf_list_entry(top, store, leaf_list, ent.clone());
         }
-        for choice in case.d.choice.iter() {
-            choice_entry(top, store, choice, case_rc.clone());
+        for nested in case.d.choice.iter() {
+            choice_entry(top, store, nested, ent.clone());
         }
 
-        cases.push(case_rc);
+        // Tag the newly added entries. Skip any already tagged by a
+        // nested `choice_entry` recursion — the innermost choice/case
+        // wins (outer-nesting metadata is not currently represented).
+        let dir = ent.dir.borrow();
+        for child in dir[len_before..].iter() {
+            if child.choice.borrow().is_none() {
+                *child.choice.borrow_mut() = Some(choice_name.clone());
+                *child.case.borrow_mut() = Some(case_name.clone());
+            }
+        }
     }
-
-    // Set the cases
-    e.choice_cases = Some(cases.clone());
-    let rc = Rc::new(e);
-
-    // Set parent references
-    for case_rc in cases {
-        case_rc.parent.replace(Some(rc.clone()));
-    }
-
-    ent.dir.borrow_mut().push(rc.clone());
-    rc.parent.replace(Some(ent.clone()));
 }
 
 pub fn container_entry<T>(top: &T, store: &YangStore, c: &ContainerNode, ent: Rc<Entry>)

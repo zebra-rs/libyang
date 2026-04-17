@@ -848,7 +848,11 @@ fn type_stmt(m: &TypeStmt) -> TypeNode {
                     let base = base_stmt(&m.base_stmt);
                     node.base = Some(base);
                 }
-                TypeStmtListGroup::LeafrefSpecification(_m) => {}
+                TypeStmtListGroup::LeafrefSpecification(m) => {
+                    if let LeafrefSpecification::PathStmt(p) = &*m.leafref_specification {
+                        node.path = Some(ystring(&p.path_stmt.ystring));
+                    }
+                }
                 TypeStmtListGroup::StringRestrictions(_m) => {}
                 TypeStmtListGroup::RangeStmt(m) => {
                     let n = range(&m.range_stmt, kind);
@@ -988,7 +992,7 @@ fn choice(m: &ChoiceStmt) -> ChoiceNode {
 fn case(m: &CaseStmt) -> CaseNode {
     let name = identifier_arg_str(&m.identifier_arg_str);
     let mut node = CaseNode::new(name);
-    
+
     if let CaseStmtSuffix::LBraceCaseStmtListRBrace(m) = &*m.case_stmt_suffix {
         for m in m.case_stmt_list.iter() {
             match &*m.case_stmt_list_group {
@@ -1009,7 +1013,7 @@ fn case(m: &CaseStmt) -> CaseNode {
             }
         }
     }
-    
+
     node
 }
 
@@ -1162,7 +1166,7 @@ fn date_arg_str(m: &DateArgStrSuffix) -> String {
 fn action(m: &ActionStmt) -> ActionNode {
     let name = identifier_arg_str(&m.identifier_arg_str);
     let mut node = ActionNode::new(name);
-    
+
     if let ActionStmtSuffix::LBraceActionStmtListRBrace(m) = &*m.action_stmt_suffix {
         for m in m.action_stmt_list.iter() {
             match &*m.action_stmt_list_group {
@@ -1188,7 +1192,7 @@ fn action(m: &ActionStmt) -> ActionNode {
             }
         }
     }
-    
+
     node
 }
 
