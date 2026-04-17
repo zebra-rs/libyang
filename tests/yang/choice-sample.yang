@@ -1,0 +1,20 @@
+module choice-sample {
+  yang-version "1";
+  namespace "urn:test:choice-sample";
+  prefix "cs";
+
+  container options {
+    choice option {
+      case ao {
+        leaf ao-keychain {
+          type string;
+        }
+      }
+      case md5 {
+        leaf md5-keychain {
+          type string;
+        }
+      }
+    }
+  }
+}
