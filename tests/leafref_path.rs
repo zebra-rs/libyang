@@ -3,7 +3,7 @@
 // whose underlying type is a leafref propagates the path to the
 // Entry of a leaf that uses the typedef).
 
-use libyang::{to_entry, Entry, YangStore};
+use libyang::{Entry, YangStore, to_entry};
 use std::rc::Rc;
 
 fn load(name: &str, yang_dir: &str) -> Rc<Entry> {
