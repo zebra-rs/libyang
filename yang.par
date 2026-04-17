@@ -195,19 +195,16 @@ AugmentStmt
       | NotificationStmt }
       '}'^;
 
+// AugmentArgStr parses the augment target path. YANG 1.1 §7.17
+// allows absolute or descendant schema-node identifiers which are
+// naturally multi-segment (e.g. "/a:root/a:inner/b:leaf"). The
+// previous grammar rule accepted only a single `/IdentifierRef` and
+// dropped everything else. Replace with a plain Ystring so the full
+// path comes through as one quoted token; the schema walker in
+// store/entry.rs splits the segments and resolves prefixes against
+// the augmenting module's imports.
 AugmentArgStr
-    : %sc(Keyword) AugmentArg %sc()
-    | %sc(Keyword) AugmentArgStrList %sc();
-
-AugmentArgStrList
-    : AugmentArgStrQuote [ <Keyword>'+' AugmentArgStrList ];
-
-AugmentArgStrQuote
-    : %sc(Keyword) <Keyword>'"' AugmentArg <Keyword>'"' %sc();
-
-AugmentArg
-    : AbsoluteSchemaNodeid
-    | IdentifierRef;
+    : Ystring;
 
 WhenStmt
     : 'when'^ Ystring Semicolon^

@@ -184,7 +184,80 @@ pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
     for choice in module.d.choice.iter() {
         choice_entry(module, store, choice, entry.clone());
     }
+
+    // Apply YANG 1.1 §7.17 augment statements. Each augment may live
+    // in the root module itself or in any loaded module — typically
+    // a sibling module that imports the target. Walk all modules
+    // once the primary tree is built so augment targets are
+    // resolvable.
+    for aug in module.augment.iter() {
+        apply_augment(module, store, entry.clone(), aug);
+    }
+    for (name, m) in store.modules.iter() {
+        if name == &module.name {
+            continue;
+        }
+        for aug in m.augment.iter() {
+            apply_augment(m, store, entry.clone(), aug);
+        }
+    }
+
     entry.clone()
+}
+
+/// Walk `aug.target` from `root` and inject `aug.d`'s children at
+/// the resolved node. Silently no-ops if the target cannot be found
+/// (malformed augment, missing prefix binding, etc.).
+fn apply_augment<T>(top: &T, store: &YangStore, root: Rc<Entry>, aug: &AugmentNode)
+where
+    T: ModuleCommon,
+{
+    let mut current = root;
+    for seg in aug.target.split('/').filter(|s| !s.is_empty()) {
+        // YANG schema-node identifier segments are `[prefix:]name`.
+        // We match on the bare name against the Entry tree — the
+        // tree doesn't carry per-node namespace metadata, and names
+        // are effectively globally unique within their container.
+        let name = seg.rsplit(':').next().unwrap_or(seg);
+        let next = current
+            .dir
+            .borrow()
+            .iter()
+            .find(|e| e.name == name)
+            .cloned();
+        match next {
+            Some(e) => current = e,
+            None => return,
+        }
+    }
+    datadef_entry(top, store, &aug.d, current);
+}
+
+/// Process a DatadefNode's children (uses, container, leaf, list,
+/// leaf-list, choice) into `ent.dir`. Shared between groupings and
+/// augments.
+pub fn datadef_entry<T>(top: &T, store: &YangStore, d: &DatadefNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    for uses in d.uses.iter() {
+        group_resolve(top, store, &uses.name, ent.clone());
+    }
+    for c in d.container.iter() {
+        container_entry(top, store, c, ent.clone());
+    }
+    for leaf in d.leaf.iter() {
+        leaf_entry(top, store, leaf, ent.clone());
+    }
+    for list in d.list.iter() {
+        list_entry(top, store, list, ent.clone());
+    }
+    for leaf_list in d.leaf_list.iter() {
+        leaf_list_entry(top, store, leaf_list, ent.clone());
+    }
+    for choice in d.choice.iter() {
+        choice_entry(top, store, choice, ent.clone());
+    }
 }
 
 pub trait ModuleCommon {
@@ -201,24 +274,7 @@ pub fn group_entry<T>(top: &T, store: &YangStore, g: &GroupingNode, ent: Rc<Entr
 where
     T: ModuleCommon,
 {
-    for uses in g.d.uses.iter() {
-        group_resolve(top, store, &uses.name, ent.clone());
-    }
-    for c in g.d.container.iter() {
-        container_entry(top, store, c, ent.clone());
-    }
-    for leaf in g.d.leaf.iter() {
-        leaf_entry(top, store, leaf, ent.clone());
-    }
-    for list in g.d.list.iter() {
-        list_entry(top, store, list, ent.clone());
-    }
-    for leaf_list in g.d.leaf_list.iter() {
-        leaf_list_entry(top, store, leaf_list, ent.clone());
-    }
-    for choice in g.d.choice.iter() {
-        choice_entry(top, store, choice, ent.clone());
-    }
+    datadef_entry(top, store, &g.d, ent);
 }
 
 pub fn group_resolve<T>(top: &T, store: &YangStore, name: &str, ent: Rc<Entry>)

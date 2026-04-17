@@ -91,7 +91,10 @@ fn module(node: &mut ModuleNode, m: YangModuleStmt) {
             BodyStmts::DataDefStmt(m) => {
                 datadef(&mut node.d, &m.data_def_stmt);
             }
-            BodyStmts::AugmentStmt(_m) => {}
+            BodyStmts::AugmentStmt(m) => {
+                let n = augment(&m.augment_stmt);
+                node.augment.push(n);
+            }
             BodyStmts::RpcStmt(_m) => {}
             BodyStmts::NotificationStmt(_m) => {}
             BodyStmts::DeviationStmt(_m) => {}
@@ -165,7 +168,10 @@ fn submodule(node: &mut SubmoduleNode, m: YangSubmoduleStmt) {
             BodyStmts::DataDefStmt(m) => {
                 datadef(&mut node.d, &m.data_def_stmt);
             }
-            BodyStmts::AugmentStmt(_m) => {}
+            BodyStmts::AugmentStmt(m) => {
+                let n = augment(&m.augment_stmt);
+                node.augment.push(n);
+            }
             BodyStmts::RpcStmt(_m) => {}
             BodyStmts::NotificationStmt(_m) => {}
             BodyStmts::DeviationStmt(_m) => {}
@@ -235,6 +241,29 @@ impl SubmoduleNode {
     fn reference(&mut self, m: &MetaStmtsReferenceStmt) {
         self.reference = Some(ystring(&m.reference_stmt.ystring));
     }
+}
+
+fn augment(m: &AugmentStmt) -> AugmentNode {
+    let target = ystring(&m.augment_arg_str.ystring);
+    let mut node = AugmentNode::new(target);
+    for s in m.augment_stmt_list.iter() {
+        match &*s.augment_stmt_list_group {
+            AugmentStmtListGroup::DataDefStmt(m) => {
+                datadef(&mut node.d, &m.data_def_stmt);
+            }
+            AugmentStmtListGroup::DescriptionStmt(m) => {
+                node.description = Some(ystring(&m.description_stmt.ystring));
+            }
+            AugmentStmtListGroup::ReferenceStmt(m) => {
+                node.reference = Some(ystring(&m.reference_stmt.ystring));
+            }
+            AugmentStmtListGroup::WhenStmt(_) => {}
+            AugmentStmtListGroup::IfFeatureStmt(_) => {}
+            AugmentStmtListGroup::StatusStmt(_) => {}
+            AugmentStmtListGroup::NotificationStmt(_) => {}
+        }
+    }
+    node
 }
 
 fn datadef(node: &mut DatadefNode, m: &DataDefStmt) {
@@ -697,6 +726,11 @@ fn ystring(s: &Ystring) -> String {
             }
         }
         BasicString::SQString(_m) => {}
+    }
+    // Handle the YANG `+` continuation (RFC 7950 §6.1.3 — adjacent
+    // quoted strings are concatenated with no inserted characters).
+    if let Some(opt) = &s.ystring_opt {
+        line.push_str(&ystring(&opt.ystring));
     }
     line
 }

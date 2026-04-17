@@ -25,6 +25,7 @@ pub struct ModuleNode {
     pub typedef: Vec<TypedefNode>,
     pub extension: Vec<ExtensionNode>,
     pub grouping: Vec<GroupingNode>,
+    pub augment: Vec<AugmentNode>,
     pub unknown: Vec<UnknownNode>,
     pub identities: HashMap<String, Vec<String>>,
 }
@@ -54,6 +55,7 @@ pub struct SubmoduleNode {
     pub identity: Vec<IdentityNode>,
     pub typedef: Vec<TypedefNode>,
     pub grouping: Vec<GroupingNode>,
+    pub augment: Vec<AugmentNode>,
     pub unknown: Vec<UnknownNode>,
     pub identities: HashMap<String, Vec<String>>,
 }
@@ -669,6 +671,27 @@ pub struct GroupingNode {
     pub typedef: Vec<TypedefNode>,
     pub grouping: Vec<GroupingNode>,
     pub d: DatadefNode,
+}
+
+/// YANG 1.1 §7.17 `augment` statement. Carries the raw target path
+/// string (e.g. "/a:root/a:inner/b:leaf") as written in the module;
+/// the entry-building pass splits the segments and resolves prefixes
+/// against the augmenting module's imports.
+#[derive(Debug, PartialEq, Clone, Default)]
+pub struct AugmentNode {
+    pub target: String,
+    pub description: Option<String>,
+    pub reference: Option<String>,
+    pub d: DatadefNode,
+}
+
+impl AugmentNode {
+    pub fn new(target: String) -> Self {
+        Self {
+            target,
+            ..Default::default()
+        }
+    }
 }
 
 impl GroupingNode {

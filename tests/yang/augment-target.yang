@@ -1,0 +1,18 @@
+module augment-target {
+  yang-version "1";
+  namespace "urn:test:augment-target";
+  prefix "base";
+
+  import augment-consumer {
+    prefix cons;
+  }
+
+  container root {
+    list item {
+      key "name";
+      leaf name {
+        type string;
+      }
+    }
+  }
+}
