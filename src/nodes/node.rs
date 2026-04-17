@@ -528,6 +528,10 @@ pub struct TypeNode {
     pub base: Option<String>,
     pub union: Vec<TypeNode>,
     pub typedef: Option<String>,
+    // Populated for YangType::Leafref: the `path "..."` argument from
+    // the `leafref` type specification. Survives typedef resolution
+    // (typedefs wrapping a leafref carry the underlying path).
+    pub path: Option<String>,
 }
 
 #[derive(Debug, PartialEq, Clone, Copy, Default, Eq, Hash)]

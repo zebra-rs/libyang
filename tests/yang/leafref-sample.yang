@@ -1,0 +1,31 @@
+module leafref-sample {
+  yang-version "1";
+  namespace "urn:test:leafref-sample";
+  prefix "lr";
+
+  typedef item-ref {
+    type leafref {
+      path "/items/item/name";
+    }
+    description "Typedef wrapping a leafref.";
+  }
+
+  container items {
+    list item {
+      key "name";
+      leaf name {
+        type string;
+      }
+    }
+  }
+
+  leaf picked {
+    type leafref {
+      path "/items/item/name";
+    }
+  }
+
+  leaf picked-via-typedef {
+    type item-ref;
+  }
+}

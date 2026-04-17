@@ -848,7 +848,11 @@ fn type_stmt(m: &TypeStmt) -> TypeNode {
                     let base = base_stmt(&m.base_stmt);
                     node.base = Some(base);
                 }
-                TypeStmtListGroup::LeafrefSpecification(_m) => {}
+                TypeStmtListGroup::LeafrefSpecification(m) => {
+                    if let LeafrefSpecification::PathStmt(p) = &*m.leafref_specification {
+                        node.path = Some(ystring(&p.path_stmt.ystring));
+                    }
+                }
                 TypeStmtListGroup::StringRestrictions(_m) => {}
                 TypeStmtListGroup::RangeStmt(m) => {
                     let n = range(&m.range_stmt, kind);
