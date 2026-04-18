@@ -1,0 +1,16 @@
+module augment-consumer {
+  yang-version "1.1";
+  namespace "urn:test:augment-consumer";
+  prefix "cons";
+
+  import augment-target {
+    prefix base;
+  }
+
+  augment "/base:root/base:item" {
+    leaf badge {
+      type string;
+      description "Added to base:item via augment.";
+    }
+  }
+}
