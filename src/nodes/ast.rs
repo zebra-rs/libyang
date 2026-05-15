@@ -725,7 +725,31 @@ fn ystring(s: &Ystring) -> String {
                 }
             }
         }
-        BasicString::SQString(_m) => {}
+        BasicString::SQString(m) => {
+            for s in m.s_q_string.s_q_string_list.iter() {
+                match &*s.s_q_char {
+                    SQChar::SQUnescaped(m) => match &*m.s_q_unescaped {
+                        SQUnescaped::SQNoEscape(m) => {
+                            if first {
+                                first = false
+                            } else {
+                                line.push('\n');
+                            }
+                            line.push_str(m.s_q_no_escape.s_q_no_escape.text());
+                        }
+                        SQUnescaped::NonAscii(m) => {
+                            if first {
+                                first = false
+                            } else {
+                                line.push('\n');
+                            }
+                            line.push_str(m.non_ascii.non_ascii.text());
+                        }
+                    },
+                    SQChar::SQEscaped(_m) => {}
+                }
+            }
+        }
     }
     // Handle the YANG `+` continuation (RFC 7950 §6.1.3 — adjacent
     // quoted strings are concatenated with no inserted characters).
