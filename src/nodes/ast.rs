@@ -851,6 +851,15 @@ fn range(m: &RangeStmt, kind: YangType) -> RangeNode {
     }
 }
 
+fn length(m: &LengthStmt) -> RangeNode {
+    match &*m.range_arg_str {
+        RangeArgStr::RangeArg(m) => range_arg(&m.range_arg, YangType::Uint64),
+        RangeArgStr::DoubleQuotationRangeArgDoubleQuotation(m) => {
+            range_arg(&m.range_arg, YangType::Uint64)
+        }
+    }
+}
+
 fn enum_stmt(m: &EnumStmt) -> EnumNode {
     let name = match &*m.enum_arg_str.enum_arg_str_suffix {
         EnumArgStrSuffix::AsciiNoBrace(m) => m.ascii_no_brace.ascii_no_brace.text().to_string(),
@@ -887,7 +896,14 @@ fn type_stmt(m: &TypeStmt) -> TypeNode {
                         node.path = Some(ystring(&p.path_stmt.ystring));
                     }
                 }
-                TypeStmtListGroup::StringRestrictions(_m) => {}
+                TypeStmtListGroup::StringRestrictions(m) => match &*m.string_restrictions {
+                    StringRestrictions::PatternStmt(p) => {
+                        node.pattern = Some(ystring(&p.pattern_stmt.ystring));
+                    }
+                    StringRestrictions::LengthStmt(l) => {
+                        node.length = Some(length(&l.length_stmt));
+                    }
+                },
                 TypeStmtListGroup::RangeStmt(m) => {
                     let n = range(&m.range_stmt, kind);
                     node.range = Some(n);

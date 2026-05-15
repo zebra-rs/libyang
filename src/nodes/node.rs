@@ -525,6 +525,7 @@ pub struct TypeNode {
     pub kind: YangType,
     pub description: Option<String>,
     pub pattern: Option<String>,
+    pub length: Option<RangeNode>,
     pub range: Option<RangeNode>,
     pub enum_stmt: Vec<EnumNode>,
     pub base: Option<String>,
