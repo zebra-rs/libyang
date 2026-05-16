@@ -382,6 +382,14 @@ where
                     }
                 }
             }
+        } else {
+            // Inline union arm with a recognized kind (e.g.
+            // `type string { pattern '...'; }` written directly
+            // inside the union, not via a typedef reference). Keep
+            // it so the matcher can dispatch on it; the previous
+            // drop-on-the-floor behavior was the reason inline
+            // pattern-restricted string arms in unions never engaged.
+            nodes.push(node.clone());
         }
     }
     let mut type_node = type_node.clone();
@@ -415,7 +423,18 @@ where
         for typedef in top.get_typedef().iter() {
             if typedef.name == type_node.name {
                 if let Some(node) = &typedef.type_node {
-                    return Some(node.clone());
+                    let mut node = node.clone();
+                    node.typedef = Some(type_node.name.clone());
+                    if node.kind == YangType::Union {
+                        // A local typedef whose underlying type is a
+                        // union: resolve its Path arms the same way
+                        // the prefixed branch does, otherwise a leaf
+                        // like `type peer-id-or-all` reaches the
+                        // matcher with every arm still `kind = Path`
+                        // and nothing dispatches.
+                        return type_union_resolve(top, store, &node);
+                    }
+                    return Some(node);
                 }
             }
         }
