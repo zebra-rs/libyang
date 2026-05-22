@@ -480,6 +480,15 @@ where
                 if let Some(node) = type_path_resolve(top, store, node) {
                     union_node.union.push(node);
                 }
+            } else {
+                // Inline arm with a recognized kind (e.g. `type uint32;`
+                // or `type string { pattern '...'; }` written directly
+                // inside the union, not via a typedef reference). Keep
+                // it so the matcher can dispatch on it; otherwise inline
+                // scalar / patterned-string arms silently disappear and
+                // a union like `union { uint32; inet:ipv4-address; }`
+                // only matches the ipv4-address arm.
+                union_node.union.push(node.clone());
             }
         }
         ent.type_node = Some(union_node);
