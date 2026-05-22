@@ -1,0 +1,32 @@
+module union-sample {
+  yang-version 1.1;
+  namespace "urn:union-sample";
+  prefix us;
+
+  // Reduced repro of the area-id case: an inline union with a
+  // built-in scalar arm and a typedef-referenced arm. The matcher
+  // must see both arms; previously the scalar arm was dropped on
+  // the floor.
+
+  typedef ipv4-addr {
+    type string {
+      pattern '([0-9]+\.){3}[0-9]+';
+    }
+  }
+
+  leaf area-id {
+    type union {
+      type uint32;
+      type ipv4-addr;
+    }
+  }
+
+  // Same shape, all-inline (no typedef arm). Both arms are inline
+  // built-ins; both must survive.
+  leaf scalar-or-string {
+    type union {
+      type uint32;
+      type string;
+    }
+  }
+}
