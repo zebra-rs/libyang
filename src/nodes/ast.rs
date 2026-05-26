@@ -696,7 +696,17 @@ fn yang_version(m: &YangVersionStmt) -> String {
 fn ystring(s: &Ystring) -> String {
     let mut line = String::new();
     let mut first = true;
-    match &*s.basic_string {
+    let (basic_string, ystring_opt) = match s {
+        Ystring::BasicStringYstringOpt(inner) => (&inner.basic_string, inner.ystring_opt.as_ref()),
+        // RFC 7950 §6.1.3 unquoted-string form. The `Identifier`
+        // token covers the common case (units / description /
+        // organization / etc. with a single bareword argument); the
+        // `+` concatenation grammar is reserved for the quoted form.
+        Ystring::Identifier(inner) => {
+            return inner.identifier.identifier.text().to_string();
+        }
+    };
+    match &**basic_string {
         BasicString::DQString(m) => {
             for s in m.d_q_string.d_q_string_list.iter() {
                 match &*s.d_q_char {
@@ -753,7 +763,7 @@ fn ystring(s: &Ystring) -> String {
     }
     // Handle the YANG `+` continuation (RFC 7950 §6.1.3 — adjacent
     // quoted strings are concatenated with no inserted characters).
-    if let Some(opt) = &s.ystring_opt {
+    if let Some(opt) = ystring_opt {
         line.push_str(&ystring(&opt.ystring));
     }
     line
@@ -1198,9 +1208,11 @@ fn extension(m: &ExtensionStmt) -> ExtensionNode {
 fn unknown(m: &UnknownStmt) -> UnknownNode {
     let name = identifier_ref(&m.identifier_ref);
     let mut node = UnknownNode::new(name);
-    if let UnknownStmtSuffix0::YstringUnknownStmtSuffix(m) = &*m.unknown_stmt_suffix0 {
-        node.argument = ystring(&m.ystring);
-    }
+    // `ystring` is shared between both UnknownStmtSuffix alternates
+    // (parol factored the common `IdentifierRef Ystring` prefix
+    // when the bare-identifier `'{' ... '}'` alternate was folded
+    // into the `Ystring '{' ... '}'` form).
+    node.argument = ystring(&m.ystring);
     node
 }
 
