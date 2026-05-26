@@ -1,0 +1,20 @@
+// RFC 7950 §6.1.3 unquoted-string acceptance test fixture.
+// Every statement here that uses a string argument is intentionally
+// written in the bare-identifier form. A YANG parser that follows
+// the spec must accept all of them.
+module unquoted-strings {
+  yang-version 1;
+  namespace "urn:example:unquoted-strings";
+  prefix us;
+
+  organization example;
+  contact noc;
+  description bare-description;
+  reference rfc7950;
+
+  leaf drain {
+    type uint32;
+    units milliseconds;
+    description scrub;
+  }
+}

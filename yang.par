@@ -436,11 +436,6 @@ UnknownStmt
     '{'^
     { TypeStmt
     | DescriptionStmt }
-    '}'^
-    | IdentifierRef Identifier
-    '{'^
-    { TypeStmt
-    | DescriptionStmt }
     '}'^;
 
 LeafListStmt
@@ -734,8 +729,15 @@ DateArg
     : <Revision>/\d{4}-\d{2}-\d{2}/;
 
 // Ystring definition starts here.
+// RFC 7950 §6.1.3 allows unquoted strings as YANG statement arguments
+// (any token not containing whitespace, quotes, ';', '{', '}', or a
+// comment-introducer). For the common case the existing `Identifier`
+// token covers it: `units milliseconds;`, `description foo;`, etc.
+// The `+` concatenation form only applies to quoted strings, so the
+// unquoted alternative is a plain `Identifier`.
 Ystring
-    : BasicString [ '+' Ystring ];
+    : BasicString [ '+' Ystring ]
+    | Identifier;
 
 BasicString
     : DQString
