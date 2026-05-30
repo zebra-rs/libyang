@@ -289,6 +289,41 @@ where
     datadef_entry(top, store, &aug.d, current);
 }
 
+/// Expand a `uses` into `ent`: instantiate the referenced grouping,
+/// then apply any uses-substatement augments. Every site that expands
+/// a `uses` (module/container/list bodies, choice cases, rpc/action
+/// input and output) goes through here so uses-augments are applied
+/// consistently.
+fn uses_entry<T>(top: &T, store: &YangStore, uses: &UsesNode, ent: Rc<Entry>)
+where
+    T: ModuleCommon,
+{
+    group_resolve(top, store, &uses.name, ent.clone());
+    for aug in uses.augment.iter() {
+        apply_uses_augment(top, store, ent.clone(), aug);
+    }
+}
+
+/// Inject a `uses`-substatement augment (RFC 7950 §7.17, descendant
+/// form). The target path is relative to `ent`, the point where the
+/// grouping was just expanded, so resolve from there directly. Unlike
+/// a top-level augment there is no cross-module targeting to gate on —
+/// the augment only ever reaches nodes the grouping contributed.
+fn apply_uses_augment<T>(top: &T, store: &YangStore, ent: Rc<Entry>, aug: &AugmentNode)
+where
+    T: ModuleCommon,
+{
+    match resolve_target(ent, &aug.target) {
+        Ok(current) => datadef_entry(top, store, &aug.d, current),
+        Err(seg) => eprintln!(
+            "uses augment: in module {}, target \"{}\" not found (no node matching \"{}\")",
+            top.get_name(),
+            aug.target,
+            seg
+        ),
+    }
+}
+
 /// Process a DatadefNode's children (uses, container, leaf, list,
 /// leaf-list, choice) into `ent.dir`. Shared between groupings and
 /// augments.
@@ -297,7 +332,7 @@ where
     T: ModuleCommon,
 {
     for uses in d.uses.iter() {
-        group_resolve(top, store, &uses.name, ent.clone());
+        uses_entry(top, store, uses, ent.clone());
     }
     for c in d.container.iter() {
         container_entry(top, store, c, ent.clone());
@@ -572,7 +607,7 @@ where
 
         // Process input data definitions
         for uses in input.d.uses.iter() {
-            group_resolve(top, store, &uses.name, input_rc.clone());
+            uses_entry(top, store, uses, input_rc.clone());
         }
         for c in input.d.container.iter() {
             container_entry(top, store, c, input_rc.clone());
@@ -604,7 +639,7 @@ where
 
         // Process output data definitions
         for uses in output.d.uses.iter() {
-            group_resolve(top, store, &uses.name, output_rc.clone());
+            uses_entry(top, store, uses, output_rc.clone());
         }
         for c in output.d.container.iter() {
             container_entry(top, store, c, output_rc.clone());
@@ -652,7 +687,7 @@ where
         let len_before = ent.dir.borrow().len();
 
         for uses in case.d.uses.iter() {
-            group_resolve(top, store, &uses.name, ent.clone());
+            uses_entry(top, store, uses, ent.clone());
         }
         for cnode in case.d.container.iter() {
             container_entry(top, store, cnode, ent.clone());
@@ -700,7 +735,7 @@ where
     let rc = Rc::new(e);
 
     for uses in c.d.uses.iter() {
-        group_resolve(top, store, &uses.name, rc.clone());
+        uses_entry(top, store, uses, rc.clone());
     }
     for c in c.d.container.iter() {
         container_entry(top, store, c, rc.clone());
@@ -746,7 +781,7 @@ where
     let rc = Rc::new(e);
 
     for uses in l.d.uses.iter() {
-        group_resolve(top, store, &uses.name, rc.clone());
+        uses_entry(top, store, uses, rc.clone());
     }
     for c in l.d.container.iter() {
         container_entry(top, store, c, rc.clone());

@@ -1165,7 +1165,9 @@ fn uses(m: &UsesStmt) -> UsesNode {
                     node.reference = Some(ystring(&m.reference_stmt.ystring));
                 }
                 UsesStmtListGroup::RefineStmt(_m) => {}
-                UsesStmtListGroup::AugmentStmt(_m) => {}
+                UsesStmtListGroup::AugmentStmt(m) => {
+                    node.augment.push(augment(&m.augment_stmt));
+                }
             }
         }
     }

@@ -651,6 +651,11 @@ pub struct UsesNode {
     pub reference: Option<String>,
     pub when: Option<WhenNode>,
     pub status: Option<StatusNode>,
+    /// `augment` substatements (RFC 7950 §7.17, descendant form) that
+    /// add nodes to the grouping this `uses` instantiates. Applied
+    /// after the grouping is expanded, relative to the instantiation
+    /// point.
+    pub augment: Vec<AugmentNode>,
     pub d: DatadefNode,
 }
 

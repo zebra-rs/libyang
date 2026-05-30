@@ -98,3 +98,20 @@ fn augment_applies_within_same_module() {
     let added = find_child(&top, "added").expect("augmented leaf present");
     assert!(added.is_leaf(), "augmented node should be a leaf");
 }
+
+#[test]
+fn uses_augment_injects_into_grouping_subtree() {
+    // tests/yang/uses-augment.yang: container top { uses g { augment
+    // "box" { leaf added; } } } where grouping g defines box/base.
+    // After expansion, box should hold both the grouping's `base` and
+    // the uses-augment's `added`.
+    let root = load("uses-augment", "tests/yang");
+    let top = find_child(&root, "top").expect("top container");
+    let box_ = find_child(&top, "box").expect("box from grouping g");
+    assert!(
+        find_child(&box_, "base").is_some(),
+        "grouping's own leaf should survive"
+    );
+    let added = find_child(&box_, "added").expect("uses-augment leaf present");
+    assert!(added.is_leaf(), "augmented node should be a leaf");
+}
