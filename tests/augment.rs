@@ -34,6 +34,10 @@ fn find_child(ent: &Rc<Entry>, name: &str) -> Option<Rc<Entry>> {
     ent.dir.borrow().iter().find(|e| e.name == name).cloned()
 }
 
+fn count_children(ent: &Rc<Entry>, name: &str) -> usize {
+    ent.dir.borrow().iter().filter(|e| e.name == name).count()
+}
+
 #[test]
 fn augment_injects_leaf_into_cross_module_target() {
     // tests/yang/augment-target.yang — base module.
@@ -150,5 +154,37 @@ fn augment_adds_case_to_choice() {
         c.case.borrow().as_deref(),
         Some("extra"),
         "leaf should be tagged with the case name"
+    );
+}
+
+#[test]
+fn augment_rejects_duplicate_node() {
+    // tests/yang/augment-dup.yang augments container `box` with a `base`
+    // leaf that already exists plus a new `fresh` leaf. The duplicate
+    // must be rejected; the new node must be added.
+    let root = load("augment-dup", "tests/yang");
+    let box_ = find_child(&root, "box").expect("box container");
+    assert_eq!(
+        count_children(&box_, "base"),
+        1,
+        "duplicate `base` should not be added a second time"
+    );
+    assert!(
+        find_child(&box_, "fresh").is_some(),
+        "non-duplicate `fresh` should still be added"
+    );
+}
+
+#[test]
+fn augment_rejects_leaf_target() {
+    // tests/yang/augment-leaf-target.yang targets the leaf `box/target`,
+    // which is invalid. Nothing should be injected under the leaf.
+    let root = load("augment-leaf-target", "tests/yang");
+    let box_ = find_child(&root, "box").expect("box container");
+    let target = find_child(&box_, "target").expect("target leaf");
+    assert!(target.is_leaf(), "target should be a leaf");
+    assert!(
+        find_child(&target, "nope").is_none(),
+        "nothing should be added under a leaf target"
     );
 }

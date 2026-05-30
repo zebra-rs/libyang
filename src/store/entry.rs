@@ -271,6 +271,14 @@ where
     if augment_target_module(top, &aug.target) != root.name {
         return;
     }
+    // RFC 7950 §7.17: a top-level augment's target is an
+    // absolute-schema-nodeid (leading '/').
+    if !aug.target.starts_with('/') {
+        eprintln!(
+            "augment: top-level target \"{}\" must use the absolute form (leading '/')",
+            aug.target
+        );
+    }
     resolve_and_inject(top, store, root, aug, "augment");
 }
 
@@ -298,6 +306,14 @@ fn apply_uses_augment<T>(top: &T, store: &YangStore, ent: Rc<Entry>, aug: &Augme
 where
     T: ModuleCommon,
 {
+    // RFC 7950 §7.17: a uses-substatement augment's target is a
+    // descendant-schema-nodeid (no leading '/').
+    if aug.target.starts_with('/') {
+        eprintln!(
+            "uses augment: target \"{}\" must use the descendant form (no leading '/')",
+            aug.target
+        );
+    }
     resolve_and_inject(top, store, ent, aug, "uses augment");
 }
 
@@ -334,9 +350,46 @@ fn inject_augment_body<T>(top: &T, store: &YangStore, current: Rc<Entry>, aug: &
 where
     T: ModuleCommon,
 {
+    // RFC 7950 §7.17: data nodes and actions may only be added to a
+    // container/list/choice/case/input/output/notification — never to a
+    // leaf or leaf-list. Resolution lands on a leaf only when the
+    // augment is malformed.
+    if current.is_leaf_entry() {
+        eprintln!(
+            "augment: cannot add nodes to leaf target \"{}\" ({})",
+            current.name, aug.target
+        );
+        return;
+    }
+
+    // Snapshot existing child names so duplicates the augment introduces
+    // can be rejected afterwards (RFC 7950 §7.17: an augment MUST NOT add
+    // a node with the same name as one already present in the target).
+    let existing: Vec<String> = current
+        .dir
+        .borrow()
+        .iter()
+        .map(|e| e.name.clone())
+        .collect();
+    let before_len = existing.len();
+
     datadef_entry(top, store, &aug.d, current.clone());
     for a in aug.action.iter() {
         action_entry(top, store, a, current.clone());
+    }
+
+    let mut dir = current.dir.borrow_mut();
+    let mut i = before_len;
+    while i < dir.len() {
+        if existing.contains(&dir[i].name) {
+            eprintln!(
+                "augment: node \"{}\" already exists in target \"{}\"; not added",
+                dir[i].name, current.name
+            );
+            dir.remove(i);
+        } else {
+            i += 1;
+        }
     }
 }
 
