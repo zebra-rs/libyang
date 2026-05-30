@@ -205,19 +205,42 @@ pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
     entry.clone()
 }
 
-/// Walk `aug.target` from `root` and inject `aug.d`'s children at
-/// the resolved node. Silently no-ops if the target cannot be found
-/// (malformed augment, missing prefix binding, etc.).
-fn apply_augment<T>(top: &T, store: &YangStore, root: Rc<Entry>, aug: &AugmentNode)
+/// Resolve the name of the module whose schema tree `target` roots
+/// in, as seen from the augmenting module `top`. The leading segment
+/// of an absolute schema-node-identifier carries the prefix that
+/// binds the rest of the path to a module (RFC 7950 §6.5): the
+/// augmenting module's own prefix maps to its own name, an imported
+/// prefix maps to the imported module's name, and a bare (prefixless)
+/// first segment defaults to the augmenting module itself.
+fn augment_target_module<T>(top: &T, target: &str) -> String
 where
     T: ModuleCommon,
 {
+    let first = target.split('/').find(|s| !s.is_empty()).unwrap_or("");
+    match first.split_once(':') {
+        Some((prefix, _)) => {
+            if Some(prefix) == top.get_prefix() {
+                top.get_name().to_string()
+            } else {
+                // Maps an imported prefix to its module name, or
+                // returns the prefix unchanged when it binds to
+                // nothing — in which case the caller's module-name
+                // comparison fails and the augment is skipped.
+                prefix_resolve(top, prefix.to_string())
+            }
+        }
+        None => top.get_name().to_string(),
+    }
+}
+
+/// Walk `target` from `root`, matching each `[prefix:]name` segment
+/// by its bare name against the Entry tree (the tree carries no
+/// per-node namespace, and names are effectively unique within a
+/// container). Returns the resolved entry, or the first segment that
+/// did not match so callers can report where the path broke.
+fn resolve_target(root: Rc<Entry>, target: &str) -> Result<Rc<Entry>, String> {
     let mut current = root;
-    for seg in aug.target.split('/').filter(|s| !s.is_empty()) {
-        // YANG schema-node identifier segments are `[prefix:]name`.
-        // We match on the bare name against the Entry tree — the
-        // tree doesn't carry per-node namespace metadata, and names
-        // are effectively globally unique within their container.
+    for seg in target.split('/').filter(|s| !s.is_empty()) {
         let name = seg.rsplit(':').next().unwrap_or(seg);
         let next = current
             .dir
@@ -227,9 +250,42 @@ where
             .cloned();
         match next {
             Some(e) => current = e,
-            None => return,
+            None => return Err(seg.to_string()),
         }
     }
+    Ok(current)
+}
+
+/// Walk `aug.target` from `root` and inject `aug.d`'s children at the
+/// resolved node.
+///
+/// `to_entry` applies every loaded module's augments against the tree
+/// currently being built, so first check that this augment actually
+/// targets this tree's module (`root.name`) before touching it; that
+/// both prevents an augment from bleeding into an unrelated module
+/// that happens to share a node name and keeps the not-found
+/// diagnostic below meaningful. A relevant augment whose path does
+/// not resolve is a real error, so report it instead of silently
+/// no-oping.
+fn apply_augment<T>(top: &T, store: &YangStore, root: Rc<Entry>, aug: &AugmentNode)
+where
+    T: ModuleCommon,
+{
+    if augment_target_module(top, &aug.target) != root.name {
+        return;
+    }
+    let current = match resolve_target(root, &aug.target) {
+        Ok(current) => current,
+        Err(seg) => {
+            eprintln!(
+                "augment: in module {}, target \"{}\" not found (no node matching \"{}\")",
+                top.get_name(),
+                aug.target,
+                seg
+            );
+            return;
+        }
+    };
     datadef_entry(top, store, &aug.d, current);
 }
 
@@ -261,6 +317,8 @@ where
 }
 
 pub trait ModuleCommon {
+    fn get_name(&self) -> &str;
+    fn get_prefix(&self) -> Option<&str>;
     fn get_identity(&self) -> &Vec<IdentityNode>;
     fn get_identities_mut(&mut self) -> &mut HashMap<String, Vec<String>>;
     fn get_include(&self) -> &Vec<IncludeNode>;
@@ -757,6 +815,14 @@ where
 }
 
 impl ModuleCommon for ModuleNode {
+    fn get_name(&self) -> &str {
+        &self.name
+    }
+
+    fn get_prefix(&self) -> Option<&str> {
+        self.prefix.as_deref()
+    }
+
     fn get_identity(&self) -> &Vec<IdentityNode> {
         &self.identity
     }
@@ -787,6 +853,16 @@ impl ModuleCommon for ModuleNode {
 }
 
 impl ModuleCommon for SubmoduleNode {
+    fn get_name(&self) -> &str {
+        &self.name
+    }
+
+    fn get_prefix(&self) -> Option<&str> {
+        // A submodule has no prefix of its own; per RFC 7950 §7.2.2 it
+        // shares the prefix of the module it belongs to.
+        self.belongs_to.as_ref().and_then(|b| b.prefix.as_deref())
+    }
+
     fn get_identity(&self) -> &Vec<IdentityNode> {
         &self.identity
     }
@@ -813,5 +889,36 @@ impl ModuleCommon for SubmoduleNode {
 
     fn get_d(&self) -> &DatadefNode {
         &self.d
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn dir(name: &str) -> Rc<Entry> {
+        Rc::new(Entry::new_dir(name.to_string()))
+    }
+
+    #[test]
+    fn resolve_target_walks_prefixed_path_by_bare_name() {
+        let root = dir("m");
+        let top = dir("top");
+        let item = dir("item");
+        top.dir.borrow_mut().push(item);
+        root.dir.borrow_mut().push(top);
+
+        // Each `prefix:name` segment is matched on its bare name.
+        let found = resolve_target(root, "/a:top/a:item").expect("resolved");
+        assert_eq!(found.name, "item");
+    }
+
+    #[test]
+    fn resolve_target_reports_first_missing_segment() {
+        let root = dir("m");
+        root.dir.borrow_mut().push(dir("top"));
+
+        let err = resolve_target(root, "/a:top/a:missing").unwrap_err();
+        assert_eq!(err, "a:missing");
     }
 }

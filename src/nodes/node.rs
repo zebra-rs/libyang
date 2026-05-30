@@ -678,11 +678,25 @@ pub struct GroupingNode {
 /// string (e.g. "/a:root/a:inner/b:leaf") as written in the module;
 /// the entry-building pass splits the segments and resolves prefixes
 /// against the augmenting module's imports.
+///
+/// `when` carries the conditional that, per §7.17, MUST guard an
+/// augment that adds mandatory config to another module. `cases` and
+/// `action` hold the `case`/`action` substatements allowed when the
+/// target is a choice (case) or a container/list (action).
+///
+/// Not yet modeled (stage two): `if-feature` (its argument is a
+/// boolean feature expression that nothing in this crate captures
+/// yet) and `notification` (no notification node type exists in the
+/// AST at all). Both are parsed by the grammar and currently dropped.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct AugmentNode {
     pub target: String,
     pub description: Option<String>,
     pub reference: Option<String>,
+    pub when: Option<WhenNode>,
+    pub status: Option<StatusNode>,
+    pub cases: Vec<CaseNode>,
+    pub action: Vec<ActionNode>,
     pub d: DatadefNode,
 }
 

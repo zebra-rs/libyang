@@ -257,9 +257,21 @@ fn augment(m: &AugmentStmt) -> AugmentNode {
             AugmentStmtListGroup::ReferenceStmt(m) => {
                 node.reference = Some(ystring(&m.reference_stmt.ystring));
             }
-            AugmentStmtListGroup::WhenStmt(_) => {}
+            AugmentStmtListGroup::CaseStmt(m) => {
+                node.cases.push(case(&m.case_stmt));
+            }
+            AugmentStmtListGroup::ActionStmt(m) => {
+                node.action.push(action(&m.action_stmt));
+            }
+            AugmentStmtListGroup::WhenStmt(m) => {
+                node.when = Some(when(&m.when_stmt));
+            }
+            AugmentStmtListGroup::StatusStmt(m) => {
+                node.status = Some(status(&m.status_stmt));
+            }
+            // if-feature and notification are parsed but not yet
+            // modeled; see AugmentNode's doc comment for the reason.
             AugmentStmtListGroup::IfFeatureStmt(_) => {}
-            AugmentStmtListGroup::StatusStmt(_) => {}
             AugmentStmtListGroup::NotificationStmt(_) => {}
         }
     }

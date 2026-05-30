@@ -1,0 +1,36 @@
+module augment-substmts {
+  yang-version "1.1";
+  namespace "urn:test:augment-substmts";
+  prefix "sub";
+
+  container top {
+    choice sel {
+      case base {
+        leaf b {
+          type string;
+        }
+      }
+    }
+  }
+
+  // First augment exercises when / status / a data-def leaf / action
+  // (an action is permitted because the target is a container).
+  augment "/sub:top" {
+    when "true()";
+    status current;
+    leaf added {
+      type string;
+    }
+    action reset;
+  }
+
+  // Second augment exercises an explicit `case` (permitted because the
+  // target is a choice).
+  augment "/sub:top/sub:sel" {
+    case extra {
+      leaf c {
+        type string;
+      }
+    }
+  }
+}

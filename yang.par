@@ -192,6 +192,8 @@ AugmentStmt
       | DescriptionStmt
       | ReferenceStmt
       | DataDefStmt
+      | CaseStmt
+      | ActionStmt
       | NotificationStmt }
       '}'^;
 
