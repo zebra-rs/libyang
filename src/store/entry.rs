@@ -50,6 +50,12 @@ pub struct Entry {
     // here with the choice and case names.
     pub choice: RefCell<Option<String>>,
     pub case: RefCell<Option<String>>,
+
+    // Names of `choice` nodes defined directly under this entry. A
+    // choice is otherwise invisible in the flattened tree (only its
+    // cases' children appear), so recording the names lets an augment
+    // target a choice — including one that has no cases yet.
+    pub choice_defs: RefCell<Vec<String>>,
 }
 
 impl Entry {
@@ -397,9 +403,10 @@ where
 /// addressable entry — `choice_entry` flattens each case's children
 /// into the choice's parent, tagged with the choice/case names — so
 /// resolve the parent (every segment but the last) and treat the final
-/// segment as the choice name. The choice is only detectable once it
-/// already carries a case, so an empty choice cannot be augmented this
-/// way (a known limitation). Returns true if it handled the augment.
+/// segment as the choice name. The choice is recognised via the
+/// parent's recorded `choice_defs`, which lists every choice defined
+/// there whether or not it has cases. Returns true if it handled the
+/// augment.
 fn augment_into_choice<T>(top: &T, store: &YangStore, root: Rc<Entry>, aug: &AugmentNode) -> bool
 where
     T: ModuleCommon,
@@ -420,11 +427,7 @@ where
         }
     }
 
-    let is_choice = parent
-        .dir
-        .borrow()
-        .iter()
-        .any(|c| c.choice.borrow().as_deref() == Some(choice_name));
+    let is_choice = parent.choice_defs.borrow().iter().any(|n| n == choice_name);
     if !is_choice {
         return false;
     }
@@ -852,6 +855,10 @@ where
             return;
         }
     }
+
+    // Record the choice name on its parent so it stays addressable for
+    // augments even before (or without) any case contributing children.
+    ent.choice_defs.borrow_mut().push(c.name.clone());
 
     // Per RFC 7950 §7.9.2, neither the `choice` node nor its `case`
     // nodes appear in the data tree — only the case's direct data

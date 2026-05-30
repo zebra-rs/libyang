@@ -188,3 +188,16 @@ fn augment_rejects_leaf_target() {
         "nothing should be added under a leaf target"
     );
 }
+
+#[test]
+fn augment_adds_case_to_empty_choice() {
+    // tests/yang/augment-empty-choice.yang augments a choice that has no
+    // cases of its own. The choice is recorded on `top`, so the
+    // augment's case leaf is still injected and tagged.
+    let root = load("augment-empty-choice", "tests/yang");
+    let top = find_child(&root, "top").expect("top container");
+    let v = find_child(&top, "v").expect("augmented case leaf present");
+    assert!(v.is_leaf(), "augmented node should be a leaf");
+    assert_eq!(v.choice.borrow().as_deref(), Some("sel"));
+    assert_eq!(v.case.borrow().as_deref(), Some("only"));
+}
