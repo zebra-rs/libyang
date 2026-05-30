@@ -1,0 +1,25 @@
+module augment-iffeature {
+  yang-version "1.1";
+  namespace "urn:test:augment-iffeature";
+  prefix "iff";
+
+  feature a;
+  feature b;
+  feature c;
+
+  container box {
+    leaf base {
+      type string;
+    }
+  }
+
+  // Compound if-feature expression to exercise and/or/not/parens.
+  // The expression form is unquoted (quoting collapses to a single
+  // identifier per the grammar).
+  augment "/iff:box" {
+    if-feature a and (b or not c);
+    leaf added {
+      type string;
+    }
+  }
+}

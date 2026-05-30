@@ -384,10 +384,16 @@ IfFeatureExpr
 IfFeatureTerm
     : IfFeatureFactor [ <IfFeature>'and' IfFeatureTerm ];
 
+// A feature reference is read directly in the IfFeature scanner so the
+// context stays active across the whole expression. Routing through
+// IdentifierRefArgStr (as before) reset the scanner to INITIAL after the
+// first name, which left a following `and`/`or`/`not` lexed as a plain
+// identifier and broke every compound if-feature expression.
 IfFeatureFactor
     : <IfFeature>'not' IfFeatureFactor
     | <IfFeature>'(' IfFeatureExpr <IfFeature>')'
-    | IdentifierRefArgStr;
+    | Identifier
+    | <IfFeature>'"' Identifier <IfFeature>'"';
 
 PresenceStmt
     : 'presence'^ Ystring Semicolon^;

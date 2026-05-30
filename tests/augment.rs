@@ -5,7 +5,7 @@
 // /base:root/base:item with a new leaf `badge`. After to_entry, the
 // badge leaf should appear under the item list's dir.
 
-use libyang::{AugmentNode, Entry, YangStore, to_entry};
+use libyang::{AugmentNode, Entry, IfFeatureExprNode, YangStore, to_entry};
 use std::rc::Rc;
 
 fn load(name: &str, yang_dir: &str) -> Rc<Entry> {
@@ -187,6 +187,29 @@ fn augment_rejects_leaf_target() {
         find_child(&target, "nope").is_none(),
         "nothing should be added under a leaf target"
     );
+}
+
+#[test]
+fn augment_captures_if_feature_expression() {
+    // tests/yang/augment-iffeature.yang carries
+    // `if-feature "a and (b or not c)"`, which should parse to
+    // And(a, Or(b, Not(c))) — `and` binds tighter than `or`, and the
+    // parentheses fold into the tree.
+    use IfFeatureExprNode::{And, Feature, Not, Or};
+
+    let augments = augments_of("augment-iffeature", "tests/yang");
+    assert_eq!(augments.len(), 1);
+    let if_features = &augments[0].if_feature;
+    assert_eq!(if_features.len(), 1, "one if-feature statement expected");
+
+    let expected = And(
+        Box::new(Feature("a".to_string())),
+        Box::new(Or(
+            Box::new(Feature("b".to_string())),
+            Box::new(Not(Box::new(Feature("c".to_string())))),
+        )),
+    );
+    assert_eq!(if_features[0].expr, expected);
 }
 
 #[test]

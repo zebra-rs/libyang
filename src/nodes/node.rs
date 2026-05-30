@@ -323,14 +323,29 @@ impl WhenNode {
     }
 }
 
-#[derive(Debug, PartialEq, Clone, Default)]
+/// A parsed `if-feature` boolean expression (RFC 7950 §7.20.2): a
+/// feature reference (possibly prefixed), a negation, or an `and`/`or`
+/// of subexpressions. Parentheses in the source collapse into the tree
+/// shape and are not represented explicitly.
+#[derive(Debug, PartialEq, Clone)]
+pub enum IfFeatureExprNode {
+    Feature(String),
+    Not(Box<IfFeatureExprNode>),
+    And(Box<IfFeatureExprNode>, Box<IfFeatureExprNode>),
+    Or(Box<IfFeatureExprNode>, Box<IfFeatureExprNode>),
+}
+
+/// One `if-feature` statement, carrying its parsed expression. The
+/// expression is captured but not yet evaluated — there is no
+/// feature-support context in the entry-building pass.
+#[derive(Debug, PartialEq, Clone)]
 pub struct IfFeatureNode {
-    pub name: String,
+    pub expr: IfFeatureExprNode,
 }
 
 impl IfFeatureNode {
-    pub fn new(name: String) -> Self {
-        Self { name }
+    pub fn new(expr: IfFeatureExprNode) -> Self {
+        Self { expr }
     }
 }
 
@@ -688,11 +703,11 @@ pub struct GroupingNode {
 /// augment that adds mandatory config to another module. `cases` and
 /// `action` hold the `case`/`action` substatements allowed when the
 /// target is a choice (case) or a container/list (action).
+/// `if_feature` holds the parsed `if-feature` expressions (captured but
+/// not yet evaluated — there is no feature-support context).
 ///
-/// Not yet modeled (stage two): `if-feature` (its argument is a
-/// boolean feature expression that nothing in this crate captures
-/// yet) and `notification` (no notification node type exists in the
-/// AST at all). Both are parsed by the grammar and currently dropped.
+/// Not yet modeled: `notification` (no notification node type exists in
+/// the AST at all). It is parsed by the grammar and currently dropped.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct AugmentNode {
     pub target: String,
@@ -700,6 +715,7 @@ pub struct AugmentNode {
     pub reference: Option<String>,
     pub when: Option<WhenNode>,
     pub status: Option<StatusNode>,
+    pub if_feature: Vec<IfFeatureNode>,
     pub cases: Vec<CaseNode>,
     pub action: Vec<ActionNode>,
     pub d: DatadefNode,
