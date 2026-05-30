@@ -1,0 +1,26 @@
+module augment-choice {
+  yang-version "1.1";
+  namespace "urn:test:augment-choice";
+  prefix "ac";
+
+  container top {
+    choice sel {
+      case base {
+        leaf b {
+          type string;
+        }
+      }
+    }
+  }
+
+  // Augment a choice with a new case (RFC 7950 §7.17). The case's
+  // children are flattened into the choice's parent and tagged with
+  // the choice/case names.
+  augment "/ac:top/ac:sel" {
+    case extra {
+      leaf c {
+        type string;
+      }
+    }
+  }
+}

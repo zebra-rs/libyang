@@ -256,17 +256,14 @@ fn resolve_target(root: Rc<Entry>, target: &str) -> Result<Rc<Entry>, String> {
     Ok(current)
 }
 
-/// Walk `aug.target` from `root` and inject `aug.d`'s children at the
-/// resolved node.
+/// Apply a top-level `augment` against the tree rooted at `root`.
 ///
 /// `to_entry` applies every loaded module's augments against the tree
 /// currently being built, so first check that this augment actually
 /// targets this tree's module (`root.name`) before touching it; that
 /// both prevents an augment from bleeding into an unrelated module
 /// that happens to share a node name and keeps the not-found
-/// diagnostic below meaningful. A relevant augment whose path does
-/// not resolve is a real error, so report it instead of silently
-/// no-oping.
+/// diagnostic meaningful.
 fn apply_augment<T>(top: &T, store: &YangStore, root: Rc<Entry>, aug: &AugmentNode)
 where
     T: ModuleCommon,
@@ -274,19 +271,7 @@ where
     if augment_target_module(top, &aug.target) != root.name {
         return;
     }
-    let current = match resolve_target(root, &aug.target) {
-        Ok(current) => current,
-        Err(seg) => {
-            eprintln!(
-                "augment: in module {}, target \"{}\" not found (no node matching \"{}\")",
-                top.get_name(),
-                aug.target,
-                seg
-            );
-            return;
-        }
-    };
-    datadef_entry(top, store, &aug.d, current);
+    resolve_and_inject(top, store, root, aug, "augment");
 }
 
 /// Expand a `uses` into `ent`: instantiate the referenced grouping,
@@ -304,7 +289,7 @@ where
     }
 }
 
-/// Inject a `uses`-substatement augment (RFC 7950 §7.17, descendant
+/// Apply a `uses`-substatement augment (RFC 7950 §7.17, descendant
 /// form). The target path is relative to `ent`, the point where the
 /// grouping was just expanded, so resolve from there directly. Unlike
 /// a top-level augment there is no cross-module targeting to gate on —
@@ -313,14 +298,154 @@ fn apply_uses_augment<T>(top: &T, store: &YangStore, ent: Rc<Entry>, aug: &Augme
 where
     T: ModuleCommon,
 {
-    match resolve_target(ent, &aug.target) {
-        Ok(current) => datadef_entry(top, store, &aug.d, current),
-        Err(seg) => eprintln!(
-            "uses augment: in module {}, target \"{}\" not found (no node matching \"{}\")",
-            top.get_name(),
-            aug.target,
-            seg
-        ),
+    resolve_and_inject(top, store, ent, aug, "uses augment");
+}
+
+/// Resolve `aug.target` from `root` and inject the augment body.
+/// Shared by top-level and uses augments (`kind` only labels the
+/// diagnostic). If the path resolves to a data node, inject there; if
+/// the final segment instead names a choice (choices are flattened and
+/// not addressable as entries), add the augment's cases to that choice.
+fn resolve_and_inject<T>(top: &T, store: &YangStore, root: Rc<Entry>, aug: &AugmentNode, kind: &str)
+where
+    T: ModuleCommon,
+{
+    match resolve_target(root.clone(), &aug.target) {
+        Ok(current) => inject_augment_body(top, store, current, aug),
+        Err(seg) => {
+            if !augment_into_choice(top, store, root, aug) {
+                eprintln!(
+                    "{kind}: in module {}, target \"{}\" not found (no node matching \"{}\")",
+                    top.get_name(),
+                    aug.target,
+                    seg
+                );
+            }
+        }
+    }
+}
+
+/// Inject an augment body into an already-resolved data node: its
+/// data-def children (RFC 7950 §7.17) and any `action` substatements
+/// (valid when the target is a container or list). Explicit `case`
+/// substatements are handled separately by `augment_into_choice` since
+/// they only apply to choice targets, which are not data nodes.
+fn inject_augment_body<T>(top: &T, store: &YangStore, current: Rc<Entry>, aug: &AugmentNode)
+where
+    T: ModuleCommon,
+{
+    datadef_entry(top, store, &aug.d, current.clone());
+    for a in aug.action.iter() {
+        action_entry(top, store, a, current.clone());
+    }
+}
+
+/// Handle an augment whose target is a choice. A choice node is not an
+/// addressable entry — `choice_entry` flattens each case's children
+/// into the choice's parent, tagged with the choice/case names — so
+/// resolve the parent (every segment but the last) and treat the final
+/// segment as the choice name. The choice is only detectable once it
+/// already carries a case, so an empty choice cannot be augmented this
+/// way (a known limitation). Returns true if it handled the augment.
+fn augment_into_choice<T>(top: &T, store: &YangStore, root: Rc<Entry>, aug: &AugmentNode) -> bool
+where
+    T: ModuleCommon,
+{
+    let segs: Vec<&str> = aug.target.split('/').filter(|s| !s.is_empty()).collect();
+    let Some((last, parents)) = segs.split_last() else {
+        return false;
+    };
+    let choice_name = last.rsplit(':').next().unwrap_or(last);
+
+    let mut parent = root;
+    for seg in parents {
+        let name = seg.rsplit(':').next().unwrap_or(seg);
+        let next = parent.dir.borrow().iter().find(|e| e.name == name).cloned();
+        match next {
+            Some(e) => parent = e,
+            None => return false,
+        }
+    }
+
+    let is_choice = parent
+        .dir
+        .borrow()
+        .iter()
+        .any(|c| c.choice.borrow().as_deref() == Some(choice_name));
+    if !is_choice {
+        return false;
+    }
+
+    // Explicit `case` substatements.
+    for case in aug.cases.iter() {
+        inject_case(top, store, parent.clone(), choice_name, &case.name, &case.d);
+    }
+    // Shorthand cases: each direct data node forms its own case named
+    // after the node (RFC 7950 §7.9.2).
+    for c in aug.d.container.iter() {
+        inject_case_node(parent.clone(), choice_name, &c.name, |e| {
+            container_entry(top, store, c, e)
+        });
+    }
+    for leaf in aug.d.leaf.iter() {
+        inject_case_node(parent.clone(), choice_name, &leaf.name, |e| {
+            leaf_entry(top, store, leaf, e)
+        });
+    }
+    for list in aug.d.list.iter() {
+        inject_case_node(parent.clone(), choice_name, &list.name, |e| {
+            list_entry(top, store, list, e)
+        });
+    }
+    for leaf_list in aug.d.leaf_list.iter() {
+        inject_case_node(parent.clone(), choice_name, &leaf_list.name, |e| {
+            leaf_list_entry(top, store, leaf_list, e)
+        });
+    }
+    true
+}
+
+/// Inject an explicit `case`'s data-def children into `ent` (the
+/// choice's parent) and tag the newly added entries with the choice
+/// and case names — the flattened representation used throughout for
+/// choice/case membership.
+fn inject_case<T>(
+    top: &T,
+    store: &YangStore,
+    ent: Rc<Entry>,
+    choice_name: &str,
+    case_name: &str,
+    d: &DatadefNode,
+) where
+    T: ModuleCommon,
+{
+    let before = ent.dir.borrow().len();
+    datadef_entry(top, store, d, ent.clone());
+    tag_case_children(&ent, before, choice_name, case_name);
+}
+
+/// Inject a single shorthand-case node via `build` and tag the entries
+/// it added with the choice name and the node's own name (the implicit
+/// case name for a shorthand case).
+fn inject_case_node<F>(ent: Rc<Entry>, choice_name: &str, case_name: &str, build: F)
+where
+    F: FnOnce(Rc<Entry>),
+{
+    let before = ent.dir.borrow().len();
+    build(ent.clone());
+    tag_case_children(&ent, before, choice_name, case_name);
+}
+
+/// Tag entries appended to `ent.dir` at or after index `before` with
+/// the given choice/case names, leaving any already tagged by a nested
+/// choice recursion untouched (innermost wins).
+fn tag_case_children(ent: &Rc<Entry>, before: usize, choice_name: &str, case_name: &str) {
+    let dir = ent.dir.borrow();
+    for child in dir[before..].iter() {
+        if child.choice.borrow().is_none() {
+            *child.choice.borrow_mut() = Some(choice_name.to_string());
+            *child.case.borrow_mut() = Some(case_name.to_string());
+        }
     }
 }
 
@@ -679,42 +804,10 @@ where
     // nodes appear in the data tree — only the case's direct data
     // children do. We flatten each case's children into the choice's
     // parent `ent.dir` and tag each added entry with (choice, case)
-    // metadata so consumers can enforce mutual exclusion later.
-    let choice_name = c.name.clone();
-
+    // metadata so consumers can enforce mutual exclusion later. The
+    // same flattening is reused by `augment_into_choice`.
     for case in c.cases.iter() {
-        let case_name = case.name.clone();
-        let len_before = ent.dir.borrow().len();
-
-        for uses in case.d.uses.iter() {
-            uses_entry(top, store, uses, ent.clone());
-        }
-        for cnode in case.d.container.iter() {
-            container_entry(top, store, cnode, ent.clone());
-        }
-        for leaf in case.d.leaf.iter() {
-            leaf_entry(top, store, leaf, ent.clone());
-        }
-        for list in case.d.list.iter() {
-            list_entry(top, store, list, ent.clone());
-        }
-        for leaf_list in case.d.leaf_list.iter() {
-            leaf_list_entry(top, store, leaf_list, ent.clone());
-        }
-        for nested in case.d.choice.iter() {
-            choice_entry(top, store, nested, ent.clone());
-        }
-
-        // Tag the newly added entries. Skip any already tagged by a
-        // nested `choice_entry` recursion — the innermost choice/case
-        // wins (outer-nesting metadata is not currently represented).
-        let dir = ent.dir.borrow();
-        for child in dir[len_before..].iter() {
-            if child.choice.borrow().is_none() {
-                *child.choice.borrow_mut() = Some(choice_name.clone());
-                *child.case.borrow_mut() = Some(case_name.clone());
-            }
-        }
+        inject_case(top, store, ent.clone(), &c.name, &case.name, &case.d);
     }
 }
 

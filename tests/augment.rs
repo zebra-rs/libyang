@@ -115,3 +115,40 @@ fn uses_augment_injects_into_grouping_subtree() {
     let added = find_child(&box_, "added").expect("uses-augment leaf present");
     assert!(added.is_leaf(), "augmented node should be a leaf");
 }
+
+#[test]
+fn augment_adds_action_to_container() {
+    // tests/yang/augment-action.yang augments container `box` with an
+    // `action ping;`. The action should appear as an action entry.
+    let root = load("augment-action", "tests/yang");
+    let box_ = find_child(&root, "box").expect("box container");
+    let ping = find_child(&box_, "ping").expect("augmented action present");
+    assert!(ping.is_action(), "augmented node should be an action");
+}
+
+#[test]
+fn augment_adds_case_to_choice() {
+    // tests/yang/augment-choice.yang augments choice `sel` (in `top`)
+    // with `case extra { leaf c; }`. The case's leaf is flattened into
+    // `top` and tagged with the choice/case names, alongside the
+    // pre-existing `base` case's leaf.
+    let root = load("augment-choice", "tests/yang");
+    let top = find_child(&root, "top").expect("top container");
+
+    assert!(
+        find_child(&top, "b").is_some(),
+        "pre-existing case leaf should survive"
+    );
+    let c = find_child(&top, "c").expect("augmented case leaf present");
+    assert!(c.is_leaf(), "augmented node should be a leaf");
+    assert_eq!(
+        c.choice.borrow().as_deref(),
+        Some("sel"),
+        "leaf should be tagged with the choice name"
+    );
+    assert_eq!(
+        c.case.borrow().as_deref(),
+        Some("extra"),
+        "leaf should be tagged with the case name"
+    );
+}
