@@ -257,13 +257,73 @@ fn augment(m: &AugmentStmt) -> AugmentNode {
             AugmentStmtListGroup::ReferenceStmt(m) => {
                 node.reference = Some(ystring(&m.reference_stmt.ystring));
             }
-            AugmentStmtListGroup::WhenStmt(_) => {}
-            AugmentStmtListGroup::IfFeatureStmt(_) => {}
-            AugmentStmtListGroup::StatusStmt(_) => {}
+            AugmentStmtListGroup::CaseStmt(m) => {
+                node.cases.push(case(&m.case_stmt));
+            }
+            AugmentStmtListGroup::ActionStmt(m) => {
+                node.action.push(action(&m.action_stmt));
+            }
+            AugmentStmtListGroup::WhenStmt(m) => {
+                node.when = Some(when(&m.when_stmt));
+            }
+            AugmentStmtListGroup::StatusStmt(m) => {
+                node.status = Some(status(&m.status_stmt));
+            }
+            AugmentStmtListGroup::IfFeatureStmt(m) => {
+                node.if_feature.push(if_feature(&m.if_feature_stmt));
+            }
+            // notification is parsed but not yet modeled; see
+            // AugmentNode's doc comment for the reason.
             AugmentStmtListGroup::NotificationStmt(_) => {}
         }
     }
     node
+}
+
+/// Convert an `if-feature` statement's expression (RFC 7950 §7.20.2)
+/// into the structured `IfFeatureExprNode` tree. Reusable by any
+/// statement that accepts `if-feature`.
+fn if_feature(m: &IfFeatureStmt) -> IfFeatureNode {
+    IfFeatureNode::new(if_feature_expr(&m.if_feature_expr_str.if_feature_expr))
+}
+
+fn if_feature_expr(e: &IfFeatureExpr) -> IfFeatureExprNode {
+    let term = if_feature_term(&e.if_feature_term);
+    match &e.if_feature_expr_opt {
+        // `term or expr` — `or` is right-associative as written.
+        Some(opt) => IfFeatureExprNode::Or(
+            Box::new(term),
+            Box::new(if_feature_expr(&opt.if_feature_expr)),
+        ),
+        None => term,
+    }
+}
+
+fn if_feature_term(t: &IfFeatureTerm) -> IfFeatureExprNode {
+    let factor = if_feature_factor(&t.if_feature_factor);
+    match &t.if_feature_term_opt {
+        // `factor and term` — binds tighter than `or`.
+        Some(opt) => IfFeatureExprNode::And(
+            Box::new(factor),
+            Box::new(if_feature_term(&opt.if_feature_term)),
+        ),
+        None => factor,
+    }
+}
+
+fn if_feature_factor(f: &IfFeatureFactor) -> IfFeatureExprNode {
+    match f {
+        IfFeatureFactor::NotIfFeatureFactor(m) => {
+            IfFeatureExprNode::Not(Box::new(if_feature_factor(&m.if_feature_factor)))
+        }
+        IfFeatureFactor::LParenIfFeatureExprRParen(m) => if_feature_expr(&m.if_feature_expr),
+        IfFeatureFactor::Identifier(m) => {
+            IfFeatureExprNode::Feature(m.identifier.identifier.text().to_string())
+        }
+        IfFeatureFactor::DoubleQuotationIdentifierDoubleQuotation(m) => {
+            IfFeatureExprNode::Feature(m.identifier.identifier.text().to_string())
+        }
+    }
 }
 
 fn datadef(node: &mut DatadefNode, m: &DataDefStmt) {
@@ -1153,7 +1213,9 @@ fn uses(m: &UsesStmt) -> UsesNode {
                     node.reference = Some(ystring(&m.reference_stmt.ystring));
                 }
                 UsesStmtListGroup::RefineStmt(_m) => {}
-                UsesStmtListGroup::AugmentStmt(_m) => {}
+                UsesStmtListGroup::AugmentStmt(m) => {
+                    node.augment.push(augment(&m.augment_stmt));
+                }
             }
         }
     }

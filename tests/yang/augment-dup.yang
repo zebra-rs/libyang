@@ -1,0 +1,22 @@
+module augment-dup {
+  yang-version "1.1";
+  namespace "urn:test:augment-dup";
+  prefix "ad";
+
+  container box {
+    leaf base {
+      type string;
+    }
+  }
+
+  // `base` duplicates an existing child and must be rejected (RFC 7950
+  // §7.17); `fresh` is new and must be added.
+  augment "/ad:box" {
+    leaf base {
+      type string;
+    }
+    leaf fresh {
+      type string;
+    }
+  }
+}

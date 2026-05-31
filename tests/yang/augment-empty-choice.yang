@@ -1,0 +1,21 @@
+module augment-empty-choice {
+  yang-version "1.1";
+  namespace "urn:test:augment-empty-choice";
+  prefix "ec";
+
+  container top {
+    // A choice with no cases of its own.
+    choice sel {
+    }
+  }
+
+  // Augmenting an empty choice must still work: the choice is recorded
+  // on `top` even though it contributes no children initially.
+  augment "/ec:top/ec:sel" {
+    case only {
+      leaf v {
+        type string;
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+module uses-augment {
+  yang-version "1.1";
+  namespace "urn:test:uses-augment";
+  prefix "ua";
+
+  grouping g {
+    container box {
+      leaf base {
+        type string;
+      }
+    }
+  }
+
+  container top {
+    // Instantiate grouping `g` and, via a uses-substatement augment
+    // (descendant form), add `added` into the grouping's `box`.
+    uses g {
+      augment "box" {
+        leaf added {
+          type string;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+module augment-apply {
+  yang-version "1.1";
+  namespace "urn:test:augment-apply";
+  prefix "ap";
+
+  container top {
+    leaf base {
+      type string;
+    }
+  }
+
+  // Same-module augment with a `when` guard; to_entry should still
+  // inject `added` under `top`.
+  augment "/ap:top" {
+    when "true()";
+    leaf added {
+      type string;
+    }
+  }
+}

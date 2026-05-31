@@ -1,0 +1,17 @@
+module augment-action {
+  yang-version "1.1";
+  namespace "urn:test:augment-action";
+  prefix "aa";
+
+  container box {
+    leaf base {
+      type string;
+    }
+  }
+
+  // Augment a container with an action (RFC 7950 §7.17 permits action
+  // when the target is a container or list).
+  augment "/aa:box" {
+    action ping;
+  }
+}
