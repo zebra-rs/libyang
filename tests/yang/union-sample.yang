@@ -29,4 +29,31 @@ module union-sample {
       type string;
     }
   }
+
+  // A numeric arm reached via a typedef *reference* (a Path arm),
+  // mirroring `inet:as-number` (which resolves to uint32).
+  typedef my-as {
+    type uint32;
+  }
+
+  // A *typedef'd* union (the leaf references `num-or-keyword`, so
+  // resolution goes through type_union_resolve, not type_resolve's
+  // inline branch) whose arms are a Path-to-numeric and an
+  // enumeration. Regression: type_union_resolve kept only String /
+  // Union arms, so the Path-to-uint32 arm was dropped and a numeric
+  // value (e.g. `remote-as 65002` in zebra-rs's interface-neighbor)
+  // was rejected while the enum members were accepted.
+  typedef num-or-keyword {
+    type union {
+      type my-as;
+      type enumeration {
+        enum external;
+        enum internal;
+      }
+    }
+  }
+
+  leaf ref-or-num {
+    type num-or-keyword;
+  }
 }
