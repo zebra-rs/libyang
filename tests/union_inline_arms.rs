@@ -57,3 +57,27 @@ fn inline_union_keeps_all_builtin_arms() {
         "string arm must survive; got {kinds:?}"
     );
 }
+
+// Regression: a *typedef'd* union (resolved via type_union_resolve,
+// not type_resolve's inline branch) whose arms include a Path that
+// resolves to a numeric type plus an enumeration. type_union_resolve
+// previously kept only String / Union arms, dropping the numeric arm
+// — so a numeric value was rejected while the enum members were
+// accepted (zebra-rs `interface-neighbor remote-as 65002` refused,
+// `remote-as external` accepted).
+#[test]
+fn typedef_union_keeps_numeric_and_enum_arms() {
+    let root = load("union-sample", "tests/yang");
+    let leaf = find_child(&root, "ref-or-num").expect("ref-or-num leaf");
+    let t = leaf.type_node.as_ref().expect("type_node");
+    assert_eq!(t.kind, YangType::Union);
+    let kinds: Vec<YangType> = t.union.iter().map(|n| n.kind).collect();
+    assert!(
+        kinds.contains(&YangType::Uint32),
+        "numeric (my-as -> uint32) arm of a typedef'd union must survive; got {kinds:?}"
+    );
+    assert!(
+        kinds.contains(&YangType::Enumeration),
+        "enumeration arm must survive; got {kinds:?}"
+    );
+}

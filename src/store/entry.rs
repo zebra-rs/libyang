@@ -637,32 +637,40 @@ where
     for node in type_node.union.iter() {
         if node.kind == YangType::Path {
             if let Some(n) = type_path_resolve(top, store, node) {
-                if n.kind == YangType::String {
-                    let mut m = n.clone();
-                    m.typedef = Some(node.name.clone());
-                    nodes.push(m);
-                }
                 if n.kind == YangType::Union {
+                    // A typedef'd arm whose base is itself a union
+                    // (e.g. `type union { type some-union; … }`).
+                    // type_path_resolve already returned its fully
+                    // resolved arms, so flatten them in directly —
+                    // keeping every arm, not just the String ones.
                     for m in n.union.iter() {
-                        if m.kind == YangType::Path {
-                            if let Some(o) = type_path_resolve(top, store, m) {
-                                if o.kind == YangType::String {
-                                    let mut o = o.clone();
-                                    o.typedef = Some(m.name.clone());
-                                    nodes.push(o);
-                                }
-                            }
-                        }
+                        nodes.push(m.clone());
                     }
+                } else {
+                    // Any other resolved scalar/address/string arm
+                    // (e.g. `inet:as-number` → uint32, `inet:ipv4-
+                    // address`, a patterned string). Previously only
+                    // String arms were kept, so a union like
+                    // `union { inet:as-number; enumeration { … } }`
+                    // silently dropped the numeric arm and rejected
+                    // every numeric value. Preserve the typedef name
+                    // so the matcher can map it via `ytype_from_typedef`
+                    // (e.g. inet:ipv4-address → Ipv4Addr).
+                    let mut m = n.clone();
+                    if m.typedef.is_none() {
+                        m.typedef = Some(node.name.clone());
+                    }
+                    nodes.push(m);
                 }
             }
         } else {
             // Inline union arm with a recognized kind (e.g.
-            // `type string { pattern '...'; }` written directly
-            // inside the union, not via a typedef reference). Keep
-            // it so the matcher can dispatch on it; the previous
-            // drop-on-the-floor behavior was the reason inline
-            // pattern-restricted string arms in unions never engaged.
+            // `type string { pattern '...'; }` or `type uint32;`
+            // written directly inside the union, not via a typedef
+            // reference). Keep it so the matcher can dispatch on it;
+            // the previous drop-on-the-floor behavior was the reason
+            // inline pattern-restricted string arms in unions never
+            // engaged.
             nodes.push(node.clone());
         }
     }
