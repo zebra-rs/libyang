@@ -1161,12 +1161,17 @@ fn case(m: &CaseStmt) -> CaseNode {
     node
 }
 
-fn config(_m: &ConfigStmt) -> ConfigNode {
-    // Behavior preserved from the 3.x grammar: the original read the `config`
-    // keyword token (`m.config.text()`), which is literally "config" and never
-    // "true", so this has always evaluated to false. The keyword is now a
-    // clipped primary non-terminal (KwConfig^) and no longer in the AST.
-    ConfigNode::new(false)
+fn config(m: &ConfigStmt) -> ConfigNode {
+    // Read the `true`/`false` argument (`config` takes a MandatoryArgStr).
+    // Note: pre-4.x this read the `config` keyword token instead of the
+    // argument, so it always evaluated to false — a latent bug now fixed.
+    let text = match &*m.mandatory_arg_str {
+        MandatoryArgStr::MandatoryArg(m) => m.mandatory_arg.mandatory_arg.text(),
+        MandatoryArgStr::DoubleQuotationMandatoryArgDoubleQuotation(m) => {
+            m.mandatory_arg.mandatory_arg.text()
+        }
+    };
+    ConfigNode::new(text == "true")
 }
 
 fn mandatory(m: &MandatoryStmt) -> MandatoryNode {

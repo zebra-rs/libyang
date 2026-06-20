@@ -1,0 +1,22 @@
+module config-sample {
+  yang-version 1.1;
+  namespace "urn:config-sample";
+  prefix cs;
+
+  // Exercises the `config` statement. Per RFC 7950, `config false`
+  // nodes are state data and are excluded from the data (config) tree
+  // by to_entry; `config true` and config-unset nodes are kept.
+  container top {
+    leaf cfg-true {
+      type string;
+      config true;
+    }
+    leaf cfg-false {
+      type string;
+      config false;
+    }
+    leaf cfg-none {
+      type string;
+    }
+  }
+}
