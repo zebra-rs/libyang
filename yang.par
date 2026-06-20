@@ -2,6 +2,14 @@
 %title "Yang grammar"
 %comment "YANG grammar by `parol`"
 %line_comment "//"
+// KNOWN LIMITATION (parol 3.x / scnr): parol generates the matcher
+// `/\*([^*]|\*[^/])*\*/` from this directive, which fails to match block
+// comments ending in `**/` (an even number of trailing stars, e.g.
+// `/*** text **/`). The end delimiter can't be widened (parol caps it at 2
+// chars) and there is no user-defined skip-terminal escape hatch, so such
+// comments are unsupported. Only one in-repo reference module hits this
+// (yang/ietf-routing-types@2017-12-04.yang). See the Identifier note below
+// for the related scnr regex-dialect difference.
 %block_comment  "/\*" "\*/"
 
 %scanner DQString {
@@ -810,8 +818,13 @@ IdentifierArgStr
     : %push(Keyword) Identifier %pop()
     | %push(Keyword) <Keyword>'"'^ Identifier <Keyword>'"'^ %pop();
 
+// The `.` in this character class is escaped (`\.`). parol's scanner since
+// 2.0 is `scnr`, whose regex dialect treats an UNESCAPED `.` inside a class
+// as "any character" (the previous regex-automata backend treated it as a
+// literal dot). Left unescaped, this class matches anything and longest-match
+// makes Identifier swallow whole lines, breaking all parsing.
 Identifier
-    : <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/.:]*/;
+    : <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/\.:]*/;
 
 AsciiNoSemicolon
     : <Default>/[ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7e}]+/;

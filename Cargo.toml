@@ -15,12 +15,12 @@ exclude = ["/.github/*"]
 [dependencies]
 anyhow = "1"
 env_logger = "0.11"
-parol_runtime = { version = "0.24", features = ["auto_generation"] }
+parol_runtime = "3"
 thiserror = "2"
 
 [build-dependencies]
-parol = "0.31"
-parol_runtime = { version = "0.24", features = ["auto_generation"] }
+parol = "3"
+parol_runtime = "3"
 
 # For faster builds.
 [profile.dev.build-override]

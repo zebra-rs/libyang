@@ -10,7 +10,6 @@
 #![allow(clippy::large_enum_variant)]
 #![allow(clippy::upper_case_acronyms)]
 
-use parol_runtime::derive_builder::Builder;
 use parol_runtime::log::trace;
 #[allow(unused_imports)]
 use parol_runtime::parol_macros::{pop_and_reverse_item, pop_item};
@@ -677,7 +676,7 @@ pub trait YangGrammarTrait<'t> {
 
     /// This method provides skipped language comments.
     /// If you need comments please provide your own implementation of this method.
-    fn on_comment_parsed(&mut self, _token: Token<'t>) {}
+    fn on_comment(&mut self, _token: Token<'t>) {}
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -691,8 +690,7 @@ pub trait YangGrammarTrait<'t> {
 /// `Yang: ModuleStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YangModuleStmt<'t> {
     pub module_stmt: Box<ModuleStmt<'t>>,
 }
@@ -703,8 +701,7 @@ pub struct YangModuleStmt<'t> {
 /// `Yang: SubmoduleStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YangSubmoduleStmt<'t> {
     pub submodule_stmt: Box<SubmoduleStmt<'t>>,
 }
@@ -715,8 +712,7 @@ pub struct YangSubmoduleStmt<'t> {
 /// `ModuleHeaderStmts: YangVersionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ModuleHeaderStmtsYangVersionStmt<'t> {
     pub yang_version_stmt: Box<YangVersionStmt<'t>>,
 }
@@ -727,8 +723,7 @@ pub struct ModuleHeaderStmtsYangVersionStmt<'t> {
 /// `ModuleHeaderStmts: NamespaceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ModuleHeaderStmtsNamespaceStmt<'t> {
     pub namespace_stmt: Box<NamespaceStmt<'t>>,
 }
@@ -739,8 +734,7 @@ pub struct ModuleHeaderStmtsNamespaceStmt<'t> {
 /// `ModuleHeaderStmts: PrefixStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ModuleHeaderStmtsPrefixStmt<'t> {
     pub prefix_stmt: Box<PrefixStmt<'t>>,
 }
@@ -751,8 +745,7 @@ pub struct ModuleHeaderStmtsPrefixStmt<'t> {
 /// `SubmoduleHeaderStmts: YangVersionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SubmoduleHeaderStmtsYangVersionStmt<'t> {
     pub yang_version_stmt: Box<YangVersionStmt<'t>>,
 }
@@ -763,8 +756,7 @@ pub struct SubmoduleHeaderStmtsYangVersionStmt<'t> {
 /// `SubmoduleHeaderStmts: BelongsToStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SubmoduleHeaderStmtsBelongsToStmt<'t> {
     pub belongs_to_stmt: Box<BelongsToStmt<'t>>,
 }
@@ -775,8 +767,7 @@ pub struct SubmoduleHeaderStmtsBelongsToStmt<'t> {
 /// `MetaStmts: OrganizationStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MetaStmtsOrganizationStmt<'t> {
     pub organization_stmt: Box<OrganizationStmt<'t>>,
 }
@@ -787,8 +778,7 @@ pub struct MetaStmtsOrganizationStmt<'t> {
 /// `MetaStmts: ContactStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MetaStmtsContactStmt<'t> {
     pub contact_stmt: Box<ContactStmt<'t>>,
 }
@@ -799,8 +789,7 @@ pub struct MetaStmtsContactStmt<'t> {
 /// `MetaStmts: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MetaStmtsDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -811,8 +800,7 @@ pub struct MetaStmtsDescriptionStmt<'t> {
 /// `MetaStmts: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MetaStmtsReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -823,8 +811,7 @@ pub struct MetaStmtsReferenceStmt<'t> {
 /// `LinkageStmts: ImportStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LinkageStmtsImportStmt<'t> {
     pub import_stmt: Box<ImportStmt<'t>>,
 }
@@ -835,8 +822,7 @@ pub struct LinkageStmtsImportStmt<'t> {
 /// `LinkageStmts: IncludeStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LinkageStmtsIncludeStmt<'t> {
     pub include_stmt: Box<IncludeStmt<'t>>,
 }
@@ -847,8 +833,7 @@ pub struct LinkageStmtsIncludeStmt<'t> {
 /// `BodyStmts: ExtensionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsExtensionStmt<'t> {
     pub extension_stmt: Box<ExtensionStmt<'t>>,
 }
@@ -859,8 +844,7 @@ pub struct BodyStmtsExtensionStmt<'t> {
 /// `BodyStmts: FeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsFeatureStmt<'t> {
     pub feature_stmt: Box<FeatureStmt<'t>>,
 }
@@ -871,8 +855,7 @@ pub struct BodyStmtsFeatureStmt<'t> {
 /// `BodyStmts: IdentityStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsIdentityStmt<'t> {
     pub identity_stmt: Box<IdentityStmt<'t>>,
 }
@@ -883,8 +866,7 @@ pub struct BodyStmtsIdentityStmt<'t> {
 /// `BodyStmts: TypedefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsTypedefStmt<'t> {
     pub typedef_stmt: Box<TypedefStmt<'t>>,
 }
@@ -895,8 +877,7 @@ pub struct BodyStmtsTypedefStmt<'t> {
 /// `BodyStmts: GroupingStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsGroupingStmt<'t> {
     pub grouping_stmt: Box<GroupingStmt<'t>>,
 }
@@ -907,8 +888,7 @@ pub struct BodyStmtsGroupingStmt<'t> {
 /// `BodyStmts: DataDefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsDataDefStmt<'t> {
     pub data_def_stmt: Box<DataDefStmt<'t>>,
 }
@@ -919,8 +899,7 @@ pub struct BodyStmtsDataDefStmt<'t> {
 /// `BodyStmts: AugmentStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsAugmentStmt<'t> {
     pub augment_stmt: Box<AugmentStmt<'t>>,
 }
@@ -931,8 +910,7 @@ pub struct BodyStmtsAugmentStmt<'t> {
 /// `BodyStmts: RpcStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsRpcStmt<'t> {
     pub rpc_stmt: Box<RpcStmt<'t>>,
 }
@@ -943,8 +921,7 @@ pub struct BodyStmtsRpcStmt<'t> {
 /// `BodyStmts: NotificationStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsNotificationStmt<'t> {
     pub notification_stmt: Box<NotificationStmt<'t>>,
 }
@@ -955,8 +932,7 @@ pub struct BodyStmtsNotificationStmt<'t> {
 /// `BodyStmts: DeviationStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsDeviationStmt<'t> {
     pub deviation_stmt: Box<DeviationStmt<'t>>,
 }
@@ -967,8 +943,7 @@ pub struct BodyStmtsDeviationStmt<'t> {
 /// `BodyStmts: UnknownStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BodyStmtsUnknownStmt<'t> {
     pub unknown_stmt: Box<UnknownStmt<'t>>,
 }
@@ -979,8 +954,7 @@ pub struct BodyStmtsUnknownStmt<'t> {
 /// `DataDefStmt: ContainerStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DataDefStmtContainerStmt<'t> {
     pub container_stmt: Box<ContainerStmt<'t>>,
 }
@@ -991,8 +965,7 @@ pub struct DataDefStmtContainerStmt<'t> {
 /// `DataDefStmt: LeafStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DataDefStmtLeafStmt<'t> {
     pub leaf_stmt: Box<LeafStmt<'t>>,
 }
@@ -1003,8 +976,7 @@ pub struct DataDefStmtLeafStmt<'t> {
 /// `DataDefStmt: LeafListStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DataDefStmtLeafListStmt<'t> {
     pub leaf_list_stmt: Box<LeafListStmt<'t>>,
 }
@@ -1015,8 +987,7 @@ pub struct DataDefStmtLeafListStmt<'t> {
 /// `DataDefStmt: ListStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DataDefStmtListStmt<'t> {
     pub list_stmt: Box<ListStmt<'t>>,
 }
@@ -1027,8 +998,7 @@ pub struct DataDefStmtListStmt<'t> {
 /// `DataDefStmt: ChoiceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DataDefStmtChoiceStmt<'t> {
     pub choice_stmt: Box<ChoiceStmt<'t>>,
 }
@@ -1039,8 +1009,7 @@ pub struct DataDefStmtChoiceStmt<'t> {
 /// `DataDefStmt: AnydataStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DataDefStmtAnydataStmt<'t> {
     pub anydata_stmt: Box<AnydataStmt<'t>>,
 }
@@ -1051,8 +1020,7 @@ pub struct DataDefStmtAnydataStmt<'t> {
 /// `DataDefStmt: AnyxmlStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DataDefStmtAnyxmlStmt<'t> {
     pub anyxml_stmt: Box<AnyxmlStmt<'t>>,
 }
@@ -1063,8 +1031,7 @@ pub struct DataDefStmtAnyxmlStmt<'t> {
 /// `DataDefStmt: UsesStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DataDefStmtUsesStmt<'t> {
     pub uses_stmt: Box<UsesStmt<'t>>,
 }
@@ -1075,8 +1042,7 @@ pub struct DataDefStmtUsesStmt<'t> {
 /// `YangVersionArgStrSuffix: YangVersionArg %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YangVersionArgStrSuffixYangVersionArg<'t> {
     pub yang_version_arg: Box<YangVersionArg<'t>>,
 }
@@ -1087,8 +1053,7 @@ pub struct YangVersionArgStrSuffixYangVersionArg<'t> {
 /// `YangVersionArgStrSuffix: <YVersion>'"'^ /* Clipped */ YangVersionArg <YVersion>'"'^ /* Clipped */ %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YangVersionArgStrSuffixDoubleQuotationYangVersionArgDoubleQuotation<'t> {
     pub yang_version_arg: Box<YangVersionArg<'t>>,
 }
@@ -1099,8 +1064,7 @@ pub struct YangVersionArgStrSuffixDoubleQuotationYangVersionArgDoubleQuotation<'
 /// `RpcStmtSuffix: Semicolon;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtSuffixSemicolon<'t> {
     pub semicolon: Box<Semicolon<'t>>,
 }
@@ -1111,8 +1075,7 @@ pub struct RpcStmtSuffixSemicolon<'t> {
 /// `RpcStmtSuffix: '{' RpcStmtList /* Vec */ '}';`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtSuffixLBraceRpcStmtListRBrace<'t> {
     pub l_brace: Token<'t>, /* { */
     pub rpc_stmt_list: Vec<RpcStmtList<'t>>,
@@ -1125,8 +1088,7 @@ pub struct RpcStmtSuffixLBraceRpcStmtListRBrace<'t> {
 /// `RpcStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -1137,8 +1099,7 @@ pub struct RpcStmtListGroupIfFeatureStmt<'t> {
 /// `RpcStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -1149,8 +1110,7 @@ pub struct RpcStmtListGroupStatusStmt<'t> {
 /// `RpcStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1161,8 +1121,7 @@ pub struct RpcStmtListGroupDescriptionStmt<'t> {
 /// `RpcStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1173,8 +1132,7 @@ pub struct RpcStmtListGroupReferenceStmt<'t> {
 /// `RpcStmtListGroup: TypedefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtListGroupTypedefStmt<'t> {
     pub typedef_stmt: Box<TypedefStmt<'t>>,
 }
@@ -1185,8 +1143,7 @@ pub struct RpcStmtListGroupTypedefStmt<'t> {
 /// `RpcStmtListGroup: GroupingStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtListGroupGroupingStmt<'t> {
     pub grouping_stmt: Box<GroupingStmt<'t>>,
 }
@@ -1197,8 +1154,7 @@ pub struct RpcStmtListGroupGroupingStmt<'t> {
 /// `RpcStmtListGroup: InputStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtListGroupInputStmt<'t> {
     pub input_stmt: Box<InputStmt<'t>>,
 }
@@ -1209,8 +1165,7 @@ pub struct RpcStmtListGroupInputStmt<'t> {
 /// `RpcStmtListGroup: OutputStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtListGroupOutputStmt<'t> {
     pub output_stmt: Box<OutputStmt<'t>>,
 }
@@ -1221,8 +1176,7 @@ pub struct RpcStmtListGroupOutputStmt<'t> {
 /// `ExtensionStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ExtensionStmtSuffixSemicolon {}
 
 ///
@@ -1231,8 +1185,7 @@ pub struct ExtensionStmtSuffixSemicolon {}
 /// `ExtensionStmtSuffix: '{'^ /* Clipped */ ExtensionStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ExtensionStmtSuffixLBraceExtensionStmtListRBrace<'t> {
     pub extension_stmt_list: Vec<ExtensionStmtList<'t>>,
 }
@@ -1243,8 +1196,7 @@ pub struct ExtensionStmtSuffixLBraceExtensionStmtListRBrace<'t> {
 /// `ExtensionStmtListGroup: ArgumentStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ExtensionStmtListGroupArgumentStmt<'t> {
     pub argument_stmt: Box<ArgumentStmt<'t>>,
 }
@@ -1255,8 +1207,7 @@ pub struct ExtensionStmtListGroupArgumentStmt<'t> {
 /// `ExtensionStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ExtensionStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -1267,8 +1218,7 @@ pub struct ExtensionStmtListGroupStatusStmt<'t> {
 /// `ExtensionStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ExtensionStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1279,8 +1229,7 @@ pub struct ExtensionStmtListGroupDescriptionStmt<'t> {
 /// `ExtensionStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ExtensionStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1291,8 +1240,7 @@ pub struct ExtensionStmtListGroupReferenceStmt<'t> {
 /// `FeatureStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FeatureStmtSuffixSemicolon {}
 
 ///
@@ -1301,8 +1249,7 @@ pub struct FeatureStmtSuffixSemicolon {}
 /// `FeatureStmtSuffix: '{' FeatureStmtList /* Vec */ '}';`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FeatureStmtSuffixLBraceFeatureStmtListRBrace<'t> {
     pub l_brace: Token<'t>, /* { */
     pub feature_stmt_list: Vec<FeatureStmtList<'t>>,
@@ -1315,8 +1262,7 @@ pub struct FeatureStmtSuffixLBraceFeatureStmtListRBrace<'t> {
 /// `FeatureStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FeatureStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -1327,8 +1273,7 @@ pub struct FeatureStmtListGroupIfFeatureStmt<'t> {
 /// `FeatureStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FeatureStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -1339,8 +1284,7 @@ pub struct FeatureStmtListGroupStatusStmt<'t> {
 /// `FeatureStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FeatureStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1351,8 +1295,7 @@ pub struct FeatureStmtListGroupDescriptionStmt<'t> {
 /// `FeatureStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FeatureStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1363,8 +1306,7 @@ pub struct FeatureStmtListGroupReferenceStmt<'t> {
 /// `TypedefStmtListGroup: TypeStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypedefStmtListGroupTypeStmt<'t> {
     pub type_stmt: Box<TypeStmt<'t>>,
 }
@@ -1375,8 +1317,7 @@ pub struct TypedefStmtListGroupTypeStmt<'t> {
 /// `TypedefStmtListGroup: UnitsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypedefStmtListGroupUnitsStmt<'t> {
     pub units_stmt: Box<UnitsStmt<'t>>,
 }
@@ -1387,8 +1328,7 @@ pub struct TypedefStmtListGroupUnitsStmt<'t> {
 /// `TypedefStmtListGroup: DefaultStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypedefStmtListGroupDefaultStmt<'t> {
     pub default_stmt: Box<DefaultStmt<'t>>,
 }
@@ -1399,8 +1339,7 @@ pub struct TypedefStmtListGroupDefaultStmt<'t> {
 /// `TypedefStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypedefStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -1411,8 +1350,7 @@ pub struct TypedefStmtListGroupStatusStmt<'t> {
 /// `TypedefStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypedefStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1423,8 +1361,7 @@ pub struct TypedefStmtListGroupDescriptionStmt<'t> {
 /// `TypedefStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypedefStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1435,8 +1372,7 @@ pub struct TypedefStmtListGroupReferenceStmt<'t> {
 /// `AugmentStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -1447,8 +1383,7 @@ pub struct AugmentStmtListGroupWhenStmt<'t> {
 /// `AugmentStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -1459,8 +1394,7 @@ pub struct AugmentStmtListGroupIfFeatureStmt<'t> {
 /// `AugmentStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -1471,8 +1405,7 @@ pub struct AugmentStmtListGroupStatusStmt<'t> {
 /// `AugmentStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1483,8 +1416,7 @@ pub struct AugmentStmtListGroupDescriptionStmt<'t> {
 /// `AugmentStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1495,8 +1427,7 @@ pub struct AugmentStmtListGroupReferenceStmt<'t> {
 /// `AugmentStmtListGroup: DataDefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtListGroupDataDefStmt<'t> {
     pub data_def_stmt: Box<DataDefStmt<'t>>,
 }
@@ -1507,8 +1438,7 @@ pub struct AugmentStmtListGroupDataDefStmt<'t> {
 /// `AugmentStmtListGroup: CaseStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtListGroupCaseStmt<'t> {
     pub case_stmt: Box<CaseStmt<'t>>,
 }
@@ -1519,8 +1449,7 @@ pub struct AugmentStmtListGroupCaseStmt<'t> {
 /// `AugmentStmtListGroup: ActionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtListGroupActionStmt<'t> {
     pub action_stmt: Box<ActionStmt<'t>>,
 }
@@ -1531,8 +1460,7 @@ pub struct AugmentStmtListGroupActionStmt<'t> {
 /// `AugmentStmtListGroup: NotificationStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtListGroupNotificationStmt<'t> {
     pub notification_stmt: Box<NotificationStmt<'t>>,
 }
@@ -1543,8 +1471,7 @@ pub struct AugmentStmtListGroupNotificationStmt<'t> {
 /// `WhenStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct WhenStmtSuffixSemicolon {}
 
 ///
@@ -1553,8 +1480,7 @@ pub struct WhenStmtSuffixSemicolon {}
 /// `WhenStmtSuffix: '{' WhenStmtList /* Vec */ '}';`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct WhenStmtSuffixLBraceWhenStmtListRBrace<'t> {
     pub l_brace: Token<'t>, /* { */
     pub when_stmt_list: Vec<WhenStmtList<'t>>,
@@ -1567,8 +1493,7 @@ pub struct WhenStmtSuffixLBraceWhenStmtListRBrace<'t> {
 /// `WhenStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct WhenStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1579,8 +1504,7 @@ pub struct WhenStmtListGroupDescriptionStmt<'t> {
 /// `WhenStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct WhenStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1591,8 +1515,7 @@ pub struct WhenStmtListGroupReferenceStmt<'t> {
 /// `GroupingStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -1603,8 +1526,7 @@ pub struct GroupingStmtListGroupStatusStmt<'t> {
 /// `GroupingStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1615,8 +1537,7 @@ pub struct GroupingStmtListGroupDescriptionStmt<'t> {
 /// `GroupingStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1627,8 +1548,7 @@ pub struct GroupingStmtListGroupReferenceStmt<'t> {
 /// `GroupingStmtListGroup: TypedefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtListGroupTypedefStmt<'t> {
     pub typedef_stmt: Box<TypedefStmt<'t>>,
 }
@@ -1639,8 +1559,7 @@ pub struct GroupingStmtListGroupTypedefStmt<'t> {
 /// `GroupingStmtListGroup: GroupingStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtListGroupGroupingStmt<'t> {
     pub grouping_stmt: Box<GroupingStmt<'t>>,
 }
@@ -1651,8 +1570,7 @@ pub struct GroupingStmtListGroupGroupingStmt<'t> {
 /// `GroupingStmtListGroup: DataDefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtListGroupDataDefStmt<'t> {
     pub data_def_stmt: Box<DataDefStmt<'t>>,
 }
@@ -1663,8 +1581,7 @@ pub struct GroupingStmtListGroupDataDefStmt<'t> {
 /// `GroupingStmtListGroup: ActionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtListGroupActionStmt<'t> {
     pub action_stmt: Box<ActionStmt<'t>>,
 }
@@ -1675,8 +1592,7 @@ pub struct GroupingStmtListGroupActionStmt<'t> {
 /// `GroupingStmtListGroup: NotificationStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtListGroupNotificationStmt<'t> {
     pub notification_stmt: Box<NotificationStmt<'t>>,
 }
@@ -1687,8 +1603,7 @@ pub struct GroupingStmtListGroupNotificationStmt<'t> {
 /// `GroupingStmtListGroup: UnknownStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtListGroupUnknownStmt<'t> {
     pub unknown_stmt: Box<UnknownStmt<'t>>,
 }
@@ -1699,8 +1614,7 @@ pub struct GroupingStmtListGroupUnknownStmt<'t> {
 /// `IdentityStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentityStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -1711,8 +1625,7 @@ pub struct IdentityStmtListGroupIfFeatureStmt<'t> {
 /// `IdentityStmtListGroup: BaseStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentityStmtListGroupBaseStmt<'t> {
     pub base_stmt: Box<BaseStmt<'t>>,
 }
@@ -1723,8 +1636,7 @@ pub struct IdentityStmtListGroupBaseStmt<'t> {
 /// `IdentityStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentityStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1735,8 +1647,7 @@ pub struct IdentityStmtListGroupDescriptionStmt<'t> {
 /// `IdentityStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentityStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1747,8 +1658,7 @@ pub struct IdentityStmtListGroupReferenceStmt<'t> {
 /// `AnyxmlStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtSuffixSemicolon {}
 
 ///
@@ -1757,8 +1667,7 @@ pub struct AnyxmlStmtSuffixSemicolon {}
 /// `AnyxmlStmtSuffix: '{'^ /* Clipped */ AnyxmlStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtSuffixLBraceAnyxmlStmtListRBrace<'t> {
     pub anyxml_stmt_list: Vec<AnyxmlStmtList<'t>>,
 }
@@ -1769,8 +1678,7 @@ pub struct AnyxmlStmtSuffixLBraceAnyxmlStmtListRBrace<'t> {
 /// `AnyxmlStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -1781,8 +1689,7 @@ pub struct AnyxmlStmtListGroupWhenStmt<'t> {
 /// `AnyxmlStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -1793,8 +1700,7 @@ pub struct AnyxmlStmtListGroupIfFeatureStmt<'t> {
 /// `AnyxmlStmtListGroup: MustStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtListGroupMustStmt<'t> {
     pub must_stmt: Box<MustStmt<'t>>,
 }
@@ -1805,8 +1711,7 @@ pub struct AnyxmlStmtListGroupMustStmt<'t> {
 /// `AnyxmlStmtListGroup: ConfigStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtListGroupConfigStmt<'t> {
     pub config_stmt: Box<ConfigStmt<'t>>,
 }
@@ -1817,8 +1722,7 @@ pub struct AnyxmlStmtListGroupConfigStmt<'t> {
 /// `AnyxmlStmtListGroup: MandatoryStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtListGroupMandatoryStmt<'t> {
     pub mandatory_stmt: Box<MandatoryStmt<'t>>,
 }
@@ -1829,8 +1733,7 @@ pub struct AnyxmlStmtListGroupMandatoryStmt<'t> {
 /// `AnyxmlStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -1841,8 +1744,7 @@ pub struct AnyxmlStmtListGroupStatusStmt<'t> {
 /// `AnyxmlStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1853,8 +1755,7 @@ pub struct AnyxmlStmtListGroupDescriptionStmt<'t> {
 /// `AnyxmlStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1865,8 +1766,7 @@ pub struct AnyxmlStmtListGroupReferenceStmt<'t> {
 /// `ChoiceStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtSuffixSemicolon {}
 
 ///
@@ -1875,8 +1775,7 @@ pub struct ChoiceStmtSuffixSemicolon {}
 /// `ChoiceStmtSuffix: '{' ChoiceStmtList /* Vec */ '}';`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtSuffixLBraceChoiceStmtListRBrace<'t> {
     pub l_brace: Token<'t>, /* { */
     pub choice_stmt_list: Vec<ChoiceStmtList<'t>>,
@@ -1889,8 +1788,7 @@ pub struct ChoiceStmtSuffixLBraceChoiceStmtListRBrace<'t> {
 /// `ChoiceStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -1901,8 +1799,7 @@ pub struct ChoiceStmtListGroupWhenStmt<'t> {
 /// `ChoiceStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -1913,8 +1810,7 @@ pub struct ChoiceStmtListGroupIfFeatureStmt<'t> {
 /// `ChoiceStmtListGroup: DefaultStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupDefaultStmt<'t> {
     pub default_stmt: Box<DefaultStmt<'t>>,
 }
@@ -1925,8 +1821,7 @@ pub struct ChoiceStmtListGroupDefaultStmt<'t> {
 /// `ChoiceStmtListGroup: ConfigStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupConfigStmt<'t> {
     pub config_stmt: Box<ConfigStmt<'t>>,
 }
@@ -1937,8 +1832,7 @@ pub struct ChoiceStmtListGroupConfigStmt<'t> {
 /// `ChoiceStmtListGroup: MandatoryStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupMandatoryStmt<'t> {
     pub mandatory_stmt: Box<MandatoryStmt<'t>>,
 }
@@ -1949,8 +1843,7 @@ pub struct ChoiceStmtListGroupMandatoryStmt<'t> {
 /// `ChoiceStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -1961,8 +1854,7 @@ pub struct ChoiceStmtListGroupStatusStmt<'t> {
 /// `ChoiceStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -1973,8 +1865,7 @@ pub struct ChoiceStmtListGroupDescriptionStmt<'t> {
 /// `ChoiceStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -1985,8 +1876,7 @@ pub struct ChoiceStmtListGroupReferenceStmt<'t> {
 /// `ChoiceStmtListGroup: ShortCaseStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupShortCaseStmt<'t> {
     pub short_case_stmt: Box<ShortCaseStmt<'t>>,
 }
@@ -1997,8 +1887,7 @@ pub struct ChoiceStmtListGroupShortCaseStmt<'t> {
 /// `ChoiceStmtListGroup: CaseStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtListGroupCaseStmt<'t> {
     pub case_stmt: Box<CaseStmt<'t>>,
 }
@@ -2009,8 +1898,7 @@ pub struct ChoiceStmtListGroupCaseStmt<'t> {
 /// `ShortCaseStmt: ChoiceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ShortCaseStmtChoiceStmt<'t> {
     pub choice_stmt: Box<ChoiceStmt<'t>>,
 }
@@ -2021,8 +1909,7 @@ pub struct ShortCaseStmtChoiceStmt<'t> {
 /// `ShortCaseStmt: ContainerStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ShortCaseStmtContainerStmt<'t> {
     pub container_stmt: Box<ContainerStmt<'t>>,
 }
@@ -2033,8 +1920,7 @@ pub struct ShortCaseStmtContainerStmt<'t> {
 /// `ShortCaseStmt: LeafStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ShortCaseStmtLeafStmt<'t> {
     pub leaf_stmt: Box<LeafStmt<'t>>,
 }
@@ -2045,8 +1931,7 @@ pub struct ShortCaseStmtLeafStmt<'t> {
 /// `ShortCaseStmt: LeafListStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ShortCaseStmtLeafListStmt<'t> {
     pub leaf_list_stmt: Box<LeafListStmt<'t>>,
 }
@@ -2057,8 +1942,7 @@ pub struct ShortCaseStmtLeafListStmt<'t> {
 /// `ShortCaseStmt: ListStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ShortCaseStmtListStmt<'t> {
     pub list_stmt: Box<ListStmt<'t>>,
 }
@@ -2069,8 +1953,7 @@ pub struct ShortCaseStmtListStmt<'t> {
 /// `ShortCaseStmt: AnydataStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ShortCaseStmtAnydataStmt<'t> {
     pub anydata_stmt: Box<AnydataStmt<'t>>,
 }
@@ -2081,8 +1964,7 @@ pub struct ShortCaseStmtAnydataStmt<'t> {
 /// `ShortCaseStmt: AnyxmlStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ShortCaseStmtAnyxmlStmt<'t> {
     pub anyxml_stmt: Box<AnyxmlStmt<'t>>,
 }
@@ -2093,8 +1975,7 @@ pub struct ShortCaseStmtAnyxmlStmt<'t> {
 /// `AnydataStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtSuffixSemicolon {}
 
 ///
@@ -2103,8 +1984,7 @@ pub struct AnydataStmtSuffixSemicolon {}
 /// `AnydataStmtSuffix: '{'^ /* Clipped */ AnydataStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtSuffixLBraceAnydataStmtListRBrace<'t> {
     pub anydata_stmt_list: Vec<AnydataStmtList<'t>>,
 }
@@ -2115,8 +1995,7 @@ pub struct AnydataStmtSuffixLBraceAnydataStmtListRBrace<'t> {
 /// `AnydataStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -2127,8 +2006,7 @@ pub struct AnydataStmtListGroupWhenStmt<'t> {
 /// `AnydataStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -2139,8 +2017,7 @@ pub struct AnydataStmtListGroupIfFeatureStmt<'t> {
 /// `AnydataStmtListGroup: MustStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtListGroupMustStmt<'t> {
     pub must_stmt: Box<MustStmt<'t>>,
 }
@@ -2151,8 +2028,7 @@ pub struct AnydataStmtListGroupMustStmt<'t> {
 /// `AnydataStmtListGroup: ConfigStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtListGroupConfigStmt<'t> {
     pub config_stmt: Box<ConfigStmt<'t>>,
 }
@@ -2163,8 +2039,7 @@ pub struct AnydataStmtListGroupConfigStmt<'t> {
 /// `AnydataStmtListGroup: MandatoryStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtListGroupMandatoryStmt<'t> {
     pub mandatory_stmt: Box<MandatoryStmt<'t>>,
 }
@@ -2175,8 +2050,7 @@ pub struct AnydataStmtListGroupMandatoryStmt<'t> {
 /// `AnydataStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -2187,8 +2061,7 @@ pub struct AnydataStmtListGroupStatusStmt<'t> {
 /// `AnydataStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -2199,8 +2072,7 @@ pub struct AnydataStmtListGroupDescriptionStmt<'t> {
 /// `AnydataStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -2211,8 +2083,7 @@ pub struct AnydataStmtListGroupReferenceStmt<'t> {
 /// `CaseStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct CaseStmtSuffixSemicolon {}
 
 ///
@@ -2221,8 +2092,7 @@ pub struct CaseStmtSuffixSemicolon {}
 /// `CaseStmtSuffix: '{'^ /* Clipped */ CaseStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct CaseStmtSuffixLBraceCaseStmtListRBrace<'t> {
     pub case_stmt_list: Vec<CaseStmtList<'t>>,
 }
@@ -2233,8 +2103,7 @@ pub struct CaseStmtSuffixLBraceCaseStmtListRBrace<'t> {
 /// `CaseStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct CaseStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -2245,8 +2114,7 @@ pub struct CaseStmtListGroupWhenStmt<'t> {
 /// `CaseStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct CaseStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -2257,8 +2125,7 @@ pub struct CaseStmtListGroupIfFeatureStmt<'t> {
 /// `CaseStmtListGroup: DataDefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct CaseStmtListGroupDataDefStmt<'t> {
     pub data_def_stmt: Box<DataDefStmt<'t>>,
 }
@@ -2269,8 +2136,7 @@ pub struct CaseStmtListGroupDataDefStmt<'t> {
 /// `CaseStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct CaseStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -2281,8 +2147,7 @@ pub struct CaseStmtListGroupDescriptionStmt<'t> {
 /// `CaseStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct CaseStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -2293,8 +2158,7 @@ pub struct CaseStmtListGroupReferenceStmt<'t> {
 /// `StatusArgStrSuffix: StatusArg %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct StatusArgStrSuffixStatusArg<'t> {
     pub status_arg: Box<StatusArg<'t>>,
 }
@@ -2305,8 +2169,7 @@ pub struct StatusArgStrSuffixStatusArg<'t> {
 /// `StatusArgStrSuffix: <Status>'"'^ /* Clipped */ StatusArg <Status>'"'^ /* Clipped */ %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct StatusArgStrSuffixDoubleQuotationStatusArgDoubleQuotation<'t> {
     pub status_arg: Box<StatusArg<'t>>,
 }
@@ -2317,8 +2180,7 @@ pub struct StatusArgStrSuffixDoubleQuotationStatusArgDoubleQuotation<'t> {
 /// `ContainerStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtSuffixSemicolon {}
 
 ///
@@ -2327,8 +2189,7 @@ pub struct ContainerStmtSuffixSemicolon {}
 /// `ContainerStmtSuffix: '{'^ /* Clipped */ ContainerStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtSuffixLBraceContainerStmtListRBrace<'t> {
     pub container_stmt_list: Vec<ContainerStmtList<'t>>,
 }
@@ -2339,8 +2200,7 @@ pub struct ContainerStmtSuffixLBraceContainerStmtListRBrace<'t> {
 /// `ContainerStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -2351,8 +2211,7 @@ pub struct ContainerStmtListGroupWhenStmt<'t> {
 /// `ContainerStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -2363,8 +2222,7 @@ pub struct ContainerStmtListGroupIfFeatureStmt<'t> {
 /// `ContainerStmtListGroup: MustStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupMustStmt<'t> {
     pub must_stmt: Box<MustStmt<'t>>,
 }
@@ -2375,8 +2233,7 @@ pub struct ContainerStmtListGroupMustStmt<'t> {
 /// `ContainerStmtListGroup: PresenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupPresenceStmt<'t> {
     pub presence_stmt: Box<PresenceStmt<'t>>,
 }
@@ -2387,8 +2244,7 @@ pub struct ContainerStmtListGroupPresenceStmt<'t> {
 /// `ContainerStmtListGroup: ConfigStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupConfigStmt<'t> {
     pub config_stmt: Box<ConfigStmt<'t>>,
 }
@@ -2399,8 +2255,7 @@ pub struct ContainerStmtListGroupConfigStmt<'t> {
 /// `ContainerStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -2411,8 +2266,7 @@ pub struct ContainerStmtListGroupStatusStmt<'t> {
 /// `ContainerStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -2423,8 +2277,7 @@ pub struct ContainerStmtListGroupDescriptionStmt<'t> {
 /// `ContainerStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -2435,8 +2288,7 @@ pub struct ContainerStmtListGroupReferenceStmt<'t> {
 /// `ContainerStmtListGroup: DataDefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupDataDefStmt<'t> {
     pub data_def_stmt: Box<DataDefStmt<'t>>,
 }
@@ -2447,8 +2299,7 @@ pub struct ContainerStmtListGroupDataDefStmt<'t> {
 /// `ContainerStmtListGroup: ActionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupActionStmt<'t> {
     pub action_stmt: Box<ActionStmt<'t>>,
 }
@@ -2459,8 +2310,7 @@ pub struct ContainerStmtListGroupActionStmt<'t> {
 /// `ContainerStmtListGroup: NotificationStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupNotificationStmt<'t> {
     pub notification_stmt: Box<NotificationStmt<'t>>,
 }
@@ -2471,8 +2321,7 @@ pub struct ContainerStmtListGroupNotificationStmt<'t> {
 /// `ContainerStmtListGroup: UnknownStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtListGroupUnknownStmt<'t> {
     pub unknown_stmt: Box<UnknownStmt<'t>>,
 }
@@ -2483,8 +2332,7 @@ pub struct ContainerStmtListGroupUnknownStmt<'t> {
 /// `ActionStmtSuffix: Semicolon;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmtSuffixSemicolon<'t> {
     pub semicolon: Box<Semicolon<'t>>,
 }
@@ -2495,8 +2343,7 @@ pub struct ActionStmtSuffixSemicolon<'t> {
 /// `ActionStmtSuffix: '{' ActionStmtList /* Vec */ '}';`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmtSuffixLBraceActionStmtListRBrace<'t> {
     pub l_brace: Token<'t>, /* { */
     pub action_stmt_list: Vec<ActionStmtList<'t>>,
@@ -2509,8 +2356,7 @@ pub struct ActionStmtSuffixLBraceActionStmtListRBrace<'t> {
 /// `ActionStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -2521,8 +2367,7 @@ pub struct ActionStmtListGroupIfFeatureStmt<'t> {
 /// `ActionStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -2533,8 +2378,7 @@ pub struct ActionStmtListGroupStatusStmt<'t> {
 /// `ActionStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -2545,8 +2389,7 @@ pub struct ActionStmtListGroupDescriptionStmt<'t> {
 /// `ActionStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -2557,8 +2400,7 @@ pub struct ActionStmtListGroupReferenceStmt<'t> {
 /// `ActionStmtListGroup: InputStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmtListGroupInputStmt<'t> {
     pub input_stmt: Box<InputStmt<'t>>,
 }
@@ -2569,8 +2411,7 @@ pub struct ActionStmtListGroupInputStmt<'t> {
 /// `ActionStmtListGroup: OutputStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmtListGroupOutputStmt<'t> {
     pub output_stmt: Box<OutputStmt<'t>>,
 }
@@ -2581,8 +2422,7 @@ pub struct ActionStmtListGroupOutputStmt<'t> {
 /// `NotificationStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -2593,8 +2433,7 @@ pub struct NotificationStmtListGroupIfFeatureStmt<'t> {
 /// `NotificationStmtListGroup: MustStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmtListGroupMustStmt<'t> {
     pub must_stmt: Box<MustStmt<'t>>,
 }
@@ -2605,8 +2444,7 @@ pub struct NotificationStmtListGroupMustStmt<'t> {
 /// `NotificationStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -2617,8 +2455,7 @@ pub struct NotificationStmtListGroupStatusStmt<'t> {
 /// `NotificationStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -2629,8 +2466,7 @@ pub struct NotificationStmtListGroupDescriptionStmt<'t> {
 /// `NotificationStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -2641,8 +2477,7 @@ pub struct NotificationStmtListGroupReferenceStmt<'t> {
 /// `NotificationStmtListGroup: TypedefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmtListGroupTypedefStmt<'t> {
     pub typedef_stmt: Box<TypedefStmt<'t>>,
 }
@@ -2653,8 +2488,7 @@ pub struct NotificationStmtListGroupTypedefStmt<'t> {
 /// `NotificationStmtListGroup: GroupingStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmtListGroupGroupingStmt<'t> {
     pub grouping_stmt: Box<GroupingStmt<'t>>,
 }
@@ -2665,8 +2499,7 @@ pub struct NotificationStmtListGroupGroupingStmt<'t> {
 /// `NotificationStmtListGroup: DataDefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmtListGroupDataDefStmt<'t> {
     pub data_def_stmt: Box<DataDefStmt<'t>>,
 }
@@ -2677,8 +2510,7 @@ pub struct NotificationStmtListGroupDataDefStmt<'t> {
 /// `IfFeatureFactor: <IfFeature>'not' IfFeatureFactor;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureFactorNotIfFeatureFactor<'t> {
     pub not: Token<'t>, /* not */
     pub if_feature_factor: Box<IfFeatureFactor<'t>>,
@@ -2690,8 +2522,7 @@ pub struct IfFeatureFactorNotIfFeatureFactor<'t> {
 /// `IfFeatureFactor: <IfFeature>'(' IfFeatureExpr <IfFeature>')';`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureFactorLParenIfFeatureExprRParen<'t> {
     pub l_paren: Token<'t>, /* ( */
     pub if_feature_expr: Box<IfFeatureExpr<'t>>,
@@ -2704,8 +2535,7 @@ pub struct IfFeatureFactorLParenIfFeatureExprRParen<'t> {
 /// `IfFeatureFactor: Identifier;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureFactorIdentifier<'t> {
     pub identifier: Box<Identifier<'t>>,
 }
@@ -2716,8 +2546,7 @@ pub struct IfFeatureFactorIdentifier<'t> {
 /// `IfFeatureFactor: <IfFeature>'"' Identifier <IfFeature>'"';`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureFactorDoubleQuotationIdentifierDoubleQuotation<'t> {
     pub double_quotation: Token<'t>, /* " */
     pub identifier: Box<Identifier<'t>>,
@@ -2730,8 +2559,7 @@ pub struct IfFeatureFactorDoubleQuotationIdentifierDoubleQuotation<'t> {
 /// `UsesStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtSuffixSemicolon {}
 
 ///
@@ -2740,8 +2568,7 @@ pub struct UsesStmtSuffixSemicolon {}
 /// `UsesStmtSuffix: '{'^ /* Clipped */ UsesStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtSuffixLBraceUsesStmtListRBrace<'t> {
     pub uses_stmt_list: Vec<UsesStmtList<'t>>,
 }
@@ -2752,8 +2579,7 @@ pub struct UsesStmtSuffixLBraceUsesStmtListRBrace<'t> {
 /// `UsesStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -2764,8 +2590,7 @@ pub struct UsesStmtListGroupWhenStmt<'t> {
 /// `UsesStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -2776,8 +2601,7 @@ pub struct UsesStmtListGroupIfFeatureStmt<'t> {
 /// `UsesStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -2788,8 +2612,7 @@ pub struct UsesStmtListGroupStatusStmt<'t> {
 /// `UsesStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -2800,8 +2623,7 @@ pub struct UsesStmtListGroupDescriptionStmt<'t> {
 /// `UsesStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -2812,8 +2634,7 @@ pub struct UsesStmtListGroupReferenceStmt<'t> {
 /// `UsesStmtListGroup: RefineStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtListGroupRefineStmt<'t> {
     pub refine_stmt: Box<RefineStmt<'t>>,
 }
@@ -2824,8 +2645,7 @@ pub struct UsesStmtListGroupRefineStmt<'t> {
 /// `UsesStmtListGroup: AugmentStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtListGroupAugmentStmt<'t> {
     pub augment_stmt: Box<AugmentStmt<'t>>,
 }
@@ -2836,8 +2656,7 @@ pub struct UsesStmtListGroupAugmentStmt<'t> {
 /// `RefineStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtSuffixSemicolon {}
 
 ///
@@ -2846,8 +2665,7 @@ pub struct RefineStmtSuffixSemicolon {}
 /// `RefineStmtSuffix: '{'^ /* Clipped */ RefineStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtSuffixLBraceRefineStmtListRBrace<'t> {
     pub refine_stmt_list: Vec<RefineStmtList<'t>>,
 }
@@ -2858,8 +2676,7 @@ pub struct RefineStmtSuffixLBraceRefineStmtListRBrace<'t> {
 /// `RefineStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -2870,8 +2687,7 @@ pub struct RefineStmtListGroupIfFeatureStmt<'t> {
 /// `RefineStmtListGroup: MustStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupMustStmt<'t> {
     pub must_stmt: Box<MustStmt<'t>>,
 }
@@ -2882,8 +2698,7 @@ pub struct RefineStmtListGroupMustStmt<'t> {
 /// `RefineStmtListGroup: PresenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupPresenceStmt<'t> {
     pub presence_stmt: Box<PresenceStmt<'t>>,
 }
@@ -2894,8 +2709,7 @@ pub struct RefineStmtListGroupPresenceStmt<'t> {
 /// `RefineStmtListGroup: DefaultStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupDefaultStmt<'t> {
     pub default_stmt: Box<DefaultStmt<'t>>,
 }
@@ -2906,8 +2720,7 @@ pub struct RefineStmtListGroupDefaultStmt<'t> {
 /// `RefineStmtListGroup: ConfigStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupConfigStmt<'t> {
     pub config_stmt: Box<ConfigStmt<'t>>,
 }
@@ -2918,8 +2731,7 @@ pub struct RefineStmtListGroupConfigStmt<'t> {
 /// `RefineStmtListGroup: MandatoryStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupMandatoryStmt<'t> {
     pub mandatory_stmt: Box<MandatoryStmt<'t>>,
 }
@@ -2930,8 +2742,7 @@ pub struct RefineStmtListGroupMandatoryStmt<'t> {
 /// `RefineStmtListGroup: MinElementsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupMinElementsStmt<'t> {
     pub min_elements_stmt: Box<MinElementsStmt<'t>>,
 }
@@ -2942,8 +2753,7 @@ pub struct RefineStmtListGroupMinElementsStmt<'t> {
 /// `RefineStmtListGroup: MaxElementsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupMaxElementsStmt<'t> {
     pub max_elements_stmt: Box<MaxElementsStmt<'t>>,
 }
@@ -2954,8 +2764,7 @@ pub struct RefineStmtListGroupMaxElementsStmt<'t> {
 /// `RefineStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -2966,8 +2775,7 @@ pub struct RefineStmtListGroupDescriptionStmt<'t> {
 /// `RefineStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -2978,8 +2786,7 @@ pub struct RefineStmtListGroupReferenceStmt<'t> {
 /// `RefineArgStrSuffix: RefineArg %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineArgStrSuffixRefineArg<'t> {
     pub refine_arg: Box<RefineArg<'t>>,
 }
@@ -2990,8 +2797,7 @@ pub struct RefineArgStrSuffixRefineArg<'t> {
 /// `RefineArgStrSuffix: <Keyword>'"' RefineArg <Keyword>'"' %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineArgStrSuffixDoubleQuotationRefineArgDoubleQuotation<'t> {
     pub double_quotation: Token<'t>, /* " */
     pub refine_arg: Box<RefineArg<'t>>,
@@ -3004,8 +2810,7 @@ pub struct RefineArgStrSuffixDoubleQuotationRefineArgDoubleQuotation<'t> {
 /// `DescendantSchemaNodeid: IdentifierRef;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DescendantSchemaNodeidIdentifierRef<'t> {
     pub identifier_ref: Box<IdentifierRef<'t>>,
 }
@@ -3016,8 +2821,7 @@ pub struct DescendantSchemaNodeidIdentifierRef<'t> {
 /// `DescendantSchemaNodeid: AbsoluteSchemaNodeid;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DescendantSchemaNodeidAbsoluteSchemaNodeid<'t> {
     pub absolute_schema_nodeid: Box<AbsoluteSchemaNodeid<'t>>,
 }
@@ -3028,8 +2832,7 @@ pub struct DescendantSchemaNodeidAbsoluteSchemaNodeid<'t> {
 /// `UnknownStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UnknownStmtSuffixSemicolon {}
 
 ///
@@ -3038,8 +2841,7 @@ pub struct UnknownStmtSuffixSemicolon {}
 /// `UnknownStmtSuffix: '{'^ /* Clipped */ UnknownStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UnknownStmtSuffixLBraceUnknownStmtListRBrace<'t> {
     pub unknown_stmt_list: Vec<UnknownStmtList<'t>>,
 }
@@ -3050,8 +2852,7 @@ pub struct UnknownStmtSuffixLBraceUnknownStmtListRBrace<'t> {
 /// `UnknownStmtListGroup: TypeStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UnknownStmtListGroupTypeStmt<'t> {
     pub type_stmt: Box<TypeStmt<'t>>,
 }
@@ -3062,8 +2863,7 @@ pub struct UnknownStmtListGroupTypeStmt<'t> {
 /// `UnknownStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UnknownStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -3074,8 +2874,7 @@ pub struct UnknownStmtListGroupDescriptionStmt<'t> {
 /// `LeafListStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -3086,8 +2885,7 @@ pub struct LeafListStmtListGroupWhenStmt<'t> {
 /// `LeafListStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -3098,8 +2896,7 @@ pub struct LeafListStmtListGroupIfFeatureStmt<'t> {
 /// `LeafListStmtListGroup: TypeStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupTypeStmt<'t> {
     pub type_stmt: Box<TypeStmt<'t>>,
 }
@@ -3110,8 +2907,7 @@ pub struct LeafListStmtListGroupTypeStmt<'t> {
 /// `LeafListStmtListGroup: UnitsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupUnitsStmt<'t> {
     pub units_stmt: Box<UnitsStmt<'t>>,
 }
@@ -3122,8 +2918,7 @@ pub struct LeafListStmtListGroupUnitsStmt<'t> {
 /// `LeafListStmtListGroup: MustStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupMustStmt<'t> {
     pub must_stmt: Box<MustStmt<'t>>,
 }
@@ -3134,8 +2929,7 @@ pub struct LeafListStmtListGroupMustStmt<'t> {
 /// `LeafListStmtListGroup: DefaultStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupDefaultStmt<'t> {
     pub default_stmt: Box<DefaultStmt<'t>>,
 }
@@ -3146,8 +2940,7 @@ pub struct LeafListStmtListGroupDefaultStmt<'t> {
 /// `LeafListStmtListGroup: ConfigStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupConfigStmt<'t> {
     pub config_stmt: Box<ConfigStmt<'t>>,
 }
@@ -3158,8 +2951,7 @@ pub struct LeafListStmtListGroupConfigStmt<'t> {
 /// `LeafListStmtListGroup: MinElementsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupMinElementsStmt<'t> {
     pub min_elements_stmt: Box<MinElementsStmt<'t>>,
 }
@@ -3170,8 +2962,7 @@ pub struct LeafListStmtListGroupMinElementsStmt<'t> {
 /// `LeafListStmtListGroup: MaxElementsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupMaxElementsStmt<'t> {
     pub max_elements_stmt: Box<MaxElementsStmt<'t>>,
 }
@@ -3182,8 +2973,7 @@ pub struct LeafListStmtListGroupMaxElementsStmt<'t> {
 /// `LeafListStmtListGroup: OrderedByStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupOrderedByStmt<'t> {
     pub ordered_by_stmt: Box<OrderedByStmt<'t>>,
 }
@@ -3194,8 +2984,7 @@ pub struct LeafListStmtListGroupOrderedByStmt<'t> {
 /// `LeafListStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -3206,8 +2995,7 @@ pub struct LeafListStmtListGroupStatusStmt<'t> {
 /// `LeafListStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -3218,8 +3006,7 @@ pub struct LeafListStmtListGroupDescriptionStmt<'t> {
 /// `LeafListStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -3230,8 +3017,7 @@ pub struct LeafListStmtListGroupReferenceStmt<'t> {
 /// `LeafListStmtListGroup: UnknownStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtListGroupUnknownStmt<'t> {
     pub unknown_stmt: Box<UnknownStmt<'t>>,
 }
@@ -3242,8 +3028,7 @@ pub struct LeafListStmtListGroupUnknownStmt<'t> {
 /// `LeafStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -3254,8 +3039,7 @@ pub struct LeafStmtListGroupWhenStmt<'t> {
 /// `LeafStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -3266,8 +3050,7 @@ pub struct LeafStmtListGroupStatusStmt<'t> {
 /// `LeafStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -3278,8 +3061,7 @@ pub struct LeafStmtListGroupIfFeatureStmt<'t> {
 /// `LeafStmtListGroup: TypeStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupTypeStmt<'t> {
     pub type_stmt: Box<TypeStmt<'t>>,
 }
@@ -3290,8 +3072,7 @@ pub struct LeafStmtListGroupTypeStmt<'t> {
 /// `LeafStmtListGroup: UnitsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupUnitsStmt<'t> {
     pub units_stmt: Box<UnitsStmt<'t>>,
 }
@@ -3302,8 +3083,7 @@ pub struct LeafStmtListGroupUnitsStmt<'t> {
 /// `LeafStmtListGroup: MustStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupMustStmt<'t> {
     pub must_stmt: Box<MustStmt<'t>>,
 }
@@ -3314,8 +3094,7 @@ pub struct LeafStmtListGroupMustStmt<'t> {
 /// `LeafStmtListGroup: DefaultStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupDefaultStmt<'t> {
     pub default_stmt: Box<DefaultStmt<'t>>,
 }
@@ -3326,8 +3105,7 @@ pub struct LeafStmtListGroupDefaultStmt<'t> {
 /// `LeafStmtListGroup: ConfigStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupConfigStmt<'t> {
     pub config_stmt: Box<ConfigStmt<'t>>,
 }
@@ -3338,8 +3116,7 @@ pub struct LeafStmtListGroupConfigStmt<'t> {
 /// `LeafStmtListGroup: MandatoryStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupMandatoryStmt<'t> {
     pub mandatory_stmt: Box<MandatoryStmt<'t>>,
 }
@@ -3350,8 +3127,7 @@ pub struct LeafStmtListGroupMandatoryStmt<'t> {
 /// `LeafStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -3362,8 +3138,7 @@ pub struct LeafStmtListGroupDescriptionStmt<'t> {
 /// `LeafStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -3374,8 +3149,7 @@ pub struct LeafStmtListGroupReferenceStmt<'t> {
 /// `LeafStmtListGroup: UnknownStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtListGroupUnknownStmt<'t> {
     pub unknown_stmt: Box<UnknownStmt<'t>>,
 }
@@ -3386,8 +3160,7 @@ pub struct LeafStmtListGroupUnknownStmt<'t> {
 /// `MustStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MustStmtSuffixSemicolon {}
 
 ///
@@ -3396,8 +3169,7 @@ pub struct MustStmtSuffixSemicolon {}
 /// `MustStmtSuffix: '{'^ /* Clipped */ MustStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MustStmtSuffixLBraceMustStmtListRBrace<'t> {
     pub must_stmt_list: Vec<MustStmtList<'t>>,
 }
@@ -3408,8 +3180,7 @@ pub struct MustStmtSuffixLBraceMustStmtListRBrace<'t> {
 /// `MustStmtListGroup: ErrorMessage;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MustStmtListGroupErrorMessage<'t> {
     pub error_message: Box<ErrorMessage<'t>>,
 }
@@ -3420,8 +3191,7 @@ pub struct MustStmtListGroupErrorMessage<'t> {
 /// `MustStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MustStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -3432,8 +3202,7 @@ pub struct MustStmtListGroupDescriptionStmt<'t> {
 /// `MandatoryArgStrSuffix: MandatoryArg %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MandatoryArgStrSuffixMandatoryArg<'t> {
     pub mandatory_arg: Box<MandatoryArg<'t>>,
 }
@@ -3444,8 +3213,7 @@ pub struct MandatoryArgStrSuffixMandatoryArg<'t> {
 /// `MandatoryArgStrSuffix: <Mandatory>'"' MandatoryArg <Mandatory>'"' %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MandatoryArgStrSuffixDoubleQuotationMandatoryArgDoubleQuotation<'t> {
     pub double_quotation: Token<'t>, /* " */
     pub mandatory_arg: Box<MandatoryArg<'t>>,
@@ -3458,8 +3226,7 @@ pub struct MandatoryArgStrSuffixDoubleQuotationMandatoryArgDoubleQuotation<'t> {
 /// `ListStmtListGroup: WhenStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupWhenStmt<'t> {
     pub when_stmt: Box<WhenStmt<'t>>,
 }
@@ -3470,8 +3237,7 @@ pub struct ListStmtListGroupWhenStmt<'t> {
 /// `ListStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -3482,8 +3248,7 @@ pub struct ListStmtListGroupIfFeatureStmt<'t> {
 /// `ListStmtListGroup: MustStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupMustStmt<'t> {
     pub must_stmt: Box<MustStmt<'t>>,
 }
@@ -3494,8 +3259,7 @@ pub struct ListStmtListGroupMustStmt<'t> {
 /// `ListStmtListGroup: KeyStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupKeyStmt<'t> {
     pub key_stmt: Box<KeyStmt<'t>>,
 }
@@ -3506,8 +3270,7 @@ pub struct ListStmtListGroupKeyStmt<'t> {
 /// `ListStmtListGroup: ConfigStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupConfigStmt<'t> {
     pub config_stmt: Box<ConfigStmt<'t>>,
 }
@@ -3518,8 +3281,7 @@ pub struct ListStmtListGroupConfigStmt<'t> {
 /// `ListStmtListGroup: MinElementsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupMinElementsStmt<'t> {
     pub min_elements_stmt: Box<MinElementsStmt<'t>>,
 }
@@ -3530,8 +3292,7 @@ pub struct ListStmtListGroupMinElementsStmt<'t> {
 /// `ListStmtListGroup: MaxElementsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupMaxElementsStmt<'t> {
     pub max_elements_stmt: Box<MaxElementsStmt<'t>>,
 }
@@ -3542,8 +3303,7 @@ pub struct ListStmtListGroupMaxElementsStmt<'t> {
 /// `ListStmtListGroup: OrderedByStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupOrderedByStmt<'t> {
     pub ordered_by_stmt: Box<OrderedByStmt<'t>>,
 }
@@ -3554,8 +3314,7 @@ pub struct ListStmtListGroupOrderedByStmt<'t> {
 /// `ListStmtListGroup: StatusStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupStatusStmt<'t> {
     pub status_stmt: Box<StatusStmt<'t>>,
 }
@@ -3566,8 +3325,7 @@ pub struct ListStmtListGroupStatusStmt<'t> {
 /// `ListStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -3578,8 +3336,7 @@ pub struct ListStmtListGroupDescriptionStmt<'t> {
 /// `ListStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -3590,8 +3347,7 @@ pub struct ListStmtListGroupReferenceStmt<'t> {
 /// `ListStmtListGroup: DataDefStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupDataDefStmt<'t> {
     pub data_def_stmt: Box<DataDefStmt<'t>>,
 }
@@ -3602,8 +3358,7 @@ pub struct ListStmtListGroupDataDefStmt<'t> {
 /// `ListStmtListGroup: ActionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupActionStmt<'t> {
     pub action_stmt: Box<ActionStmt<'t>>,
 }
@@ -3614,8 +3369,7 @@ pub struct ListStmtListGroupActionStmt<'t> {
 /// `ListStmtListGroup: NotificationStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupNotificationStmt<'t> {
     pub notification_stmt: Box<NotificationStmt<'t>>,
 }
@@ -3626,8 +3380,7 @@ pub struct ListStmtListGroupNotificationStmt<'t> {
 /// `ListStmtListGroup: UnknownStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtListGroupUnknownStmt<'t> {
     pub unknown_stmt: Box<UnknownStmt<'t>>,
 }
@@ -3638,8 +3391,7 @@ pub struct ListStmtListGroupUnknownStmt<'t> {
 /// `OrderedByArgStrSuffix: OrderedByArg %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct OrderedByArgStrSuffixOrderedByArg<'t> {
     pub ordered_by_arg: Box<OrderedByArg<'t>>,
 }
@@ -3650,8 +3402,7 @@ pub struct OrderedByArgStrSuffixOrderedByArg<'t> {
 /// `OrderedByArgStrSuffix: <Ordered>'"' OrderedByArg <Ordered>'"' %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct OrderedByArgStrSuffixDoubleQuotationOrderedByArgDoubleQuotation<'t> {
     pub double_quotation: Token<'t>, /* " */
     pub ordered_by_arg: Box<OrderedByArg<'t>>,
@@ -3664,8 +3415,7 @@ pub struct OrderedByArgStrSuffixDoubleQuotationOrderedByArgDoubleQuotation<'t> {
 /// `DefaultStmtSuffix: AsciiNoSemicolon %sc() Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DefaultStmtSuffixAsciiNoSemicolonSemicolon<'t> {
     pub ascii_no_semicolon: Box<AsciiNoSemicolon<'t>>,
 }
@@ -3676,8 +3426,7 @@ pub struct DefaultStmtSuffixAsciiNoSemicolonSemicolon<'t> {
 /// `DefaultStmtSuffix: <Default>'"' AsciiNoSemicolon <Default>'"' %sc() Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DefaultStmtSuffixDoubleQuotationAsciiNoSemicolonDoubleQuotationSemicolon<'t> {
     pub double_quotation: Token<'t>, /* " */
     pub ascii_no_semicolon: Box<AsciiNoSemicolon<'t>>,
@@ -3690,8 +3439,7 @@ pub struct DefaultStmtSuffixDoubleQuotationAsciiNoSemicolonDoubleQuotationSemico
 /// `TypeStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtSuffixSemicolon {}
 
 ///
@@ -3700,8 +3448,7 @@ pub struct TypeStmtSuffixSemicolon {}
 /// `TypeStmtSuffix: <INITIAL, Keyword>'{'^ /* Clipped */ TypeStmtList /* Vec */ <INITIAL, Keyword>'}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtSuffixLBraceTypeStmtListRBrace<'t> {
     pub type_stmt_list: Vec<TypeStmtList<'t>>,
 }
@@ -3712,8 +3459,7 @@ pub struct TypeStmtSuffixLBraceTypeStmtListRBrace<'t> {
 /// `TypeStmtListGroup: FractionDigitsStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtListGroupFractionDigitsStmt<'t> {
     pub fraction_digits_stmt: Box<FractionDigitsStmt<'t>>,
 }
@@ -3724,8 +3470,7 @@ pub struct TypeStmtListGroupFractionDigitsStmt<'t> {
 /// `TypeStmtListGroup: EnumStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtListGroupEnumStmt<'t> {
     pub enum_stmt: Box<EnumStmt<'t>>,
 }
@@ -3736,8 +3481,7 @@ pub struct TypeStmtListGroupEnumStmt<'t> {
 /// `TypeStmtListGroup: BaseStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtListGroupBaseStmt<'t> {
     pub base_stmt: Box<BaseStmt<'t>>,
 }
@@ -3748,8 +3492,7 @@ pub struct TypeStmtListGroupBaseStmt<'t> {
 /// `TypeStmtListGroup: LeafrefSpecification;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtListGroupLeafrefSpecification<'t> {
     pub leafref_specification: Box<LeafrefSpecification<'t>>,
 }
@@ -3760,8 +3503,7 @@ pub struct TypeStmtListGroupLeafrefSpecification<'t> {
 /// `TypeStmtListGroup: StringRestrictions;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtListGroupStringRestrictions<'t> {
     pub string_restrictions: Box<StringRestrictions<'t>>,
 }
@@ -3772,8 +3514,7 @@ pub struct TypeStmtListGroupStringRestrictions<'t> {
 /// `TypeStmtListGroup: RangeStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtListGroupRangeStmt<'t> {
     pub range_stmt: Box<RangeStmt<'t>>,
 }
@@ -3784,8 +3525,7 @@ pub struct TypeStmtListGroupRangeStmt<'t> {
 /// `TypeStmtListGroup: BitStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtListGroupBitStmt<'t> {
     pub bit_stmt: Box<BitStmt<'t>>,
 }
@@ -3796,8 +3536,7 @@ pub struct TypeStmtListGroupBitStmt<'t> {
 /// `TypeStmtListGroup: TypeStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtListGroupTypeStmt<'t> {
     pub type_stmt: Box<TypeStmt<'t>>,
 }
@@ -3808,8 +3547,7 @@ pub struct TypeStmtListGroupTypeStmt<'t> {
 /// `BitStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BitStmtSuffixSemicolon {}
 
 ///
@@ -3818,8 +3556,7 @@ pub struct BitStmtSuffixSemicolon {}
 /// `BitStmtSuffix: '{'^ /* Clipped */ BitStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BitStmtSuffixLBraceBitStmtListRBrace<'t> {
     pub bit_stmt_list: Vec<BitStmtList<'t>>,
 }
@@ -3830,8 +3567,7 @@ pub struct BitStmtSuffixLBraceBitStmtListRBrace<'t> {
 /// `BitStmtListGroup: PositionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BitStmtListGroupPositionStmt<'t> {
     pub position_stmt: Box<PositionStmt<'t>>,
 }
@@ -3842,8 +3578,7 @@ pub struct BitStmtListGroupPositionStmt<'t> {
 /// `BitStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BitStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -3854,8 +3589,7 @@ pub struct BitStmtListGroupDescriptionStmt<'t> {
 /// `BitStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BitStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -3866,8 +3600,7 @@ pub struct BitStmtListGroupReferenceStmt<'t> {
 /// `LeafrefSpecification: PathStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafrefSpecificationPathStmt<'t> {
     pub path_stmt: Box<PathStmt<'t>>,
 }
@@ -3878,8 +3611,7 @@ pub struct LeafrefSpecificationPathStmt<'t> {
 /// `LeafrefSpecification: RequireInstanceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafrefSpecificationRequireInstanceStmt<'t> {
     pub require_instance_stmt: Box<RequireInstanceStmt<'t>>,
 }
@@ -3890,8 +3622,7 @@ pub struct LeafrefSpecificationRequireInstanceStmt<'t> {
 /// `RequireInstanceArgStrSuffix: MandatoryArg %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RequireInstanceArgStrSuffixMandatoryArg<'t> {
     pub mandatory_arg: Box<MandatoryArg<'t>>,
 }
@@ -3902,8 +3633,7 @@ pub struct RequireInstanceArgStrSuffixMandatoryArg<'t> {
 /// `RequireInstanceArgStrSuffix: <Mandatory>'"' MandatoryArg <Mandatory>'"' %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RequireInstanceArgStrSuffixDoubleQuotationMandatoryArgDoubleQuotation<'t> {
     pub double_quotation: Token<'t>, /* " */
     pub mandatory_arg: Box<MandatoryArg<'t>>,
@@ -3916,8 +3646,7 @@ pub struct RequireInstanceArgStrSuffixDoubleQuotationMandatoryArgDoubleQuotation
 /// `StringRestrictions: LengthStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct StringRestrictionsLengthStmt<'t> {
     pub length_stmt: Box<LengthStmt<'t>>,
 }
@@ -3928,8 +3657,7 @@ pub struct StringRestrictionsLengthStmt<'t> {
 /// `StringRestrictions: PatternStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct StringRestrictionsPatternStmt<'t> {
     pub pattern_stmt: Box<PatternStmt<'t>>,
 }
@@ -3940,8 +3668,7 @@ pub struct StringRestrictionsPatternStmt<'t> {
 /// `EnumStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumStmtSuffixSemicolon {}
 
 ///
@@ -3950,8 +3677,7 @@ pub struct EnumStmtSuffixSemicolon {}
 /// `EnumStmtSuffix: '{'^ /* Clipped */ EnumStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumStmtSuffixLBraceEnumStmtListRBrace<'t> {
     pub enum_stmt_list: Vec<EnumStmtList<'t>>,
 }
@@ -3962,8 +3688,7 @@ pub struct EnumStmtSuffixLBraceEnumStmtListRBrace<'t> {
 /// `EnumStmtListGroup: IfFeatureStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumStmtListGroupIfFeatureStmt<'t> {
     pub if_feature_stmt: Box<IfFeatureStmt<'t>>,
 }
@@ -3974,8 +3699,7 @@ pub struct EnumStmtListGroupIfFeatureStmt<'t> {
 /// `EnumStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -3986,8 +3710,7 @@ pub struct EnumStmtListGroupDescriptionStmt<'t> {
 /// `EnumStmtListGroup: ValueStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumStmtListGroupValueStmt<'t> {
     pub value_stmt: Box<ValueStmt<'t>>,
 }
@@ -3998,8 +3721,7 @@ pub struct EnumStmtListGroupValueStmt<'t> {
 /// `EnumStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -4010,8 +3732,7 @@ pub struct EnumStmtListGroupReferenceStmt<'t> {
 /// `IntegerValueStrSuffix: IntegerValue %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IntegerValueStrSuffixIntegerValue<'t> {
     pub integer_value: Box<IntegerValue<'t>>,
 }
@@ -4022,8 +3743,7 @@ pub struct IntegerValueStrSuffixIntegerValue<'t> {
 /// `IntegerValueStrSuffix: <Value>'"' IntegerValue <Value>'"' %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IntegerValueStrSuffixDoubleQuotationIntegerValueDoubleQuotation<'t> {
     pub double_quotation: Token<'t>, /* " */
     pub integer_value: Box<IntegerValue<'t>>,
@@ -4036,8 +3756,7 @@ pub struct IntegerValueStrSuffixDoubleQuotationIntegerValueDoubleQuotation<'t> {
 /// `EnumArgStrSuffix: AsciiNoBrace %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumArgStrSuffixAsciiNoBrace<'t> {
     pub ascii_no_brace: Box<AsciiNoBrace<'t>>,
 }
@@ -4048,8 +3767,7 @@ pub struct EnumArgStrSuffixAsciiNoBrace<'t> {
 /// `EnumArgStrSuffix: <Enum>'"'^ /* Clipped */ AsciiNoBrace <Enum>'"'^ /* Clipped */ %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumArgStrSuffixDoubleQuotationAsciiNoBraceDoubleQuotation<'t> {
     pub ascii_no_brace: Box<AsciiNoBrace<'t>>,
 }
@@ -4060,8 +3778,7 @@ pub struct EnumArgStrSuffixDoubleQuotationAsciiNoBraceDoubleQuotation<'t> {
 /// `RangeArgStr: RangeArg;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangeArgStrRangeArg<'t> {
     pub range_arg: Box<RangeArg<'t>>,
 }
@@ -4072,8 +3789,7 @@ pub struct RangeArgStrRangeArg<'t> {
 /// `RangeArgStr: <Range>'"'^ /* Clipped */ RangeArg <Range>'"'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangeArgStrDoubleQuotationRangeArgDoubleQuotation<'t> {
     pub range_arg: Box<RangeArg<'t>>,
 }
@@ -4084,8 +3800,7 @@ pub struct RangeArgStrDoubleQuotationRangeArgDoubleQuotation<'t> {
 /// `RangeBoundary: <Range>'min';`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangeBoundaryMin<'t> {
     pub min: Token<'t>, /* min */
 }
@@ -4096,8 +3811,7 @@ pub struct RangeBoundaryMin<'t> {
 /// `RangeBoundary: <Range>'max';`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangeBoundaryMax<'t> {
     pub max: Token<'t>, /* max */
 }
@@ -4108,8 +3822,7 @@ pub struct RangeBoundaryMax<'t> {
 /// `RangeBoundary: <Range>"-?[0-9]+";`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangeBoundaryMinusQuestLBracket0Minus9RBracketPlus<'t> {
     pub minus_quest_l_bracket0_minus9_r_bracket_plus: Token<'t>, /* -?[0-9]+ */
 }
@@ -4120,8 +3833,7 @@ pub struct RangeBoundaryMinusQuestLBracket0Minus9RBracketPlus<'t> {
 /// `IdentifierRefArgStrSuffix: IdentifierRef %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentifierRefArgStrSuffixIdentifierRef<'t> {
     pub identifier_ref: Box<IdentifierRef<'t>>,
 }
@@ -4132,8 +3844,7 @@ pub struct IdentifierRefArgStrSuffixIdentifierRef<'t> {
 /// `IdentifierRefArgStrSuffix: <Keyword, IfFeature>'"' IdentifierRef <Keyword, IfFeature>'"' %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentifierRefArgStrSuffixDoubleQuotationIdentifierRefDoubleQuotation<'t> {
     pub double_quotation: Token<'t>, /* " */
     pub identifier_ref: Box<IdentifierRef<'t>>,
@@ -4146,8 +3857,7 @@ pub struct IdentifierRefArgStrSuffixDoubleQuotationIdentifierRefDoubleQuotation<
 /// `KeyArgStrSuffix: KeyArg %pop();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct KeyArgStrSuffixKeyArg<'t> {
     pub key_arg: Box<KeyArg<'t>>,
 }
@@ -4158,8 +3868,7 @@ pub struct KeyArgStrSuffixKeyArg<'t> {
 /// `KeyArgStrSuffix: <Keyword>'"'^ /* Clipped */ KeyArg <Keyword>'"'^ /* Clipped */ %pop();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct KeyArgStrSuffixDoubleQuotationKeyArgDoubleQuotation<'t> {
     pub key_arg: Box<KeyArg<'t>>,
 }
@@ -4170,8 +3879,7 @@ pub struct KeyArgStrSuffixDoubleQuotationKeyArgDoubleQuotation<'t> {
 /// `ImportStmtListGroup: PrefixStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ImportStmtListGroupPrefixStmt<'t> {
     pub prefix_stmt: Box<PrefixStmt<'t>>,
 }
@@ -4182,8 +3890,7 @@ pub struct ImportStmtListGroupPrefixStmt<'t> {
 /// `ImportStmtListGroup: RevisionDateStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ImportStmtListGroupRevisionDateStmt<'t> {
     pub revision_date_stmt: Box<RevisionDateStmt<'t>>,
 }
@@ -4194,8 +3901,7 @@ pub struct ImportStmtListGroupRevisionDateStmt<'t> {
 /// `ImportStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ImportStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -4206,8 +3912,7 @@ pub struct ImportStmtListGroupDescriptionStmt<'t> {
 /// `ImportStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ImportStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -4218,8 +3923,7 @@ pub struct ImportStmtListGroupReferenceStmt<'t> {
 /// `IncludeStmtSuffix: Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IncludeStmtSuffixSemicolon {}
 
 ///
@@ -4228,8 +3932,7 @@ pub struct IncludeStmtSuffixSemicolon {}
 /// `IncludeStmtSuffix: '{'^ /* Clipped */ IncludeStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IncludeStmtSuffixLBraceIncludeStmtListRBrace<'t> {
     pub include_stmt_list: Vec<IncludeStmtList<'t>>,
 }
@@ -4240,8 +3943,7 @@ pub struct IncludeStmtSuffixLBraceIncludeStmtListRBrace<'t> {
 /// `IncludeStmtListGroup: RevisionDateStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IncludeStmtListGroupRevisionDateStmt<'t> {
     pub revision_date_stmt: Box<RevisionDateStmt<'t>>,
 }
@@ -4252,8 +3954,7 @@ pub struct IncludeStmtListGroupRevisionDateStmt<'t> {
 /// `IncludeStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IncludeStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -4264,8 +3965,7 @@ pub struct IncludeStmtListGroupDescriptionStmt<'t> {
 /// `IncludeStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IncludeStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -4276,8 +3976,7 @@ pub struct IncludeStmtListGroupReferenceStmt<'t> {
 /// `UriStr: UriArg;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UriStrUriArg<'t> {
     pub uri_arg: Box<UriArg<'t>>,
 }
@@ -4288,8 +3987,7 @@ pub struct UriStrUriArg<'t> {
 /// `UriStr: '"'^ /* Clipped */ UriArg '"'^ /* Clipped */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UriStrDoubleQuotationUriArgDoubleQuotation<'t> {
     pub uri_arg: Box<UriArg<'t>>,
 }
@@ -4300,8 +3998,7 @@ pub struct UriStrDoubleQuotationUriArgDoubleQuotation<'t> {
 /// `RevisionStmtListGroup: DescriptionStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RevisionStmtListGroupDescriptionStmt<'t> {
     pub description_stmt: Box<DescriptionStmt<'t>>,
 }
@@ -4312,8 +4009,7 @@ pub struct RevisionStmtListGroupDescriptionStmt<'t> {
 /// `RevisionStmtListGroup: ReferenceStmt;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RevisionStmtListGroupReferenceStmt<'t> {
     pub reference_stmt: Box<ReferenceStmt<'t>>,
 }
@@ -4324,8 +4020,7 @@ pub struct RevisionStmtListGroupReferenceStmt<'t> {
 /// `DateArgStrSuffix: DateArg %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DateArgStrSuffixDateArg<'t> {
     pub date_arg: Box<DateArg<'t>>,
 }
@@ -4336,8 +4031,7 @@ pub struct DateArgStrSuffixDateArg<'t> {
 /// `DateArgStrSuffix: <Revision>'"'^ /* Clipped */ DateArg <Revision>'"'^ /* Clipped */ %sc();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DateArgStrSuffixDoubleQuotationDateArgDoubleQuotation<'t> {
     pub date_arg: Box<DateArg<'t>>,
 }
@@ -4348,8 +4042,7 @@ pub struct DateArgStrSuffixDoubleQuotationDateArgDoubleQuotation<'t> {
 /// `Ystring: BasicString YstringOpt /* Option */;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YstringBasicStringYstringOpt<'t> {
     pub basic_string: Box<BasicString<'t>>,
     pub ystring_opt: Option<YstringOpt<'t>>,
@@ -4361,8 +4054,7 @@ pub struct YstringBasicStringYstringOpt<'t> {
 /// `Ystring: Identifier;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YstringIdentifier<'t> {
     pub identifier: Box<Identifier<'t>>,
 }
@@ -4373,8 +4065,7 @@ pub struct YstringIdentifier<'t> {
 /// `BasicString: DQString;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BasicStringDQString<'t> {
     pub d_q_string: Box<DQString<'t>>,
 }
@@ -4385,8 +4076,7 @@ pub struct BasicStringDQString<'t> {
 /// `BasicString: SQString;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BasicStringSQString<'t> {
     pub s_q_string: Box<SQString<'t>>,
 }
@@ -4397,8 +4087,7 @@ pub struct BasicStringSQString<'t> {
 /// `DQChar: DQUnescaped;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQCharDQUnescaped<'t> {
     pub d_q_unescaped: Box<DQUnescaped<'t>>,
 }
@@ -4409,8 +4098,7 @@ pub struct DQCharDQUnescaped<'t> {
 /// `DQChar: %push(Esc) DQEscaped %pop();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQCharDQEscaped<'t> {
     pub d_q_escaped: Box<DQEscaped<'t>>,
 }
@@ -4421,8 +4109,7 @@ pub struct DQCharDQEscaped<'t> {
 /// `DQUnescaped: DQNoEscape;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQUnescapedDQNoEscape<'t> {
     pub d_q_no_escape: Box<DQNoEscape<'t>>,
 }
@@ -4433,8 +4120,7 @@ pub struct DQUnescapedDQNoEscape<'t> {
 /// `DQUnescaped: NonAscii;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQUnescapedNonAscii<'t> {
     pub non_ascii: Box<NonAscii<'t>>,
 }
@@ -4445,8 +4131,7 @@ pub struct DQUnescapedNonAscii<'t> {
 /// `DQEscapeSeqChar: Escape;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQEscapeSeqCharEscape<'t> {
     pub escape: Box<Escape<'t>>,
 }
@@ -4457,8 +4142,7 @@ pub struct DQEscapeSeqCharEscape<'t> {
 /// `DQEscapeSeqChar: DoubleQuotation;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQEscapeSeqCharDoubleQuotation<'t> {
     pub double_quotation: Box<DoubleQuotation<'t>>,
 }
@@ -4469,8 +4153,7 @@ pub struct DQEscapeSeqCharDoubleQuotation<'t> {
 /// `DQEscapeSeqChar: <Esc>"n";`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQEscapeSeqCharN<'t> {
     pub n: Token<'t>, /* n */
 }
@@ -4481,8 +4164,7 @@ pub struct DQEscapeSeqCharN<'t> {
 /// `DQEscapeSeqChar: <Esc>"t";`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQEscapeSeqCharT<'t> {
     pub t: Token<'t>, /* t */
 }
@@ -4493,8 +4175,7 @@ pub struct DQEscapeSeqCharT<'t> {
 /// `SQChar: SQUnescaped;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SQCharSQUnescaped<'t> {
     pub s_q_unescaped: Box<SQUnescaped<'t>>,
 }
@@ -4505,8 +4186,7 @@ pub struct SQCharSQUnescaped<'t> {
 /// `SQChar: %push(Esc) SQEscaped %pop();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SQCharSQEscaped<'t> {
     pub s_q_escaped: Box<SQEscaped<'t>>,
 }
@@ -4517,8 +4197,7 @@ pub struct SQCharSQEscaped<'t> {
 /// `SQUnescaped: SQNoEscape;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SQUnescapedSQNoEscape<'t> {
     pub s_q_no_escape: Box<SQNoEscape<'t>>,
 }
@@ -4529,8 +4208,7 @@ pub struct SQUnescapedSQNoEscape<'t> {
 /// `SQUnescaped: NonAscii;`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SQUnescapedNonAscii<'t> {
     pub non_ascii: Box<NonAscii<'t>>,
 }
@@ -4541,8 +4219,7 @@ pub struct SQUnescapedNonAscii<'t> {
 /// `IdentifierArgStrSuffix: Identifier %pop();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentifierArgStrSuffixIdentifier<'t> {
     pub identifier: Box<Identifier<'t>>,
 }
@@ -4553,8 +4230,7 @@ pub struct IdentifierArgStrSuffixIdentifier<'t> {
 /// `IdentifierArgStrSuffix: <Keyword>'"'^ /* Clipped */ Identifier <Keyword>'"'^ /* Clipped */ %pop();`
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentifierArgStrSuffixDoubleQuotationIdentifierDoubleQuotation<'t> {
     pub identifier: Box<Identifier<'t>>,
 }
@@ -4568,8 +4244,7 @@ pub struct IdentifierArgStrSuffixDoubleQuotationIdentifierDoubleQuotation<'t> {
 /// Type derived for non-terminal AbsoluteSchemaNodeid
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AbsoluteSchemaNodeid<'t> {
     pub slash: Token<'t>, /* / */
     pub identifier_ref: Box<IdentifierRef<'t>>,
@@ -4579,8 +4254,7 @@ pub struct AbsoluteSchemaNodeid<'t> {
 /// Type derived for non-terminal ActionStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmt<'t> {
     pub action: Token<'t>, /* action */
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
@@ -4591,8 +4265,7 @@ pub struct ActionStmt<'t> {
 /// Type derived for non-terminal ActionStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ActionStmtList<'t> {
     pub action_stmt_list_group: Box<ActionStmtListGroup<'t>>,
 }
@@ -4625,8 +4298,7 @@ pub enum ActionStmtSuffix<'t> {
 /// Type derived for non-terminal AnydataStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub anydata_stmt_suffix: Box<AnydataStmtSuffix<'t>>,
@@ -4636,8 +4308,7 @@ pub struct AnydataStmt<'t> {
 /// Type derived for non-terminal AnydataStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnydataStmtList<'t> {
     pub anydata_stmt_list_group: Box<AnydataStmtListGroup<'t>>,
 }
@@ -4672,8 +4343,7 @@ pub enum AnydataStmtSuffix<'t> {
 /// Type derived for non-terminal AnyxmlStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub anyxml_stmt_suffix: Box<AnyxmlStmtSuffix<'t>>,
@@ -4683,8 +4353,7 @@ pub struct AnyxmlStmt<'t> {
 /// Type derived for non-terminal AnyxmlStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AnyxmlStmtList<'t> {
     pub anyxml_stmt_list_group: Box<AnyxmlStmtListGroup<'t>>,
 }
@@ -4719,8 +4388,7 @@ pub enum AnyxmlStmtSuffix<'t> {
 /// Type derived for non-terminal ArgumentStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ArgumentStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
 }
@@ -4729,8 +4397,7 @@ pub struct ArgumentStmt<'t> {
 /// Type derived for non-terminal AsciiNoBrace
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AsciiNoBrace<'t> {
     pub ascii_no_brace: Token<'t>, /* [\t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7a}\u{7c}\u{7e}]+ */
 }
@@ -4739,8 +4406,7 @@ pub struct AsciiNoBrace<'t> {
 /// Type derived for non-terminal AsciiNoSemicolon
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AsciiNoSemicolon<'t> {
     pub ascii_no_semicolon: Token<'t>, /* [ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7e}]+ */
 }
@@ -4749,8 +4415,7 @@ pub struct AsciiNoSemicolon<'t> {
 /// Type derived for non-terminal AugmentArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentArgStr<'t> {
     pub ystring: Box<Ystring<'t>>,
 }
@@ -4759,8 +4424,7 @@ pub struct AugmentArgStr<'t> {
 /// Type derived for non-terminal AugmentStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmt<'t> {
     pub augment_arg_str: Box<AugmentArgStr<'t>>,
     pub augment_stmt_list: Vec<AugmentStmtList<'t>>,
@@ -4770,8 +4434,7 @@ pub struct AugmentStmt<'t> {
 /// Type derived for non-terminal AugmentStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct AugmentStmtList<'t> {
     pub augment_stmt_list_group: Box<AugmentStmtListGroup<'t>>,
 }
@@ -4797,8 +4460,7 @@ pub enum AugmentStmtListGroup<'t> {
 /// Type derived for non-terminal BaseStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BaseStmt<'t> {
     pub identifier_ref_arg_str: Box<IdentifierRefArgStr<'t>>,
 }
@@ -4817,8 +4479,7 @@ pub enum BasicString<'t> {
 /// Type derived for non-terminal BelongsToStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BelongsToStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub prefix_stmt: Box<PrefixStmt<'t>>,
@@ -4828,8 +4489,7 @@ pub struct BelongsToStmt<'t> {
 /// Type derived for non-terminal BitStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BitStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub bit_stmt_suffix: Box<BitStmtSuffix<'t>>,
@@ -4839,8 +4499,7 @@ pub struct BitStmt<'t> {
 /// Type derived for non-terminal BitStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct BitStmtList<'t> {
     pub bit_stmt_list_group: Box<BitStmtListGroup<'t>>,
 }
@@ -4889,8 +4548,7 @@ pub enum BodyStmts<'t> {
 /// Type derived for non-terminal CaseStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct CaseStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub case_stmt_suffix: Box<CaseStmtSuffix<'t>>,
@@ -4900,8 +4558,7 @@ pub struct CaseStmt<'t> {
 /// Type derived for non-terminal CaseStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct CaseStmtList<'t> {
     pub case_stmt_list_group: Box<CaseStmtListGroup<'t>>,
 }
@@ -4933,8 +4590,7 @@ pub enum CaseStmtSuffix<'t> {
 /// Type derived for non-terminal ChoiceStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmt<'t> {
     pub identifier_ref_arg_str: Box<IdentifierRefArgStr<'t>>,
     pub choice_stmt_suffix: Box<ChoiceStmtSuffix<'t>>,
@@ -4944,8 +4600,7 @@ pub struct ChoiceStmt<'t> {
 /// Type derived for non-terminal ChoiceStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ChoiceStmtList<'t> {
     pub choice_stmt_list_group: Box<ChoiceStmtListGroup<'t>>,
 }
@@ -4982,8 +4637,7 @@ pub enum ChoiceStmtSuffix<'t> {
 /// Type derived for non-terminal ConfigStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ConfigStmt<'t> {
     pub config: Token<'t>, /* config */
     pub mandatory_arg_str: Box<MandatoryArgStr<'t>>,
@@ -4994,8 +4648,7 @@ pub struct ConfigStmt<'t> {
 /// Type derived for non-terminal ContactStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContactStmt<'t> {
     pub ystring: Box<Ystring<'t>>,
     pub semicolon: Box<Semicolon<'t>>,
@@ -5005,8 +4658,7 @@ pub struct ContactStmt<'t> {
 /// Type derived for non-terminal ContainerStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub container_stmt_suffix: Box<ContainerStmtSuffix<'t>>,
@@ -5016,8 +4668,7 @@ pub struct ContainerStmt<'t> {
 /// Type derived for non-terminal ContainerStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ContainerStmtList<'t> {
     pub container_stmt_list_group: Box<ContainerStmtListGroup<'t>>,
 }
@@ -5078,8 +4729,7 @@ pub enum DQEscapeSeqChar<'t> {
 /// Type derived for non-terminal DQEscaped
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQEscaped<'t> {
     pub escape: Box<Escape<'t>>,
     pub d_q_escape_seq_char: Box<DQEscapeSeqChar<'t>>,
@@ -5089,8 +4739,7 @@ pub struct DQEscaped<'t> {
 /// Type derived for non-terminal DQNoEscape
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQNoEscape<'t> {
     pub d_q_no_escape: Token<'t>, /* [ \n\r\t\u{21}\u{23}-\u{5B}\u{5D}-\u{7E}]+ */
 }
@@ -5099,8 +4748,7 @@ pub struct DQNoEscape<'t> {
 /// Type derived for non-terminal DQString
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQString<'t> {
     pub d_q_string_list: Vec<DQStringList<'t>>,
 }
@@ -5109,8 +4757,7 @@ pub struct DQString<'t> {
 /// Type derived for non-terminal DQStringList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DQStringList<'t> {
     pub d_q_char: Box<DQChar<'t>>,
 }
@@ -5145,8 +4792,7 @@ pub enum DataDefStmt<'t> {
 /// Type derived for non-terminal DateArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DateArg<'t> {
     pub date_arg: Token<'t>, /* \d{4}-\d{2}-\d{2} */
 }
@@ -5155,8 +4801,7 @@ pub struct DateArg<'t> {
 /// Type derived for non-terminal DateArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DateArgStr<'t> {
     pub date_arg_str_suffix: Box<DateArgStrSuffix<'t>>,
 }
@@ -5177,8 +4822,7 @@ pub enum DateArgStrSuffix<'t> {
 /// Type derived for non-terminal DefaultStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DefaultStmt<'t> {
     pub default_stmt_suffix: Box<DefaultStmtSuffix<'t>>,
 }
@@ -5209,8 +4853,7 @@ pub enum DescendantSchemaNodeid<'t> {
 /// Type derived for non-terminal DescriptionStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DescriptionStmt<'t> {
     pub ystring: Box<Ystring<'t>>,
 }
@@ -5219,8 +4862,7 @@ pub struct DescriptionStmt<'t> {
 /// Type derived for non-terminal DeviationStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DeviationStmt<'t> {
     pub deviation: Token<'t>, /* deviation */
     pub absolute_schema_nodeid: Box<AbsoluteSchemaNodeid<'t>>,
@@ -5231,8 +4873,7 @@ pub struct DeviationStmt<'t> {
 /// Type derived for non-terminal DoubleQuotation
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct DoubleQuotation<'t> {
     pub double_quotation: Token<'t>, /* " */
 }
@@ -5241,8 +4882,7 @@ pub struct DoubleQuotation<'t> {
 /// Type derived for non-terminal EnumArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumArgStr<'t> {
     pub enum_arg_str_suffix: Box<EnumArgStrSuffix<'t>>,
 }
@@ -5263,8 +4903,7 @@ pub enum EnumArgStrSuffix<'t> {
 /// Type derived for non-terminal EnumStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumStmt<'t> {
     pub enum_arg_str: Box<EnumArgStr<'t>>,
     pub enum_stmt_suffix: Box<EnumStmtSuffix<'t>>,
@@ -5274,8 +4913,7 @@ pub struct EnumStmt<'t> {
 /// Type derived for non-terminal EnumStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct EnumStmtList<'t> {
     pub enum_stmt_list_group: Box<EnumStmtListGroup<'t>>,
 }
@@ -5306,8 +4944,7 @@ pub enum EnumStmtSuffix<'t> {
 /// Type derived for non-terminal ErrorMessage
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ErrorMessage<'t> {
     pub error_minus_message: Token<'t>, /* error-message */
     pub ystring: Box<Ystring<'t>>,
@@ -5318,8 +4955,7 @@ pub struct ErrorMessage<'t> {
 /// Type derived for non-terminal Escape
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct Escape<'t> {
     pub escape: Token<'t>, /* \u{5C} */
 }
@@ -5328,8 +4964,7 @@ pub struct Escape<'t> {
 /// Type derived for non-terminal ExtensionStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ExtensionStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub extension_stmt_suffix: Box<ExtensionStmtSuffix<'t>>,
@@ -5339,8 +4974,7 @@ pub struct ExtensionStmt<'t> {
 /// Type derived for non-terminal ExtensionStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ExtensionStmtList<'t> {
     pub extension_stmt_list_group: Box<ExtensionStmtListGroup<'t>>,
 }
@@ -5371,8 +5005,7 @@ pub enum ExtensionStmtSuffix<'t> {
 /// Type derived for non-terminal FeatureStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FeatureStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub feature_stmt_suffix: Box<FeatureStmtSuffix<'t>>,
@@ -5382,8 +5015,7 @@ pub struct FeatureStmt<'t> {
 /// Type derived for non-terminal FeatureStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FeatureStmtList<'t> {
     pub feature_stmt_list_group: Box<FeatureStmtListGroup<'t>>,
 }
@@ -5414,8 +5046,7 @@ pub enum FeatureStmtSuffix<'t> {
 /// Type derived for non-terminal FractionDigitsArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FractionDigitsArg<'t> {
     pub fraction_digits_arg: Token<'t>, /* 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18| */
 }
@@ -5424,8 +5055,7 @@ pub struct FractionDigitsArg<'t> {
 /// Type derived for non-terminal FractionDigitsStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct FractionDigitsStmt<'t> {
     pub fraction_digits_arg: Box<FractionDigitsArg<'t>>,
 }
@@ -5434,8 +5064,7 @@ pub struct FractionDigitsStmt<'t> {
 /// Type derived for non-terminal GroupingStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub grouping_stmt_list: Vec<GroupingStmtList<'t>>,
@@ -5445,8 +5074,7 @@ pub struct GroupingStmt<'t> {
 /// Type derived for non-terminal GroupingStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct GroupingStmtList<'t> {
     pub grouping_stmt_list_group: Box<GroupingStmtListGroup<'t>>,
 }
@@ -5472,18 +5100,16 @@ pub enum GroupingStmtListGroup<'t> {
 /// Type derived for non-terminal Identifier
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct Identifier<'t> {
-    pub identifier: Token<'t>, /* [a-zA-Z_][a-zA-Z0-9_\-\/.:]* */
+    pub identifier: Token<'t>, /* [a-zA-Z_][a-zA-Z0-9_\-\/\.:]* */
 }
 
 ///
 /// Type derived for non-terminal IdentifierArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentifierArgStr<'t> {
     pub identifier_arg_str_suffix: Box<IdentifierArgStrSuffix<'t>>,
 }
@@ -5504,8 +5130,7 @@ pub enum IdentifierArgStrSuffix<'t> {
 /// Type derived for non-terminal IdentifierRef
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentifierRef<'t> {
     pub identifier_ref_opt: Option<IdentifierRefOpt<'t>>,
     pub identifier: Box<Identifier<'t>>,
@@ -5515,8 +5140,7 @@ pub struct IdentifierRef<'t> {
 /// Type derived for non-terminal IdentifierRefArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentifierRefArgStr<'t> {
     pub identifier_ref_arg_str_suffix: Box<IdentifierRefArgStrSuffix<'t>>,
 }
@@ -5537,8 +5161,7 @@ pub enum IdentifierRefArgStrSuffix<'t> {
 /// Type derived for non-terminal IdentifierRefOpt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentifierRefOpt<'t> {
     pub identifier: Box<Identifier<'t>>,
     pub colon: Token<'t>, /* : */
@@ -5548,8 +5171,7 @@ pub struct IdentifierRefOpt<'t> {
 /// Type derived for non-terminal IdentityStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentityStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub identity_stmt_list: Vec<IdentityStmtList<'t>>,
@@ -5559,8 +5181,7 @@ pub struct IdentityStmt<'t> {
 /// Type derived for non-terminal IdentityStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IdentityStmtList<'t> {
     pub identity_stmt_list_group: Box<IdentityStmtListGroup<'t>>,
 }
@@ -5581,8 +5202,7 @@ pub enum IdentityStmtListGroup<'t> {
 /// Type derived for non-terminal IfFeatureExpr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureExpr<'t> {
     pub if_feature_term: Box<IfFeatureTerm<'t>>,
     pub if_feature_expr_opt: Option<IfFeatureExprOpt<'t>>,
@@ -5592,8 +5212,7 @@ pub struct IfFeatureExpr<'t> {
 /// Type derived for non-terminal IfFeatureExprOpt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureExprOpt<'t> {
     pub or: Token<'t>, /* or */
     pub if_feature_expr: Box<IfFeatureExpr<'t>>,
@@ -5603,8 +5222,7 @@ pub struct IfFeatureExprOpt<'t> {
 /// Type derived for non-terminal IfFeatureExprStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureExprStr<'t> {
     pub if_feature_expr: Box<IfFeatureExpr<'t>>,
 }
@@ -5627,8 +5245,7 @@ pub enum IfFeatureFactor<'t> {
 /// Type derived for non-terminal IfFeatureStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureStmt<'t> {
     pub if_feature_expr_str: Box<IfFeatureExprStr<'t>>,
 }
@@ -5637,8 +5254,7 @@ pub struct IfFeatureStmt<'t> {
 /// Type derived for non-terminal IfFeatureTerm
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureTerm<'t> {
     pub if_feature_factor: Box<IfFeatureFactor<'t>>,
     pub if_feature_term_opt: Option<IfFeatureTermOpt<'t>>,
@@ -5648,8 +5264,7 @@ pub struct IfFeatureTerm<'t> {
 /// Type derived for non-terminal IfFeatureTermOpt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IfFeatureTermOpt<'t> {
     pub and: Token<'t>, /* and */
     pub if_feature_term: Box<IfFeatureTerm<'t>>,
@@ -5659,8 +5274,7 @@ pub struct IfFeatureTermOpt<'t> {
 /// Type derived for non-terminal ImportStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ImportStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub import_stmt_list: Vec<ImportStmtList<'t>>,
@@ -5670,8 +5284,7 @@ pub struct ImportStmt<'t> {
 /// Type derived for non-terminal ImportStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ImportStmtList<'t> {
     pub import_stmt_list_group: Box<ImportStmtListGroup<'t>>,
 }
@@ -5692,8 +5305,7 @@ pub enum ImportStmtListGroup<'t> {
 /// Type derived for non-terminal IncludeStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IncludeStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub include_stmt_suffix: Box<IncludeStmtSuffix<'t>>,
@@ -5703,8 +5315,7 @@ pub struct IncludeStmt<'t> {
 /// Type derived for non-terminal IncludeStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IncludeStmtList<'t> {
     pub include_stmt_list_group: Box<IncludeStmtListGroup<'t>>,
 }
@@ -5734,8 +5345,7 @@ pub enum IncludeStmtSuffix<'t> {
 /// Type derived for non-terminal InputStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct InputStmt<'t> {
     pub input: Token<'t>,   /* input */
     pub l_brace: Token<'t>, /* { */
@@ -5747,8 +5357,7 @@ pub struct InputStmt<'t> {
 /// Type derived for non-terminal InputStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct InputStmtList<'t> {
     pub data_def_stmt: Box<DataDefStmt<'t>>,
 }
@@ -5757,8 +5366,7 @@ pub struct InputStmtList<'t> {
 /// Type derived for non-terminal IntegerValue
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IntegerValue<'t> {
     pub integer_value: Token<'t>, /* [0-9]+ */
 }
@@ -5767,8 +5375,7 @@ pub struct IntegerValue<'t> {
 /// Type derived for non-terminal IntegerValueStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct IntegerValueStr<'t> {
     pub integer_value_str_suffix: Box<IntegerValueStrSuffix<'t>>,
 }
@@ -5789,8 +5396,7 @@ pub enum IntegerValueStrSuffix<'t> {
 /// Type derived for non-terminal KeyArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct KeyArg<'t> {
     pub identifier_ref: Box<IdentifierRef<'t>>,
     pub key_arg_opt: Option<KeyArgOpt<'t>>,
@@ -5800,8 +5406,7 @@ pub struct KeyArg<'t> {
 /// Type derived for non-terminal KeyArgOpt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct KeyArgOpt<'t> {
     pub key_arg: Box<KeyArg<'t>>,
 }
@@ -5810,8 +5415,7 @@ pub struct KeyArgOpt<'t> {
 /// Type derived for non-terminal KeyArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct KeyArgStr<'t> {
     pub key_arg_str_suffix: Box<KeyArgStrSuffix<'t>>,
 }
@@ -5830,8 +5434,7 @@ pub enum KeyArgStrSuffix<'t> {
 /// Type derived for non-terminal KeyStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct KeyStmt<'t> {
     pub key_arg_str: Box<KeyArgStr<'t>>,
 }
@@ -5840,8 +5443,7 @@ pub struct KeyStmt<'t> {
 /// Type derived for non-terminal LeafListStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub leaf_list_stmt_list: Vec<LeafListStmtList<'t>>,
@@ -5851,8 +5453,7 @@ pub struct LeafListStmt<'t> {
 /// Type derived for non-terminal LeafListStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafListStmtList<'t> {
     pub leaf_list_stmt_list_group: Box<LeafListStmtListGroup<'t>>,
 }
@@ -5883,8 +5484,7 @@ pub enum LeafListStmtListGroup<'t> {
 /// Type derived for non-terminal LeafStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub leaf_stmt_list: Vec<LeafStmtList<'t>>,
@@ -5894,8 +5494,7 @@ pub struct LeafStmt<'t> {
 /// Type derived for non-terminal LeafStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LeafStmtList<'t> {
     pub leaf_stmt_list_group: Box<LeafStmtListGroup<'t>>,
 }
@@ -5934,8 +5533,7 @@ pub enum LeafrefSpecification<'t> {
 /// Type derived for non-terminal LengthStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct LengthStmt<'t> {
     pub range_arg_str: Box<RangeArgStr<'t>>,
 }
@@ -5954,8 +5552,7 @@ pub enum LinkageStmts<'t> {
 /// Type derived for non-terminal ListStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub list_stmt_list: Vec<ListStmtList<'t>>,
@@ -5965,8 +5562,7 @@ pub struct ListStmt<'t> {
 /// Type derived for non-terminal ListStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ListStmtList<'t> {
     pub list_stmt_list_group: Box<ListStmtListGroup<'t>>,
 }
@@ -5998,8 +5594,7 @@ pub enum ListStmtListGroup<'t> {
 /// Type derived for non-terminal MandatoryArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MandatoryArg<'t> {
     pub mandatory_arg: Token<'t>, /* true|false */
 }
@@ -6008,8 +5603,7 @@ pub struct MandatoryArg<'t> {
 /// Type derived for non-terminal MandatoryArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MandatoryArgStr<'t> {
     pub mandatory_arg_str_suffix: Box<MandatoryArgStrSuffix<'t>>,
 }
@@ -6030,8 +5624,7 @@ pub enum MandatoryArgStrSuffix<'t> {
 /// Type derived for non-terminal MandatoryStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MandatoryStmt<'t> {
     pub mandatory: Token<'t>, /* mandatory */
     pub mandatory_arg_str: Box<MandatoryArgStr<'t>>,
@@ -6042,8 +5635,7 @@ pub struct MandatoryStmt<'t> {
 /// Type derived for non-terminal MaxElementsStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MaxElementsStmt<'t> {
     pub l_bracket1_minus9_r_bracket_l_bracket0_minus9_r_bracket_star: Token<'t>, /* [1-9][0-9]* */
 }
@@ -6064,8 +5656,7 @@ pub enum MetaStmts<'t> {
 /// Type derived for non-terminal MinElementsStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MinElementsStmt<'t> {
     pub l_bracket1_minus9_r_bracket_l_bracket0_minus9_r_bracket_star: Token<'t>, /* [1-9][0-9]* */
 }
@@ -6085,8 +5676,7 @@ pub enum ModuleHeaderStmts<'t> {
 /// Type derived for non-terminal ModuleStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ModuleStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub module_stmt_list: Vec<ModuleStmtList<'t>>,
@@ -6100,8 +5690,7 @@ pub struct ModuleStmt<'t> {
 /// Type derived for non-terminal ModuleStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ModuleStmtList<'t> {
     pub module_header_stmts: Box<ModuleHeaderStmts<'t>>,
 }
@@ -6110,8 +5699,7 @@ pub struct ModuleStmtList<'t> {
 /// Type derived for non-terminal ModuleStmtList0
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ModuleStmtList0<'t> {
     pub linkage_stmts: Box<LinkageStmts<'t>>,
 }
@@ -6120,8 +5708,7 @@ pub struct ModuleStmtList0<'t> {
 /// Type derived for non-terminal ModuleStmtList1
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ModuleStmtList1<'t> {
     pub meta_stmts: Box<MetaStmts<'t>>,
 }
@@ -6130,8 +5717,7 @@ pub struct ModuleStmtList1<'t> {
 /// Type derived for non-terminal ModuleStmtList2
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ModuleStmtList2<'t> {
     pub revision_stmt: Box<RevisionStmt<'t>>,
 }
@@ -6140,8 +5726,7 @@ pub struct ModuleStmtList2<'t> {
 /// Type derived for non-terminal ModuleStmtList3
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ModuleStmtList3<'t> {
     pub body_stmts: Box<BodyStmts<'t>>,
 }
@@ -6150,8 +5735,7 @@ pub struct ModuleStmtList3<'t> {
 /// Type derived for non-terminal MustStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MustStmt<'t> {
     pub ystring: Box<Ystring<'t>>,
     pub must_stmt_suffix: Box<MustStmtSuffix<'t>>,
@@ -6161,8 +5745,7 @@ pub struct MustStmt<'t> {
 /// Type derived for non-terminal MustStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct MustStmtList<'t> {
     pub must_stmt_list_group: Box<MustStmtListGroup<'t>>,
 }
@@ -6191,8 +5774,7 @@ pub enum MustStmtSuffix<'t> {
 /// Type derived for non-terminal NamespaceStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NamespaceStmt<'t> {
     pub uri_str: Box<UriStr<'t>>,
 }
@@ -6201,8 +5783,7 @@ pub struct NamespaceStmt<'t> {
 /// Type derived for non-terminal NonAscii
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NonAscii<'t> {
     pub non_ascii: Token<'t>, /* [\n\r\u{80}-\u{D7FF}\u{E000}-\u{10FFFF}] */
 }
@@ -6211,8 +5792,7 @@ pub struct NonAscii<'t> {
 /// Type derived for non-terminal NotificationStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmt<'t> {
     pub notification: Token<'t>, /* notification */
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
@@ -6225,8 +5805,7 @@ pub struct NotificationStmt<'t> {
 /// Type derived for non-terminal NotificationStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct NotificationStmtList<'t> {
     pub notification_stmt_list_group: Box<NotificationStmtListGroup<'t>>,
 }
@@ -6251,8 +5830,7 @@ pub enum NotificationStmtListGroup<'t> {
 /// Type derived for non-terminal OrderedByArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct OrderedByArg<'t> {
     pub ordered_by_arg: Token<'t>, /* user|system */
 }
@@ -6261,8 +5839,7 @@ pub struct OrderedByArg<'t> {
 /// Type derived for non-terminal OrderedByArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct OrderedByArgStr<'t> {
     pub ordered_by_arg_str_suffix: Box<OrderedByArgStrSuffix<'t>>,
 }
@@ -6283,8 +5860,7 @@ pub enum OrderedByArgStrSuffix<'t> {
 /// Type derived for non-terminal OrderedByStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct OrderedByStmt<'t> {
     pub ordered_by_arg_str: Box<OrderedByArgStr<'t>>,
 }
@@ -6293,8 +5869,7 @@ pub struct OrderedByStmt<'t> {
 /// Type derived for non-terminal OrganizationStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct OrganizationStmt<'t> {
     pub ystring: Box<Ystring<'t>>,
     pub semicolon: Box<Semicolon<'t>>,
@@ -6304,8 +5879,7 @@ pub struct OrganizationStmt<'t> {
 /// Type derived for non-terminal OutputStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct OutputStmt<'t> {
     pub output: Token<'t>,  /* output */
     pub l_brace: Token<'t>, /* { */
@@ -6317,8 +5891,7 @@ pub struct OutputStmt<'t> {
 /// Type derived for non-terminal OutputStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct OutputStmtList<'t> {
     pub data_def_stmt: Box<DataDefStmt<'t>>,
 }
@@ -6327,8 +5900,7 @@ pub struct OutputStmtList<'t> {
 /// Type derived for non-terminal PathStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct PathStmt<'t> {
     pub ystring: Box<Ystring<'t>>,
 }
@@ -6337,8 +5909,7 @@ pub struct PathStmt<'t> {
 /// Type derived for non-terminal PatternStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct PatternStmt<'t> {
     pub pattern: Token<'t>, /* pattern */
     pub ystring: Box<Ystring<'t>>,
@@ -6349,8 +5920,7 @@ pub struct PatternStmt<'t> {
 /// Type derived for non-terminal PositionStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct PositionStmt<'t> {
     pub integer_value_str: Box<IntegerValueStr<'t>>,
 }
@@ -6359,8 +5929,7 @@ pub struct PositionStmt<'t> {
 /// Type derived for non-terminal PrefixStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct PrefixStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
 }
@@ -6369,8 +5938,7 @@ pub struct PrefixStmt<'t> {
 /// Type derived for non-terminal PresenceStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct PresenceStmt<'t> {
     pub ystring: Box<Ystring<'t>>,
 }
@@ -6379,8 +5947,7 @@ pub struct PresenceStmt<'t> {
 /// Type derived for non-terminal RangeArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangeArg<'t> {
     pub range_part: Box<RangePart<'t>>,
     pub range_arg_opt: Option<RangeArgOpt<'t>>,
@@ -6390,8 +5957,7 @@ pub struct RangeArg<'t> {
 /// Type derived for non-terminal RangeArgOpt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangeArgOpt<'t> {
     pub or: Token<'t>, /* | */
     pub range_arg: Box<RangeArg<'t>>,
@@ -6422,8 +5988,7 @@ pub enum RangeBoundary<'t> {
 /// Type derived for non-terminal RangePart
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangePart<'t> {
     pub range_boundary: Box<RangeBoundary<'t>>,
     pub range_part_opt: Option<RangePartOpt<'t>>,
@@ -6433,8 +5998,7 @@ pub struct RangePart<'t> {
 /// Type derived for non-terminal RangePartOpt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangePartOpt<'t> {
     pub dot_dot: Token<'t>, /* .. */
     pub range_boundary: Box<RangeBoundary<'t>>,
@@ -6444,8 +6008,7 @@ pub struct RangePartOpt<'t> {
 /// Type derived for non-terminal RangeStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RangeStmt<'t> {
     pub range_arg_str: Box<RangeArgStr<'t>>,
 }
@@ -6454,8 +6017,7 @@ pub struct RangeStmt<'t> {
 /// Type derived for non-terminal ReferenceStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ReferenceStmt<'t> {
     pub ystring: Box<Ystring<'t>>,
 }
@@ -6464,8 +6026,7 @@ pub struct ReferenceStmt<'t> {
 /// Type derived for non-terminal RefineArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineArg<'t> {
     pub descendant_schema_nodeid: Box<DescendantSchemaNodeid<'t>>,
 }
@@ -6474,8 +6035,7 @@ pub struct RefineArg<'t> {
 /// Type derived for non-terminal RefineArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineArgStr<'t> {
     pub refine_arg_str_suffix: Box<RefineArgStrSuffix<'t>>,
 }
@@ -6496,8 +6056,7 @@ pub enum RefineArgStrSuffix<'t> {
 /// Type derived for non-terminal RefineStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmt<'t> {
     pub refine_arg_str: Box<RefineArgStr<'t>>,
     pub refine_stmt_suffix: Box<RefineStmtSuffix<'t>>,
@@ -6507,8 +6066,7 @@ pub struct RefineStmt<'t> {
 /// Type derived for non-terminal RefineStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RefineStmtList<'t> {
     pub refine_stmt_list_group: Box<RefineStmtListGroup<'t>>,
 }
@@ -6545,8 +6103,7 @@ pub enum RefineStmtSuffix<'t> {
 /// Type derived for non-terminal RequireInstanceArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RequireInstanceArgStr<'t> {
     pub require_instance_arg_str_suffix: Box<RequireInstanceArgStrSuffix<'t>>,
 }
@@ -6567,8 +6124,7 @@ pub enum RequireInstanceArgStrSuffix<'t> {
 /// Type derived for non-terminal RequireInstanceStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RequireInstanceStmt<'t> {
     pub require_minus_instance: Token<'t>, /* require-instance */
     pub require_instance_arg_str: Box<RequireInstanceArgStr<'t>>,
@@ -6579,8 +6135,7 @@ pub struct RequireInstanceStmt<'t> {
 /// Type derived for non-terminal RevisionDateStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RevisionDateStmt<'t> {
     pub date_arg_str: Box<DateArgStr<'t>>,
 }
@@ -6589,8 +6144,7 @@ pub struct RevisionDateStmt<'t> {
 /// Type derived for non-terminal RevisionStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RevisionStmt<'t> {
     pub date_arg_str: Box<DateArgStr<'t>>,
     pub revision_stmt_list: Vec<RevisionStmtList<'t>>,
@@ -6600,8 +6154,7 @@ pub struct RevisionStmt<'t> {
 /// Type derived for non-terminal RevisionStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RevisionStmtList<'t> {
     pub revision_stmt_list_group: Box<RevisionStmtListGroup<'t>>,
 }
@@ -6620,8 +6173,7 @@ pub enum RevisionStmtListGroup<'t> {
 /// Type derived for non-terminal RpcStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmt<'t> {
     pub rpc: Token<'t>, /* rpc */
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
@@ -6632,8 +6184,7 @@ pub struct RpcStmt<'t> {
 /// Type derived for non-terminal RpcStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct RpcStmtList<'t> {
     pub rpc_stmt_list_group: Box<RpcStmtListGroup<'t>>,
 }
@@ -6678,8 +6229,7 @@ pub enum SQChar<'t> {
 /// Type derived for non-terminal SQEscapeSeqChar
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SQEscapeSeqChar<'t> {
     pub s_q_escape_seq_char: Token<'t>, /* . */
 }
@@ -6688,8 +6238,7 @@ pub struct SQEscapeSeqChar<'t> {
 /// Type derived for non-terminal SQEscaped
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SQEscaped<'t> {
     pub escape: Box<Escape<'t>>,
     pub s_q_escape_seq_char: Box<SQEscapeSeqChar<'t>>,
@@ -6699,8 +6248,7 @@ pub struct SQEscaped<'t> {
 /// Type derived for non-terminal SQNoEscape
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SQNoEscape<'t> {
     pub s_q_no_escape: Token<'t>, /* [ \t\u{21}-\u{26}\u{28}-\u{5B}\u{5D}-\u{7E}]+ */
 }
@@ -6709,8 +6257,7 @@ pub struct SQNoEscape<'t> {
 /// Type derived for non-terminal SQString
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SQString<'t> {
     pub single_quotation: Box<SingleQuotation<'t>>,
     pub s_q_string_list: Vec<SQStringList<'t>>,
@@ -6721,8 +6268,7 @@ pub struct SQString<'t> {
 /// Type derived for non-terminal SQStringList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SQStringList<'t> {
     pub s_q_char: Box<SQChar<'t>>,
 }
@@ -6741,8 +6287,7 @@ pub enum SQUnescaped<'t> {
 /// Type derived for non-terminal Semicolon
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct Semicolon<'t> {
     pub semicolon: Token<'t>, /* ; */
 }
@@ -6766,8 +6311,7 @@ pub enum ShortCaseStmt<'t> {
 /// Type derived for non-terminal SingleQuotation
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SingleQuotation<'t> {
     pub single_quotation: Token<'t>, /* \u{27} */
 }
@@ -6776,8 +6320,7 @@ pub struct SingleQuotation<'t> {
 /// Type derived for non-terminal StatusArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct StatusArg<'t> {
     pub status_arg: Token<'t>, /* current|obsolete|deprecated */
 }
@@ -6786,8 +6329,7 @@ pub struct StatusArg<'t> {
 /// Type derived for non-terminal StatusArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct StatusArgStr<'t> {
     pub status_arg_str_suffix: Box<StatusArgStrSuffix<'t>>,
 }
@@ -6808,8 +6350,7 @@ pub enum StatusArgStrSuffix<'t> {
 /// Type derived for non-terminal StatusStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct StatusStmt<'t> {
     pub status_arg_str: Box<StatusArgStr<'t>>,
 }
@@ -6838,8 +6379,7 @@ pub enum SubmoduleHeaderStmts<'t> {
 /// Type derived for non-terminal SubmoduleStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SubmoduleStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub submodule_stmt_list: Vec<SubmoduleStmtList<'t>>,
@@ -6853,8 +6393,7 @@ pub struct SubmoduleStmt<'t> {
 /// Type derived for non-terminal SubmoduleStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SubmoduleStmtList<'t> {
     pub submodule_header_stmts: Box<SubmoduleHeaderStmts<'t>>,
 }
@@ -6863,8 +6402,7 @@ pub struct SubmoduleStmtList<'t> {
 /// Type derived for non-terminal SubmoduleStmtList0
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SubmoduleStmtList0<'t> {
     pub linkage_stmts: Box<LinkageStmts<'t>>,
 }
@@ -6873,8 +6411,7 @@ pub struct SubmoduleStmtList0<'t> {
 /// Type derived for non-terminal SubmoduleStmtList1
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SubmoduleStmtList1<'t> {
     pub meta_stmts: Box<MetaStmts<'t>>,
 }
@@ -6883,8 +6420,7 @@ pub struct SubmoduleStmtList1<'t> {
 /// Type derived for non-terminal SubmoduleStmtList2
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SubmoduleStmtList2<'t> {
     pub revision_stmt: Box<RevisionStmt<'t>>,
 }
@@ -6893,8 +6429,7 @@ pub struct SubmoduleStmtList2<'t> {
 /// Type derived for non-terminal SubmoduleStmtList3
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct SubmoduleStmtList3<'t> {
     pub body_stmts: Box<BodyStmts<'t>>,
 }
@@ -6903,8 +6438,7 @@ pub struct SubmoduleStmtList3<'t> {
 /// Type derived for non-terminal TypeStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmt<'t> {
     pub identifier_ref_arg_str: Box<IdentifierRefArgStr<'t>>,
     pub type_stmt_suffix: Box<TypeStmtSuffix<'t>>,
@@ -6914,8 +6448,7 @@ pub struct TypeStmt<'t> {
 /// Type derived for non-terminal TypeStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypeStmtList<'t> {
     pub type_stmt_list_group: Box<TypeStmtListGroup<'t>>,
 }
@@ -6950,8 +6483,7 @@ pub enum TypeStmtSuffix<'t> {
 /// Type derived for non-terminal TypedefStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypedefStmt<'t> {
     pub identifier_arg_str: Box<IdentifierArgStr<'t>>,
     pub typedef_stmt_list: Vec<TypedefStmtList<'t>>,
@@ -6961,8 +6493,7 @@ pub struct TypedefStmt<'t> {
 /// Type derived for non-terminal TypedefStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct TypedefStmtList<'t> {
     pub typedef_stmt_list_group: Box<TypedefStmtListGroup<'t>>,
 }
@@ -6985,8 +6516,7 @@ pub enum TypedefStmtListGroup<'t> {
 /// Type derived for non-terminal UnitsStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UnitsStmt<'t> {
     pub units: Token<'t>, /* units */
     pub ystring: Box<Ystring<'t>>,
@@ -6997,8 +6527,7 @@ pub struct UnitsStmt<'t> {
 /// Type derived for non-terminal UnknownStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UnknownStmt<'t> {
     pub identifier_ref: Box<IdentifierRef<'t>>,
     pub ystring: Box<Ystring<'t>>,
@@ -7009,8 +6538,7 @@ pub struct UnknownStmt<'t> {
 /// Type derived for non-terminal UnknownStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UnknownStmtList<'t> {
     pub unknown_stmt_list_group: Box<UnknownStmtListGroup<'t>>,
 }
@@ -7039,8 +6567,7 @@ pub enum UnknownStmtSuffix<'t> {
 /// Type derived for non-terminal UriArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UriArg<'t> {
     pub uri_arg: Token<'t>, /* urn:[a-zA-Z0-9\-\.:]+ */
 }
@@ -7059,8 +6586,7 @@ pub enum UriStr<'t> {
 /// Type derived for non-terminal UsesStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmt<'t> {
     pub identifier_ref_arg_str: Box<IdentifierRefArgStr<'t>>,
     pub uses_stmt_suffix: Box<UsesStmtSuffix<'t>>,
@@ -7070,8 +6596,7 @@ pub struct UsesStmt<'t> {
 /// Type derived for non-terminal UsesStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct UsesStmtList<'t> {
     pub uses_stmt_list_group: Box<UsesStmtListGroup<'t>>,
 }
@@ -7105,8 +6630,7 @@ pub enum UsesStmtSuffix<'t> {
 /// Type derived for non-terminal ValueStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct ValueStmt<'t> {
     pub integer_value_str: Box<IntegerValueStr<'t>>,
 }
@@ -7115,8 +6639,7 @@ pub struct ValueStmt<'t> {
 /// Type derived for non-terminal WhenStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct WhenStmt<'t> {
     pub ystring: Box<Ystring<'t>>,
     pub when_stmt_suffix: Box<WhenStmtSuffix<'t>>,
@@ -7126,8 +6649,7 @@ pub struct WhenStmt<'t> {
 /// Type derived for non-terminal WhenStmtList
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct WhenStmtList<'t> {
     pub when_stmt_list_group: Box<WhenStmtListGroup<'t>>,
 }
@@ -7166,8 +6688,7 @@ pub enum Yang<'t> {
 /// Type derived for non-terminal YangVersionArg
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YangVersionArg<'t> {
     pub yang_version_arg: Token<'t>, /* 1.1|1 */
 }
@@ -7176,8 +6697,7 @@ pub struct YangVersionArg<'t> {
 /// Type derived for non-terminal YangVersionArgStr
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YangVersionArgStr<'t> {
     pub yang_version_arg_str_suffix: Box<YangVersionArgStrSuffix<'t>>,
 }
@@ -7198,8 +6718,7 @@ pub enum YangVersionArgStrSuffix<'t> {
 /// Type derived for non-terminal YangVersionStmt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YangVersionStmt<'t> {
     pub yang_version_arg_str: Box<YangVersionArgStr<'t>>,
 }
@@ -7218,8 +6737,7 @@ pub enum Ystring<'t> {
 /// Type derived for non-terminal YstringOpt
 ///
 #[allow(dead_code)]
-#[derive(Builder, Debug, Clone)]
-#[builder(crate = "parol_runtime::derive_builder")]
+#[derive(Debug, Clone)]
 pub struct YstringOpt<'t> {
     pub plus: Token<'t>, /* + */
     pub ystring: Box<Ystring<'t>>,
@@ -7473,6 +6991,8 @@ pub enum ASTType<'t> {
     Ystring(Ystring<'t>),
     YstringOpt(Option<YstringOpt<'t>>),
 }
+
+// -------------------------------------------------------------------------------------------------
 
 /// Auto-implemented adapter grammar
 ///
@@ -18906,7 +18426,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
 
     /// Semantic action for production 526:
     ///
-    /// `Identifier: <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/.:]*/;`
+    /// `Identifier: <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/\.:]*/;`
     ///
     #[parol_runtime::function_name::named]
     fn identifier(&mut self, identifier: &ParseTreeType<'t>) -> Result<()> {
@@ -19607,7 +19127,7 @@ impl<'t> UserActionsTrait<'t> for YangGrammarAuto<'t, '_> {
         }
     }
 
-    fn on_comment_parsed(&mut self, token: Token<'t>) {
-        self.user_grammar.on_comment_parsed(token)
+    fn on_comment(&mut self, token: Token<'t>) {
+        self.user_grammar.on_comment(token)
     }
 }

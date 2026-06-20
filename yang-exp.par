@@ -557,7 +557,7 @@
 /* 523 */ IdentifierArgStr: %push(Keyword) IdentifierArgStrSuffix;
 /* 524 */ IdentifierArgStrSuffix: Identifier %pop();
 /* 525 */ IdentifierArgStrSuffix: <Keyword>'"'^ /* Clipped */ Identifier <Keyword>'"'^ /* Clipped */ %pop();
-/* 526 */ Identifier: <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/.:]*/;
+/* 526 */ Identifier: <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/\.:]*/;
 /* 527 */ AsciiNoSemicolon: <Default>/[ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7e}]+/;
 /* 528 */ AsciiNoBrace: <Enum>/[\t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7a}\u{7c}\u{7e}]+/;
 /* 529 */ YangVersionArg: <YVersion>"1.1|1";
