@@ -2,68 +2,179 @@
 %title "Yang grammar"
 %comment "YANG grammar by `parol`"
 %line_comment "//"
+// KNOWN LIMITATION (parol 3.x / scnr): parol generates the matcher
+// `/\*([^*]|\*[^/])*\*/` from this directive, which fails to match block
+// comments ending in `**/` (an even number of trailing stars, e.g.
+// `/*** text **/`). The end delimiter can't be widened (parol caps it at 2
+// chars) and there is no user-defined skip-terminal escape hatch, so such
+// comments are unsupported. Only one in-repo reference module hits this
+// (yang/ietf-routing-types@2017-12-04.yang). See the Identifier note below
+// for the related scnr regex-dialect difference.
 %block_comment  "/\*" "\*/"
+
+// Scanner switching is token-based in parol 4.x (parser-based %push/%pop/%sc
+// in productions was removed in 4.0). The transitions below replicate the old
+// behavior: a statement keyword switches the scanner for its argument, and the
+// terminator (`;` or `{`) switches back to INITIAL. These %on directives at
+// top level apply to the INITIAL (default) scanner.
+
+// Identifier/identifier-ref/key/refine args read in the Keyword scanner so
+// keyword-like names lex as Identifier.
+%on KwModule, KwSubmodule, KwRpc, KwExtension, KwArgument, KwFeature, KwTypedef, KwGrouping, KwIdentity, KwAnyxml, KwAnydata, KwCase, KwContainer, KwAction, KwNotification, KwLeafList, KwLeaf, KwList, KwBit, KwImport, KwInclude, KwPrefix, KwBelongsTo, KwBase, KwChoice, KwUses, KwType, KwRefine, KwKey, KwDeviation %enter Keyword
+%on KwYangVersion %enter YVersion
+%on KwStatus %enter Status
+%on KwIfFeature %enter IfFeature
+%on KwMandatory, KwConfig, KwRequireInstance %enter Mandatory
+%on KwOrderedBy %enter Ordered
+%on KwDefault %enter Default
+%on KwFractionDigits %enter Fraction
+%on KwLength, KwRange %enter Range
+%on KwValue, KwPosition %enter Value
+%on KwEnum %enter Enum
+%on KwRevision, KwRevisionDate %enter Revision
+%on KwNamespace %enter Uri
+%on DoubleQuotation %push DQString
+%on SingleQuotation %push SQString
 
 %scanner DQString {
     %auto_newline_off
     %auto_ws_off
+    %on Escape %push Esc
+    %on DoubleQuotation %pop
 }
 
 %scanner SQString {
     %auto_newline_off
     %auto_ws_off
+    %on Escape %push Esc
+    %on SingleQuotation %pop
 }
 
 %scanner Esc {
     %auto_newline_off
     %auto_ws_off
+    %on Escape, DoubleQuotation, EscN, EscT, SQEscapeSeqChar %pop
 }
 
 %scanner Keyword {
+    %on Semicolon, LBrace %enter INITIAL
 }
 
 %scanner YVersion {
+    %on Semicolon %enter INITIAL
 }
 
 %scanner Range {
+    %on Semicolon %enter INITIAL
 }
 
 %scanner Enum {
+    %on Semicolon, LBrace %enter INITIAL
 }
 
 %scanner Default {
+    %on Semicolon %enter INITIAL
 }
 
 %scanner Revision {
+    %on Semicolon, LBrace %enter INITIAL
 }
 
 %scanner Mandatory {
+    %on Semicolon %enter INITIAL
 }
 
 %scanner IfFeature {
+    %on Semicolon %enter INITIAL
 }
 
 %scanner Status {
+    %on Semicolon %enter INITIAL
 }
 
 %scanner Value {
+    %on Semicolon %enter INITIAL
 }
 
 %scanner Fraction {
+    %on Semicolon %enter INITIAL
 }
 
 %scanner Ordered {
+    %on Semicolon %enter INITIAL
+}
+
+%scanner Uri {
+    %on Semicolon %enter INITIAL
 }
 
 %%
+// --- Primary non-terminals for scanner transitions (parol 4.x) ---
+// parol 4.x requires every token named in an %on transition to be a primary
+// non-terminal (a non-terminal whose sole production is one terminal). The
+// statement keywords below are therefore wrapped as KwX and used clipped
+// (`KwX^`) so the AST is identical to the old inline `'kw'^` literals.
+
+LBrace : <INITIAL, Keyword, Enum, Revision>'{';
+
+EscN : <Esc>"n";
+EscT : <Esc>"t";
+
+KwModule : 'module';
+KwSubmodule : 'submodule';
+KwRpc : 'rpc';
+KwExtension : 'extension';
+KwArgument : 'argument';
+KwFeature : 'feature';
+KwTypedef : 'typedef';
+KwGrouping : 'grouping';
+KwIdentity : 'identity';
+KwAnyxml : 'anyxml';
+KwAnydata : 'anydata';
+KwCase : 'case';
+KwContainer : 'container';
+KwAction : 'action';
+KwNotification : 'notification';
+KwLeafList : 'leaf-list';
+KwLeaf : 'leaf';
+KwList : 'list';
+KwBit : 'bit';
+KwImport : 'import';
+KwInclude : 'include';
+KwPrefix : 'prefix';
+KwBelongsTo : 'belongs-to';
+KwBase : 'base';
+KwChoice : 'choice';
+KwUses : 'uses';
+KwType : 'type';
+KwRefine : 'refine';
+KwKey : 'key';
+KwDeviation : 'deviation';
+KwYangVersion : 'yang-version';
+KwStatus : 'status';
+KwIfFeature : 'if-feature';
+KwMandatory : 'mandatory';
+KwConfig : 'config';
+KwRequireInstance : 'require-instance';
+KwOrderedBy : 'ordered-by';
+KwDefault : 'default';
+KwFractionDigits : 'fraction-digits';
+KwLength : 'length';
+KwRange : 'range';
+KwValue : 'value';
+KwPosition : 'position';
+KwEnum : 'enum';
+KwRevision : 'revision';
+KwRevisionDate : 'revision-date';
+KwNamespace : 'namespace';
 
 Yang
     : ModuleStmt
     | SubmoduleStmt;
 
 ModuleStmt
-    : 'module'^ IdentifierArgStr
-      '{'^
+    : KwModule^ IdentifierArgStr
+      LBrace^
       { ModuleHeaderStmts }
       { LinkageStmts }
       { MetaStmts }
@@ -72,8 +183,8 @@ ModuleStmt
       '}'^;
 
 SubmoduleStmt
-    : 'submodule'^ IdentifierArgStr
-      '{'^
+    : KwSubmodule^ IdentifierArgStr
+      LBrace^
       { SubmoduleHeaderStmts }
       { LinkageStmts }
       { MetaStmts }
@@ -124,21 +235,21 @@ DataDefStmt
     | UsesStmt;
 
 YangVersionStmt
-    : 'yang-version'^ YangVersionArgStr Semicolon^;
+    : KwYangVersion^ YangVersionArgStr Semicolon^;
 
 YangVersionArgStr
-    : %push(YVersion) YangVersionArg %sc()
-    | %push(YVersion) <YVersion>'"'^ YangVersionArg <YVersion>'"'^ %sc();
+    : YangVersionArg
+    | <YVersion>'"'^ YangVersionArg <YVersion>'"'^;
 
 //
 
 DeviationStmt
-    : 'deviation' AbsoluteSchemaNodeid Semicolon;
+    : KwDeviation^ AbsoluteSchemaNodeid Semicolon;
 
 RpcStmt
-    : 'rpc' IdentifierArgStr Semicolon
-    | 'rpc' IdentifierArgStr
-    '{'
+    : KwRpc^ IdentifierArgStr Semicolon
+    | KwRpc^ IdentifierArgStr
+    LBrace^
     { IfFeatureStmt
     | StatusStmt
     | DescriptionStmt
@@ -150,9 +261,9 @@ RpcStmt
     '}';
 
 ExtensionStmt
-    : 'extension'^ IdentifierArgStr Semicolon^
-    | 'extension'^ IdentifierArgStr
-    '{'^
+    : KwExtension^ IdentifierArgStr Semicolon^
+    | KwExtension^ IdentifierArgStr
+    LBrace^
     { ArgumentStmt
     | StatusStmt
     | DescriptionStmt
@@ -160,12 +271,12 @@ ExtensionStmt
     '}'^;
 
 ArgumentStmt
-    : 'argument'^ IdentifierArgStr Semicolon^;
+    : KwArgument^ IdentifierArgStr Semicolon^;
 
 FeatureStmt
-    : 'feature'^ IdentifierArgStr Semicolon^
-    | 'feature'^ IdentifierArgStr
-    '{'
+    : KwFeature^ IdentifierArgStr Semicolon^
+    | KwFeature^ IdentifierArgStr
+    LBrace^
     { IfFeatureStmt
     | StatusStmt
     | DescriptionStmt
@@ -173,8 +284,8 @@ FeatureStmt
     '}';
 
 TypedefStmt
-    : 'typedef'^ IdentifierArgStr
-    '{'^
+    : KwTypedef^ IdentifierArgStr
+    LBrace^
     { TypeStmt
     | UnitsStmt
     | DefaultStmt
@@ -185,7 +296,7 @@ TypedefStmt
 
 AugmentStmt
     : 'augment'^ AugmentArgStr
-      '{'^
+      LBrace^
       { WhenStmt
       | IfFeatureStmt
       | StatusStmt
@@ -211,14 +322,14 @@ AugmentArgStr
 WhenStmt
     : 'when'^ Ystring Semicolon^
     | 'when'^ Ystring
-      '{'
+      LBrace^
       { DescriptionStmt
       | ReferenceStmt }
       '}';
 
 GroupingStmt
-    : 'grouping'^ IdentifierArgStr
-      '{'^
+    : KwGrouping^ IdentifierArgStr
+      LBrace^
       { StatusStmt
       | DescriptionStmt
       | ReferenceStmt
@@ -232,8 +343,8 @@ GroupingStmt
 
 
 IdentityStmt
-    : 'identity'^ IdentifierArgStr
-      '{'^
+    : KwIdentity^ IdentifierArgStr
+      LBrace^
       { IfFeatureStmt
       | BaseStmt
       | DescriptionStmt
@@ -241,12 +352,12 @@ IdentityStmt
       '}'^;
 
 BaseStmt
-    : 'base'^ IdentifierRefArgStr Semicolon^;
+    : KwBase^ IdentifierRefArgStr Semicolon^;
 
 AnyxmlStmt
-    : 'anyxml'^ IdentifierArgStr Semicolon^
-    | 'anyxml'^ IdentifierArgStr
-    '{'^
+    : KwAnyxml^ IdentifierArgStr Semicolon^
+    | KwAnyxml^ IdentifierArgStr
+    LBrace^
     { WhenStmt
     | IfFeatureStmt
     | MustStmt
@@ -258,9 +369,9 @@ AnyxmlStmt
     '}'^;
 
 ChoiceStmt
-    : 'choice'^ IdentifierRefArgStr Semicolon^
-    | 'choice'^ IdentifierRefArgStr
-    '{'
+    : KwChoice^ IdentifierRefArgStr Semicolon^
+    | KwChoice^ IdentifierRefArgStr
+    LBrace^
     { WhenStmt
     | IfFeatureStmt
     | DefaultStmt
@@ -283,9 +394,9 @@ ShortCaseStmt
     | AnyxmlStmt;
 
 AnydataStmt
-    : 'anydata'^ IdentifierArgStr Semicolon^
-    | 'anydata'^ IdentifierArgStr
-    '{'^
+    : KwAnydata^ IdentifierArgStr Semicolon^
+    | KwAnydata^ IdentifierArgStr
+    LBrace^
     { WhenStmt
     | IfFeatureStmt
     | MustStmt
@@ -297,9 +408,9 @@ AnydataStmt
     '}'^;
 
 CaseStmt
-    : 'case'^ IdentifierArgStr Semicolon^
-    | 'case'^ IdentifierArgStr
-    '{'^
+    : KwCase^ IdentifierArgStr Semicolon^
+    | KwCase^ IdentifierArgStr
+    LBrace^
     { WhenStmt
     | IfFeatureStmt
     | DataDefStmt
@@ -308,19 +419,19 @@ CaseStmt
     '}'^;
 
 StatusStmt
-    : 'status'^ StatusArgStr Semicolon^;
+    : KwStatus^ StatusArgStr Semicolon^;
 
 StatusArgStr
-    : %sc(Status) StatusArg %sc()
-    | %sc(Status) <Status>'"'^ StatusArg <Status>'"'^ %sc();
+    : StatusArg
+    | <Status>'"'^ StatusArg <Status>'"'^;
 
 StatusArg
     : <Status>/current|obsolete|deprecated/;
 
 ContainerStmt
-    : 'container'^ IdentifierArgStr Semicolon^
-    | 'container'^ IdentifierArgStr
-      '{'^
+    : KwContainer^ IdentifierArgStr Semicolon^
+    | KwContainer^ IdentifierArgStr
+      LBrace^
       { WhenStmt
       | IfFeatureStmt
       | MustStmt
@@ -336,9 +447,9 @@ ContainerStmt
       '}'^;
 
 ActionStmt
-    : 'action' IdentifierArgStr Semicolon
-    | 'action' IdentifierArgStr
-    '{'
+    : KwAction^ IdentifierArgStr Semicolon
+    | KwAction^ IdentifierArgStr
+    LBrace^
     { IfFeatureStmt
     | StatusStmt
     | DescriptionStmt
@@ -349,19 +460,19 @@ ActionStmt
 
 InputStmt
     : 'input'
-    '{'
+    LBrace^
     { DataDefStmt }
     '}';
 
 OutputStmt
     : 'output'
-    '{'
+    LBrace^
     { DataDefStmt }
     '}';
 
 NotificationStmt
-    : 'notification' IdentifierArgStr
-    '{'
+    : KwNotification^ IdentifierArgStr
+    LBrace^
     { IfFeatureStmt
     | MustStmt
     | StatusStmt
@@ -373,10 +484,10 @@ NotificationStmt
     '}';
 
 IfFeatureStmt
-    : 'if-feature'^ IfFeatureExprStr Semicolon^;
+    : KwIfFeature^ IfFeatureExprStr Semicolon^;
 
 IfFeatureExprStr
-    : %sc(IfFeature) IfFeatureExpr %sc();
+    : IfFeatureExpr;
 
 IfFeatureExpr
     : IfFeatureTerm [ <IfFeature>'or' IfFeatureExpr ];
@@ -399,9 +510,9 @@ PresenceStmt
     : 'presence'^ Ystring Semicolon^;
 
 UsesStmt
-    : 'uses'^ IdentifierRefArgStr Semicolon^
-    | 'uses'^ IdentifierRefArgStr
-      '{'^
+    : KwUses^ IdentifierRefArgStr Semicolon^
+    | KwUses^ IdentifierRefArgStr
+      LBrace^
       { WhenStmt
       | IfFeatureStmt
       | StatusStmt
@@ -412,9 +523,9 @@ UsesStmt
       '}'^;
 
 RefineStmt
-    : 'refine'^ RefineArgStr Semicolon^
-    | 'refine'^ RefineArgStr
-    '{'^
+    : KwRefine^ RefineArgStr Semicolon^
+    | KwRefine^ RefineArgStr
+    LBrace^
     { IfFeatureStmt
     | MustStmt
     | PresenceStmt
@@ -428,8 +539,8 @@ RefineStmt
     '}'^;
 
 RefineArgStr
-    : %sc(Keyword) RefineArg %sc()
-    | %sc(Keyword) <Keyword>'"' RefineArg <Keyword>'"' %sc();
+    : RefineArg
+    | <Keyword>'"' RefineArg <Keyword>'"';
 
 RefineArg
     : DescendantSchemaNodeid;
@@ -441,14 +552,14 @@ DescendantSchemaNodeid
 UnknownStmt
     : IdentifierRef Ystring Semicolon^
     | IdentifierRef Ystring
-    '{'^
+    LBrace^
     { TypeStmt
     | DescriptionStmt }
     '}'^;
 
 LeafListStmt
-    : 'leaf-list'^ IdentifierArgStr
-      '{'^
+    : KwLeafList^ IdentifierArgStr
+      LBrace^
       { WhenStmt
       | IfFeatureStmt
       | TypeStmt
@@ -466,8 +577,8 @@ LeafListStmt
       '}'^;
 
 LeafStmt
-    : 'leaf'^ IdentifierArgStr
-      '{'^
+    : KwLeaf^ IdentifierArgStr
+      LBrace^
       { WhenStmt
       | StatusStmt
       | IfFeatureStmt
@@ -485,7 +596,7 @@ LeafStmt
 MustStmt
     : 'must'^ Ystring Semicolon^
     | 'must'^ Ystring
-    '{'^
+    LBrace^
     { ErrorMessage
     | DescriptionStmt }
     '}'^;
@@ -497,21 +608,21 @@ UnitsStmt
     : 'units' Ystring Semicolon;
 
 ConfigStmt
-    : 'config' MandatoryArgStr Semicolon;
+    : KwConfig^ MandatoryArgStr Semicolon;
 
 MandatoryStmt
-    : 'mandatory' MandatoryArgStr Semicolon;
+    : KwMandatory^ MandatoryArgStr Semicolon;
 
 MandatoryArgStr
-    : %push(Mandatory) MandatoryArg %sc()
-    | %push(Mandatory) <Mandatory>'"' MandatoryArg <Mandatory>'"' %sc();
+    : MandatoryArg
+    | <Mandatory>'"' MandatoryArg <Mandatory>'"';
 
 MandatoryArg
     : <Mandatory>/true|false/;
 
 ListStmt
-    : 'list'^ IdentifierArgStr
-      '{'^
+    : KwList^ IdentifierArgStr
+      LBrace^
       { WhenStmt
       | IfFeatureStmt
       | MustStmt
@@ -530,18 +641,18 @@ ListStmt
       '}'^;
 
 OrderedByStmt
-    : 'ordered-by'^ OrderedByArgStr Semicolon^;
+    : KwOrderedBy^ OrderedByArgStr Semicolon^;
 
 OrderedByArgStr
-    : %sc(Ordered) OrderedByArg %sc()
-    | %sc(Ordered) <Ordered>'"' OrderedByArg <Ordered>'"' %sc();
+    : OrderedByArg
+    | <Ordered>'"' OrderedByArg <Ordered>'"';
 
 OrderedByArg
     : <Ordered>/user|system/;
 
 DefaultStmt
-    : 'default'^ %sc(Default) AsciiNoSemicolon %sc() Semicolon^
-    | 'default'^ %sc(Default) <Default>'"' AsciiNoSemicolon <Default>'"' %sc() Semicolon^;
+    : KwDefault^ AsciiNoSemicolon Semicolon^
+    | KwDefault^ <Default>'"' AsciiNoSemicolon <Default>'"' Semicolon^;
 
 MaxElementsStmt
     : 'max-elements'^ /[1-9][0-9]*/ Semicolon^;
@@ -550,9 +661,9 @@ MinElementsStmt
     : 'min-elements'^ /[1-9][0-9]*/ Semicolon^;
 
 TypeStmt
-    : 'type'^ IdentifierRefArgStr Semicolon^
-    | 'type'^ IdentifierRefArgStr
-      <INITIAL, Keyword>'{'^
+    : KwType^ IdentifierRefArgStr Semicolon^
+    | KwType^ IdentifierRefArgStr
+      LBrace^
       { FractionDigitsStmt
       | EnumStmt
       | BaseStmt
@@ -564,33 +675,33 @@ TypeStmt
       <INITIAL, Keyword>'}'^;
 
 FractionDigitsStmt
-    : 'fraction-digits'^ %sc(Fraction) FractionDigitsArg %sc() Semicolon^;
+    : KwFractionDigits^ FractionDigitsArg Semicolon^;
 
 FractionDigitsArg
     : <Fraction>/1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|/;
 
 BitStmt
-    : 'bit'^ IdentifierArgStr Semicolon^
-    | 'bit'^ IdentifierArgStr
-    '{'^
+    : KwBit^ IdentifierArgStr Semicolon^
+    | KwBit^ IdentifierArgStr
+    LBrace^
     { PositionStmt
     | DescriptionStmt
     | ReferenceStmt }
     '}'^;
 
 PositionStmt
-    : 'position'^ IntegerValueStr Semicolon^;
+    : KwPosition^ IntegerValueStr Semicolon^;
 
 LeafrefSpecification
     : PathStmt
     | RequireInstanceStmt;
 
 RequireInstanceStmt
-    : 'require-instance' RequireInstanceArgStr Semicolon;
+    : KwRequireInstance^ RequireInstanceArgStr Semicolon;
 
 RequireInstanceArgStr
-    : %push(Mandatory) MandatoryArg %sc()
-    | %push(Mandatory) <Mandatory>'"' MandatoryArg <Mandatory>'"' %sc();
+    : MandatoryArg
+    | <Mandatory>'"' MandatoryArg <Mandatory>'"';
 
 PathStmt
     : 'path'^ Ystring Semicolon^;
@@ -603,12 +714,12 @@ PatternStmt
     : 'pattern' Ystring Semicolon;
 
 LengthStmt
-    : 'length'^ %sc(Range) RangeArgStr %sc() Semicolon^;
+    : KwLength^ RangeArgStr Semicolon^;
 
 EnumStmt
-    : 'enum'^ EnumArgStr Semicolon^
-    | 'enum'^ EnumArgStr
-    '{'^
+    : KwEnum^ EnumArgStr Semicolon^
+    | KwEnum^ EnumArgStr
+    LBrace^
     { IfFeatureStmt
     | DescriptionStmt
     | ValueStmt
@@ -616,21 +727,21 @@ EnumStmt
     '}'^;
 
 ValueStmt
-    : 'value'^ IntegerValueStr Semicolon^;
+    : KwValue^ IntegerValueStr Semicolon^;
 
 IntegerValueStr
-    : %sc(Value) IntegerValue %sc()
-    | %sc(Value) <Value>'"' IntegerValue <Value>'"' %sc();
+    : IntegerValue
+    | <Value>'"' IntegerValue <Value>'"';
 
 IntegerValue
     : <Value>/[0-9]+/;
 
 EnumArgStr
-    : %sc(Enum) AsciiNoBrace %sc()
-    | %sc(Enum) <Enum>'"'^ AsciiNoBrace <Enum>'"'^ %sc();
+    : AsciiNoBrace
+    | <Enum>'"'^ AsciiNoBrace <Enum>'"'^;
 
 RangeStmt
-    : 'range'^ %sc(Range) RangeArgStr %sc() Semicolon^;
+    : KwRange^ RangeArgStr Semicolon^;
 
 RangeArgStr
     : RangeArg
@@ -648,21 +759,21 @@ RangeBoundary
     | <Range>"-?[0-9]+";
 
 IdentifierRefArgStr
-    : %push(Keyword) IdentifierRef %sc()
-    | %push(Keyword) <Keyword, IfFeature>'"' IdentifierRef <Keyword, IfFeature>'"' %sc();
+    : IdentifierRef
+    | <Keyword, IfFeature>'"' IdentifierRef <Keyword, IfFeature>'"';
 
 IdentifierRef
     : [ Identifier <Keyword, IfFeature>':' ] Identifier;
 
 KeyStmt
-    : 'key'^ KeyArgStr Semicolon^;
+    : KwKey^ KeyArgStr Semicolon^;
 
 KeyArgStr
-    : %push(Keyword) KeyArg %pop() 
-    | %push(Keyword) <Keyword>'"'^ KeyArg <Keyword>'"'^ %pop();
+    : KeyArg
+    | <Keyword>'"'^ KeyArg <Keyword>'"'^;
 
 Semicolon
-    : <INITIAL, Keyword, Range, YVersion, Enum, Revision, Mandatory, IfFeature>';';
+    : <INITIAL, Keyword, Range, YVersion, Enum, Revision, Mandatory, IfFeature, Status, Ordered, Default, Fraction, Value, Uri>';';
 
 KeyArg
     : IdentifierRef [ KeyArg ];
@@ -671,8 +782,8 @@ AbsoluteSchemaNodeid
     : <Keyword, IfFeature>'/' IdentifierRef;
 
 ImportStmt
-    : 'import'^ IdentifierArgStr
-    '{'^
+    : KwImport^ IdentifierArgStr
+    LBrace^
     { PrefixStmt
     | RevisionDateStmt
     | DescriptionStmt
@@ -680,33 +791,33 @@ ImportStmt
     '}'^;
 
 IncludeStmt
-    : 'include'^ IdentifierArgStr Semicolon^
-    | 'include'^ IdentifierArgStr
-      '{'^
+    : KwInclude^ IdentifierArgStr Semicolon^
+    | KwInclude^ IdentifierArgStr
+      LBrace^
       { RevisionDateStmt
       | DescriptionStmt
       | ReferenceStmt }
       '}'^;
 
 RevisionDateStmt
-    : 'revision-date'^ DateArgStr Semicolon^;
+    : KwRevisionDate^ DateArgStr Semicolon^;
 
 NamespaceStmt
-    : 'namespace'^ UriStr Semicolon^;
+    : KwNamespace^ UriStr Semicolon^;
 
 UriStr
     : UriArg
-    | '"'^ UriArg '"'^;
+    | <Uri>'"'^ UriArg <Uri>'"'^;
 
 UriArg
-    : "urn:[a-zA-Z0-9\-\.:]+";
+    : <Uri>"urn:[a-zA-Z0-9\-\.:]+";
 
 PrefixStmt
-    : 'prefix'^ IdentifierArgStr Semicolon^;
+    : KwPrefix^ IdentifierArgStr Semicolon^;
 
 BelongsToStmt
-    : 'belongs-to'^ IdentifierArgStr
-      '{'^
+    : KwBelongsTo^ IdentifierArgStr
+      LBrace^
       PrefixStmt
       '}'^;
 
@@ -723,22 +834,22 @@ ReferenceStmt
     : 'reference'^ Ystring Semicolon^;
 
 RevisionStmt
-    : 'revision'^ DateArgStr
-      '{'^
+    : KwRevision^ DateArgStr
+      LBrace^
       { DescriptionStmt
       | ReferenceStmt }
       '}'^;
 
 DateArgStr
-    : %sc(Revision) DateArg %sc()
-    | %sc(Revision) <Revision>'"'^ DateArg <Revision>'"'^ %sc();
+    : DateArg
+    | <Revision>'"'^ DateArg <Revision>'"'^;
 
 DateArg
     : <Revision>/\d{4}-\d{2}-\d{2}/;
 
 // Ystring definition starts here.
 // RFC 7950 §6.1.3 allows unquoted strings as YANG statement arguments
-// (any token not containing whitespace, quotes, ';', '{', '}', or a
+// (any token not containing whitespace, quotes, ';', LBrace^, '}', or a
 // comment-introducer). For the common case the existing `Identifier`
 // token covers it: `units milliseconds;`, `description foo;`, etc.
 // The `+` concatenation form only applies to quoted strings, so the
@@ -755,11 +866,11 @@ DoubleQuotation
     : <INITIAL, DQString, Esc>'"';
 
 DQString
-    : DoubleQuotation^ %push(DQString) { DQChar } %pop() DoubleQuotation^;
+    : DoubleQuotation^ { DQChar } DoubleQuotation^;
 
 DQChar
     : DQUnescaped
-    | %push(Esc) DQEscaped %pop();
+    | DQEscaped;
 
 DQUnescaped
     : DQNoEscape
@@ -771,8 +882,8 @@ DQEscaped
 DQEscapeSeqChar
     : Escape
     | DoubleQuotation
-    | <Esc>"n"
-    | <Esc>"t";
+    | EscN
+    | EscT;
 
 Escape
     : <DQString, SQString, Esc>"\u{5C}";
@@ -784,11 +895,11 @@ DQNoEscape
     : <DQString>"[ \n\r\t\u{21}\u{23}-\u{5B}\u{5D}-\u{7E}]+";
 
 SQString
-    : SingleQuotation %push(SQString) { SQChar } %pop() SingleQuotation;
+    : SingleQuotation { SQChar } SingleQuotation;
 
 SQChar
     : SQUnescaped
-    | %push(Esc) SQEscaped %pop();
+    | SQEscaped;
 
 SQEscaped
     : Escape SQEscapeSeqChar;
@@ -807,11 +918,16 @@ SingleQuotation
     : <INITIAL, SQString>"\u{27}";
 
 IdentifierArgStr
-    : %push(Keyword) Identifier %pop()
-    | %push(Keyword) <Keyword>'"'^ Identifier <Keyword>'"'^ %pop();
+    : Identifier
+    | <Keyword>'"'^ Identifier <Keyword>'"'^;
 
+// The `.` in this character class is escaped (`\.`). parol's scanner since
+// 2.0 is `scnr`, whose regex dialect treats an UNESCAPED `.` inside a class
+// as "any character" (the previous regex-automata backend treated it as a
+// literal dot). Left unescaped, this class matches anything and longest-match
+// makes Identifier swallow whole lines, breaking all parsing.
 Identifier
-    : <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/.:]*/;
+    : <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/\.:]*/;
 
 AsciiNoSemicolon
     : <Default>/[ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7e}]+/;
@@ -821,3 +937,4 @@ AsciiNoBrace
 
 YangVersionArg
     : <YVersion>"1.1|1";
+

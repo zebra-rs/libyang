@@ -11,7 +11,6 @@ fn main() {
         .expanded_grammar_output_file("../yang-exp.par")
         .parser_output_file("yang_parser.rs")
         .actions_output_file("yang_grammar_trait.rs")
-        .enable_auto_generation()
         .user_type_name("YangGrammar")
         .user_trait_module_name("yang_grammar")
         .inner_attributes(vec![InnerAttributes::AllowTooManyArguments])
