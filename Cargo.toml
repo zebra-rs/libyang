@@ -1,6 +1,6 @@
 [package]
 name = "libyang"
-version = "1.0.0"
+version = "1.1.0"
 description = "YANG parser in Rust"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/zebra-rs/libyang"
