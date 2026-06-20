@@ -491,11 +491,11 @@ fn leaf(m: &LeafStmt) -> LeafNode {
 
 fn key(m: &KeyStmt) -> KeyNode {
     let mut keys = Vec::new();
-    match &*m.key_arg_str.key_arg_str_suffix {
-        KeyArgStrSuffix::KeyArg(m) => {
+    match &*m.key_arg_str {
+        KeyArgStr::KeyArg(m) => {
             keys.push(identifier_ref(&m.key_arg.identifier_ref));
         }
-        KeyArgStrSuffix::DoubleQuotationKeyArgDoubleQuotation(m) => {
+        KeyArgStr::DoubleQuotationKeyArgDoubleQuotation(m) => {
             keys.push(identifier_ref(&m.key_arg.identifier_ref));
         }
     }
@@ -654,7 +654,7 @@ fn import(m: &LinkageStmtsImportStmt) -> ImportNode {
             }
             ImportStmtListGroup::RevisionDateStmt(m) => {
                 let revision_date =
-                    date_arg_str(&m.revision_date_stmt.date_arg_str.date_arg_str_suffix);
+                    date_arg_str(&m.revision_date_stmt.date_arg_str);
                 node.revision_date = Some(revision_date);
             }
             ImportStmtListGroup::ReferenceStmt(m) => {
@@ -678,7 +678,7 @@ fn include(m: &LinkageStmtsIncludeStmt) -> IncludeNode {
             match &*m.include_stmt_list_group {
                 IncludeStmtListGroup::RevisionDateStmt(m) => {
                     let revision_date =
-                        date_arg_str(&m.revision_date_stmt.date_arg_str.date_arg_str_suffix);
+                        date_arg_str(&m.revision_date_stmt.date_arg_str);
                     node.revision_date = Some(revision_date);
                 }
                 IncludeStmtListGroup::DescriptionStmt(m) => {
@@ -694,7 +694,7 @@ fn include(m: &LinkageStmtsIncludeStmt) -> IncludeNode {
 }
 
 fn revision(m: &RevisionStmt) -> RevisionNode {
-    let name = date_arg_str(&m.date_arg_str.date_arg_str_suffix);
+    let name = date_arg_str(&m.date_arg_str);
     let mut node = RevisionNode::new(name);
 
     for m in m.revision_stmt_list.iter() {
@@ -743,11 +743,11 @@ fn prefix(m: &ModuleHeaderStmtsPrefixStmt) -> String {
 }
 
 fn yang_version(m: &YangVersionStmt) -> String {
-    match &*m.yang_version_arg_str.yang_version_arg_str_suffix {
-        YangVersionArgStrSuffix::DoubleQuotationYangVersionArgDoubleQuotation(m) => {
+    match &*m.yang_version_arg_str {
+        YangVersionArgStr::DoubleQuotationYangVersionArgDoubleQuotation(m) => {
             m.yang_version_arg.yang_version_arg.text().to_string()
         }
-        YangVersionArgStrSuffix::YangVersionArg(m) => {
+        YangVersionArgStr::YangVersionArg(m) => {
             m.yang_version_arg.yang_version_arg.text().to_string()
         }
     }
@@ -955,9 +955,9 @@ fn length(m: &LengthStmt) -> RangeNode {
 }
 
 fn enum_stmt(m: &EnumStmt) -> EnumNode {
-    let name = match &*m.enum_arg_str.enum_arg_str_suffix {
-        EnumArgStrSuffix::AsciiNoBrace(m) => m.ascii_no_brace.ascii_no_brace.text().to_string(),
-        EnumArgStrSuffix::DoubleQuotationAsciiNoBraceDoubleQuotation(m) => {
+    let name = match &*m.enum_arg_str {
+        EnumArgStr::AsciiNoBrace(m) => m.ascii_no_brace.ascii_no_brace.text().to_string(),
+        EnumArgStr::DoubleQuotationAsciiNoBraceDoubleQuotation(m) => {
             m.ascii_no_brace.ascii_no_brace.text().to_string()
         }
     };
@@ -1161,14 +1161,18 @@ fn case(m: &CaseStmt) -> CaseNode {
     node
 }
 
-fn config(m: &ConfigStmt) -> ConfigNode {
-    ConfigNode::new(m.config.text() == "true")
+fn config(_m: &ConfigStmt) -> ConfigNode {
+    // Behavior preserved from the 3.x grammar: the original read the `config`
+    // keyword token (`m.config.text()`), which is literally "config" and never
+    // "true", so this has always evaluated to false. The keyword is now a
+    // clipped primary non-terminal (KwConfig^) and no longer in the AST.
+    ConfigNode::new(false)
 }
 
 fn mandatory(m: &MandatoryStmt) -> MandatoryNode {
-    let text = match &*m.mandatory_arg_str.mandatory_arg_str_suffix {
-        MandatoryArgStrSuffix::MandatoryArg(m) => m.mandatory_arg.mandatory_arg.text(),
-        MandatoryArgStrSuffix::DoubleQuotationMandatoryArgDoubleQuotation(m) => {
+    let text = match &*m.mandatory_arg_str {
+        MandatoryArgStr::MandatoryArg(m) => m.mandatory_arg.mandatory_arg.text(),
+        MandatoryArgStr::DoubleQuotationMandatoryArgDoubleQuotation(m) => {
             m.mandatory_arg.mandatory_arg.text()
         }
     };
@@ -1232,9 +1236,9 @@ fn status_arg(s: &str) -> StatusNodeEnum {
 }
 
 fn status(m: &StatusStmt) -> StatusNode {
-    let status = match &*m.status_arg_str.status_arg_str_suffix {
-        StatusArgStrSuffix::StatusArg(m) => status_arg(m.status_arg.status_arg.text()),
-        StatusArgStrSuffix::DoubleQuotationStatusArgDoubleQuotation(m) => {
+    let status = match &*m.status_arg_str {
+        StatusArgStr::StatusArg(m) => status_arg(m.status_arg.status_arg.text()),
+        StatusArgStr::DoubleQuotationStatusArgDoubleQuotation(m) => {
             status_arg(m.status_arg.status_arg.text())
         }
     };
@@ -1279,20 +1283,20 @@ fn unknown(m: &UnknownStmt) -> UnknownNode {
 }
 
 fn identifier_arg_str(arg: &IdentifierArgStr) -> String {
-    match &*arg.identifier_arg_str_suffix {
-        IdentifierArgStrSuffix::Identifier(i) => i.identifier.identifier.text().to_string(),
-        IdentifierArgStrSuffix::DoubleQuotationIdentifierDoubleQuotation(i) => {
+    match arg {
+        IdentifierArgStr::Identifier(i) => i.identifier.identifier.text().to_string(),
+        IdentifierArgStr::DoubleQuotationIdentifierDoubleQuotation(i) => {
             i.identifier.identifier.text().to_string()
         }
     }
 }
 
 fn identifier_ref_arg_str(arg: &IdentifierRefArgStr) -> String {
-    match &*arg.identifier_ref_arg_str_suffix {
-        IdentifierRefArgStrSuffix::IdentifierRef(i) => {
+    match arg {
+        IdentifierRefArgStr::IdentifierRef(i) => {
             i.identifier_ref.identifier.identifier.text().to_string()
         }
-        IdentifierRefArgStrSuffix::DoubleQuotationIdentifierRefDoubleQuotation(i) => {
+        IdentifierRefArgStr::DoubleQuotationIdentifierRefDoubleQuotation(i) => {
             i.identifier_ref.identifier.identifier.text().to_string()
         }
     }
@@ -1302,10 +1306,10 @@ fn identifier_ref(m: &IdentifierRef) -> String {
     m.identifier.identifier.text().to_string()
 }
 
-fn date_arg_str(m: &DateArgStrSuffix) -> String {
+fn date_arg_str(m: &DateArgStr) -> String {
     match m {
-        DateArgStrSuffix::DateArg(m) => m.date_arg.date_arg.text().to_string(),
-        DateArgStrSuffix::DoubleQuotationDateArgDoubleQuotation(m) => {
+        DateArgStr::DateArg(m) => m.date_arg.date_arg.text().to_string(),
+        DateArgStr::DoubleQuotationDateArgDoubleQuotation(m) => {
             m.date_arg.date_arg.text().to_string()
         }
     }
