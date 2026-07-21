@@ -13,8 +13,6 @@ documentation = "https://docs.rs/libyang"
 exclude = ["/.github/*"]
 
 [dependencies]
-anyhow = "1"
-env_logger = "0.11"
 parol_runtime = "4"
 scnr2 = "0.5"
 thiserror = "2"
