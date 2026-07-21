@@ -1,3 +1,6 @@
+pub mod diagnostic;
+pub use diagnostic::*;
+
 pub mod reader;
 pub use reader::*;
 

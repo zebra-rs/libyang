@@ -1,6 +1,7 @@
 use crate::yang_grammar::YangGrammar;
 use crate::yang_parser::parse;
 use crate::*;
+use std::cell::{Ref, RefCell};
 use std::collections::BTreeMap;
 use std::ffi::OsStr;
 use std::fs::{self};
@@ -24,6 +25,11 @@ pub struct YangStore {
     // reproducible output.
     pub(crate) modules: BTreeMap<String, ModuleNode>,
     pub(crate) submodules: BTreeMap<String, SubmoduleNode>,
+    // Problems found while building entry trees. `to_entry` takes the
+    // store by shared reference and the whole augment path already has
+    // it in scope, so a `RefCell` collects diagnostics here without
+    // threading a channel through 20 functions.
+    diagnostics: RefCell<Vec<Diagnostic>>,
 }
 
 impl YangStore {
@@ -148,6 +154,31 @@ impl YangStore {
 
     pub fn find_submodule(&self, name: &str) -> Option<&SubmoduleNode> {
         self.submodules.get(name)
+    }
+
+    /// Problems found while building entry trees with
+    /// [`to_entry`](crate::to_entry), in the order they were found.
+    ///
+    /// These are warnings: a tree is still produced, with the offending
+    /// augment skipped. They accumulate across calls, so a caller
+    /// checking one module at a time should use
+    /// [`take_diagnostics`](Self::take_diagnostics) instead.
+    ///
+    /// The returned guard borrows the store; hold it only as long as
+    /// needed, since building another tree while it is alive will
+    /// panic.
+    pub fn diagnostics(&self) -> Ref<'_, Vec<Diagnostic>> {
+        self.diagnostics.borrow()
+    }
+
+    /// Take the collected diagnostics, leaving the store empty.
+    pub fn take_diagnostics(&self) -> Vec<Diagnostic> {
+        std::mem::take(&mut self.diagnostics.borrow_mut())
+    }
+
+    /// Record a problem found while building an entry tree.
+    pub(crate) fn diag(&self, diagnostic: Diagnostic) {
+        self.diagnostics.borrow_mut().push(diagnostic);
     }
 }
 

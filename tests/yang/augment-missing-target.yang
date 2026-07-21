@@ -1,0 +1,18 @@
+module augment-missing-target {
+  yang-version "1.1";
+  namespace "urn:test:augment-missing-target";
+  prefix "amt";
+
+  container box {
+    leaf base {
+      type string;
+    }
+  }
+
+  // Targets a node that does not exist; the augment cannot be applied.
+  augment "/amt:box/amt:absent" {
+    leaf added {
+      type string;
+    }
+  }
+}

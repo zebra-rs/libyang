@@ -287,12 +287,12 @@ where
     // RFC 7950 §7.17: a top-level augment's target is an
     // absolute-schema-nodeid (leading '/').
     if !aug.target.starts_with('/') {
-        eprintln!(
-            "augment: top-level target \"{}\" must use the absolute form (leading '/')",
-            aug.target
-        );
+        store.diag(Diagnostic::AugmentTargetNotAbsolute {
+            module: top.get_name().to_string(),
+            target: aug.target.clone(),
+        });
     }
-    resolve_and_inject(top, store, root, aug, "augment");
+    resolve_and_inject(top, store, root, aug, AugmentKind::Augment);
 }
 
 /// Expand a `uses` into `ent`: instantiate the referenced grouping,
@@ -322,12 +322,12 @@ where
     // RFC 7950 §7.17: a uses-substatement augment's target is a
     // descendant-schema-nodeid (no leading '/').
     if aug.target.starts_with('/') {
-        eprintln!(
-            "uses augment: target \"{}\" must use the descendant form (no leading '/')",
-            aug.target
-        );
+        store.diag(Diagnostic::AugmentTargetNotDescendant {
+            module: top.get_name().to_string(),
+            target: aug.target.clone(),
+        });
     }
-    resolve_and_inject(top, store, ent, aug, "uses augment");
+    resolve_and_inject(top, store, ent, aug, AugmentKind::UsesAugment);
 }
 
 /// Resolve `aug.target` from `root` and inject the augment body.
@@ -335,20 +335,25 @@ where
 /// diagnostic). If the path resolves to a data node, inject there; if
 /// the final segment instead names a choice (choices are flattened and
 /// not addressable as entries), add the augment's cases to that choice.
-fn resolve_and_inject<T>(top: &T, store: &YangStore, root: Rc<Entry>, aug: &AugmentNode, kind: &str)
-where
+fn resolve_and_inject<T>(
+    top: &T,
+    store: &YangStore,
+    root: Rc<Entry>,
+    aug: &AugmentNode,
+    kind: AugmentKind,
+) where
     T: ModuleCommon,
 {
     match resolve_target(root.clone(), &aug.target) {
         Ok(current) => inject_augment_body(top, store, current, aug),
         Err(seg) => {
             if !augment_into_choice(top, store, root, aug) {
-                eprintln!(
-                    "{kind}: in module {}, target \"{}\" not found (no node matching \"{}\")",
-                    top.get_name(),
-                    aug.target,
-                    seg
-                );
+                store.diag(Diagnostic::AugmentTargetNotFound {
+                    kind,
+                    module: top.get_name().to_string(),
+                    target: aug.target.clone(),
+                    missing: seg,
+                });
             }
         }
     }
@@ -368,10 +373,11 @@ where
     // leaf or leaf-list. Resolution lands on a leaf only when the
     // augment is malformed.
     if current.is_leaf_entry() {
-        eprintln!(
-            "augment: cannot add nodes to leaf target \"{}\" ({})",
-            current.name, aug.target
-        );
+        store.diag(Diagnostic::AugmentIntoLeaf {
+            module: top.get_name().to_string(),
+            target: aug.target.clone(),
+            leaf: current.name.clone(),
+        });
         return;
     }
 
@@ -395,10 +401,11 @@ where
     let mut i = before_len;
     while i < dir.len() {
         if existing.contains(&dir[i].name) {
-            eprintln!(
-                "augment: node \"{}\" already exists in target \"{}\"; not added",
-                dir[i].name, current.name
-            );
+            store.diag(Diagnostic::AugmentDuplicateNode {
+                module: top.get_name().to_string(),
+                target: aug.target.clone(),
+                name: dir[i].name.clone(),
+            });
             dir.remove(i);
         } else {
             i += 1;
