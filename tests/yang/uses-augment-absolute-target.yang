@@ -1,0 +1,25 @@
+module uses-augment-absolute-target {
+  yang-version "1.1";
+  namespace "urn:test:uses-augment-absolute-target";
+  prefix "uaat";
+
+  grouping g {
+    container box {
+      leaf base {
+        type string;
+      }
+    }
+  }
+
+  container top {
+    // RFC 7950 §7.17: a uses-substatement augment's target must be a
+    // descendant schema-node-identifier. The leading '/' here is wrong.
+    uses g {
+      augment "/box" {
+        leaf added {
+          type string;
+        }
+      }
+    }
+  }
+}

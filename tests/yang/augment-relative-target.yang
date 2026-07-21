@@ -1,0 +1,20 @@
+module augment-relative-target {
+  yang-version "1.1";
+  namespace "urn:test:augment-relative-target";
+  prefix "art";
+
+  container box {
+    leaf base {
+      type string;
+    }
+  }
+
+  // RFC 7950 §7.17: a top-level augment's target must be an absolute
+  // schema-node-identifier. This one omits the leading '/', which is a
+  // diagnostic even though the node still resolves by name.
+  augment "art:box" {
+    leaf added {
+      type string;
+    }
+  }
+}
