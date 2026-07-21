@@ -1,0 +1,35 @@
+module augment-order-target {
+  yang-version "1";
+  namespace "urn:test:augment-order-target";
+  prefix "base";
+
+  // Bootstrap imports: these pull the augmenting modules into the
+  // store's closure so their augments are applied to `root`. Six
+  // siblings all augment the same target, so the resulting child
+  // order is decided entirely by the order `to_entry` walks the
+  // loaded modules.
+  import augment-order-a {
+    prefix orda;
+  }
+  import augment-order-b {
+    prefix ordb;
+  }
+  import augment-order-c {
+    prefix ordc;
+  }
+  import augment-order-d {
+    prefix ordd;
+  }
+  import augment-order-e {
+    prefix orde;
+  }
+  import augment-order-f {
+    prefix ordf;
+  }
+
+  container root {
+    leaf anchor {
+      type string;
+    }
+  }
+}

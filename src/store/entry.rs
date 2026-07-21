@@ -196,6 +196,14 @@ pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
     // a sibling module that imports the target. Walk all modules
     // once the primary tree is built so augment targets are
     // resolvable.
+    //
+    // Augmented nodes are appended to their target's `dir` as each
+    // augment is applied, so this walk decides the child order of every
+    // augmented node. `store.modules` is a `BTreeMap`, which makes that
+    // order deterministic (by module name) rather than dependent on
+    // hash seeding — see the note on `YangStore`. RFC 7950 does not
+    // prescribe an order across augmenting modules, so any stable one
+    // is conformant.
     for aug in module.augment.iter() {
         apply_augment(module, store, entry.clone(), aug);
     }

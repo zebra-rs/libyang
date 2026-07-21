@@ -1,7 +1,7 @@
 use crate::yang_grammar::YangGrammar;
 use crate::yang_parser::parse;
 use crate::*;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use std::ffi::OsStr;
 use std::fs::{self};
 use std::path::PathBuf;
@@ -9,9 +9,17 @@ use std::path::PathBuf;
 #[derive(Debug, Default)]
 pub struct YangStore {
     paths: Vec<PathBuf>,
-    pub modules: HashMap<String, ModuleNode>,
-    pub submodules: HashMap<String, SubmoduleNode>,
-    pub import: HashMap<String, ModuleNode>,
+    // These are `BTreeMap`, not `HashMap`, so iterating them is
+    // deterministic. `to_entry` walks `modules` to apply each loaded
+    // module's augments, and augmented nodes are appended to their
+    // target's `dir` in application order — so with a randomly ordered
+    // map the shape of the resulting tree changed on every run of the
+    // same program over the same files. Key order (module name) is
+    // arbitrary but stable, which is what consumers need to produce
+    // reproducible output.
+    pub modules: BTreeMap<String, ModuleNode>,
+    pub submodules: BTreeMap<String, SubmoduleNode>,
+    pub import: BTreeMap<String, ModuleNode>,
 }
 
 impl YangStore {
