@@ -9,6 +9,11 @@ use std::path::PathBuf;
 #[derive(Debug, Default)]
 pub struct YangStore {
     paths: Vec<PathBuf>,
+    // Crate-private: reach these through `find_module` /
+    // `find_submodule`. Keeping the storage an implementation detail
+    // means its type can change without breaking callers — which is
+    // exactly what the switch below could not do while it was public.
+    //
     // These are `BTreeMap`, not `HashMap`, so iterating them is
     // deterministic. `to_entry` walks `modules` to apply each loaded
     // module's augments, and augmented nodes are appended to their
@@ -17,8 +22,8 @@ pub struct YangStore {
     // same program over the same files. Key order (module name) is
     // arbitrary but stable, which is what consumers need to produce
     // reproducible output.
-    pub modules: BTreeMap<String, ModuleNode>,
-    pub submodules: BTreeMap<String, SubmoduleNode>,
+    pub(crate) modules: BTreeMap<String, ModuleNode>,
+    pub(crate) submodules: BTreeMap<String, SubmoduleNode>,
 }
 
 impl YangStore {
