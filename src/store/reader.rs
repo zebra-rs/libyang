@@ -19,7 +19,6 @@ pub struct YangStore {
     // reproducible output.
     pub modules: BTreeMap<String, ModuleNode>,
     pub submodules: BTreeMap<String, SubmoduleNode>,
-    pub import: BTreeMap<String, ModuleNode>,
 }
 
 impl YangStore {
