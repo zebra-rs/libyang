@@ -48,23 +48,6 @@ impl YangStore {
         }
     }
 
-    pub fn read(&mut self, module_name: &str) -> Result<(), YangError> {
-        let node = self.load_module(module_name)?;
-        if let Node::Module(mut m) = node {
-            for import in m.import.iter() {
-                self.read(&import.name)?;
-            }
-            for include in m.include.iter() {
-                let sub = self.load_module(&include.name)?;
-                if let Node::Submodule(mut sub) = sub {
-                    m.grouping.append(&mut sub.grouping);
-                }
-            }
-            self.modules.insert(module_name.to_string(), *m);
-        }
-        Ok(())
-    }
-
     pub fn identity_resolve(&mut self) {
         for m in self.modules.values_mut() {
             identity_resolve(m);
