@@ -21,7 +21,7 @@ fn load(name: &str, yang_dir: &str) -> Rc<Entry> {
     to_entry(&store, module)
 }
 
-fn find_child<'a>(ent: &'a Rc<Entry>, name: &str) -> Option<Rc<Entry>> {
+fn find_child(ent: &Rc<Entry>, name: &str) -> Option<Rc<Entry>> {
     ent.dir.borrow().iter().find(|e| e.name == name).cloned()
 }
 

@@ -1,0 +1,16 @@
+module augment-order-e {
+  yang-version "1.1";
+  namespace "urn:test:augment-order-e";
+  prefix "orde";
+
+  import augment-order-target {
+    prefix base;
+  }
+
+  augment "/base:root" {
+    leaf leaf-e {
+      type string;
+      description "One of several sibling augments of the same target.";
+    }
+  }
+}

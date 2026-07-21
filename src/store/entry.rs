@@ -136,12 +136,11 @@ impl Entry {
     }
 
     pub fn is_empty_leaf(&self) -> bool {
-        if self.kind == EntryKind::LeafEntry {
-            if let Some(n) = self.type_node.as_ref() {
-                if n.kind == YangType::Empty {
-                    return true;
-                }
-            }
+        if self.kind == EntryKind::LeafEntry
+            && let Some(n) = self.type_node.as_ref()
+            && n.kind == YangType::Empty
+        {
+            return true;
         }
         false
     }
@@ -196,6 +195,14 @@ pub fn to_entry(store: &YangStore, module: &ModuleNode) -> Rc<Entry> {
     // a sibling module that imports the target. Walk all modules
     // once the primary tree is built so augment targets are
     // resolvable.
+    //
+    // Augmented nodes are appended to their target's `dir` as each
+    // augment is applied, so this walk decides the child order of every
+    // augmented node. `store.modules` is a `BTreeMap`, which makes that
+    // order deterministic (by module name) rather than dependent on
+    // hash seeding — see the note on `YangStore`. RFC 7950 does not
+    // prescribe an order across augmenting modules, so any stable one
+    // is conformant.
     for aug in module.augment.iter() {
         apply_augment(module, store, entry.clone(), aug);
     }
@@ -620,10 +627,10 @@ where
     T: ModuleCommon,
 {
     for import in node.get_import().iter() {
-        if let Some(prefix) = &import.prefix {
-            if name == *prefix {
-                return import.name.clone();
-            }
+        if let Some(prefix) = &import.prefix
+            && name == *prefix
+        {
+            return import.name.clone();
         }
     }
     name
@@ -688,36 +695,36 @@ where
         let module = store.find_module(&prefix);
         if let Some(m) = module {
             for typedef in m.typedef.iter() {
-                if typedef.name == name {
-                    if let Some(node) = &typedef.type_node {
-                        let mut node = node.clone();
-                        node.typedef = Some(type_node.name.clone());
-                        if node.kind == YangType::Union {
-                            return type_union_resolve(top, store, &node);
-                        } else {
-                            return Some(node);
-                        }
+                if typedef.name == name
+                    && let Some(node) = &typedef.type_node
+                {
+                    let mut node = node.clone();
+                    node.typedef = Some(type_node.name.clone());
+                    if node.kind == YangType::Union {
+                        return type_union_resolve(top, store, &node);
+                    } else {
+                        return Some(node);
                     }
                 }
             }
         }
     } else {
         for typedef in top.get_typedef().iter() {
-            if typedef.name == type_node.name {
-                if let Some(node) = &typedef.type_node {
-                    let mut node = node.clone();
-                    node.typedef = Some(type_node.name.clone());
-                    if node.kind == YangType::Union {
-                        // A local typedef whose underlying type is a
-                        // union: resolve its Path arms the same way
-                        // the prefixed branch does, otherwise a leaf
-                        // like `type peer-id-or-all` reaches the
-                        // matcher with every arm still `kind = Path`
-                        // and nothing dispatches.
-                        return type_union_resolve(top, store, &node);
-                    }
-                    return Some(node);
+            if typedef.name == type_node.name
+                && let Some(node) = &typedef.type_node
+            {
+                let mut node = node.clone();
+                node.typedef = Some(type_node.name.clone());
+                if node.kind == YangType::Union {
+                    // A local typedef whose underlying type is a
+                    // union: resolve its Path arms the same way
+                    // the prefixed branch does, otherwise a leaf
+                    // like `type peer-id-or-all` reaches the
+                    // matcher with every arm still `kind = Path`
+                    // and nothing dispatches.
+                    return type_union_resolve(top, store, &node);
                 }
+                return Some(node);
             }
         }
     }
@@ -858,10 +865,10 @@ pub fn choice_entry<T>(top: &T, store: &YangStore, c: &ChoiceNode, ent: Rc<Entry
 where
     T: ModuleCommon,
 {
-    if let Some(config) = &c.config {
-        if !config.config {
-            return;
-        }
+    if let Some(config) = &c.config
+        && !config.config
+    {
+        return;
     }
 
     // Record the choice name on its parent so it stays addressable for
@@ -883,10 +890,10 @@ pub fn container_entry<T>(top: &T, store: &YangStore, c: &ContainerNode, ent: Rc
 where
     T: ModuleCommon,
 {
-    if let Some(config) = &c.config {
-        if !config.config {
-            return;
-        }
+    if let Some(config) = &c.config
+        && !config.config
+    {
+        return;
     }
     let mut e = Entry::new_dir(c.name.clone());
     for u in c.unknown.iter() {
@@ -925,10 +932,10 @@ fn list_entry<T>(top: &T, store: &YangStore, l: &ListNode, ent: Rc<Entry>)
 where
     T: ModuleCommon,
 {
-    if let Some(config) = &l.config {
-        if !config.config {
-            return;
-        }
+    if let Some(config) = &l.config
+        && !config.config
+    {
+        return;
     }
     let mut e = Entry::new_list(l.name.clone(), l.key.keys.clone());
     for u in l.unknown.iter() {
@@ -968,10 +975,10 @@ fn leaf_entry<T>(top: &T, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>)
 where
     T: ModuleCommon,
 {
-    if let Some(config) = &leaf.config {
-        if !config.config {
-            return;
-        }
+    if let Some(config) = &leaf.config
+        && !config.config
+    {
+        return;
     }
     let mut e = Entry::new_leaf(leaf.name.to_owned());
     e.mandatory = leaf.is_mandatory();
@@ -990,10 +997,10 @@ fn leaf_list_entry<T>(top: &T, store: &YangStore, leaf: &LeafListNode, ent: Rc<E
 where
     T: ModuleCommon,
 {
-    if let Some(config) = &leaf.config {
-        if !config.config {
-            return;
-        }
+    if let Some(config) = &leaf.config
+        && !config.config
+    {
+        return;
     }
     let mut e = Entry::new_leaf(leaf.name.clone());
     for u in leaf.unknown.iter() {

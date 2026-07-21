@@ -1,7 +1,7 @@
 use crate::yang_grammar::YangGrammar;
 use crate::yang_parser::parse;
 use crate::*;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use std::ffi::OsStr;
 use std::fs::{self};
 use std::path::PathBuf;
@@ -9,9 +9,21 @@ use std::path::PathBuf;
 #[derive(Debug, Default)]
 pub struct YangStore {
     paths: Vec<PathBuf>,
-    pub modules: HashMap<String, ModuleNode>,
-    pub submodules: HashMap<String, SubmoduleNode>,
-    pub import: HashMap<String, ModuleNode>,
+    // Crate-private: reach these through `find_module` /
+    // `find_submodule`. Keeping the storage an implementation detail
+    // means its type can change without breaking callers — which is
+    // exactly what the switch below could not do while it was public.
+    //
+    // These are `BTreeMap`, not `HashMap`, so iterating them is
+    // deterministic. `to_entry` walks `modules` to apply each loaded
+    // module's augments, and augmented nodes are appended to their
+    // target's `dir` in application order — so with a randomly ordered
+    // map the shape of the resulting tree changed on every run of the
+    // same program over the same files. Key order (module name) is
+    // arbitrary but stable, which is what consumers need to produce
+    // reproducible output.
+    pub(crate) modules: BTreeMap<String, ModuleNode>,
+    pub(crate) submodules: BTreeMap<String, SubmoduleNode>,
 }
 
 impl YangStore {
@@ -48,10 +60,10 @@ impl YangStore {
     }
 
     pub fn identity_resolve(&mut self) {
-        for (_, m) in self.modules.iter_mut() {
+        for m in self.modules.values_mut() {
             identity_resolve(m);
         }
-        for (_, m) in self.submodules.iter_mut() {
+        for m in self.submodules.values_mut() {
             identity_resolve(m);
         }
     }
@@ -95,14 +107,21 @@ impl YangStore {
 
     pub fn load_module(&mut self, module_name: &str) -> Result<Node, YangError> {
         let path = self.find_file(module_name)?;
-        let input = fs::read_to_string(&path)?;
+        let input = fs::read_to_string(&path).map_err(|source| YangError::IoError {
+            path: path.clone(),
+            source,
+        })?;
         let mut yang_grammar = YangGrammar::new();
         match parse(&input, &path, &mut yang_grammar) {
             Ok(_) => yang(yang_grammar),
-            Err(err) => {
-                println!("{err:?}");
-                Err(YangError::ParseError)
-            }
+            // Hand the diagnostic back to the caller rather than
+            // printing it: a library has no business writing to stdout,
+            // and the position information is what makes the failure
+            // actionable.
+            Err(source) => Err(YangError::ParseError {
+                path,
+                source: Box::new(source),
+            }),
         }
     }
 
@@ -110,10 +129,10 @@ impl YangStore {
         for path in &self.paths {
             if path.file_name() == Some(OsStr::new("...")) {
                 let mut dir = path.clone();
-                if dir.pop() {
-                    if let Ok(file_name) = find_in_dir(&dir, module_name, true) {
-                        return Ok(file_name);
-                    }
+                if dir.pop()
+                    && let Ok(file_name) = find_in_dir(&dir, module_name, true)
+                {
+                    return Ok(file_name);
                 }
             }
             if let Ok(file_name) = find_in_dir(path, module_name, false) {
@@ -143,33 +162,39 @@ fn find_in_dir(dir: &PathBuf, module_name: &str, recursive: bool) -> Result<Path
 
     let mut revisions = vec![];
 
-    let dirent = fs::read_dir(dir)?;
+    let dirent = fs::read_dir(dir).map_err(|source| YangError::IoError {
+        path: dir.clone(),
+        source,
+    })?;
     for entry in dirent.into_iter().flatten() {
         if let Ok(file_type) = entry.file_type() {
             if file_type.is_file() {
-                if let Some(os_str) = entry.path().file_name() {
-                    if let Some(file_str) = os_str.to_str() {
-                        if file_str == file_name {
-                            return Ok(entry.path());
-                        }
-                        // When module_name does not contain '@'.
-                        if module_name.find('@').is_none() {
-                            // Try revision match such as 'ietf-dhcp@2016-08-25.yang'.
-                            if file_str.starts_with(&basename) && file_str.ends_with(".yang") {
-                                revisions.push(entry.path());
-                            }
+                if let Some(os_str) = entry.path().file_name()
+                    && let Some(file_str) = os_str.to_str()
+                {
+                    if file_str == file_name {
+                        return Ok(entry.path());
+                    }
+                    // When module_name does not contain '@'.
+                    if module_name.find('@').is_none() {
+                        // Try revision match such as 'ietf-dhcp@2016-08-25.yang'.
+                        if file_str.starts_with(&basename) && file_str.ends_with(".yang") {
+                            revisions.push(entry.path());
                         }
                     }
                 }
-            } else if file_type.is_dir() && recursive {
-                if let Ok(path) = find_in_dir(&entry.path(), module_name, recursive) {
-                    return Ok(path);
-                }
+            } else if file_type.is_dir()
+                && recursive
+                && let Ok(path) = find_in_dir(&entry.path(), module_name, recursive)
+            {
+                return Ok(path);
             }
         }
     }
     if revisions.is_empty() {
-        return Err(YangError::FileNotFound);
+        return Err(YangError::FileNotFound {
+            name: module_name.to_string(),
+        });
     }
 
     // When the specified file is not found by exact match, directories are

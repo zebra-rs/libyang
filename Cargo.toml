@@ -1,6 +1,6 @@
 [package]
 name = "libyang"
-version = "1.1.0"
+version = "2.0.0"
 description = "YANG parser in Rust"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/zebra-rs/libyang"
@@ -13,8 +13,6 @@ documentation = "https://docs.rs/libyang"
 exclude = ["/.github/*"]
 
 [dependencies]
-anyhow = "1"
-env_logger = "0.11"
 parol_runtime = "4"
 scnr2 = "0.5"
 thiserror = "2"
