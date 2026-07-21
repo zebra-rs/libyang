@@ -1,0 +1,10 @@
+module malformed {
+  namespace "urn:test:malformed";
+  prefix "mal";
+
+  container root {
+    leaf broken {
+      type
+    }
+  }
+}

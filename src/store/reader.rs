@@ -107,14 +107,21 @@ impl YangStore {
 
     pub fn load_module(&mut self, module_name: &str) -> Result<Node, YangError> {
         let path = self.find_file(module_name)?;
-        let input = fs::read_to_string(&path)?;
+        let input = fs::read_to_string(&path).map_err(|source| YangError::IoError {
+            path: path.clone(),
+            source,
+        })?;
         let mut yang_grammar = YangGrammar::new();
         match parse(&input, &path, &mut yang_grammar) {
             Ok(_) => yang(yang_grammar),
-            Err(err) => {
-                println!("{err:?}");
-                Err(YangError::ParseError)
-            }
+            // Hand the diagnostic back to the caller rather than
+            // printing it: a library has no business writing to stdout,
+            // and the position information is what makes the failure
+            // actionable.
+            Err(source) => Err(YangError::ParseError {
+                path,
+                source: Box::new(source),
+            }),
         }
     }
 
@@ -155,7 +162,10 @@ fn find_in_dir(dir: &PathBuf, module_name: &str, recursive: bool) -> Result<Path
 
     let mut revisions = vec![];
 
-    let dirent = fs::read_dir(dir)?;
+    let dirent = fs::read_dir(dir).map_err(|source| YangError::IoError {
+        path: dir.clone(),
+        source,
+    })?;
     for entry in dirent.into_iter().flatten() {
         if let Ok(file_type) = entry.file_type() {
             if file_type.is_file() {
@@ -182,7 +192,9 @@ fn find_in_dir(dir: &PathBuf, module_name: &str, recursive: bool) -> Result<Path
         }
     }
     if revisions.is_empty() {
-        return Err(YangError::FileNotFound);
+        return Err(YangError::FileNotFound {
+            name: module_name.to_string(),
+        });
     }
 
     // When the specified file is not found by exact match, directories are

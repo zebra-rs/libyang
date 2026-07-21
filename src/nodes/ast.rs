@@ -19,7 +19,7 @@ pub fn yang(y: YangGrammar) -> Result<Node, YangError> {
                 Ok(Node::Submodule(Box::new(node)))
             }
         },
-        None => Err(YangError::ParseError),
+        None => Err(YangError::EmptyDocument),
     }
 }
 
