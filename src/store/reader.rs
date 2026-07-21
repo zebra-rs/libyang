@@ -55,10 +55,10 @@ impl YangStore {
     }
 
     pub fn identity_resolve(&mut self) {
-        for (_, m) in self.modules.iter_mut() {
+        for m in self.modules.values_mut() {
             identity_resolve(m);
         }
-        for (_, m) in self.submodules.iter_mut() {
+        for m in self.submodules.values_mut() {
             identity_resolve(m);
         }
     }
@@ -117,10 +117,10 @@ impl YangStore {
         for path in &self.paths {
             if path.file_name() == Some(OsStr::new("...")) {
                 let mut dir = path.clone();
-                if dir.pop() {
-                    if let Ok(file_name) = find_in_dir(&dir, module_name, true) {
-                        return Ok(file_name);
-                    }
+                if dir.pop()
+                    && let Ok(file_name) = find_in_dir(&dir, module_name, true)
+                {
+                    return Ok(file_name);
                 }
             }
             if let Ok(file_name) = find_in_dir(path, module_name, false) {
@@ -154,24 +154,25 @@ fn find_in_dir(dir: &PathBuf, module_name: &str, recursive: bool) -> Result<Path
     for entry in dirent.into_iter().flatten() {
         if let Ok(file_type) = entry.file_type() {
             if file_type.is_file() {
-                if let Some(os_str) = entry.path().file_name() {
-                    if let Some(file_str) = os_str.to_str() {
-                        if file_str == file_name {
-                            return Ok(entry.path());
-                        }
-                        // When module_name does not contain '@'.
-                        if module_name.find('@').is_none() {
-                            // Try revision match such as 'ietf-dhcp@2016-08-25.yang'.
-                            if file_str.starts_with(&basename) && file_str.ends_with(".yang") {
-                                revisions.push(entry.path());
-                            }
+                if let Some(os_str) = entry.path().file_name()
+                    && let Some(file_str) = os_str.to_str()
+                {
+                    if file_str == file_name {
+                        return Ok(entry.path());
+                    }
+                    // When module_name does not contain '@'.
+                    if module_name.find('@').is_none() {
+                        // Try revision match such as 'ietf-dhcp@2016-08-25.yang'.
+                        if file_str.starts_with(&basename) && file_str.ends_with(".yang") {
+                            revisions.push(entry.path());
                         }
                     }
                 }
-            } else if file_type.is_dir() && recursive {
-                if let Ok(path) = find_in_dir(&entry.path(), module_name, recursive) {
-                    return Ok(path);
-                }
+            } else if file_type.is_dir()
+                && recursive
+                && let Ok(path) = find_in_dir(&entry.path(), module_name, recursive)
+            {
+                return Ok(path);
             }
         }
     }

@@ -45,76 +45,28 @@ pub enum RangeNode {
     U64(Vec<Range<u64>>),
 }
 
-impl RangeNode {
-    pub fn to_string(&self) -> String {
-        let mut out = String::from("");
-        match &self {
-            RangeNode::I8(range) => {
-                for r in range.iter() {
-                    if !out.is_empty() {
-                        out.push('|');
-                    }
-                    out.push_str(&format!("{r}"));
-                }
-            }
-            RangeNode::I16(range) => {
-                for r in range.iter() {
-                    if !out.is_empty() {
-                        out.push('|');
-                    }
-                    out.push_str(&format!("{r}"));
-                }
-            }
-            RangeNode::I32(range) => {
-                for r in range.iter() {
-                    if !out.is_empty() {
-                        out.push('|');
-                    }
-                    out.push_str(&format!("{r}"));
-                }
-            }
-            RangeNode::I64(range) => {
-                for r in range.iter() {
-                    if !out.is_empty() {
-                        out.push('|');
-                    }
-                    out.push_str(&format!("{r}"));
-                }
-            }
-            RangeNode::U8(range) => {
-                for r in range.iter() {
-                    if !out.is_empty() {
-                        out.push('|');
-                    }
-                    out.push_str(&format!("{r}"));
-                }
-            }
-            RangeNode::U16(range) => {
-                for r in range.iter() {
-                    if !out.is_empty() {
-                        out.push('|');
-                    }
-                    out.push_str(&format!("{r}"));
-                }
-            }
-            RangeNode::U32(range) => {
-                for r in range.iter() {
-                    if !out.is_empty() {
-                        out.push('|');
-                    }
-                    out.push_str(&format!("{r}"));
-                }
-            }
-            RangeNode::U64(range) => {
-                for r in range.iter() {
-                    if !out.is_empty() {
-                        out.push('|');
-                    }
-                    out.push_str(&format!("{r}"));
-                }
-            }
+impl fmt::Display for RangeNode {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        // Every variant renders the same way and differs only in the
+        // integer width it carries, so the arms just pick the width.
+        fn join<T: fmt::Display>(ranges: &[Range<T>]) -> String {
+            ranges
+                .iter()
+                .map(|r| r.to_string())
+                .collect::<Vec<_>>()
+                .join("|")
         }
-        format!("<{out}>")
+        let out = match self {
+            RangeNode::I8(range) => join(range),
+            RangeNode::I16(range) => join(range),
+            RangeNode::I32(range) => join(range),
+            RangeNode::I64(range) => join(range),
+            RangeNode::U8(range) => join(range),
+            RangeNode::U16(range) => join(range),
+            RangeNode::U32(range) => join(range),
+            RangeNode::U64(range) => join(range),
+        };
+        write!(f, "<{out}>")
     }
 }
 

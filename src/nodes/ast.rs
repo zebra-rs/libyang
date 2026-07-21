@@ -653,8 +653,7 @@ fn import(m: &LinkageStmtsImportStmt) -> ImportNode {
                 node.prefix = Some(prefix);
             }
             ImportStmtListGroup::RevisionDateStmt(m) => {
-                let revision_date =
-                    date_arg_str(&m.revision_date_stmt.date_arg_str);
+                let revision_date = date_arg_str(&m.revision_date_stmt.date_arg_str);
                 node.revision_date = Some(revision_date);
             }
             ImportStmtListGroup::ReferenceStmt(m) => {
@@ -677,8 +676,7 @@ fn include(m: &LinkageStmtsIncludeStmt) -> IncludeNode {
         for m in m.include_stmt_list.iter() {
             match &*m.include_stmt_list_group {
                 IncludeStmtListGroup::RevisionDateStmt(m) => {
-                    let revision_date =
-                        date_arg_str(&m.revision_date_stmt.date_arg_str);
+                    let revision_date = date_arg_str(&m.revision_date_stmt.date_arg_str);
                     node.revision_date = Some(revision_date);
                 }
                 IncludeStmtListGroup::DescriptionStmt(m) => {
