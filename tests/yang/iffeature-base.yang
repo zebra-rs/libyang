@@ -55,6 +55,27 @@ module iffeature-base {
     uses shared {
       if-feature iso;
     }
+    // Feature-gated enum arms (RFC 7950 section 9.6.4.1, YANG 1.1):
+    // the value is pruned from the type, not the leaf from the tree.
+    leaf transport-mode {
+      type enumeration {
+        enum tcp;
+        enum osi-tp {
+          if-feature iso;
+        }
+      }
+    }
+    leaf-list addr {
+      type union {
+        type string;
+        type enumeration {
+          enum dhcp {
+            if-feature iso;
+          }
+          enum none;
+        }
+      }
+    }
     choice transport {
       case plain {
         leaf tcp-port {

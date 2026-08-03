@@ -906,7 +906,7 @@ where
                     node.kind = YangType::Enumeration;
                     if let Some(identities) = m.identities.get(&name) {
                         for i in identities.iter() {
-                            node.enum_stmt.push(EnumNode { name: i.clone() });
+                            node.enum_stmt.push(EnumNode::new(i.clone()));
                         }
                     }
                     ent.type_node = Some(node);
@@ -940,6 +940,35 @@ where
         ent.type_node = Some(union_node);
     } else {
         ent.type_node = Some(type_node.clone());
+    }
+
+    // RFC 7950 §9.6.4.1 (YANG 1.1): drop enumeration arms whose
+    // `if-feature` does not hold. The identityref branch returns
+    // early above, but its arms are synthesized from identity names
+    // and carry no if-feature, so it needs no filtering.
+    if let Some(node) = ent.type_node.as_mut() {
+        enum_feature_filter(top, store, node);
+    }
+}
+
+/// Drop enumeration arms guarded by an `if-feature` that does not
+/// hold (RFC 7950 §9.6.4.1, YANG 1.1), recursing into union arms: a
+/// gated value simply does not exist while its feature is off.
+///
+/// Expressions are evaluated in the context of `top`, the module
+/// whose leaf carries the type. For an inline enumeration that is
+/// also the defining module; a gated enum inside a typedef imported
+/// from another module has its prefixes resolved against the using
+/// module's imports instead — the same context approximation the
+/// union typedef resolution above already makes.
+fn enum_feature_filter<T>(top: &T, store: &YangStore, node: &mut TypeNode)
+where
+    T: ModuleCommon,
+{
+    node.enum_stmt
+        .retain(|e| if_features_enabled(top, store, &e.if_feature));
+    for arm in node.union.iter_mut() {
+        enum_feature_filter(top, store, arm);
     }
 }
 
