@@ -1,0 +1,9 @@
+module iffeature-features {
+  yang-version "1.1";
+  namespace "urn:test:iffeature-features";
+  prefix "ifx";
+
+  // Imported by iffeature-base, which guards a leaf with
+  // `if-feature ifx:remote` — the prefixed cross-module form.
+  feature remote;
+}

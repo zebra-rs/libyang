@@ -21,6 +21,7 @@ pub struct ModuleNode {
     pub reference: Option<String>,
     pub revision: Vec<RevisionNode>,
     pub d: DatadefNode,
+    pub feature: Vec<FeatureNode>,
     pub identity: Vec<IdentityNode>,
     pub typedef: Vec<TypedefNode>,
     pub extension: Vec<ExtensionNode>,
@@ -52,6 +53,7 @@ pub struct SubmoduleNode {
     pub reference: Option<String>,
     pub revision: Vec<RevisionNode>,
     pub d: DatadefNode,
+    pub feature: Vec<FeatureNode>,
     pub identity: Vec<IdentityNode>,
     pub typedef: Vec<TypedefNode>,
     pub grouping: Vec<GroupingNode>,
@@ -149,6 +151,10 @@ pub struct IdentityNode {
     pub description: Option<String>,
     pub reference: Option<String>,
     pub status: Option<String>,
+    /// Captured but not evaluated: identities are not schema-tree
+    /// nodes, so identity pruning (which would narrow identityref
+    /// value sets) is left to a later pass.
+    pub if_feature: Vec<IfFeatureNode>,
 }
 
 impl IdentityNode {
@@ -186,6 +192,7 @@ pub struct ContainerNode {
     pub description: Option<String>,
     pub reference: Option<String>,
     pub when: Option<WhenNode>,
+    pub if_feature: Vec<IfFeatureNode>,
     pub status: Option<StatusNode>,
     pub presence: Option<PresenceNode>,
     pub config: Option<ConfigNode>,
@@ -210,6 +217,7 @@ pub struct LeafNode {
     pub description: Option<String>,
     pub reference: Option<String>,
     pub when: Option<WhenNode>,
+    pub if_feature: Vec<IfFeatureNode>,
     pub status: Option<StatusNode>,
     pub config: Option<ConfigNode>,
     pub type_stmt: Option<TypeNode>,
@@ -241,6 +249,7 @@ pub struct LeafListNode {
     pub description: Option<String>,
     pub reference: Option<String>,
     pub when: Option<WhenNode>,
+    pub if_feature: Vec<IfFeatureNode>,
     pub status: Option<StatusNode>,
     pub config: Option<ConfigNode>,
     pub type_stmt: Option<TypeNode>,
@@ -265,6 +274,7 @@ pub struct ListNode {
     pub description: Option<String>,
     pub reference: Option<String>,
     pub when: Option<WhenNode>,
+    pub if_feature: Vec<IfFeatureNode>,
     pub status: Option<StatusNode>,
     pub config: Option<ConfigNode>,
     pub d: DatadefNode,
@@ -303,6 +313,7 @@ pub struct ChoiceNode {
     pub status: Option<StatusNode>,
     pub mandatory: Option<MandatoryNode>,
     pub when: Option<WhenNode>,
+    pub if_feature: Vec<IfFeatureNode>,
     pub config: Option<ConfigNode>,
     pub cases: Vec<CaseNode>,
 }
@@ -336,8 +347,9 @@ pub enum IfFeatureExprNode {
 }
 
 /// One `if-feature` statement, carrying its parsed expression. The
-/// expression is captured but not yet evaluated — there is no
-/// feature-support context in the entry-building pass.
+/// entry-building pass evaluates it against the store's enabled
+/// features ([`YangStore::enable_feature`](crate::YangStore::enable_feature))
+/// and prunes the guarded node when it does not hold.
 #[derive(Debug, PartialEq, Clone)]
 pub struct IfFeatureNode {
     pub expr: IfFeatureExprNode,
@@ -346,6 +358,31 @@ pub struct IfFeatureNode {
 impl IfFeatureNode {
     pub fn new(expr: IfFeatureExprNode) -> Self {
         Self { expr }
+    }
+}
+
+/// RFC 7950 §7.20.1 `feature` statement: a named unit of optional
+/// functionality. A feature is off unless the consumer marks it
+/// supported via [`YangStore::enable_feature`](crate::YangStore::enable_feature);
+/// while off, schema nodes guarded by an `if-feature` referencing it
+/// are pruned from the entry tree. `if_feature` carries the feature's
+/// own dependencies — per §7.20.1 a feature may only be supported when
+/// every feature it references is supported too.
+#[derive(Debug, PartialEq, Clone, Default)]
+pub struct FeatureNode {
+    pub name: String,
+    pub description: Option<String>,
+    pub reference: Option<String>,
+    pub status: Option<StatusNode>,
+    pub if_feature: Vec<IfFeatureNode>,
+}
+
+impl FeatureNode {
+    pub fn new(name: String) -> Self {
+        Self {
+            name,
+            ..Default::default()
+        }
     }
 }
 
@@ -502,6 +539,7 @@ pub struct ActionNode {
     pub description: Option<String>,
     pub reference: Option<String>,
     pub status: Option<StatusNode>,
+    pub if_feature: Vec<IfFeatureNode>,
     pub input: Option<InputNode>,
     pub output: Option<OutputNode>,
 }
@@ -522,6 +560,7 @@ pub struct CaseNode {
     pub reference: Option<String>,
     pub status: Option<StatusNode>,
     pub when: Option<WhenNode>,
+    pub if_feature: Vec<IfFeatureNode>,
     pub d: DatadefNode,
 }
 
@@ -665,6 +704,7 @@ pub struct UsesNode {
     pub description: Option<String>,
     pub reference: Option<String>,
     pub when: Option<WhenNode>,
+    pub if_feature: Vec<IfFeatureNode>,
     pub status: Option<StatusNode>,
     /// `augment` substatements (RFC 7950 §7.17, descendant form) that
     /// add nodes to the grouping this `uses` instantiates. Applied
@@ -703,8 +743,10 @@ pub struct GroupingNode {
 /// augment that adds mandatory config to another module. `cases` and
 /// `action` hold the `case`/`action` substatements allowed when the
 /// target is a choice (case) or a container/list (action).
-/// `if_feature` holds the parsed `if-feature` expressions (captured but
-/// not yet evaluated — there is no feature-support context).
+/// `if_feature` holds the parsed `if-feature` expressions; an augment
+/// whose expressions do not hold for the store's enabled features is
+/// skipped entirely (including its target diagnostics — a disabled
+/// augment may legitimately target nodes gated by the same feature).
 ///
 /// Not yet modeled: `notification` (no notification node type exists in
 /// the AST at all). It is parsed by the grammar and currently dropped.

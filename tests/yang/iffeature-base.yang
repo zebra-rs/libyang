@@ -1,0 +1,82 @@
+module iffeature-base {
+  yang-version "1.1";
+  namespace "urn:test:iffeature-base";
+  prefix "ifb";
+
+  import iffeature-features {
+    prefix ifx;
+  }
+
+  feature iso {
+    description "ISO / OSI protocol support";
+  }
+  feature extra;
+
+  // A feature may only be supported when the features it references
+  // are supported too (RFC 7950 section 7.20.1).
+  feature dep {
+    if-feature iso;
+  }
+
+  grouping shared {
+    leaf shared-leaf {
+      type string;
+    }
+  }
+
+  container routing {
+    leaf name {
+      type string;
+    }
+    leaf dhcp {
+      if-feature iso;
+      type string;
+    }
+    container iso-only {
+      if-feature iso;
+      leaf nsap {
+        type string;
+      }
+    }
+    leaf both {
+      // Compound expression, unquoted form (quoting collapses to a
+      // single identifier per the grammar; see augment-iffeature).
+      if-feature iso and extra;
+      type string;
+    }
+    leaf gated-dep {
+      if-feature dep;
+      type string;
+    }
+    leaf remote-gated {
+      if-feature ifx:remote;
+      type string;
+    }
+    uses shared {
+      if-feature iso;
+    }
+    choice transport {
+      case plain {
+        leaf tcp-port {
+          type uint16;
+        }
+      }
+      case osi {
+        if-feature iso;
+        leaf tsel {
+          type string;
+        }
+      }
+    }
+  }
+
+  // Feature-gated augment of a feature-gated target: both appear and
+  // disappear together, and the disabled form must not produce a
+  // target-not-found diagnostic.
+  augment "/ifb:routing/ifb:iso-only" {
+    if-feature iso;
+    leaf net {
+      type string;
+    }
+  }
+}

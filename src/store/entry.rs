@@ -284,6 +284,12 @@ where
     if augment_target_module(top, &aug.target) != root.name {
         return;
     }
+    // A feature-disabled augment is absent altogether — skip before
+    // any target diagnostics, since its target may itself be gated by
+    // the same feature and legitimately missing from the tree.
+    if !if_features_enabled(top, store, &aug.if_feature) {
+        return;
+    }
     // RFC 7950 §7.17: a top-level augment's target is an
     // absolute-schema-nodeid (leading '/').
     if !aug.target.starts_with('/') {
@@ -304,6 +310,9 @@ fn uses_entry<T>(top: &T, store: &YangStore, uses: &UsesNode, ent: Rc<Entry>)
 where
     T: ModuleCommon,
 {
+    if !if_features_enabled(top, store, &uses.if_feature) {
+        return;
+    }
     group_resolve(top, store, &uses.name, ent.clone());
     for aug in uses.augment.iter() {
         apply_uses_augment(top, store, ent.clone(), aug);
@@ -319,6 +328,10 @@ fn apply_uses_augment<T>(top: &T, store: &YangStore, ent: Rc<Entry>, aug: &Augme
 where
     T: ModuleCommon,
 {
+    // Same feature gate as `apply_augment`, for the same reason.
+    if !if_features_enabled(top, store, &aug.if_feature) {
+        return;
+    }
     // RFC 7950 §7.17: a uses-substatement augment's target is a
     // descendant-schema-nodeid (no leading '/').
     if aug.target.starts_with('/') {
@@ -448,6 +461,9 @@ where
 
     // Explicit `case` substatements.
     for case in aug.cases.iter() {
+        if !if_features_enabled(top, store, &case.if_feature) {
+            continue;
+        }
         inject_case(top, store, parent.clone(), choice_name, &case.name, &case.d);
     }
     // Shorthand cases: each direct data node forms its own case named
@@ -548,7 +564,15 @@ where
 
 pub trait ModuleCommon {
     fn get_name(&self) -> &str;
+    /// Name of the module whose namespace this node set belongs to:
+    /// the module itself, or for a submodule the module it belongs to.
+    /// Feature references resolve against this name — a feature
+    /// defined in a submodule is enabled under its parent module's
+    /// name (RFC 7950 §7.20.1: submodule definitions share the
+    /// module's namespace).
+    fn get_module_name(&self) -> &str;
     fn get_prefix(&self) -> Option<&str>;
+    fn get_feature(&self) -> &Vec<FeatureNode>;
     fn get_identity(&self) -> &Vec<IdentityNode>;
     fn get_identities_mut(&mut self) -> &mut HashMap<String, Vec<String>>;
     fn get_include(&self) -> &Vec<IncludeNode>;
@@ -641,6 +665,132 @@ where
         }
     }
     name
+}
+
+/// Evaluate the `if-feature` guards attached to a schema node, in the
+/// context of the module `top` that defines the node (RFC 7950
+/// §7.20.2). Multiple statements AND together. With nothing enabled on
+/// the store — the default — every guarded node evaluates false and is
+/// pruned, matching the RFC: a feature is off unless the server
+/// advertises support for it.
+pub(crate) fn if_features_enabled<T>(top: &T, store: &YangStore, ifs: &[IfFeatureNode]) -> bool
+where
+    T: ModuleCommon,
+{
+    let mut visiting = Vec::new();
+    ifs.iter()
+        .all(|f| if_feature_expr_enabled(top, store, &f.expr, &mut visiting))
+}
+
+fn if_feature_expr_enabled<T>(
+    top: &T,
+    store: &YangStore,
+    expr: &IfFeatureExprNode,
+    visiting: &mut Vec<(String, String)>,
+) -> bool
+where
+    T: ModuleCommon,
+{
+    match expr {
+        IfFeatureExprNode::Feature(name) => feature_ref_enabled(top, store, name, visiting),
+        IfFeatureExprNode::Not(e) => !if_feature_expr_enabled(top, store, e, visiting),
+        IfFeatureExprNode::And(a, b) => {
+            if_feature_expr_enabled(top, store, a, visiting)
+                && if_feature_expr_enabled(top, store, b, visiting)
+        }
+        IfFeatureExprNode::Or(a, b) => {
+            if_feature_expr_enabled(top, store, a, visiting)
+                || if_feature_expr_enabled(top, store, b, visiting)
+        }
+    }
+}
+
+/// Evaluate a feature definition's own `if-feature` dependencies in
+/// the context of the module or submodule that defines it.
+fn feature_def_enabled<T>(
+    def_ctx: &T,
+    store: &YangStore,
+    f: &FeatureNode,
+    visiting: &mut Vec<(String, String)>,
+) -> bool
+where
+    T: ModuleCommon,
+{
+    f.if_feature
+        .iter()
+        .all(|i| if_feature_expr_enabled(def_ctx, store, &i.expr, visiting))
+}
+
+/// Resolve one feature reference (`[prefix:]name`, RFC 7950 §7.20.2)
+/// as seen from module `top` and decide whether it is enabled: it must
+/// be explicitly enabled on the store AND its own `if-feature`
+/// dependencies must hold (§7.20.1), evaluated in the context of the
+/// module (or submodule) defining it. `visiting` is the chain of
+/// feature definitions currently being evaluated; a reference back
+/// into the chain (a circular dependency, which §7.20.1 forbids)
+/// evaluates as disabled rather than recursing forever. A reference no
+/// loaded module defines is reported via `Diagnostic::UnknownFeature`
+/// and evaluates as disabled.
+fn feature_ref_enabled<T>(
+    top: &T,
+    store: &YangStore,
+    name: &str,
+    visiting: &mut Vec<(String, String)>,
+) -> bool
+where
+    T: ModuleCommon,
+{
+    let (module_name, feature) = match name.split_once(':') {
+        Some((prefix, f)) => {
+            let m = if Some(prefix) == top.get_prefix() {
+                top.get_module_name().to_string()
+            } else {
+                prefix_resolve(top, prefix.to_string())
+            };
+            (m, f.to_string())
+        }
+        None => (top.get_module_name().to_string(), name.to_string()),
+    };
+
+    let key = (module_name.clone(), feature.clone());
+    if visiting.contains(&key) {
+        return false;
+    }
+    visiting.push(key);
+
+    // Look the definition up in the resolved module first, then in its
+    // included submodules (whose definitions share the module's
+    // namespace). The lookup runs even when the feature is not
+    // enabled, so a typo in an if-feature is diagnosed without having
+    // to enable the feature it mistypes.
+    let enabled = if let Some(m) = store.find_module(&module_name) {
+        if let Some(f) = m.feature.iter().find(|f| f.name == feature) {
+            store.feature_explicitly_enabled(&module_name, &feature)
+                && feature_def_enabled(m, store, f, visiting)
+        } else if let Some((s, f)) = m.include.iter().find_map(|inc| {
+            store
+                .find_submodule(&inc.name)
+                .and_then(|s| s.feature.iter().find(|f| f.name == feature).map(|f| (s, f)))
+        }) {
+            store.feature_explicitly_enabled(&module_name, &feature)
+                && feature_def_enabled(s, store, f, visiting)
+        } else {
+            store.diag(Diagnostic::UnknownFeature {
+                module: top.get_name().to_string(),
+                feature: name.to_string(),
+            });
+            false
+        }
+    } else {
+        store.diag(Diagnostic::UnknownFeature {
+            module: top.get_name().to_string(),
+            feature: name.to_string(),
+        });
+        false
+    };
+
+    visiting.pop();
+    enabled
 }
 
 fn type_union_resolve<T>(top: &T, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode>
@@ -797,6 +947,9 @@ pub fn action_entry<T>(top: &T, store: &YangStore, a: &ActionNode, ent: Rc<Entry
 where
     T: ModuleCommon,
 {
+    if !if_features_enabled(top, store, &a.if_feature) {
+        return;
+    }
     let e = Entry::new_action(a.name.clone());
     let rc = Rc::new(e);
 
@@ -872,6 +1025,9 @@ pub fn choice_entry<T>(top: &T, store: &YangStore, c: &ChoiceNode, ent: Rc<Entry
 where
     T: ModuleCommon,
 {
+    if !if_features_enabled(top, store, &c.if_feature) {
+        return;
+    }
     if let Some(config) = &c.config
         && !config.config
     {
@@ -889,6 +1045,9 @@ where
     // metadata so consumers can enforce mutual exclusion later. The
     // same flattening is reused by `augment_into_choice`.
     for case in c.cases.iter() {
+        if !if_features_enabled(top, store, &case.if_feature) {
+            continue;
+        }
         inject_case(top, store, ent.clone(), &c.name, &case.name, &case.d);
     }
 }
@@ -897,6 +1056,12 @@ pub fn container_entry<T>(top: &T, store: &YangStore, c: &ContainerNode, ent: Rc
 where
     T: ModuleCommon,
 {
+    // RFC 7950 §7.20.2: a node guarded by `if-feature` exists only
+    // when the expression holds for the store's enabled features. The
+    // same gate guards every node kind built below.
+    if !if_features_enabled(top, store, &c.if_feature) {
+        return;
+    }
     if let Some(config) = &c.config
         && !config.config
     {
@@ -939,6 +1104,9 @@ fn list_entry<T>(top: &T, store: &YangStore, l: &ListNode, ent: Rc<Entry>)
 where
     T: ModuleCommon,
 {
+    if !if_features_enabled(top, store, &l.if_feature) {
+        return;
+    }
     if let Some(config) = &l.config
         && !config.config
     {
@@ -982,6 +1150,9 @@ fn leaf_entry<T>(top: &T, store: &YangStore, leaf: &LeafNode, ent: Rc<Entry>)
 where
     T: ModuleCommon,
 {
+    if !if_features_enabled(top, store, &leaf.if_feature) {
+        return;
+    }
     if let Some(config) = &leaf.config
         && !config.config
     {
@@ -1004,6 +1175,9 @@ fn leaf_list_entry<T>(top: &T, store: &YangStore, leaf: &LeafListNode, ent: Rc<E
 where
     T: ModuleCommon,
 {
+    if !if_features_enabled(top, store, &leaf.if_feature) {
+        return;
+    }
     if let Some(config) = &leaf.config
         && !config.config
     {
@@ -1029,8 +1203,16 @@ impl ModuleCommon for ModuleNode {
         &self.name
     }
 
+    fn get_module_name(&self) -> &str {
+        &self.name
+    }
+
     fn get_prefix(&self) -> Option<&str> {
         self.prefix.as_deref()
+    }
+
+    fn get_feature(&self) -> &Vec<FeatureNode> {
+        &self.feature
     }
 
     fn get_identity(&self) -> &Vec<IdentityNode> {
@@ -1067,10 +1249,21 @@ impl ModuleCommon for SubmoduleNode {
         &self.name
     }
 
+    fn get_module_name(&self) -> &str {
+        self.belongs_to
+            .as_ref()
+            .map(|b| b.name.as_str())
+            .unwrap_or(&self.name)
+    }
+
     fn get_prefix(&self) -> Option<&str> {
         // A submodule has no prefix of its own; per RFC 7950 §7.2.2 it
         // shares the prefix of the module it belongs to.
         self.belongs_to.as_ref().and_then(|b| b.prefix.as_deref())
+    }
+
+    fn get_feature(&self) -> &Vec<FeatureNode> {
+        &self.feature
     }
 
     fn get_identity(&self) -> &Vec<IdentityNode> {

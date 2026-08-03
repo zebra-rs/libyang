@@ -75,7 +75,10 @@ fn module(node: &mut ModuleNode, m: YangModuleStmt) {
                 let n = extension(&m.extension_stmt);
                 node.extension.push(n);
             }
-            BodyStmts::FeatureStmt(_m) => {}
+            BodyStmts::FeatureStmt(m) => {
+                let n = feature(&m.feature_stmt);
+                node.feature.push(n);
+            }
             BodyStmts::IdentityStmt(m) => {
                 let n = identity(m);
                 node.identity.push(n);
@@ -152,7 +155,10 @@ fn submodule(node: &mut SubmoduleNode, m: YangSubmoduleStmt) {
     for m in m.submodule_stmt.submodule_stmt_list3.iter() {
         match &*m.body_stmts {
             BodyStmts::ExtensionStmt(_m) => {}
-            BodyStmts::FeatureStmt(_m) => {}
+            BodyStmts::FeatureStmt(m) => {
+                let n = feature(&m.feature_stmt);
+                node.feature.push(n);
+            }
             BodyStmts::IdentityStmt(m) => {
                 let n = identity(m);
                 node.identity.push(n);
@@ -280,6 +286,33 @@ fn augment(m: &AugmentStmt) -> AugmentNode {
     node
 }
 
+/// Convert a `feature` statement (RFC 7950 §7.20.1) into a
+/// `FeatureNode`, including the `if-feature` dependencies a feature
+/// may declare on other features.
+fn feature(m: &FeatureStmt) -> FeatureNode {
+    let name = identifier_arg_str(&m.identifier_arg_str);
+    let mut node = FeatureNode::new(name);
+    if let FeatureStmtSuffix::LBraceFeatureStmtListRBrace(m) = &*m.feature_stmt_suffix {
+        for m in m.feature_stmt_list.iter() {
+            match &*m.feature_stmt_list_group {
+                FeatureStmtListGroup::IfFeatureStmt(m) => {
+                    node.if_feature.push(if_feature(&m.if_feature_stmt));
+                }
+                FeatureStmtListGroup::StatusStmt(m) => {
+                    node.status = Some(status(&m.status_stmt));
+                }
+                FeatureStmtListGroup::DescriptionStmt(m) => {
+                    node.description = Some(ystring(&m.description_stmt.ystring));
+                }
+                FeatureStmtListGroup::ReferenceStmt(m) => {
+                    node.reference = Some(ystring(&m.reference_stmt.ystring));
+                }
+            }
+        }
+    }
+    node
+}
+
 /// Convert an `if-feature` statement's expression (RFC 7950 §7.20.2)
 /// into the structured `IfFeatureExprNode` tree. Reusable by any
 /// statement that accepts `if-feature`.
@@ -401,7 +434,9 @@ fn container(m: &ContainerStmt) -> ContainerNode {
                     let n = when(&m.when_stmt);
                     node.when = Some(n);
                 }
-                ContainerStmtListGroup::IfFeatureStmt(_m) => {}
+                ContainerStmtListGroup::IfFeatureStmt(m) => {
+                    node.if_feature.push(if_feature(&m.if_feature_stmt));
+                }
                 ContainerStmtListGroup::MustStmt(m) => {
                     let n = must(&m.must_stmt);
                     node.must.push(n);
@@ -455,7 +490,9 @@ fn leaf(m: &LeafStmt) -> LeafNode {
                 let n = status(&m.status_stmt);
                 node.status = Some(n);
             }
-            LeafStmtListGroup::IfFeatureStmt(_m) => {}
+            LeafStmtListGroup::IfFeatureStmt(m) => {
+                node.if_feature.push(if_feature(&m.if_feature_stmt));
+            }
             LeafStmtListGroup::TypeStmt(m) => {
                 let n = type_stmt(&m.type_stmt);
                 node.type_stmt = Some(n);
@@ -519,7 +556,9 @@ fn list(m: &ListStmt) -> ListNode {
                 let n = when(&m.when_stmt);
                 node.when = Some(n);
             }
-            ListStmtListGroup::IfFeatureStmt(_m) => {}
+            ListStmtListGroup::IfFeatureStmt(m) => {
+                node.if_feature.push(if_feature(&m.if_feature_stmt));
+            }
             ListStmtListGroup::MustStmt(m) => {
                 let n = must(&m.must_stmt);
                 node.must.push(n)
@@ -571,7 +610,9 @@ fn leaf_list(m: &LeafListStmt) -> LeafListNode {
                 let n = when(&m.when_stmt);
                 node.when = Some(n);
             }
-            LeafListStmtListGroup::IfFeatureStmt(_m) => {}
+            LeafListStmtListGroup::IfFeatureStmt(m) => {
+                node.if_feature.push(if_feature(&m.if_feature_stmt));
+            }
             LeafListStmtListGroup::TypeStmt(m) => {
                 let n = type_stmt(&m.type_stmt);
                 node.type_stmt = Some(n);
@@ -713,7 +754,9 @@ fn identity(m: &BodyStmtsIdentityStmt) -> IdentityNode {
     let mut node = IdentityNode::new(name);
     for m in m.identity_stmt.identity_stmt_list.iter() {
         match &*m.identity_stmt_list_group {
-            IdentityStmtListGroup::IfFeatureStmt(_m) => {}
+            IdentityStmtListGroup::IfFeatureStmt(m) => {
+                node.if_feature.push(if_feature(&m.if_feature_stmt));
+            }
             IdentityStmtListGroup::BaseStmt(m) => {
                 let base = identifier_ref_arg_str(&m.base_stmt.identifier_ref_arg_str);
                 node.base.push(base);
@@ -1059,7 +1102,9 @@ fn choice(m: &ChoiceStmt) -> ChoiceNode {
                     let n = when(&m.when_stmt);
                     node.when = Some(n);
                 }
-                ChoiceStmtListGroup::IfFeatureStmt(_m) => {}
+                ChoiceStmtListGroup::IfFeatureStmt(m) => {
+                    node.if_feature.push(if_feature(&m.if_feature_stmt));
+                }
                 ChoiceStmtListGroup::DefaultStmt(_m) => {}
                 ChoiceStmtListGroup::ConfigStmt(m) => {
                     let n = config(&m.config_stmt);
@@ -1142,7 +1187,9 @@ fn case(m: &CaseStmt) -> CaseNode {
                     let n = when(&m.when_stmt);
                     node.when = Some(n);
                 }
-                CaseStmtListGroup::IfFeatureStmt(_m) => {}
+                CaseStmtListGroup::IfFeatureStmt(m) => {
+                    node.if_feature.push(if_feature(&m.if_feature_stmt));
+                }
                 CaseStmtListGroup::DataDefStmt(m) => {
                     datadef(&mut node.d, &m.data_def_stmt);
                 }
@@ -1208,7 +1255,9 @@ fn uses(m: &UsesStmt) -> UsesNode {
                     let n = when(&m.when_stmt);
                     node.when = Some(n);
                 }
-                UsesStmtListGroup::IfFeatureStmt(_m) => {}
+                UsesStmtListGroup::IfFeatureStmt(m) => {
+                    node.if_feature.push(if_feature(&m.if_feature_stmt));
+                }
                 UsesStmtListGroup::StatusStmt(m) => {
                     let n = status(&m.status_stmt);
                     node.status = Some(n);
@@ -1325,7 +1374,9 @@ fn action(m: &ActionStmt) -> ActionNode {
     if let ActionStmtSuffix::LBraceActionStmtListRBrace(m) = &*m.action_stmt_suffix {
         for m in m.action_stmt_list.iter() {
             match &*m.action_stmt_list_group {
-                ActionStmtListGroup::IfFeatureStmt(_m) => {}
+                ActionStmtListGroup::IfFeatureStmt(m) => {
+                    node.if_feature.push(if_feature(&m.if_feature_stmt));
+                }
                 ActionStmtListGroup::StatusStmt(m) => {
                     let n = status(&m.status_stmt);
                     node.status = Some(n);
