@@ -69,6 +69,12 @@ pub enum Diagnostic {
         target: String,
         name: String,
     },
+
+    /// An `if-feature` expression in `module` referenced `feature`
+    /// (as written, prefix included), but the module the reference
+    /// resolves to defines no such feature — or is not loaded at all.
+    /// The reference evaluates as disabled.
+    UnknownFeature { module: String, feature: String },
 }
 
 impl fmt::Display for Diagnostic {
@@ -109,6 +115,11 @@ impl fmt::Display for Diagnostic {
                 f,
                 "{module}: augment node \"{name}\" already exists in target \"{target}\"; \
                  not added"
+            ),
+            Diagnostic::UnknownFeature { module, feature } => write!(
+                f,
+                "{module}: if-feature references undefined feature \"{feature}\"; \
+                 treated as disabled"
             ),
         }
     }

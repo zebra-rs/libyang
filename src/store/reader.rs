@@ -2,7 +2,7 @@ use crate::yang_grammar::YangGrammar;
 use crate::yang_parser::parse;
 use crate::*;
 use std::cell::{Ref, RefCell};
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::ffi::OsStr;
 use std::fs::{self};
 use std::path::PathBuf;
@@ -25,6 +25,11 @@ pub struct YangStore {
     // reproducible output.
     pub(crate) modules: BTreeMap<String, ModuleNode>,
     pub(crate) submodules: BTreeMap<String, SubmoduleNode>,
+    // Features marked as supported via `enable_feature`, keyed
+    // (module-name, feature-name). RFC 7950 §7.20.1: a feature is off
+    // unless the server advertises support, so absence means every
+    // node guarded by it is pruned during entry building.
+    enabled_features: BTreeSet<(String, String)>,
     // Problems found while building entry trees. `to_entry` takes the
     // store by shared reference and the whole augment path already has
     // it in scope, so a `RefCell` collects diagnostics here without
@@ -46,6 +51,31 @@ impl YangStore {
             self.paths.push(path);
             //}
         }
+    }
+
+    /// Mark `feature` (a `feature` defined in module `module`, RFC
+    /// 7950 §7.20.1) as supported. Schema nodes guarded by an
+    /// `if-feature` are pruned by [`to_entry`](crate::to_entry) unless
+    /// their expression holds for the enabled set, so call this before
+    /// building entry trees. A feature defined in a submodule is
+    /// enabled under the name of the module it belongs to.
+    ///
+    /// Enabling is recorded as-is: the module does not need to be
+    /// loaded yet, and no validation happens here. An `if-feature`
+    /// reference that resolves to a feature no module defines is
+    /// reported during entry building as
+    /// [`Diagnostic::UnknownFeature`](crate::Diagnostic::UnknownFeature).
+    pub fn enable_feature(&mut self, module: &str, feature: &str) {
+        self.enabled_features
+            .insert((module.to_string(), feature.to_string()));
+    }
+
+    /// Whether `enable_feature` was called for this (module, feature)
+    /// pair. This is the raw advertised set — it does not evaluate the
+    /// feature's own `if-feature` dependencies.
+    pub(crate) fn feature_explicitly_enabled(&self, module: &str, feature: &str) -> bool {
+        self.enabled_features
+            .contains(&(module.to_string(), feature.to_string()))
     }
 
     pub fn identity_resolve(&mut self) {

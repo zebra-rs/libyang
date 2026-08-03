@@ -1,0 +1,17 @@
+module iffeature-unknown {
+  yang-version "1.1";
+  namespace "urn:test:iffeature-unknown";
+  prefix "ifu";
+
+  container top-box {
+    leaf oops {
+      // References a feature this module never defines; the node is
+      // pruned and a diagnostic reports the dangling reference.
+      if-feature no-such;
+      type string;
+    }
+    leaf fine {
+      type string;
+    }
+  }
+}
