@@ -8,7 +8,7 @@
 // are pruned from the entry tree by default and appear once the right
 // features are enabled.
 
-use libyang::{Diagnostic, Entry, YangStore, to_entry};
+use libyang::{Diagnostic, Entry, YangStore, YangType, to_entry};
 use std::rc::Rc;
 
 fn load(name: &str, features: &[(&str, &str)]) -> (Rc<Entry>, Vec<Diagnostic>) {
@@ -156,6 +156,54 @@ fn unknown_feature_reference_is_diagnosed_and_disabled() {
         }),
         "expected UnknownFeature diagnostic, got {diagnostics:?}"
     );
+}
+
+#[test]
+fn feature_gated_enum_arms_are_filtered() {
+    let enum_names = |e: &Rc<Entry>| -> Vec<String> {
+        e.type_node
+            .as_ref()
+            .expect("type resolved")
+            .enum_stmt
+            .iter()
+            .map(|en| en.name.clone())
+            .collect()
+    };
+    let union_enum_arm = |e: &Rc<Entry>| -> Vec<String> {
+        e.type_node
+            .as_ref()
+            .expect("type resolved")
+            .union
+            .iter()
+            .find(|arm| arm.kind == YangType::Enumeration)
+            .expect("enumeration arm in union")
+            .enum_stmt
+            .iter()
+            .map(|en| en.name.clone())
+            .collect()
+    };
+
+    // Default: the gated values vanish from the type — in a plain
+    // enumeration and inside a union arm — while the leaf itself
+    // stays (only the arm is gated, not the node).
+    let (root, diagnostics) = load("iffeature-base", &[]);
+    let routing = find_child(&root, "routing").expect("routing container");
+    let mode = find_child(&routing, "transport-mode").expect("transport-mode leaf");
+    assert_eq!(enum_names(&mode), ["tcp"]);
+    let addr = find_child(&routing, "addr").expect("addr leaf-list");
+    assert_eq!(union_enum_arm(&addr), ["none"]);
+    assert!(
+        diagnostics.is_empty(),
+        "no diagnostics expected, got {diagnostics:?}"
+    );
+
+    // With iso enabled both gated values exist.
+    let (root, _) = load("iffeature-base", &[("iffeature-base", "iso")]);
+    let routing = find_child(&root, "routing").expect("routing container");
+    let mode = find_child(&routing, "transport-mode").expect("transport-mode leaf");
+    assert_eq!(enum_names(&mode), ["tcp", "osi-tp"]);
+    let addr = find_child(&routing, "addr").expect("addr leaf-list");
+    assert_eq!(union_enum_arm(&addr), ["dhcp", "none"]);
 }
 
 #[test]

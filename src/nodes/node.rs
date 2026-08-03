@@ -806,11 +806,19 @@ impl MaxElementsNode {
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct EnumNode {
     pub name: String,
+    /// RFC 7950 §9.6.4.1 (YANG 1.1): an enum arm may be guarded by
+    /// `if-feature`. The entry-building pass drops arms whose
+    /// expression does not hold for the store's enabled features, so
+    /// a gated value simply does not exist while its feature is off.
+    pub if_feature: Vec<IfFeatureNode>,
 }
 
 impl EnumNode {
     pub fn new(name: String) -> Self {
-        Self { name }
+        Self {
+            name,
+            ..Default::default()
+        }
     }
 }
 

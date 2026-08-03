@@ -1002,7 +1002,20 @@ fn enum_stmt(m: &EnumStmt) -> EnumNode {
             m.ascii_no_brace.ascii_no_brace.text().to_string()
         }
     };
-    EnumNode::new(name)
+    let mut node = EnumNode::new(name);
+    if let EnumStmtSuffix::LBraceEnumStmtListRBrace(m) = &*m.enum_stmt_suffix {
+        for m in m.enum_stmt_list.iter() {
+            match &*m.enum_stmt_list_group {
+                EnumStmtListGroup::IfFeatureStmt(m) => {
+                    node.if_feature.push(if_feature(&m.if_feature_stmt));
+                }
+                EnumStmtListGroup::DescriptionStmt(_m) => {}
+                EnumStmtListGroup::ValueStmt(_m) => {}
+                EnumStmtListGroup::ReferenceStmt(_m) => {}
+            }
+        }
+    }
+    node
 }
 
 fn base_stmt(m: &BaseStmt) -> String {
