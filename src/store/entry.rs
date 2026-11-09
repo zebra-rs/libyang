@@ -1148,7 +1148,8 @@ where
         }
         e.extension.insert(u.name.clone(), u.argument.clone());
     }
-    let list_attr = ListAttr::new();
+    let mut list_attr = ListAttr::new();
+    list_attr.ordered_by_user = l.ordered_by.as_ref().is_some_and(|o| o.is_user());
     e.list_attr = Some(list_attr);
     let rc = Rc::new(e);
 
@@ -1219,7 +1220,8 @@ where
     if let Some(t) = leaf.type_stmt.as_ref() {
         type_resolve(top, store, t, &mut e);
     }
-    let list_attr = ListAttr::new();
+    let mut list_attr = ListAttr::new();
+    list_attr.ordered_by_user = leaf.ordered_by.as_ref().is_some_and(|o| o.is_user());
     e.list_attr = Some(list_attr);
 
     let rc = Rc::new(e);

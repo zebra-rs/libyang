@@ -255,6 +255,7 @@ pub struct LeafListNode {
     pub type_stmt: Option<TypeNode>,
     pub min_elements: Option<MinElementsNode>,
     pub max_elements: Option<MaxElementsNode>,
+    pub ordered_by: Option<OrderedByNode>,
     pub unknown: Vec<UnknownNode>,
 }
 
@@ -280,6 +281,7 @@ pub struct ListNode {
     pub d: DatadefNode,
     pub min_elements: Option<MinElementsNode>,
     pub max_elements: Option<MaxElementsNode>,
+    pub ordered_by: Option<OrderedByNode>,
     pub must: Vec<MustNode>,
     pub unknown: Vec<UnknownNode>,
 }
@@ -386,6 +388,8 @@ impl FeatureNode {
     }
 }
 
+/// The `ordered-by` statement of a list or leaf-list (RFC 7950 §7.7.7):
+/// `name` is its argument, `user` or `system`.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct OrderedByNode {
     pub name: String,
@@ -394,6 +398,12 @@ pub struct OrderedByNode {
 impl OrderedByNode {
     pub fn new(name: String) -> Self {
         Self { name }
+    }
+
+    /// Whether the entries are ordered by the user. Without the
+    /// statement, or with `system`, the order is the implementation's.
+    pub fn is_user(&self) -> bool {
+        self.name == "user"
     }
 }
 

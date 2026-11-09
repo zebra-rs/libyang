@@ -576,7 +576,9 @@ fn list(m: &ListStmt) -> ListNode {
                 let n = max_elements(&m.max_elements_stmt);
                 node.max_elements = Some(n);
             }
-            ListStmtListGroup::OrderedByStmt(_m) => {}
+            ListStmtListGroup::OrderedByStmt(m) => {
+                node.ordered_by = Some(ordered_by(&m.ordered_by_stmt));
+            }
             ListStmtListGroup::StatusStmt(m) => {
                 let n = status(&m.status_stmt);
                 node.status = Some(n);
@@ -632,7 +634,9 @@ fn leaf_list(m: &LeafListStmt) -> LeafListNode {
                 let n = max_elements(&m.max_elements_stmt);
                 node.max_elements = Some(n);
             }
-            LeafListStmtListGroup::OrderedByStmt(_m) => {}
+            LeafListStmtListGroup::OrderedByStmt(m) => {
+                node.ordered_by = Some(ordered_by(&m.ordered_by_stmt));
+            }
             LeafListStmtListGroup::StatusStmt(m) => {
                 let n = status(&m.status_stmt);
                 node.status = Some(n);
@@ -1217,6 +1221,17 @@ fn case(m: &CaseStmt) -> CaseNode {
     }
 
     node
+}
+
+fn ordered_by(m: &OrderedByStmt) -> OrderedByNode {
+    // `user` or `system`, bare or double-quoted.
+    let text = match &*m.ordered_by_arg_str {
+        OrderedByArgStr::OrderedByArg(m) => m.ordered_by_arg.ordered_by_arg.text(),
+        OrderedByArgStr::DoubleQuotationOrderedByArgDoubleQuotation(m) => {
+            m.ordered_by_arg.ordered_by_arg.text()
+        }
+    };
+    OrderedByNode::new(text.to_string())
 }
 
 fn config(m: &ConfigStmt) -> ConfigNode {

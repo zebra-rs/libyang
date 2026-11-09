@@ -1,0 +1,33 @@
+module ordered-by-sample {
+  namespace "urn:test:ordered-by-sample";
+  prefix obs;
+
+  container top {
+    list by-user {
+      key "name";
+      ordered-by user;
+      leaf name { type string; }
+    }
+    list by-user-quoted {
+      key "name";
+      ordered-by "user";
+      leaf name { type string; }
+    }
+    list by-system {
+      key "name";
+      ordered-by system;
+      leaf name { type string; }
+    }
+    list unset {
+      key "name";
+      leaf name { type string; }
+    }
+    leaf-list ll-by-user {
+      type string;
+      ordered-by user;
+    }
+    leaf-list ll-unset {
+      type string;
+    }
+  }
+}
