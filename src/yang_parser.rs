@@ -3334,261 +3334,313 @@ pub const PRODUCTIONS: &[Production; 568] = &[
     Production {
         lhs: 157,
         production: &[ParseType::T(5)],
+        is_push_production: false,
     },
     // 1 - EscN: "n";
     Production {
         lhs: 64,
         production: &[ParseType::T(6)],
+        is_push_production: false,
     },
     // 2 - EscT: "t";
     Production {
         lhs: 65,
         production: &[ParseType::T(7)],
+        is_push_production: false,
     },
     // 3 - KwModule: 'module';
     Production {
         lhs: 138,
         production: &[ParseType::T(8)],
+        is_push_production: false,
     },
     // 4 - KwSubmodule: 'submodule';
     Production {
         lhs: 151,
         production: &[ParseType::T(9)],
+        is_push_production: false,
     },
     // 5 - KwRpc: 'rpc';
     Production {
         lhs: 149,
         production: &[ParseType::T(10)],
+        is_push_production: false,
     },
     // 6 - KwExtension: 'extension';
     Production {
         lhs: 124,
         production: &[ParseType::T(11)],
+        is_push_production: false,
     },
     // 7 - KwArgument: 'argument';
     Production {
         lhs: 113,
         production: &[ParseType::T(12)],
+        is_push_production: false,
     },
     // 8 - KwFeature: 'feature';
     Production {
         lhs: 125,
         production: &[ParseType::T(13)],
+        is_push_production: false,
     },
     // 9 - KwTypedef: 'typedef';
     Production {
         lhs: 153,
         production: &[ParseType::T(14)],
+        is_push_production: false,
     },
     // 10 - KwGrouping: 'grouping';
     Production {
         lhs: 127,
         production: &[ParseType::T(15)],
+        is_push_production: false,
     },
     // 11 - KwIdentity: 'identity';
     Production {
         lhs: 128,
         production: &[ParseType::T(16)],
+        is_push_production: false,
     },
     // 12 - KwAnyxml: 'anyxml';
     Production {
         lhs: 112,
         production: &[ParseType::T(17)],
+        is_push_production: false,
     },
     // 13 - KwAnydata: 'anydata';
     Production {
         lhs: 111,
         production: &[ParseType::T(18)],
+        is_push_production: false,
     },
     // 14 - KwCase: 'case';
     Production {
         lhs: 117,
         production: &[ParseType::T(19)],
+        is_push_production: false,
     },
     // 15 - KwContainer: 'container';
     Production {
         lhs: 120,
         production: &[ParseType::T(20)],
+        is_push_production: false,
     },
     // 16 - KwAction: 'action';
     Production {
         lhs: 110,
         production: &[ParseType::T(21)],
+        is_push_production: false,
     },
     // 17 - KwNotification: 'notification';
     Production {
         lhs: 140,
         production: &[ParseType::T(22)],
+        is_push_production: false,
     },
     // 18 - KwLeafList: 'leaf-list';
     Production {
         lhs: 134,
         production: &[ParseType::T(23)],
+        is_push_production: false,
     },
     // 19 - KwLeaf: 'leaf';
     Production {
         lhs: 133,
         production: &[ParseType::T(24)],
+        is_push_production: false,
     },
     // 20 - KwList: 'list';
     Production {
         lhs: 136,
         production: &[ParseType::T(25)],
+        is_push_production: false,
     },
     // 21 - KwBit: 'bit';
     Production {
         lhs: 116,
         production: &[ParseType::T(26)],
+        is_push_production: false,
     },
     // 22 - KwImport: 'import';
     Production {
         lhs: 130,
         production: &[ParseType::T(27)],
+        is_push_production: false,
     },
     // 23 - KwInclude: 'include';
     Production {
         lhs: 131,
         production: &[ParseType::T(28)],
+        is_push_production: false,
     },
     // 24 - KwPrefix: 'prefix';
     Production {
         lhs: 143,
         production: &[ParseType::T(29)],
+        is_push_production: false,
     },
     // 25 - KwBelongsTo: 'belongs-to';
     Production {
         lhs: 115,
         production: &[ParseType::T(30)],
+        is_push_production: false,
     },
     // 26 - KwBase: 'base';
     Production {
         lhs: 114,
         production: &[ParseType::T(31)],
+        is_push_production: false,
     },
     // 27 - KwChoice: 'choice';
     Production {
         lhs: 118,
         production: &[ParseType::T(32)],
+        is_push_production: false,
     },
     // 28 - KwUses: 'uses';
     Production {
         lhs: 154,
         production: &[ParseType::T(33)],
+        is_push_production: false,
     },
     // 29 - KwType: 'type';
     Production {
         lhs: 152,
         production: &[ParseType::T(34)],
+        is_push_production: false,
     },
     // 30 - KwRefine: 'refine';
     Production {
         lhs: 145,
         production: &[ParseType::T(35)],
+        is_push_production: false,
     },
     // 31 - KwKey: 'key';
     Production {
         lhs: 132,
         production: &[ParseType::T(36)],
+        is_push_production: false,
     },
     // 32 - KwDeviation: 'deviation';
     Production {
         lhs: 122,
         production: &[ParseType::T(37)],
+        is_push_production: false,
     },
     // 33 - KwYangVersion: 'yang-version';
     Production {
         lhs: 156,
         production: &[ParseType::T(38)],
+        is_push_production: false,
     },
     // 34 - KwStatus: 'status';
     Production {
         lhs: 150,
         production: &[ParseType::T(39)],
+        is_push_production: false,
     },
     // 35 - KwIfFeature: 'if-feature';
     Production {
         lhs: 129,
         production: &[ParseType::T(40)],
+        is_push_production: false,
     },
     // 36 - KwMandatory: 'mandatory';
     Production {
         lhs: 137,
         production: &[ParseType::T(41)],
+        is_push_production: false,
     },
     // 37 - KwConfig: 'config';
     Production {
         lhs: 119,
         production: &[ParseType::T(42)],
+        is_push_production: false,
     },
     // 38 - KwRequireInstance: 'require-instance';
     Production {
         lhs: 146,
         production: &[ParseType::T(43)],
+        is_push_production: false,
     },
     // 39 - KwOrderedBy: 'ordered-by';
     Production {
         lhs: 141,
         production: &[ParseType::T(44)],
+        is_push_production: false,
     },
     // 40 - KwDefault: 'default';
     Production {
         lhs: 121,
         production: &[ParseType::T(45)],
+        is_push_production: false,
     },
     // 41 - KwFractionDigits: 'fraction-digits';
     Production {
         lhs: 126,
         production: &[ParseType::T(46)],
+        is_push_production: false,
     },
     // 42 - KwLength: 'length';
     Production {
         lhs: 135,
         production: &[ParseType::T(47)],
+        is_push_production: false,
     },
     // 43 - KwRange: 'range';
     Production {
         lhs: 144,
         production: &[ParseType::T(48)],
+        is_push_production: false,
     },
     // 44 - KwValue: 'value';
     Production {
         lhs: 155,
         production: &[ParseType::T(49)],
+        is_push_production: false,
     },
     // 45 - KwPosition: 'position';
     Production {
         lhs: 142,
         production: &[ParseType::T(50)],
+        is_push_production: false,
     },
     // 46 - KwEnum: 'enum';
     Production {
         lhs: 123,
         production: &[ParseType::T(51)],
+        is_push_production: false,
     },
     // 47 - KwRevision: 'revision';
     Production {
         lhs: 147,
         production: &[ParseType::T(52)],
+        is_push_production: false,
     },
     // 48 - KwRevisionDate: 'revision-date';
     Production {
         lhs: 148,
         production: &[ParseType::T(53)],
+        is_push_production: false,
     },
     // 49 - KwNamespace: 'namespace';
     Production {
         lhs: 139,
         production: &[ParseType::T(54)],
+        is_push_production: false,
     },
     // 50 - Yang: ModuleStmt;
     Production {
         lhs: 271,
         production: &[ParseType::N(177)],
+        is_push_production: false,
     },
     // 51 - Yang: SubmoduleStmt;
     Production {
         lhs: 271,
         production: &[ParseType::N(242)],
+        is_push_production: false,
     },
     // 52 - ModuleStmt: KwModule^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ ModuleStmtList /* Vec */ ModuleStmtList0 /* Vec */ ModuleStmtList1 /* Vec */ ModuleStmtList2 /* Vec */ ModuleStmtList3 /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -3604,56 +3656,67 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(138),
         ],
+        is_push_production: false,
     },
     // 53 - ModuleStmtList3: BodyStmts ModuleStmtList3;
     Production {
         lhs: 182,
         production: &[ParseType::N(182), ParseType::N(27)],
+        is_push_production: true,
     },
     // 54 - ModuleStmtList3: ;
     Production {
         lhs: 182,
         production: &[],
+        is_push_production: false,
     },
     // 55 - ModuleStmtList2: RevisionStmt ModuleStmtList2;
     Production {
         lhs: 181,
         production: &[ParseType::N(181), ParseType::N(220)],
+        is_push_production: true,
     },
     // 56 - ModuleStmtList2: ;
     Production {
         lhs: 181,
         production: &[],
+        is_push_production: false,
     },
     // 57 - ModuleStmtList1: MetaStmts ModuleStmtList1;
     Production {
         lhs: 180,
         production: &[ParseType::N(180), ParseType::N(174)],
+        is_push_production: true,
     },
     // 58 - ModuleStmtList1: ;
     Production {
         lhs: 180,
         production: &[],
+        is_push_production: false,
     },
     // 59 - ModuleStmtList0: LinkageStmts ModuleStmtList0;
     Production {
         lhs: 179,
         production: &[ParseType::N(179), ParseType::N(166)],
+        is_push_production: true,
     },
     // 60 - ModuleStmtList0: ;
     Production {
         lhs: 179,
         production: &[],
+        is_push_production: false,
     },
     // 61 - ModuleStmtList: ModuleHeaderStmts ModuleStmtList;
     Production {
         lhs: 178,
         production: &[ParseType::N(178), ParseType::N(176)],
+        is_push_production: true,
     },
     // 62 - ModuleStmtList: ;
     Production {
         lhs: 178,
         production: &[],
+        is_push_production: false,
     },
     // 63 - SubmoduleStmt: KwSubmodule^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ SubmoduleStmtList /* Vec */ SubmoduleStmtList0 /* Vec */ SubmoduleStmtList1 /* Vec */ SubmoduleStmtList2 /* Vec */ SubmoduleStmtList3 /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -3669,386 +3732,463 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(151),
         ],
+        is_push_production: false,
     },
     // 64 - SubmoduleStmtList3: BodyStmts SubmoduleStmtList3;
     Production {
         lhs: 247,
         production: &[ParseType::N(247), ParseType::N(27)],
+        is_push_production: true,
     },
     // 65 - SubmoduleStmtList3: ;
     Production {
         lhs: 247,
         production: &[],
+        is_push_production: false,
     },
     // 66 - SubmoduleStmtList2: RevisionStmt SubmoduleStmtList2;
     Production {
         lhs: 246,
         production: &[ParseType::N(246), ParseType::N(220)],
+        is_push_production: true,
     },
     // 67 - SubmoduleStmtList2: ;
     Production {
         lhs: 246,
         production: &[],
+        is_push_production: false,
     },
     // 68 - SubmoduleStmtList1: MetaStmts SubmoduleStmtList1;
     Production {
         lhs: 245,
         production: &[ParseType::N(245), ParseType::N(174)],
+        is_push_production: true,
     },
     // 69 - SubmoduleStmtList1: ;
     Production {
         lhs: 245,
         production: &[],
+        is_push_production: false,
     },
     // 70 - SubmoduleStmtList0: LinkageStmts SubmoduleStmtList0;
     Production {
         lhs: 244,
         production: &[ParseType::N(244), ParseType::N(166)],
+        is_push_production: true,
     },
     // 71 - SubmoduleStmtList0: ;
     Production {
         lhs: 244,
         production: &[],
+        is_push_production: false,
     },
     // 72 - SubmoduleStmtList: SubmoduleHeaderStmts SubmoduleStmtList;
     Production {
         lhs: 243,
         production: &[ParseType::N(243), ParseType::N(241)],
+        is_push_production: true,
     },
     // 73 - SubmoduleStmtList: ;
     Production {
         lhs: 243,
         production: &[],
+        is_push_production: false,
     },
     // 74 - ModuleHeaderStmts: YangVersionStmt;
     Production {
         lhs: 176,
         production: &[ParseType::N(274)],
+        is_push_production: false,
     },
     // 75 - ModuleHeaderStmts: NamespaceStmt;
     Production {
         lhs: 176,
         production: &[ParseType::N(187)],
+        is_push_production: false,
     },
     // 76 - ModuleHeaderStmts: PrefixStmt;
     Production {
         lhs: 176,
         production: &[ParseType::N(201)],
+        is_push_production: false,
     },
     // 77 - SubmoduleHeaderStmts: YangVersionStmt;
     Production {
         lhs: 241,
         production: &[ParseType::N(274)],
+        is_push_production: false,
     },
     // 78 - SubmoduleHeaderStmts: BelongsToStmt;
     Production {
         lhs: 241,
         production: &[ParseType::N(22)],
+        is_push_production: false,
     },
     // 79 - MetaStmts: OrganizationStmt;
     Production {
         lhs: 174,
         production: &[ParseType::N(195)],
+        is_push_production: false,
     },
     // 80 - MetaStmts: ContactStmt;
     Production {
         lhs: 174,
         production: &[ParseType::N(37)],
+        is_push_production: false,
     },
     // 81 - MetaStmts: DescriptionStmt;
     Production {
         lhs: 174,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 82 - MetaStmts: ReferenceStmt;
     Production {
         lhs: 174,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 83 - LinkageStmts: ImportStmt;
     Production {
         lhs: 166,
         production: &[ParseType::N(95)],
+        is_push_production: false,
     },
     // 84 - LinkageStmts: IncludeStmt;
     Production {
         lhs: 166,
         production: &[ParseType::N(98)],
+        is_push_production: false,
     },
     // 85 - BodyStmts: ExtensionStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(67)],
+        is_push_production: false,
     },
     // 86 - BodyStmts: FeatureStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(71)],
+        is_push_production: false,
     },
     // 87 - BodyStmts: IdentityStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(85)],
+        is_push_production: false,
     },
     // 88 - BodyStmts: TypedefStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(252)],
+        is_push_production: false,
     },
     // 89 - BodyStmts: GroupingStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(77)],
+        is_push_production: false,
     },
     // 90 - BodyStmts: DataDefStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(49)],
+        is_push_production: false,
     },
     // 91 - BodyStmts: AugmentStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(17)],
+        is_push_production: false,
     },
     // 92 - BodyStmts: RpcStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(223)],
+        is_push_production: false,
     },
     // 93 - BodyStmts: NotificationStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(189)],
+        is_push_production: false,
     },
     // 94 - BodyStmts: DeviationStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(56)],
+        is_push_production: false,
     },
     // 95 - BodyStmts: UnknownStmt;
     Production {
         lhs: 27,
         production: &[ParseType::N(256)],
+        is_push_production: false,
     },
     // 96 - DataDefStmt: ContainerStmt;
     Production {
         lhs: 49,
         production: &[ParseType::N(38)],
+        is_push_production: false,
     },
     // 97 - DataDefStmt: LeafStmt;
     Production {
         lhs: 49,
         production: &[ParseType::N(161)],
+        is_push_production: false,
     },
     // 98 - DataDefStmt: LeafListStmt;
     Production {
         lhs: 49,
         production: &[ParseType::N(158)],
+        is_push_production: false,
     },
     // 99 - DataDefStmt: ListStmt;
     Production {
         lhs: 49,
         production: &[ParseType::N(167)],
+        is_push_production: false,
     },
     // 100 - DataDefStmt: ChoiceStmt;
     Production {
         lhs: 49,
         production: &[ParseType::N(32)],
+        is_push_production: false,
     },
     // 101 - DataDefStmt: AnydataStmt;
     Production {
         lhs: 49,
         production: &[ParseType::N(5)],
+        is_push_production: false,
     },
     // 102 - DataDefStmt: AnyxmlStmt;
     Production {
         lhs: 49,
         production: &[ParseType::N(9)],
+        is_push_production: false,
     },
     // 103 - DataDefStmt: UsesStmt;
     Production {
         lhs: 49,
         production: &[ParseType::N(262)],
+        is_push_production: false,
     },
     // 104 - YangVersionStmt: KwYangVersion^ /* Clipped */ YangVersionArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 274,
         production: &[ParseType::N(234), ParseType::N(273), ParseType::N(156)],
+        is_push_production: false,
     },
     // 105 - YangVersionArgStr: YangVersionArg;
     Production {
         lhs: 273,
         production: &[ParseType::N(272)],
+        is_push_production: false,
     },
     // 106 - YangVersionArgStr: '"'^ /* Clipped */ YangVersionArg '"'^ /* Clipped */;
     Production {
         lhs: 273,
         production: &[ParseType::T(56), ParseType::N(272), ParseType::T(56)],
+        is_push_production: false,
     },
     // 107 - DeviationStmt: KwDeviation^ /* Clipped */ AbsoluteSchemaNodeid Semicolon;
     Production {
         lhs: 56,
         production: &[ParseType::N(234), ParseType::N(0), ParseType::N(122)],
+        is_push_production: false,
     },
     // 108 - RpcStmt: KwRpc^ /* Clipped */ IdentifierArgStr RpcStmtSuffix;
     Production {
         lhs: 223,
         production: &[ParseType::N(226), ParseType::N(81), ParseType::N(149)],
+        is_push_production: false,
     },
     // 109 - RpcStmtSuffix: Semicolon;
     Production {
         lhs: 226,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 110 - RpcStmtSuffix: LBrace^ /* Clipped */ RpcStmtList /* Vec */ '}';
     Production {
         lhs: 226,
         production: &[ParseType::T(55), ParseType::N(224), ParseType::N(157)],
+        is_push_production: false,
     },
     // 111 - RpcStmtList: RpcStmtListGroup RpcStmtList;
     Production {
         lhs: 224,
         production: &[ParseType::N(224), ParseType::N(225)],
+        is_push_production: true,
     },
     // 112 - RpcStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 225,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 113 - RpcStmtListGroup: StatusStmt;
     Production {
         lhs: 225,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 114 - RpcStmtListGroup: DescriptionStmt;
     Production {
         lhs: 225,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 115 - RpcStmtListGroup: ReferenceStmt;
     Production {
         lhs: 225,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 116 - RpcStmtListGroup: TypedefStmt;
     Production {
         lhs: 225,
         production: &[ParseType::N(252)],
+        is_push_production: false,
     },
     // 117 - RpcStmtListGroup: GroupingStmt;
     Production {
         lhs: 225,
         production: &[ParseType::N(77)],
+        is_push_production: false,
     },
     // 118 - RpcStmtListGroup: InputStmt;
     Production {
         lhs: 225,
         production: &[ParseType::N(102)],
+        is_push_production: false,
     },
     // 119 - RpcStmtListGroup: OutputStmt;
     Production {
         lhs: 225,
         production: &[ParseType::N(196)],
+        is_push_production: false,
     },
     // 120 - RpcStmtList: ;
     Production {
         lhs: 224,
         production: &[],
+        is_push_production: false,
     },
     // 121 - ExtensionStmt: KwExtension^ /* Clipped */ IdentifierArgStr ExtensionStmtSuffix;
     Production {
         lhs: 67,
         production: &[ParseType::N(70), ParseType::N(81), ParseType::N(124)],
+        is_push_production: false,
     },
     // 122 - ExtensionStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 70,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 123 - ExtensionStmtSuffix: LBrace^ /* Clipped */ ExtensionStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 70,
         production: &[ParseType::T(55), ParseType::N(68), ParseType::N(157)],
+        is_push_production: false,
     },
     // 124 - ExtensionStmtList: ExtensionStmtListGroup ExtensionStmtList;
     Production {
         lhs: 68,
         production: &[ParseType::N(68), ParseType::N(69)],
+        is_push_production: true,
     },
     // 125 - ExtensionStmtListGroup: ArgumentStmt;
     Production {
         lhs: 69,
         production: &[ParseType::N(13)],
+        is_push_production: false,
     },
     // 126 - ExtensionStmtListGroup: StatusStmt;
     Production {
         lhs: 69,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 127 - ExtensionStmtListGroup: DescriptionStmt;
     Production {
         lhs: 69,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 128 - ExtensionStmtListGroup: ReferenceStmt;
     Production {
         lhs: 69,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 129 - ExtensionStmtList: ;
     Production {
         lhs: 68,
         production: &[],
+        is_push_production: false,
     },
     // 130 - ArgumentStmt: KwArgument^ /* Clipped */ IdentifierArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 13,
         production: &[ParseType::N(234), ParseType::N(81), ParseType::N(113)],
+        is_push_production: false,
     },
     // 131 - FeatureStmt: KwFeature^ /* Clipped */ IdentifierArgStr FeatureStmtSuffix;
     Production {
         lhs: 71,
         production: &[ParseType::N(74), ParseType::N(81), ParseType::N(125)],
+        is_push_production: false,
     },
     // 132 - FeatureStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 74,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 133 - FeatureStmtSuffix: LBrace^ /* Clipped */ FeatureStmtList /* Vec */ '}';
     Production {
         lhs: 74,
         production: &[ParseType::T(55), ParseType::N(72), ParseType::N(157)],
+        is_push_production: false,
     },
     // 134 - FeatureStmtList: FeatureStmtListGroup FeatureStmtList;
     Production {
         lhs: 72,
         production: &[ParseType::N(72), ParseType::N(73)],
+        is_push_production: true,
     },
     // 135 - FeatureStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 73,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 136 - FeatureStmtListGroup: StatusStmt;
     Production {
         lhs: 73,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 137 - FeatureStmtListGroup: DescriptionStmt;
     Production {
         lhs: 73,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 138 - FeatureStmtListGroup: ReferenceStmt;
     Production {
         lhs: 73,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 139 - FeatureStmtList: ;
     Production {
         lhs: 72,
         production: &[],
+        is_push_production: false,
     },
     // 140 - TypedefStmt: KwTypedef^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ TypedefStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -4060,46 +4200,55 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(153),
         ],
+        is_push_production: false,
     },
     // 141 - TypedefStmtList: TypedefStmtListGroup TypedefStmtList;
     Production {
         lhs: 253,
         production: &[ParseType::N(253), ParseType::N(254)],
+        is_push_production: true,
     },
     // 142 - TypedefStmtListGroup: TypeStmt;
     Production {
         lhs: 254,
         production: &[ParseType::N(248)],
+        is_push_production: false,
     },
     // 143 - TypedefStmtListGroup: UnitsStmt;
     Production {
         lhs: 254,
         production: &[ParseType::N(255)],
+        is_push_production: false,
     },
     // 144 - TypedefStmtListGroup: DefaultStmt;
     Production {
         lhs: 254,
         production: &[ParseType::N(52)],
+        is_push_production: false,
     },
     // 145 - TypedefStmtListGroup: StatusStmt;
     Production {
         lhs: 254,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 146 - TypedefStmtListGroup: DescriptionStmt;
     Production {
         lhs: 254,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 147 - TypedefStmtListGroup: ReferenceStmt;
     Production {
         lhs: 254,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 148 - TypedefStmtList: ;
     Production {
         lhs: 253,
         production: &[],
+        is_push_production: false,
     },
     // 149 - AugmentStmt: 'augment'^ /* Clipped */ AugmentArgStr LBrace^ /* Clipped */ AugmentStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -4111,101 +4260,121 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(16),
             ParseType::T(57),
         ],
+        is_push_production: false,
     },
     // 150 - AugmentStmtList: AugmentStmtListGroup AugmentStmtList;
     Production {
         lhs: 18,
         production: &[ParseType::N(18), ParseType::N(19)],
+        is_push_production: true,
     },
     // 151 - AugmentStmtListGroup: WhenStmt;
     Production {
         lhs: 19,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 152 - AugmentStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 19,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 153 - AugmentStmtListGroup: StatusStmt;
     Production {
         lhs: 19,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 154 - AugmentStmtListGroup: DescriptionStmt;
     Production {
         lhs: 19,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 155 - AugmentStmtListGroup: ReferenceStmt;
     Production {
         lhs: 19,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 156 - AugmentStmtListGroup: DataDefStmt;
     Production {
         lhs: 19,
         production: &[ParseType::N(49)],
+        is_push_production: false,
     },
     // 157 - AugmentStmtListGroup: CaseStmt;
     Production {
         lhs: 19,
         production: &[ParseType::N(28)],
+        is_push_production: false,
     },
     // 158 - AugmentStmtListGroup: ActionStmt;
     Production {
         lhs: 19,
         production: &[ParseType::N(1)],
+        is_push_production: false,
     },
     // 159 - AugmentStmtListGroup: NotificationStmt;
     Production {
         lhs: 19,
         production: &[ParseType::N(189)],
+        is_push_production: false,
     },
     // 160 - AugmentStmtList: ;
     Production {
         lhs: 18,
         production: &[],
+        is_push_production: false,
     },
     // 161 - AugmentArgStr: Ystring;
     Production {
         lhs: 16,
         production: &[ParseType::N(275)],
+        is_push_production: false,
     },
     // 162 - WhenStmt: 'when'^ /* Clipped */ Ystring WhenStmtSuffix;
     Production {
         lhs: 267,
         production: &[ParseType::N(270), ParseType::N(275), ParseType::T(58)],
+        is_push_production: false,
     },
     // 163 - WhenStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 270,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 164 - WhenStmtSuffix: LBrace^ /* Clipped */ WhenStmtList /* Vec */ '}';
     Production {
         lhs: 270,
         production: &[ParseType::T(55), ParseType::N(268), ParseType::N(157)],
+        is_push_production: false,
     },
     // 165 - WhenStmtList: WhenStmtListGroup WhenStmtList;
     Production {
         lhs: 268,
         production: &[ParseType::N(268), ParseType::N(269)],
+        is_push_production: true,
     },
     // 166 - WhenStmtListGroup: DescriptionStmt;
     Production {
         lhs: 269,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 167 - WhenStmtListGroup: ReferenceStmt;
     Production {
         lhs: 269,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 168 - WhenStmtList: ;
     Production {
         lhs: 268,
         production: &[],
+        is_push_production: false,
     },
     // 169 - GroupingStmt: KwGrouping^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ GroupingStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -4217,61 +4386,73 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(127),
         ],
+        is_push_production: false,
     },
     // 170 - GroupingStmtList: GroupingStmtListGroup GroupingStmtList;
     Production {
         lhs: 78,
         production: &[ParseType::N(78), ParseType::N(79)],
+        is_push_production: true,
     },
     // 171 - GroupingStmtListGroup: StatusStmt;
     Production {
         lhs: 79,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 172 - GroupingStmtListGroup: DescriptionStmt;
     Production {
         lhs: 79,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 173 - GroupingStmtListGroup: ReferenceStmt;
     Production {
         lhs: 79,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 174 - GroupingStmtListGroup: TypedefStmt;
     Production {
         lhs: 79,
         production: &[ParseType::N(252)],
+        is_push_production: false,
     },
     // 175 - GroupingStmtListGroup: GroupingStmt;
     Production {
         lhs: 79,
         production: &[ParseType::N(77)],
+        is_push_production: false,
     },
     // 176 - GroupingStmtListGroup: DataDefStmt;
     Production {
         lhs: 79,
         production: &[ParseType::N(49)],
+        is_push_production: false,
     },
     // 177 - GroupingStmtListGroup: ActionStmt;
     Production {
         lhs: 79,
         production: &[ParseType::N(1)],
+        is_push_production: false,
     },
     // 178 - GroupingStmtListGroup: NotificationStmt;
     Production {
         lhs: 79,
         production: &[ParseType::N(189)],
+        is_push_production: false,
     },
     // 179 - GroupingStmtListGroup: UnknownStmt;
     Production {
         lhs: 79,
         production: &[ParseType::N(256)],
+        is_push_production: false,
     },
     // 180 - GroupingStmtList: ;
     Production {
         lhs: 78,
         production: &[],
+        is_push_production: false,
     },
     // 181 - IdentityStmt: KwIdentity^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ IdentityStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -4283,491 +4464,589 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(128),
         ],
+        is_push_production: false,
     },
     // 182 - IdentityStmtList: IdentityStmtListGroup IdentityStmtList;
     Production {
         lhs: 86,
         production: &[ParseType::N(86), ParseType::N(87)],
+        is_push_production: true,
     },
     // 183 - IdentityStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 87,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 184 - IdentityStmtListGroup: BaseStmt;
     Production {
         lhs: 87,
         production: &[ParseType::N(20)],
+        is_push_production: false,
     },
     // 185 - IdentityStmtListGroup: DescriptionStmt;
     Production {
         lhs: 87,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 186 - IdentityStmtListGroup: ReferenceStmt;
     Production {
         lhs: 87,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 187 - IdentityStmtList: ;
     Production {
         lhs: 86,
         production: &[],
+        is_push_production: false,
     },
     // 188 - BaseStmt: KwBase^ /* Clipped */ IdentifierRefArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 20,
         production: &[ParseType::N(234), ParseType::N(83), ParseType::N(114)],
+        is_push_production: false,
     },
     // 189 - AnyxmlStmt: KwAnyxml^ /* Clipped */ IdentifierArgStr AnyxmlStmtSuffix;
     Production {
         lhs: 9,
         production: &[ParseType::N(12), ParseType::N(81), ParseType::N(112)],
+        is_push_production: false,
     },
     // 190 - AnyxmlStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 12,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 191 - AnyxmlStmtSuffix: LBrace^ /* Clipped */ AnyxmlStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 12,
         production: &[ParseType::T(55), ParseType::N(10), ParseType::N(157)],
+        is_push_production: false,
     },
     // 192 - AnyxmlStmtList: AnyxmlStmtListGroup AnyxmlStmtList;
     Production {
         lhs: 10,
         production: &[ParseType::N(10), ParseType::N(11)],
+        is_push_production: true,
     },
     // 193 - AnyxmlStmtListGroup: WhenStmt;
     Production {
         lhs: 11,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 194 - AnyxmlStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 11,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 195 - AnyxmlStmtListGroup: MustStmt;
     Production {
         lhs: 11,
         production: &[ParseType::N(183)],
+        is_push_production: false,
     },
     // 196 - AnyxmlStmtListGroup: ConfigStmt;
     Production {
         lhs: 11,
         production: &[ParseType::N(36)],
+        is_push_production: false,
     },
     // 197 - AnyxmlStmtListGroup: MandatoryStmt;
     Production {
         lhs: 11,
         production: &[ParseType::N(172)],
+        is_push_production: false,
     },
     // 198 - AnyxmlStmtListGroup: StatusStmt;
     Production {
         lhs: 11,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 199 - AnyxmlStmtListGroup: DescriptionStmt;
     Production {
         lhs: 11,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 200 - AnyxmlStmtListGroup: ReferenceStmt;
     Production {
         lhs: 11,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 201 - AnyxmlStmtList: ;
     Production {
         lhs: 10,
         production: &[],
+        is_push_production: false,
     },
     // 202 - ChoiceStmt: KwChoice^ /* Clipped */ IdentifierRefArgStr ChoiceStmtSuffix;
     Production {
         lhs: 32,
         production: &[ParseType::N(35), ParseType::N(83), ParseType::N(118)],
+        is_push_production: false,
     },
     // 203 - ChoiceStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 35,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 204 - ChoiceStmtSuffix: LBrace^ /* Clipped */ ChoiceStmtList /* Vec */ '}';
     Production {
         lhs: 35,
         production: &[ParseType::T(55), ParseType::N(33), ParseType::N(157)],
+        is_push_production: false,
     },
     // 205 - ChoiceStmtList: ChoiceStmtListGroup ChoiceStmtList;
     Production {
         lhs: 33,
         production: &[ParseType::N(33), ParseType::N(34)],
+        is_push_production: true,
     },
     // 206 - ChoiceStmtListGroup: WhenStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 207 - ChoiceStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 208 - ChoiceStmtListGroup: DefaultStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(52)],
+        is_push_production: false,
     },
     // 209 - ChoiceStmtListGroup: ConfigStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(36)],
+        is_push_production: false,
     },
     // 210 - ChoiceStmtListGroup: MandatoryStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(172)],
+        is_push_production: false,
     },
     // 211 - ChoiceStmtListGroup: StatusStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 212 - ChoiceStmtListGroup: DescriptionStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 213 - ChoiceStmtListGroup: ReferenceStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 214 - ChoiceStmtListGroup: ShortCaseStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(235)],
+        is_push_production: false,
     },
     // 215 - ChoiceStmtListGroup: CaseStmt;
     Production {
         lhs: 34,
         production: &[ParseType::N(28)],
+        is_push_production: false,
     },
     // 216 - ChoiceStmtList: ;
     Production {
         lhs: 33,
         production: &[],
+        is_push_production: false,
     },
     // 217 - ShortCaseStmt: ChoiceStmt;
     Production {
         lhs: 235,
         production: &[ParseType::N(32)],
+        is_push_production: false,
     },
     // 218 - ShortCaseStmt: ContainerStmt;
     Production {
         lhs: 235,
         production: &[ParseType::N(38)],
+        is_push_production: false,
     },
     // 219 - ShortCaseStmt: LeafStmt;
     Production {
         lhs: 235,
         production: &[ParseType::N(161)],
+        is_push_production: false,
     },
     // 220 - ShortCaseStmt: LeafListStmt;
     Production {
         lhs: 235,
         production: &[ParseType::N(158)],
+        is_push_production: false,
     },
     // 221 - ShortCaseStmt: ListStmt;
     Production {
         lhs: 235,
         production: &[ParseType::N(167)],
+        is_push_production: false,
     },
     // 222 - ShortCaseStmt: AnydataStmt;
     Production {
         lhs: 235,
         production: &[ParseType::N(5)],
+        is_push_production: false,
     },
     // 223 - ShortCaseStmt: AnyxmlStmt;
     Production {
         lhs: 235,
         production: &[ParseType::N(9)],
+        is_push_production: false,
     },
     // 224 - AnydataStmt: KwAnydata^ /* Clipped */ IdentifierArgStr AnydataStmtSuffix;
     Production {
         lhs: 5,
         production: &[ParseType::N(8), ParseType::N(81), ParseType::N(111)],
+        is_push_production: false,
     },
     // 225 - AnydataStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 8,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 226 - AnydataStmtSuffix: LBrace^ /* Clipped */ AnydataStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 8,
         production: &[ParseType::T(55), ParseType::N(6), ParseType::N(157)],
+        is_push_production: false,
     },
     // 227 - AnydataStmtList: AnydataStmtListGroup AnydataStmtList;
     Production {
         lhs: 6,
         production: &[ParseType::N(6), ParseType::N(7)],
+        is_push_production: true,
     },
     // 228 - AnydataStmtListGroup: WhenStmt;
     Production {
         lhs: 7,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 229 - AnydataStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 7,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 230 - AnydataStmtListGroup: MustStmt;
     Production {
         lhs: 7,
         production: &[ParseType::N(183)],
+        is_push_production: false,
     },
     // 231 - AnydataStmtListGroup: ConfigStmt;
     Production {
         lhs: 7,
         production: &[ParseType::N(36)],
+        is_push_production: false,
     },
     // 232 - AnydataStmtListGroup: MandatoryStmt;
     Production {
         lhs: 7,
         production: &[ParseType::N(172)],
+        is_push_production: false,
     },
     // 233 - AnydataStmtListGroup: StatusStmt;
     Production {
         lhs: 7,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 234 - AnydataStmtListGroup: DescriptionStmt;
     Production {
         lhs: 7,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 235 - AnydataStmtListGroup: ReferenceStmt;
     Production {
         lhs: 7,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 236 - AnydataStmtList: ;
     Production {
         lhs: 6,
         production: &[],
+        is_push_production: false,
     },
     // 237 - CaseStmt: KwCase^ /* Clipped */ IdentifierArgStr CaseStmtSuffix;
     Production {
         lhs: 28,
         production: &[ParseType::N(31), ParseType::N(81), ParseType::N(117)],
+        is_push_production: false,
     },
     // 238 - CaseStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 31,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 239 - CaseStmtSuffix: LBrace^ /* Clipped */ CaseStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 31,
         production: &[ParseType::T(55), ParseType::N(29), ParseType::N(157)],
+        is_push_production: false,
     },
     // 240 - CaseStmtList: CaseStmtListGroup CaseStmtList;
     Production {
         lhs: 29,
         production: &[ParseType::N(29), ParseType::N(30)],
+        is_push_production: true,
     },
     // 241 - CaseStmtListGroup: WhenStmt;
     Production {
         lhs: 30,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 242 - CaseStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 30,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 243 - CaseStmtListGroup: DataDefStmt;
     Production {
         lhs: 30,
         production: &[ParseType::N(49)],
+        is_push_production: false,
     },
     // 244 - CaseStmtListGroup: DescriptionStmt;
     Production {
         lhs: 30,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 245 - CaseStmtListGroup: ReferenceStmt;
     Production {
         lhs: 30,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 246 - CaseStmtList: ;
     Production {
         lhs: 29,
         production: &[],
+        is_push_production: false,
     },
     // 247 - StatusStmt: KwStatus^ /* Clipped */ StatusArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 239,
         production: &[ParseType::N(234), ParseType::N(238), ParseType::N(150)],
+        is_push_production: false,
     },
     // 248 - StatusArgStr: StatusArg;
     Production {
         lhs: 238,
         production: &[ParseType::N(237)],
+        is_push_production: false,
     },
     // 249 - StatusArgStr: '"'^ /* Clipped */ StatusArg '"'^ /* Clipped */;
     Production {
         lhs: 238,
         production: &[ParseType::T(56), ParseType::N(237), ParseType::T(56)],
+        is_push_production: false,
     },
     // 250 - StatusArg: /current|obsolete|deprecated/;
     Production {
         lhs: 237,
         production: &[ParseType::T(59)],
+        is_push_production: false,
     },
     // 251 - ContainerStmt: KwContainer^ /* Clipped */ IdentifierArgStr ContainerStmtSuffix;
     Production {
         lhs: 38,
         production: &[ParseType::N(41), ParseType::N(81), ParseType::N(120)],
+        is_push_production: false,
     },
     // 252 - ContainerStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 41,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 253 - ContainerStmtSuffix: LBrace^ /* Clipped */ ContainerStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 41,
         production: &[ParseType::T(55), ParseType::N(39), ParseType::N(157)],
+        is_push_production: false,
     },
     // 254 - ContainerStmtList: ContainerStmtListGroup ContainerStmtList;
     Production {
         lhs: 39,
         production: &[ParseType::N(39), ParseType::N(40)],
+        is_push_production: true,
     },
     // 255 - ContainerStmtListGroup: WhenStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 256 - ContainerStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 257 - ContainerStmtListGroup: MustStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(183)],
+        is_push_production: false,
     },
     // 258 - ContainerStmtListGroup: PresenceStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(202)],
+        is_push_production: false,
     },
     // 259 - ContainerStmtListGroup: ConfigStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(36)],
+        is_push_production: false,
     },
     // 260 - ContainerStmtListGroup: StatusStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 261 - ContainerStmtListGroup: DescriptionStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 262 - ContainerStmtListGroup: ReferenceStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 263 - ContainerStmtListGroup: DataDefStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(49)],
+        is_push_production: false,
     },
     // 264 - ContainerStmtListGroup: ActionStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(1)],
+        is_push_production: false,
     },
     // 265 - ContainerStmtListGroup: NotificationStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(189)],
+        is_push_production: false,
     },
     // 266 - ContainerStmtListGroup: UnknownStmt;
     Production {
         lhs: 40,
         production: &[ParseType::N(256)],
+        is_push_production: false,
     },
     // 267 - ContainerStmtList: ;
     Production {
         lhs: 39,
         production: &[],
+        is_push_production: false,
     },
     // 268 - ActionStmt: KwAction^ /* Clipped */ IdentifierArgStr ActionStmtSuffix;
     Production {
         lhs: 1,
         production: &[ParseType::N(4), ParseType::N(81), ParseType::N(110)],
+        is_push_production: false,
     },
     // 269 - ActionStmtSuffix: Semicolon;
     Production {
         lhs: 4,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 270 - ActionStmtSuffix: LBrace^ /* Clipped */ ActionStmtList /* Vec */ '}';
     Production {
         lhs: 4,
         production: &[ParseType::T(55), ParseType::N(2), ParseType::N(157)],
+        is_push_production: false,
     },
     // 271 - ActionStmtList: ActionStmtListGroup ActionStmtList;
     Production {
         lhs: 2,
         production: &[ParseType::N(2), ParseType::N(3)],
+        is_push_production: true,
     },
     // 272 - ActionStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 3,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 273 - ActionStmtListGroup: StatusStmt;
     Production {
         lhs: 3,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 274 - ActionStmtListGroup: DescriptionStmt;
     Production {
         lhs: 3,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 275 - ActionStmtListGroup: ReferenceStmt;
     Production {
         lhs: 3,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 276 - ActionStmtListGroup: InputStmt;
     Production {
         lhs: 3,
         production: &[ParseType::N(102)],
+        is_push_production: false,
     },
     // 277 - ActionStmtListGroup: OutputStmt;
     Production {
         lhs: 3,
         production: &[ParseType::N(196)],
+        is_push_production: false,
     },
     // 278 - ActionStmtList: ;
     Production {
         lhs: 2,
         production: &[],
+        is_push_production: false,
     },
     // 279 - InputStmt: 'input' LBrace^ /* Clipped */ InputStmtList /* Vec */ '}';
     Production {
@@ -4778,16 +5057,19 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(157),
             ParseType::T(60),
         ],
+        is_push_production: false,
     },
     // 280 - InputStmtList: DataDefStmt InputStmtList;
     Production {
         lhs: 103,
         production: &[ParseType::N(103), ParseType::N(49)],
+        is_push_production: true,
     },
     // 281 - InputStmtList: ;
     Production {
         lhs: 103,
         production: &[],
+        is_push_production: false,
     },
     // 282 - OutputStmt: 'output' LBrace^ /* Clipped */ OutputStmtList /* Vec */ '}';
     Production {
@@ -4798,16 +5080,19 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(157),
             ParseType::T(61),
         ],
+        is_push_production: false,
     },
     // 283 - OutputStmtList: DataDefStmt OutputStmtList;
     Production {
         lhs: 197,
         production: &[ParseType::N(197), ParseType::N(49)],
+        is_push_production: true,
     },
     // 284 - OutputStmtList: ;
     Production {
         lhs: 197,
         production: &[],
+        is_push_production: false,
     },
     // 285 - NotificationStmt: KwNotification^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ NotificationStmtList /* Vec */ '}';
     Production {
@@ -4819,316 +5104,379 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(140),
         ],
+        is_push_production: false,
     },
     // 286 - NotificationStmtList: NotificationStmtListGroup NotificationStmtList;
     Production {
         lhs: 190,
         production: &[ParseType::N(190), ParseType::N(191)],
+        is_push_production: true,
     },
     // 287 - NotificationStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 191,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 288 - NotificationStmtListGroup: MustStmt;
     Production {
         lhs: 191,
         production: &[ParseType::N(183)],
+        is_push_production: false,
     },
     // 289 - NotificationStmtListGroup: StatusStmt;
     Production {
         lhs: 191,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 290 - NotificationStmtListGroup: DescriptionStmt;
     Production {
         lhs: 191,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 291 - NotificationStmtListGroup: ReferenceStmt;
     Production {
         lhs: 191,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 292 - NotificationStmtListGroup: TypedefStmt;
     Production {
         lhs: 191,
         production: &[ParseType::N(252)],
+        is_push_production: false,
     },
     // 293 - NotificationStmtListGroup: GroupingStmt;
     Production {
         lhs: 191,
         production: &[ParseType::N(77)],
+        is_push_production: false,
     },
     // 294 - NotificationStmtListGroup: DataDefStmt;
     Production {
         lhs: 191,
         production: &[ParseType::N(49)],
+        is_push_production: false,
     },
     // 295 - NotificationStmtList: ;
     Production {
         lhs: 190,
         production: &[],
+        is_push_production: false,
     },
     // 296 - IfFeatureStmt: KwIfFeature^ /* Clipped */ IfFeatureExprStr Semicolon^ /* Clipped */;
     Production {
         lhs: 92,
         production: &[ParseType::N(234), ParseType::N(90), ParseType::N(129)],
+        is_push_production: false,
     },
     // 297 - IfFeatureExprStr: IfFeatureExpr;
     Production {
         lhs: 90,
         production: &[ParseType::N(88)],
+        is_push_production: false,
     },
     // 298 - IfFeatureExpr: IfFeatureTerm IfFeatureExprOpt /* Option */;
     Production {
         lhs: 88,
         production: &[ParseType::N(89), ParseType::N(93)],
+        is_push_production: false,
     },
     // 299 - IfFeatureExprOpt: 'or' IfFeatureExpr;
     Production {
         lhs: 89,
         production: &[ParseType::N(88), ParseType::T(62)],
+        is_push_production: false,
     },
     // 300 - IfFeatureExprOpt: ;
     Production {
         lhs: 89,
         production: &[],
+        is_push_production: false,
     },
     // 301 - IfFeatureTerm: IfFeatureFactor IfFeatureTermOpt /* Option */;
     Production {
         lhs: 93,
         production: &[ParseType::N(94), ParseType::N(91)],
+        is_push_production: false,
     },
     // 302 - IfFeatureTermOpt: 'and' IfFeatureTerm;
     Production {
         lhs: 94,
         production: &[ParseType::N(93), ParseType::T(63)],
+        is_push_production: false,
     },
     // 303 - IfFeatureTermOpt: ;
     Production {
         lhs: 94,
         production: &[],
+        is_push_production: false,
     },
     // 304 - IfFeatureFactor: 'not' IfFeatureFactor;
     Production {
         lhs: 91,
         production: &[ParseType::N(91), ParseType::T(64)],
+        is_push_production: false,
     },
     // 305 - IfFeatureFactor: '(' IfFeatureExpr ')';
     Production {
         lhs: 91,
         production: &[ParseType::T(66), ParseType::N(88), ParseType::T(65)],
+        is_push_production: false,
     },
     // 306 - IfFeatureFactor: Identifier;
     Production {
         lhs: 91,
         production: &[ParseType::N(80)],
+        is_push_production: false,
     },
     // 307 - IfFeatureFactor: '"' Identifier '"';
     Production {
         lhs: 91,
         production: &[ParseType::T(56), ParseType::N(80), ParseType::T(56)],
+        is_push_production: false,
     },
     // 308 - PresenceStmt: 'presence'^ /* Clipped */ Ystring Semicolon^ /* Clipped */;
     Production {
         lhs: 202,
         production: &[ParseType::N(234), ParseType::N(275), ParseType::T(67)],
+        is_push_production: false,
     },
     // 309 - UsesStmt: KwUses^ /* Clipped */ IdentifierRefArgStr UsesStmtSuffix;
     Production {
         lhs: 262,
         production: &[ParseType::N(265), ParseType::N(83), ParseType::N(154)],
+        is_push_production: false,
     },
     // 310 - UsesStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 265,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 311 - UsesStmtSuffix: LBrace^ /* Clipped */ UsesStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 265,
         production: &[ParseType::T(55), ParseType::N(263), ParseType::N(157)],
+        is_push_production: false,
     },
     // 312 - UsesStmtList: UsesStmtListGroup UsesStmtList;
     Production {
         lhs: 263,
         production: &[ParseType::N(263), ParseType::N(264)],
+        is_push_production: true,
     },
     // 313 - UsesStmtListGroup: WhenStmt;
     Production {
         lhs: 264,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 314 - UsesStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 264,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 315 - UsesStmtListGroup: StatusStmt;
     Production {
         lhs: 264,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 316 - UsesStmtListGroup: DescriptionStmt;
     Production {
         lhs: 264,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 317 - UsesStmtListGroup: ReferenceStmt;
     Production {
         lhs: 264,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 318 - UsesStmtListGroup: RefineStmt;
     Production {
         lhs: 264,
         production: &[ParseType::N(213)],
+        is_push_production: false,
     },
     // 319 - UsesStmtListGroup: AugmentStmt;
     Production {
         lhs: 264,
         production: &[ParseType::N(17)],
+        is_push_production: false,
     },
     // 320 - UsesStmtList: ;
     Production {
         lhs: 263,
         production: &[],
+        is_push_production: false,
     },
     // 321 - RefineStmt: KwRefine^ /* Clipped */ RefineArgStr RefineStmtSuffix;
     Production {
         lhs: 213,
         production: &[ParseType::N(216), ParseType::N(212), ParseType::N(145)],
+        is_push_production: false,
     },
     // 322 - RefineStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 216,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 323 - RefineStmtSuffix: LBrace^ /* Clipped */ RefineStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 216,
         production: &[ParseType::T(55), ParseType::N(214), ParseType::N(157)],
+        is_push_production: false,
     },
     // 324 - RefineStmtList: RefineStmtListGroup RefineStmtList;
     Production {
         lhs: 214,
         production: &[ParseType::N(214), ParseType::N(215)],
+        is_push_production: true,
     },
     // 325 - RefineStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 326 - RefineStmtListGroup: MustStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(183)],
+        is_push_production: false,
     },
     // 327 - RefineStmtListGroup: PresenceStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(202)],
+        is_push_production: false,
     },
     // 328 - RefineStmtListGroup: DefaultStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(52)],
+        is_push_production: false,
     },
     // 329 - RefineStmtListGroup: ConfigStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(36)],
+        is_push_production: false,
     },
     // 330 - RefineStmtListGroup: MandatoryStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(172)],
+        is_push_production: false,
     },
     // 331 - RefineStmtListGroup: MinElementsStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(175)],
+        is_push_production: false,
     },
     // 332 - RefineStmtListGroup: MaxElementsStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(173)],
+        is_push_production: false,
     },
     // 333 - RefineStmtListGroup: DescriptionStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 334 - RefineStmtListGroup: ReferenceStmt;
     Production {
         lhs: 215,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 335 - RefineStmtList: ;
     Production {
         lhs: 214,
         production: &[],
+        is_push_production: false,
     },
     // 336 - RefineArgStr: RefineArg;
     Production {
         lhs: 212,
         production: &[ParseType::N(211)],
+        is_push_production: false,
     },
     // 337 - RefineArgStr: '"' RefineArg '"';
     Production {
         lhs: 212,
         production: &[ParseType::T(56), ParseType::N(211), ParseType::T(56)],
+        is_push_production: false,
     },
     // 338 - RefineArg: DescendantSchemaNodeid;
     Production {
         lhs: 211,
         production: &[ParseType::N(54)],
+        is_push_production: false,
     },
     // 339 - DescendantSchemaNodeid: IdentifierRef;
     Production {
         lhs: 54,
         production: &[ParseType::N(82)],
+        is_push_production: false,
     },
     // 340 - DescendantSchemaNodeid: AbsoluteSchemaNodeid;
     Production {
         lhs: 54,
         production: &[ParseType::N(0)],
+        is_push_production: false,
     },
     // 341 - UnknownStmt: IdentifierRef Ystring UnknownStmtSuffix;
     Production {
         lhs: 256,
         production: &[ParseType::N(259), ParseType::N(275), ParseType::N(82)],
+        is_push_production: false,
     },
     // 342 - UnknownStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 259,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 343 - UnknownStmtSuffix: LBrace^ /* Clipped */ UnknownStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 259,
         production: &[ParseType::T(55), ParseType::N(257), ParseType::N(157)],
+        is_push_production: false,
     },
     // 344 - UnknownStmtList: UnknownStmtListGroup UnknownStmtList;
     Production {
         lhs: 257,
         production: &[ParseType::N(257), ParseType::N(258)],
+        is_push_production: true,
     },
     // 345 - UnknownStmtListGroup: TypeStmt;
     Production {
         lhs: 258,
         production: &[ParseType::N(248)],
+        is_push_production: false,
     },
     // 346 - UnknownStmtListGroup: DescriptionStmt;
     Production {
         lhs: 258,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 347 - UnknownStmtList: ;
     Production {
         lhs: 257,
         production: &[],
+        is_push_production: false,
     },
     // 348 - LeafListStmt: KwLeafList^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ LeafListStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -5140,86 +5488,103 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(134),
         ],
+        is_push_production: false,
     },
     // 349 - LeafListStmtList: LeafListStmtListGroup LeafListStmtList;
     Production {
         lhs: 159,
         production: &[ParseType::N(159), ParseType::N(160)],
+        is_push_production: true,
     },
     // 350 - LeafListStmtListGroup: WhenStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 351 - LeafListStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 352 - LeafListStmtListGroup: TypeStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(248)],
+        is_push_production: false,
     },
     // 353 - LeafListStmtListGroup: UnitsStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(255)],
+        is_push_production: false,
     },
     // 354 - LeafListStmtListGroup: MustStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(183)],
+        is_push_production: false,
     },
     // 355 - LeafListStmtListGroup: DefaultStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(52)],
+        is_push_production: false,
     },
     // 356 - LeafListStmtListGroup: ConfigStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(36)],
+        is_push_production: false,
     },
     // 357 - LeafListStmtListGroup: MinElementsStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(175)],
+        is_push_production: false,
     },
     // 358 - LeafListStmtListGroup: MaxElementsStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(173)],
+        is_push_production: false,
     },
     // 359 - LeafListStmtListGroup: OrderedByStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(194)],
+        is_push_production: false,
     },
     // 360 - LeafListStmtListGroup: StatusStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 361 - LeafListStmtListGroup: DescriptionStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 362 - LeafListStmtListGroup: ReferenceStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 363 - LeafListStmtListGroup: UnknownStmt;
     Production {
         lhs: 160,
         production: &[ParseType::N(256)],
+        is_push_production: false,
     },
     // 364 - LeafListStmtList: ;
     Production {
         lhs: 159,
         production: &[],
+        is_push_production: false,
     },
     // 365 - LeafStmt: KwLeaf^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ LeafStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -5231,146 +5596,175 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(133),
         ],
+        is_push_production: false,
     },
     // 366 - LeafStmtList: LeafStmtListGroup LeafStmtList;
     Production {
         lhs: 162,
         production: &[ParseType::N(162), ParseType::N(163)],
+        is_push_production: true,
     },
     // 367 - LeafStmtListGroup: WhenStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 368 - LeafStmtListGroup: StatusStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 369 - LeafStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 370 - LeafStmtListGroup: TypeStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(248)],
+        is_push_production: false,
     },
     // 371 - LeafStmtListGroup: UnitsStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(255)],
+        is_push_production: false,
     },
     // 372 - LeafStmtListGroup: MustStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(183)],
+        is_push_production: false,
     },
     // 373 - LeafStmtListGroup: DefaultStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(52)],
+        is_push_production: false,
     },
     // 374 - LeafStmtListGroup: ConfigStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(36)],
+        is_push_production: false,
     },
     // 375 - LeafStmtListGroup: MandatoryStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(172)],
+        is_push_production: false,
     },
     // 376 - LeafStmtListGroup: DescriptionStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 377 - LeafStmtListGroup: ReferenceStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 378 - LeafStmtListGroup: UnknownStmt;
     Production {
         lhs: 163,
         production: &[ParseType::N(256)],
+        is_push_production: false,
     },
     // 379 - LeafStmtList: ;
     Production {
         lhs: 162,
         production: &[],
+        is_push_production: false,
     },
     // 380 - MustStmt: 'must'^ /* Clipped */ Ystring MustStmtSuffix;
     Production {
         lhs: 183,
         production: &[ParseType::N(186), ParseType::N(275), ParseType::T(68)],
+        is_push_production: false,
     },
     // 381 - MustStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 186,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 382 - MustStmtSuffix: LBrace^ /* Clipped */ MustStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 186,
         production: &[ParseType::T(55), ParseType::N(184), ParseType::N(157)],
+        is_push_production: false,
     },
     // 383 - MustStmtList: MustStmtListGroup MustStmtList;
     Production {
         lhs: 184,
         production: &[ParseType::N(184), ParseType::N(185)],
+        is_push_production: true,
     },
     // 384 - MustStmtListGroup: ErrorMessage;
     Production {
         lhs: 185,
         production: &[ParseType::N(63)],
+        is_push_production: false,
     },
     // 385 - MustStmtListGroup: DescriptionStmt;
     Production {
         lhs: 185,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 386 - MustStmtList: ;
     Production {
         lhs: 184,
         production: &[],
+        is_push_production: false,
     },
     // 387 - ErrorMessage: 'error-message' Ystring Semicolon;
     Production {
         lhs: 63,
         production: &[ParseType::N(234), ParseType::N(275), ParseType::T(69)],
+        is_push_production: false,
     },
     // 388 - UnitsStmt: 'units' Ystring Semicolon;
     Production {
         lhs: 255,
         production: &[ParseType::N(234), ParseType::N(275), ParseType::T(70)],
+        is_push_production: false,
     },
     // 389 - ConfigStmt: KwConfig^ /* Clipped */ MandatoryArgStr Semicolon;
     Production {
         lhs: 36,
         production: &[ParseType::N(234), ParseType::N(171), ParseType::N(119)],
+        is_push_production: false,
     },
     // 390 - MandatoryStmt: KwMandatory^ /* Clipped */ MandatoryArgStr Semicolon;
     Production {
         lhs: 172,
         production: &[ParseType::N(234), ParseType::N(171), ParseType::N(137)],
+        is_push_production: false,
     },
     // 391 - MandatoryArgStr: MandatoryArg;
     Production {
         lhs: 171,
         production: &[ParseType::N(170)],
+        is_push_production: false,
     },
     // 392 - MandatoryArgStr: '"' MandatoryArg '"';
     Production {
         lhs: 171,
         production: &[ParseType::T(56), ParseType::N(170), ParseType::T(56)],
+        is_push_production: false,
     },
     // 393 - MandatoryArg: /true|false/;
     Production {
         lhs: 170,
         production: &[ParseType::T(71)],
+        is_push_production: false,
     },
     // 394 - ListStmt: KwList^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ ListStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -5382,121 +5776,145 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(136),
         ],
+        is_push_production: false,
     },
     // 395 - ListStmtList: ListStmtListGroup ListStmtList;
     Production {
         lhs: 168,
         production: &[ParseType::N(168), ParseType::N(169)],
+        is_push_production: true,
     },
     // 396 - ListStmtListGroup: WhenStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(267)],
+        is_push_production: false,
     },
     // 397 - ListStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 398 - ListStmtListGroup: MustStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(183)],
+        is_push_production: false,
     },
     // 399 - ListStmtListGroup: KeyStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(109)],
+        is_push_production: false,
     },
     // 400 - ListStmtListGroup: ConfigStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(36)],
+        is_push_production: false,
     },
     // 401 - ListStmtListGroup: MinElementsStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(175)],
+        is_push_production: false,
     },
     // 402 - ListStmtListGroup: MaxElementsStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(173)],
+        is_push_production: false,
     },
     // 403 - ListStmtListGroup: OrderedByStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(194)],
+        is_push_production: false,
     },
     // 404 - ListStmtListGroup: StatusStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(239)],
+        is_push_production: false,
     },
     // 405 - ListStmtListGroup: DescriptionStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 406 - ListStmtListGroup: ReferenceStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 407 - ListStmtListGroup: DataDefStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(49)],
+        is_push_production: false,
     },
     // 408 - ListStmtListGroup: ActionStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(1)],
+        is_push_production: false,
     },
     // 409 - ListStmtListGroup: NotificationStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(189)],
+        is_push_production: false,
     },
     // 410 - ListStmtListGroup: UnknownStmt;
     Production {
         lhs: 169,
         production: &[ParseType::N(256)],
+        is_push_production: false,
     },
     // 411 - ListStmtList: ;
     Production {
         lhs: 168,
         production: &[],
+        is_push_production: false,
     },
     // 412 - OrderedByStmt: KwOrderedBy^ /* Clipped */ OrderedByArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 194,
         production: &[ParseType::N(234), ParseType::N(193), ParseType::N(141)],
+        is_push_production: false,
     },
     // 413 - OrderedByArgStr: OrderedByArg;
     Production {
         lhs: 193,
         production: &[ParseType::N(192)],
+        is_push_production: false,
     },
     // 414 - OrderedByArgStr: '"' OrderedByArg '"';
     Production {
         lhs: 193,
         production: &[ParseType::T(56), ParseType::N(192), ParseType::T(56)],
+        is_push_production: false,
     },
     // 415 - OrderedByArg: /user|system/;
     Production {
         lhs: 192,
         production: &[ParseType::T(72)],
+        is_push_production: false,
     },
     // 416 - DefaultStmt: KwDefault^ /* Clipped */ DefaultStmtSuffix;
     Production {
         lhs: 52,
         production: &[ParseType::N(53), ParseType::N(121)],
+        is_push_production: false,
     },
     // 417 - DefaultStmtSuffix: AsciiNoSemicolon Semicolon^ /* Clipped */;
     Production {
         lhs: 53,
         production: &[ParseType::N(234), ParseType::N(15)],
+        is_push_production: false,
     },
     // 418 - DefaultStmtSuffix: '"' AsciiNoSemicolon '"' Semicolon^ /* Clipped */;
     Production {
@@ -5507,386 +5925,463 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(15),
             ParseType::T(56),
         ],
+        is_push_production: false,
     },
     // 419 - MaxElementsStmt: 'max-elements'^ /* Clipped */ /[1-9][0-9]*/ Semicolon^ /* Clipped */;
     Production {
         lhs: 173,
         production: &[ParseType::N(234), ParseType::T(74), ParseType::T(73)],
+        is_push_production: false,
     },
     // 420 - MinElementsStmt: 'min-elements'^ /* Clipped */ /[1-9][0-9]*/ Semicolon^ /* Clipped */;
     Production {
         lhs: 175,
         production: &[ParseType::N(234), ParseType::T(74), ParseType::T(75)],
+        is_push_production: false,
     },
     // 421 - TypeStmt: KwType^ /* Clipped */ IdentifierRefArgStr TypeStmtSuffix;
     Production {
         lhs: 248,
         production: &[ParseType::N(251), ParseType::N(83), ParseType::N(152)],
+        is_push_production: false,
     },
     // 422 - TypeStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 251,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 423 - TypeStmtSuffix: LBrace^ /* Clipped */ TypeStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 251,
         production: &[ParseType::T(55), ParseType::N(249), ParseType::N(157)],
+        is_push_production: false,
     },
     // 424 - TypeStmtList: TypeStmtListGroup TypeStmtList;
     Production {
         lhs: 249,
         production: &[ParseType::N(249), ParseType::N(250)],
+        is_push_production: true,
     },
     // 425 - TypeStmtListGroup: FractionDigitsStmt;
     Production {
         lhs: 250,
         production: &[ParseType::N(76)],
+        is_push_production: false,
     },
     // 426 - TypeStmtListGroup: EnumStmt;
     Production {
         lhs: 250,
         production: &[ParseType::N(59)],
+        is_push_production: false,
     },
     // 427 - TypeStmtListGroup: BaseStmt;
     Production {
         lhs: 250,
         production: &[ParseType::N(20)],
+        is_push_production: false,
     },
     // 428 - TypeStmtListGroup: LeafrefSpecification;
     Production {
         lhs: 250,
         production: &[ParseType::N(164)],
+        is_push_production: false,
     },
     // 429 - TypeStmtListGroup: StringRestrictions;
     Production {
         lhs: 250,
         production: &[ParseType::N(240)],
+        is_push_production: false,
     },
     // 430 - TypeStmtListGroup: RangeStmt;
     Production {
         lhs: 250,
         production: &[ParseType::N(209)],
+        is_push_production: false,
     },
     // 431 - TypeStmtListGroup: BitStmt;
     Production {
         lhs: 250,
         production: &[ParseType::N(23)],
+        is_push_production: false,
     },
     // 432 - TypeStmtListGroup: TypeStmt;
     Production {
         lhs: 250,
         production: &[ParseType::N(248)],
+        is_push_production: false,
     },
     // 433 - TypeStmtList: ;
     Production {
         lhs: 249,
         production: &[],
+        is_push_production: false,
     },
     // 434 - FractionDigitsStmt: KwFractionDigits^ /* Clipped */ FractionDigitsArg Semicolon^ /* Clipped */;
     Production {
         lhs: 76,
         production: &[ParseType::N(234), ParseType::N(75), ParseType::N(126)],
+        is_push_production: false,
     },
     // 435 - FractionDigitsArg: /1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|/;
     Production {
         lhs: 75,
         production: &[ParseType::T(76)],
+        is_push_production: false,
     },
     // 436 - BitStmt: KwBit^ /* Clipped */ IdentifierArgStr BitStmtSuffix;
     Production {
         lhs: 23,
         production: &[ParseType::N(26), ParseType::N(81), ParseType::N(116)],
+        is_push_production: false,
     },
     // 437 - BitStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 26,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 438 - BitStmtSuffix: LBrace^ /* Clipped */ BitStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 26,
         production: &[ParseType::T(55), ParseType::N(24), ParseType::N(157)],
+        is_push_production: false,
     },
     // 439 - BitStmtList: BitStmtListGroup BitStmtList;
     Production {
         lhs: 24,
         production: &[ParseType::N(24), ParseType::N(25)],
+        is_push_production: true,
     },
     // 440 - BitStmtListGroup: PositionStmt;
     Production {
         lhs: 25,
         production: &[ParseType::N(200)],
+        is_push_production: false,
     },
     // 441 - BitStmtListGroup: DescriptionStmt;
     Production {
         lhs: 25,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 442 - BitStmtListGroup: ReferenceStmt;
     Production {
         lhs: 25,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 443 - BitStmtList: ;
     Production {
         lhs: 24,
         production: &[],
+        is_push_production: false,
     },
     // 444 - PositionStmt: KwPosition^ /* Clipped */ IntegerValueStr Semicolon^ /* Clipped */;
     Production {
         lhs: 200,
         production: &[ParseType::N(234), ParseType::N(105), ParseType::N(142)],
+        is_push_production: false,
     },
     // 445 - LeafrefSpecification: PathStmt;
     Production {
         lhs: 164,
         production: &[ParseType::N(198)],
+        is_push_production: false,
     },
     // 446 - LeafrefSpecification: RequireInstanceStmt;
     Production {
         lhs: 164,
         production: &[ParseType::N(218)],
+        is_push_production: false,
     },
     // 447 - RequireInstanceStmt: KwRequireInstance^ /* Clipped */ RequireInstanceArgStr Semicolon;
     Production {
         lhs: 218,
         production: &[ParseType::N(234), ParseType::N(217), ParseType::N(146)],
+        is_push_production: false,
     },
     // 448 - RequireInstanceArgStr: MandatoryArg;
     Production {
         lhs: 217,
         production: &[ParseType::N(170)],
+        is_push_production: false,
     },
     // 449 - RequireInstanceArgStr: '"' MandatoryArg '"';
     Production {
         lhs: 217,
         production: &[ParseType::T(56), ParseType::N(170), ParseType::T(56)],
+        is_push_production: false,
     },
     // 450 - PathStmt: 'path'^ /* Clipped */ Ystring Semicolon^ /* Clipped */;
     Production {
         lhs: 198,
         production: &[ParseType::N(234), ParseType::N(275), ParseType::T(77)],
+        is_push_production: false,
     },
     // 451 - StringRestrictions: LengthStmt;
     Production {
         lhs: 240,
         production: &[ParseType::N(165)],
+        is_push_production: false,
     },
     // 452 - StringRestrictions: PatternStmt;
     Production {
         lhs: 240,
         production: &[ParseType::N(199)],
+        is_push_production: false,
     },
     // 453 - PatternStmt: 'pattern' Ystring Semicolon;
     Production {
         lhs: 199,
         production: &[ParseType::N(234), ParseType::N(275), ParseType::T(78)],
+        is_push_production: false,
     },
     // 454 - LengthStmt: KwLength^ /* Clipped */ RangeArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 165,
         production: &[ParseType::N(234), ParseType::N(205), ParseType::N(135)],
+        is_push_production: false,
     },
     // 455 - EnumStmt: KwEnum^ /* Clipped */ EnumArgStr EnumStmtSuffix;
     Production {
         lhs: 59,
         production: &[ParseType::N(62), ParseType::N(58), ParseType::N(123)],
+        is_push_production: false,
     },
     // 456 - EnumStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 62,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 457 - EnumStmtSuffix: LBrace^ /* Clipped */ EnumStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 62,
         production: &[ParseType::T(55), ParseType::N(60), ParseType::N(157)],
+        is_push_production: false,
     },
     // 458 - EnumStmtList: EnumStmtListGroup EnumStmtList;
     Production {
         lhs: 60,
         production: &[ParseType::N(60), ParseType::N(61)],
+        is_push_production: true,
     },
     // 459 - EnumStmtListGroup: IfFeatureStmt;
     Production {
         lhs: 61,
         production: &[ParseType::N(92)],
+        is_push_production: false,
     },
     // 460 - EnumStmtListGroup: DescriptionStmt;
     Production {
         lhs: 61,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 461 - EnumStmtListGroup: ValueStmt;
     Production {
         lhs: 61,
         production: &[ParseType::N(266)],
+        is_push_production: false,
     },
     // 462 - EnumStmtListGroup: ReferenceStmt;
     Production {
         lhs: 61,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 463 - EnumStmtList: ;
     Production {
         lhs: 60,
         production: &[],
+        is_push_production: false,
     },
     // 464 - ValueStmt: KwValue^ /* Clipped */ IntegerValueStr Semicolon^ /* Clipped */;
     Production {
         lhs: 266,
         production: &[ParseType::N(234), ParseType::N(105), ParseType::N(155)],
+        is_push_production: false,
     },
     // 465 - IntegerValueStr: IntegerValue;
     Production {
         lhs: 105,
         production: &[ParseType::N(104)],
+        is_push_production: false,
     },
     // 466 - IntegerValueStr: '"' IntegerValue '"';
     Production {
         lhs: 105,
         production: &[ParseType::T(56), ParseType::N(104), ParseType::T(56)],
+        is_push_production: false,
     },
     // 467 - IntegerValue: /[0-9]+/;
     Production {
         lhs: 104,
         production: &[ParseType::T(79)],
+        is_push_production: false,
     },
     // 468 - EnumArgStr: AsciiNoBrace;
     Production {
         lhs: 58,
         production: &[ParseType::N(14)],
+        is_push_production: false,
     },
     // 469 - EnumArgStr: '"'^ /* Clipped */ AsciiNoBrace '"'^ /* Clipped */;
     Production {
         lhs: 58,
         production: &[ParseType::T(56), ParseType::N(14), ParseType::T(56)],
+        is_push_production: false,
     },
     // 470 - RangeStmt: KwRange^ /* Clipped */ RangeArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 209,
         production: &[ParseType::N(234), ParseType::N(205), ParseType::N(144)],
+        is_push_production: false,
     },
     // 471 - RangeArgStr: RangeArg;
     Production {
         lhs: 205,
         production: &[ParseType::N(203)],
+        is_push_production: false,
     },
     // 472 - RangeArgStr: '"'^ /* Clipped */ RangeArg '"'^ /* Clipped */;
     Production {
         lhs: 205,
         production: &[ParseType::T(56), ParseType::N(203), ParseType::T(56)],
+        is_push_production: false,
     },
     // 473 - RangeArg: RangePart RangeArgOpt /* Option */;
     Production {
         lhs: 203,
         production: &[ParseType::N(204), ParseType::N(207)],
+        is_push_production: false,
     },
     // 474 - RangeArgOpt: '|' RangeArg;
     Production {
         lhs: 204,
         production: &[ParseType::N(203), ParseType::T(80)],
+        is_push_production: false,
     },
     // 475 - RangeArgOpt: ;
     Production {
         lhs: 204,
         production: &[],
+        is_push_production: false,
     },
     // 476 - RangePart: RangeBoundary RangePartOpt /* Option */;
     Production {
         lhs: 207,
         production: &[ParseType::N(208), ParseType::N(206)],
+        is_push_production: false,
     },
     // 477 - RangePartOpt: '..' RangeBoundary;
     Production {
         lhs: 208,
         production: &[ParseType::N(206), ParseType::T(81)],
+        is_push_production: false,
     },
     // 478 - RangePartOpt: ;
     Production {
         lhs: 208,
         production: &[],
+        is_push_production: false,
     },
     // 479 - RangeBoundary: 'min';
     Production {
         lhs: 206,
         production: &[ParseType::T(82)],
+        is_push_production: false,
     },
     // 480 - RangeBoundary: 'max';
     Production {
         lhs: 206,
         production: &[ParseType::T(83)],
+        is_push_production: false,
     },
     // 481 - RangeBoundary: "-?[0-9]+";
     Production {
         lhs: 206,
         production: &[ParseType::T(84)],
+        is_push_production: false,
     },
     // 482 - IdentifierRefArgStr: IdentifierRef;
     Production {
         lhs: 83,
         production: &[ParseType::N(82)],
+        is_push_production: false,
     },
     // 483 - IdentifierRefArgStr: '"' IdentifierRef '"';
     Production {
         lhs: 83,
         production: &[ParseType::T(56), ParseType::N(82), ParseType::T(56)],
+        is_push_production: false,
     },
     // 484 - IdentifierRef: IdentifierRefOpt /* Option */ Identifier;
     Production {
         lhs: 82,
         production: &[ParseType::N(80), ParseType::N(84)],
+        is_push_production: false,
     },
     // 485 - IdentifierRefOpt: Identifier ':';
     Production {
         lhs: 84,
         production: &[ParseType::T(85), ParseType::N(80)],
+        is_push_production: false,
     },
     // 486 - IdentifierRefOpt: ;
     Production {
         lhs: 84,
         production: &[],
+        is_push_production: false,
     },
     // 487 - KeyStmt: KwKey^ /* Clipped */ KeyArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 109,
         production: &[ParseType::N(234), ParseType::N(108), ParseType::N(132)],
+        is_push_production: false,
     },
     // 488 - KeyArgStr: KeyArg;
     Production {
         lhs: 108,
         production: &[ParseType::N(106)],
+        is_push_production: false,
     },
     // 489 - KeyArgStr: '"'^ /* Clipped */ KeyArg '"'^ /* Clipped */;
     Production {
         lhs: 108,
         production: &[ParseType::T(56), ParseType::N(106), ParseType::T(56)],
+        is_push_production: false,
     },
     // 490 - Semicolon: ';';
     Production {
         lhs: 234,
         production: &[ParseType::T(86)],
+        is_push_production: false,
     },
     // 491 - KeyArg: IdentifierRef KeyArgOpt /* Option */;
     Production {
         lhs: 106,
         production: &[ParseType::N(107), ParseType::N(82)],
+        is_push_production: false,
     },
     // 492 - KeyArgOpt: KeyArg;
     Production {
         lhs: 107,
         production: &[ParseType::N(106)],
+        is_push_production: false,
     },
     // 493 - KeyArgOpt: ;
     Production {
         lhs: 107,
         production: &[],
+        is_push_production: false,
     },
     // 494 - AbsoluteSchemaNodeid: '/' IdentifierRef;
     Production {
         lhs: 0,
         production: &[ParseType::N(82), ParseType::T(87)],
+        is_push_production: false,
     },
     // 495 - ImportStmt: KwImport^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ ImportStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -5898,106 +6393,127 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(130),
         ],
+        is_push_production: false,
     },
     // 496 - ImportStmtList: ImportStmtListGroup ImportStmtList;
     Production {
         lhs: 96,
         production: &[ParseType::N(96), ParseType::N(97)],
+        is_push_production: true,
     },
     // 497 - ImportStmtListGroup: PrefixStmt;
     Production {
         lhs: 97,
         production: &[ParseType::N(201)],
+        is_push_production: false,
     },
     // 498 - ImportStmtListGroup: RevisionDateStmt;
     Production {
         lhs: 97,
         production: &[ParseType::N(219)],
+        is_push_production: false,
     },
     // 499 - ImportStmtListGroup: DescriptionStmt;
     Production {
         lhs: 97,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 500 - ImportStmtListGroup: ReferenceStmt;
     Production {
         lhs: 97,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 501 - ImportStmtList: ;
     Production {
         lhs: 96,
         production: &[],
+        is_push_production: false,
     },
     // 502 - IncludeStmt: KwInclude^ /* Clipped */ IdentifierArgStr IncludeStmtSuffix;
     Production {
         lhs: 98,
         production: &[ParseType::N(101), ParseType::N(81), ParseType::N(131)],
+        is_push_production: false,
     },
     // 503 - IncludeStmtSuffix: Semicolon^ /* Clipped */;
     Production {
         lhs: 101,
         production: &[ParseType::N(234)],
+        is_push_production: false,
     },
     // 504 - IncludeStmtSuffix: LBrace^ /* Clipped */ IncludeStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
         lhs: 101,
         production: &[ParseType::T(55), ParseType::N(99), ParseType::N(157)],
+        is_push_production: false,
     },
     // 505 - IncludeStmtList: IncludeStmtListGroup IncludeStmtList;
     Production {
         lhs: 99,
         production: &[ParseType::N(99), ParseType::N(100)],
+        is_push_production: true,
     },
     // 506 - IncludeStmtListGroup: RevisionDateStmt;
     Production {
         lhs: 100,
         production: &[ParseType::N(219)],
+        is_push_production: false,
     },
     // 507 - IncludeStmtListGroup: DescriptionStmt;
     Production {
         lhs: 100,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 508 - IncludeStmtListGroup: ReferenceStmt;
     Production {
         lhs: 100,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 509 - IncludeStmtList: ;
     Production {
         lhs: 99,
         production: &[],
+        is_push_production: false,
     },
     // 510 - RevisionDateStmt: KwRevisionDate^ /* Clipped */ DateArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 219,
         production: &[ParseType::N(234), ParseType::N(51), ParseType::N(148)],
+        is_push_production: false,
     },
     // 511 - NamespaceStmt: KwNamespace^ /* Clipped */ UriStr Semicolon^ /* Clipped */;
     Production {
         lhs: 187,
         production: &[ParseType::N(234), ParseType::N(261), ParseType::N(139)],
+        is_push_production: false,
     },
     // 512 - UriStr: UriArg;
     Production {
         lhs: 261,
         production: &[ParseType::N(260)],
+        is_push_production: false,
     },
     // 513 - UriStr: '"'^ /* Clipped */ UriArg '"'^ /* Clipped */;
     Production {
         lhs: 261,
         production: &[ParseType::T(56), ParseType::N(260), ParseType::T(56)],
+        is_push_production: false,
     },
     // 514 - UriArg: "urn:[a-zA-Z0-9\-\.:]+";
     Production {
         lhs: 260,
         production: &[ParseType::T(88)],
+        is_push_production: false,
     },
     // 515 - PrefixStmt: KwPrefix^ /* Clipped */ IdentifierArgStr Semicolon^ /* Clipped */;
     Production {
         lhs: 201,
         production: &[ParseType::N(234), ParseType::N(81), ParseType::N(143)],
+        is_push_production: false,
     },
     // 516 - BelongsToStmt: KwBelongsTo^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ PrefixStmt '}'^ /* Clipped */;
     Production {
@@ -6009,26 +6525,31 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(81),
             ParseType::N(115),
         ],
+        is_push_production: false,
     },
     // 517 - OrganizationStmt: 'organization'^ /* Clipped */ Ystring Semicolon;
     Production {
         lhs: 195,
         production: &[ParseType::N(234), ParseType::N(275), ParseType::T(89)],
+        is_push_production: false,
     },
     // 518 - ContactStmt: 'contact'^ /* Clipped */ Ystring Semicolon;
     Production {
         lhs: 37,
         production: &[ParseType::N(234), ParseType::N(275), ParseType::T(90)],
+        is_push_production: false,
     },
     // 519 - DescriptionStmt: 'description'^ /* Clipped */ Ystring Semicolon^ /* Clipped */;
     Production {
         lhs: 55,
         production: &[ParseType::N(234), ParseType::N(275), ParseType::T(91)],
+        is_push_production: false,
     },
     // 520 - ReferenceStmt: 'reference'^ /* Clipped */ Ystring Semicolon^ /* Clipped */;
     Production {
         lhs: 210,
         production: &[ParseType::N(234), ParseType::N(275), ParseType::T(92)],
+        is_push_production: false,
     },
     // 521 - RevisionStmt: KwRevision^ /* Clipped */ DateArgStr LBrace^ /* Clipped */ RevisionStmtList /* Vec */ '}'^ /* Clipped */;
     Production {
@@ -6040,236 +6561,283 @@ pub const PRODUCTIONS: &[Production; 568] = &[
             ParseType::N(51),
             ParseType::N(147),
         ],
+        is_push_production: false,
     },
     // 522 - RevisionStmtList: RevisionStmtListGroup RevisionStmtList;
     Production {
         lhs: 221,
         production: &[ParseType::N(221), ParseType::N(222)],
+        is_push_production: true,
     },
     // 523 - RevisionStmtListGroup: DescriptionStmt;
     Production {
         lhs: 222,
         production: &[ParseType::N(55)],
+        is_push_production: false,
     },
     // 524 - RevisionStmtListGroup: ReferenceStmt;
     Production {
         lhs: 222,
         production: &[ParseType::N(210)],
+        is_push_production: false,
     },
     // 525 - RevisionStmtList: ;
     Production {
         lhs: 221,
         production: &[],
+        is_push_production: false,
     },
     // 526 - DateArgStr: DateArg;
     Production {
         lhs: 51,
         production: &[ParseType::N(50)],
+        is_push_production: false,
     },
     // 527 - DateArgStr: '"'^ /* Clipped */ DateArg '"'^ /* Clipped */;
     Production {
         lhs: 51,
         production: &[ParseType::T(56), ParseType::N(50), ParseType::T(56)],
+        is_push_production: false,
     },
     // 528 - DateArg: /\d{4}-\d{2}-\d{2}/;
     Production {
         lhs: 50,
         production: &[ParseType::T(93)],
+        is_push_production: false,
     },
     // 529 - Ystring: BasicString YstringOpt /* Option */;
     Production {
         lhs: 275,
         production: &[ParseType::N(276), ParseType::N(21)],
+        is_push_production: false,
     },
     // 530 - Ystring: Identifier;
     Production {
         lhs: 275,
         production: &[ParseType::N(80)],
+        is_push_production: false,
     },
     // 531 - YstringOpt: '+' Ystring;
     Production {
         lhs: 276,
         production: &[ParseType::N(275), ParseType::T(94)],
+        is_push_production: false,
     },
     // 532 - YstringOpt: ;
     Production {
         lhs: 276,
         production: &[],
+        is_push_production: false,
     },
     // 533 - BasicString: DQString;
     Production {
         lhs: 21,
         production: &[ParseType::N(46)],
+        is_push_production: false,
     },
     // 534 - BasicString: SQString;
     Production {
         lhs: 21,
         production: &[ParseType::N(231)],
+        is_push_production: false,
     },
     // 535 - DoubleQuotation: '"';
     Production {
         lhs: 57,
         production: &[ParseType::T(56)],
+        is_push_production: false,
     },
     // 536 - DQString: DoubleQuotation^ /* Clipped */ DQStringList /* Vec */ DoubleQuotation^ /* Clipped */;
     Production {
         lhs: 46,
         production: &[ParseType::N(57), ParseType::N(47), ParseType::N(57)],
+        is_push_production: false,
     },
     // 537 - DQStringList: DQChar DQStringList;
     Production {
         lhs: 47,
         production: &[ParseType::N(47), ParseType::N(42)],
+        is_push_production: true,
     },
     // 538 - DQStringList: ;
     Production {
         lhs: 47,
         production: &[],
+        is_push_production: false,
     },
     // 539 - DQChar: DQUnescaped;
     Production {
         lhs: 42,
         production: &[ParseType::N(48)],
+        is_push_production: false,
     },
     // 540 - DQChar: DQEscaped;
     Production {
         lhs: 42,
         production: &[ParseType::N(44)],
+        is_push_production: false,
     },
     // 541 - DQUnescaped: DQNoEscape;
     Production {
         lhs: 48,
         production: &[ParseType::N(45)],
+        is_push_production: false,
     },
     // 542 - DQUnescaped: NonAscii;
     Production {
         lhs: 48,
         production: &[ParseType::N(188)],
+        is_push_production: false,
     },
     // 543 - DQEscaped: Escape DQEscapeSeqChar;
     Production {
         lhs: 44,
         production: &[ParseType::N(43), ParseType::N(66)],
+        is_push_production: false,
     },
     // 544 - DQEscapeSeqChar: Escape;
     Production {
         lhs: 43,
         production: &[ParseType::N(66)],
+        is_push_production: false,
     },
     // 545 - DQEscapeSeqChar: DoubleQuotation;
     Production {
         lhs: 43,
         production: &[ParseType::N(57)],
+        is_push_production: false,
     },
     // 546 - DQEscapeSeqChar: EscN;
     Production {
         lhs: 43,
         production: &[ParseType::N(64)],
+        is_push_production: false,
     },
     // 547 - DQEscapeSeqChar: EscT;
     Production {
         lhs: 43,
         production: &[ParseType::N(65)],
+        is_push_production: false,
     },
     // 548 - Escape: "\u{5C}";
     Production {
         lhs: 66,
         production: &[ParseType::T(95)],
+        is_push_production: false,
     },
     // 549 - NonAscii: "[\n\r\u{80}-\u{D7FF}\u{E000}-\u{10FFFF}]";
     Production {
         lhs: 188,
         production: &[ParseType::T(96)],
+        is_push_production: false,
     },
     // 550 - DQNoEscape: "[ \n\r\t\u{21}\u{23}-\u{5B}\u{5D}-\u{7E}]+";
     Production {
         lhs: 45,
         production: &[ParseType::T(97)],
+        is_push_production: false,
     },
     // 551 - SQString: SingleQuotation SQStringList /* Vec */ SingleQuotation;
     Production {
         lhs: 231,
         production: &[ParseType::N(236), ParseType::N(232), ParseType::N(236)],
+        is_push_production: false,
     },
     // 552 - SQStringList: SQChar SQStringList;
     Production {
         lhs: 232,
         production: &[ParseType::N(232), ParseType::N(227)],
+        is_push_production: true,
     },
     // 553 - SQStringList: ;
     Production {
         lhs: 232,
         production: &[],
+        is_push_production: false,
     },
     // 554 - SQChar: SQUnescaped;
     Production {
         lhs: 227,
         production: &[ParseType::N(233)],
+        is_push_production: false,
     },
     // 555 - SQChar: SQEscaped;
     Production {
         lhs: 227,
         production: &[ParseType::N(229)],
+        is_push_production: false,
     },
     // 556 - SQEscaped: Escape SQEscapeSeqChar;
     Production {
         lhs: 229,
         production: &[ParseType::N(228), ParseType::N(66)],
+        is_push_production: false,
     },
     // 557 - SQEscapeSeqChar: ".";
     Production {
         lhs: 228,
         production: &[ParseType::T(98)],
+        is_push_production: false,
     },
     // 558 - SQUnescaped: SQNoEscape;
     Production {
         lhs: 233,
         production: &[ParseType::N(230)],
+        is_push_production: false,
     },
     // 559 - SQUnescaped: NonAscii;
     Production {
         lhs: 233,
         production: &[ParseType::N(188)],
+        is_push_production: false,
     },
     // 560 - SQNoEscape: "[ \t\u{21}-\u{26}\u{28}-\u{5B}\u{5D}-\u{7E}]+";
     Production {
         lhs: 230,
         production: &[ParseType::T(99)],
+        is_push_production: false,
     },
     // 561 - SingleQuotation: "\u{27}";
     Production {
         lhs: 236,
         production: &[ParseType::T(100)],
+        is_push_production: false,
     },
     // 562 - IdentifierArgStr: Identifier;
     Production {
         lhs: 81,
         production: &[ParseType::N(80)],
+        is_push_production: false,
     },
     // 563 - IdentifierArgStr: '"'^ /* Clipped */ Identifier '"'^ /* Clipped */;
     Production {
         lhs: 81,
         production: &[ParseType::T(56), ParseType::N(80), ParseType::T(56)],
+        is_push_production: false,
     },
     // 564 - Identifier: /[a-zA-Z_][a-zA-Z0-9_\-\/\.:]*/;
     Production {
         lhs: 80,
         production: &[ParseType::T(101)],
+        is_push_production: false,
     },
     // 565 - AsciiNoSemicolon: /[ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7e}]+/;
     Production {
         lhs: 15,
         production: &[ParseType::T(102)],
+        is_push_production: false,
     },
     // 566 - AsciiNoBrace: /[\t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7a}\u{7c}\u{7e}]+/;
     Production {
         lhs: 14,
         production: &[ParseType::T(103)],
+        is_push_production: false,
     },
     // 567 - YangVersionArg: "1.1|1";
     Production {
         lhs: 272,
         production: &[ParseType::T(104)],
+        is_push_production: false,
     },
 ];
 
