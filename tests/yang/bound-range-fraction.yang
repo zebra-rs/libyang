@@ -1,0 +1,10 @@
+module bound-range-fraction {
+  namespace "urn:example:bound-range-fraction";
+  prefix brf;
+
+  leaf a {
+    type uint8 {
+      range "1.5..3";
+    }
+  }
+}

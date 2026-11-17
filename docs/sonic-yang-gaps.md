@@ -70,6 +70,10 @@ ends at `{`.
 **Not kept.** The substatements are parsed and dropped: `TypeNode` has no
 field for an error message.
 
+A pattern with `modifier invert-match` is one the value must *not* match
+(§9.4.6). `TypeNode::pattern` is a pattern to match, so an inverted one is not
+put there; it is dropped with its substatements. SONiC's models have none.
+
 ### 3. An unquoted leafref path — 10 files
 
 ```yang
@@ -175,6 +179,12 @@ type decimal64 {
 
 **Change.** A range bound (`RangeNumber`) may have a fraction.
 
+The grammar then takes a fraction in every `range` and `length`. On an integer
+type, and in a `length`, a bound that is not a number of the type is refused
+while the file is parsed (`type_stmt_check`): the module fails to load with a
+`ParseError` at the bound. That covers a fraction, and a bound the type cannot
+hold (`range "0..300"` on a `uint8`), which used to panic.
+
 **Not kept.** The range of a `decimal64` is not stored, as before: `RangeNode`
 has integer variants only.
 
@@ -240,6 +250,10 @@ so a grouping, an identity or a feature named that way is found as well. A
 typedef named that way is looked up among the typedefs of the module (or
 submodule) the reference is written in.
 
+An `identityref` whose `base` has the module's own prefix stays an
+`identityref`, as one whose `base` has no prefix. Only a base in another
+module makes it an enumeration of that module's identities.
+
 ### 15. A typedef of a typedef — 25 leaves, 2 union arms
 
 ```yang
@@ -252,8 +266,9 @@ Resolving a typedef returned the type written in it. When that was another
 typedef the leaf was left with `kind = Path`, the kind of a reference that has
 not been resolved.
 
-**Change.** `typedef_resolve` follows the chain to a built-in type, at most 32
-typedefs deep.
+**Change.** `typedef_resolve` follows the chain to a built-in type. A typedef
+defined by itself, through other typedefs or the arms of a union, has no type:
+the reference that leads back resolves to nothing.
 
 - **Where each step is looked up.** In the module that defines the typedef,
   with that module's prefixes. The arms of a union are looked up there too;
@@ -263,12 +278,19 @@ typedefs deep.
   before the built-in type, as it is written in the module that names it. A
   chain that ends `… -> inet:ipv4-address -> string` is known as
   `inet:ipv4-address`, which is what a consumer maps to an address type.
-- **Restrictions on the way.** A `pattern`, `length` or `range` a typedef adds
-  replaces the one of the type under it.
+- **Restrictions.** A `pattern`, `length` or `range` written on a reference to
+  a typedef replaces the one of the type under it. The reference may be in
+  another typedef, on a leaf or leaf-list, or an arm of a union:
+  `type stypes:interface_name { pattern "Vrf[a-zA-Z0-9_-]+"; }`. A pattern
+  replaces the typedef's where RFC 7950 §9.4.5 has both hold: `TypeNode` has
+  one pattern.
+- **Fewer values of an enumeration.** `enum` statements on a reference name
+  the values that are left (§9.6.4), as `hash:hash-field` does with 19 of the
+  23 of `stypes:hash-field`.
 - **A range on a typedef.** `type my-number { range "1..10"; }` is read before
-  `my-number` is known to be a `uint8`. Its bounds are kept as `i64` and given
-  the type the chain ends at (`RangeNode::cast`). Such a range used to be
-  dropped.
+  `my-number` is known to be a `uint8`. Its bounds are kept as `i64`, or as
+  `u64` when one is too large for that, and given the type the chain ends at
+  (`RangeNode::cast`). Such a range used to be dropped.
 
 ## Compatibility
 
@@ -278,7 +300,9 @@ What a consumer of 2.4.0 sees differently:
 |---|---|
 | 13 | `Entry::key` and `KeyNode::keys` have every key of a list |
 | 11 | A single-quoted string keeps its backslashes |
-| 15 | A leaf whose type is a typedef of a typedef has the built-in kind, not `Path`; a range written on a typedef is kept |
+| 15 | A leaf whose type is a typedef of a typedef has the built-in kind, not `Path` |
+| 15 | A `pattern`, `length`, `range` or `enum` written on a reference to a typedef is applied; it was dropped |
+| 2 | A pattern with `modifier invert-match` parses, and is not in `TypeNode::pattern` |
 | 15 | The arms of a union from another module are that module's |
 | 1 | `ModuleNode::namespace` is the namespace, not a token dump |
 | 6 | `ContainerNode` and `ListNode` have a `typedef` field (empty after parsing) |
@@ -312,6 +336,9 @@ Smaller things seen and left:
 
 - `tests/sonic_gaps.rs`: one test for each number above, on the fixtures
   `tests/yang/gap-syntax.yang`, `gap-types.yang` and `gap-ns-*.yang`.
+- `tests/type_resolution.rs`: restrictions on a reference to a typedef,
+  typedefs defined by themselves, an `identityref` by the module's own prefix,
+  and the bounds of a `range` and a `length`.
 - The 146 SONiC modules, unmodified, parse, resolve and build a tree with no
   diagnostic. They are not in this repository; the probe that loads them is
   not either.

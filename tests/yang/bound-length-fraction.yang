@@ -1,0 +1,10 @@
+module bound-length-fraction {
+  namespace "urn:example:bound-length-fraction";
+  prefix blf;
+
+  leaf a {
+    type string {
+      length "1..2 | 4.5..8";
+    }
+  }
+}

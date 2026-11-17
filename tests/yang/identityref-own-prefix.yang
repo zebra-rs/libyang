@@ -1,0 +1,29 @@
+module identityref-own-prefix {
+  yang-version 1.1;
+  namespace "urn:example:identityref-own-prefix";
+  prefix iop;
+
+  identity base-id {
+    description "The base.";
+  }
+
+  identity one {
+    base iop:base-id;
+  }
+
+  identity two {
+    base base-id;
+  }
+
+  // The same type, written with the module's own prefix and without.
+  leaf prefixed {
+    type identityref {
+      base iop:base-id;
+    }
+  }
+  leaf plain {
+    type identityref {
+      base base-id;
+    }
+  }
+}

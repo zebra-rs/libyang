@@ -1,4 +1,5 @@
-use crate::yang_grammar_trait::{Yang, YangGrammarTrait};
+use crate::nodes::ast::type_stmt_check;
+use crate::yang_grammar_trait::{TypeStmt, Yang, YangGrammarTrait};
 #[allow(unused_imports)]
 use parol_runtime::{Result, Token};
 use std::fmt::{Debug, Display, Error, Formatter};
@@ -40,5 +41,10 @@ impl<'t> YangGrammarTrait<'t> for YangGrammar<'t> {
     fn yang(&mut self, arg: &Yang<'t>) -> Result<()> {
         self.yang = Some(arg.clone());
         Ok(())
+    }
+
+    /// Semantic action for non-terminal 'TypeStmt'
+    fn type_stmt(&mut self, arg: &TypeStmt<'t>) -> Result<()> {
+        type_stmt_check(arg)
     }
 }

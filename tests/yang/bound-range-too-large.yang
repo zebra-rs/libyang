@@ -1,0 +1,13 @@
+module bound-range-too-large {
+  namespace "urn:example:bound-range-too-large";
+  prefix brl;
+
+  leaf a {
+    type union {
+      type string;
+      type uint8 {
+        range 0..300;
+      }
+    }
+  }
+}
