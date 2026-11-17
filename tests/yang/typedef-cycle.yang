@@ -1,0 +1,61 @@
+module typedef-cycle {
+  yang-version 1.1;
+  namespace "urn:example:typedef-cycle";
+  prefix tc;
+
+  // None of these is valid YANG (RFC 7950 §7.3.4 has no place for a
+  // typedef defined by itself). Reading them must end.
+
+  // By each other, through the arm of a union.
+  typedef a {
+    type union {
+      type b;
+      type string;
+    }
+  }
+  typedef b {
+    type a;
+  }
+
+  // Two unions, each an arm of the other.
+  typedef c {
+    type union {
+      type d;
+      type uint8;
+    }
+  }
+  typedef d {
+    type union {
+      type c;
+      type boolean;
+    }
+  }
+
+  // By itself.
+  typedef e {
+    type e;
+  }
+
+  // By itself twice over: a guard that only counted the depth would
+  // follow every path through it.
+  typedef f {
+    type union {
+      type f;
+      type f;
+      type string;
+    }
+  }
+
+  leaf through-union {
+    type a;
+  }
+  leaf two-unions {
+    type c;
+  }
+  leaf itself {
+    type e;
+  }
+  leaf twice {
+    type f;
+  }
+}

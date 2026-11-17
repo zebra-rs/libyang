@@ -953,106 +953,24 @@ fn type_kind(name: &str) -> YangType {
     }
 }
 
-fn range_boundary<T: FromStr>(m: &RangeBoundary) -> Result<RangeVal<T>, ()> {
-    match m {
-        RangeBoundary::Min(_) => Ok(RangeVal::Min),
-        RangeBoundary::Max(_) => Ok(RangeVal::Max),
+fn range_boundary<T: FromStr>(m: &RangeBoundary) -> Option<RangeVal<T>> {
+    Some(match m {
+        RangeBoundary::Min(_) => RangeVal::Min,
+        RangeBoundary::Max(_) => RangeVal::Max,
         RangeBoundary::RangeNumber(m) => {
-            let v = T::from_str(m.range_number.range_number.text());
-            if let Ok(v) = v {
-                Ok(RangeVal::Val(v))
-            } else {
-                Err(())
-            }
+            RangeVal::Val(m.range_number.range_number.text().parse().ok()?)
         }
-    }
+    })
 }
 
-fn range_part<T: FromStr>(m: &RangePart) -> Range<T> {
-    let start = range_boundary(&m.range_boundary).unwrap();
-    if let Some(end) = &m.range_part_opt {
-        let end = range_boundary(&end.range_boundary).unwrap();
-        Range {
-            start,
-            end: Some(end),
-        }
-    } else {
-        Range { start, end: None }
-    }
-}
-
-fn range_arg_type<T: FromStr>(v: &mut Vec<Range<T>>, m: &RangeArg) {
-    let range = range_part::<T>(&m.range_part);
-    v.push(range);
-    if let Some(m) = &m.range_arg_opt {
-        range_arg_type(v, &m.range_arg);
-    }
-}
-
-fn range_arg(m: &RangeArg, kind: YangType) -> RangeNode {
-    match kind {
-        YangType::Int8 => {
-            let mut ranges = Vec::<_>::new();
-            range_arg_type::<i8>(&mut ranges, m);
-            RangeNode::I8(ranges)
-        }
-        YangType::Int16 => {
-            let mut ranges = Vec::<_>::new();
-            range_arg_type::<i16>(&mut ranges, m);
-            RangeNode::I16(ranges)
-        }
-        YangType::Int32 => {
-            let mut ranges = Vec::<_>::new();
-            range_arg_type::<i32>(&mut ranges, m);
-            RangeNode::I32(ranges)
-        }
-        YangType::Int64 => {
-            let mut ranges = Vec::<_>::new();
-            range_arg_type::<i64>(&mut ranges, m);
-            RangeNode::I64(ranges)
-        }
-        YangType::Uint8 => {
-            let mut ranges = Vec::<_>::new();
-            range_arg_type::<u8>(&mut ranges, m);
-            RangeNode::U8(ranges)
-        }
-        YangType::Uint16 => {
-            let mut ranges = Vec::<_>::new();
-            range_arg_type::<u16>(&mut ranges, m);
-            RangeNode::U16(ranges)
-        }
-        YangType::Uint32 => {
-            let mut ranges = Vec::<_>::new();
-            range_arg_type::<u32>(&mut ranges, m);
-            RangeNode::U32(ranges)
-        }
-        YangType::Uint64 => {
-            let mut ranges = Vec::<_>::new();
-            range_arg_type::<u64>(&mut ranges, m);
-            RangeNode::U64(ranges)
-        }
-        // A range on a typedef (`type my-number { range "1..10"; }`):
-        // which integer type it restricts is known only when the
-        // typedef is resolved, so its bounds are kept as the widest
-        // signed integers until then (`RangeNode::cast`). A range that
-        // does not read that way is one of a `decimal64`, which is not
-        // kept, as for a `decimal64` written directly.
-        YangType::Path => RangeNode::I64(range_arg_lenient(m).unwrap_or_default()),
-        _ => {
-            let ranges = Vec::<Range<u8>>::new();
-            RangeNode::U8(ranges)
-        }
-    }
-}
-
-/// The parts of a range as `i64`, or `None` when a bound is not one.
-fn range_arg_lenient(m: &RangeArg) -> Option<Vec<Range<i64>>> {
+/// The parts of a range as `T`, or `None` when a bound is not one.
+fn range_parts<T: FromStr>(m: &RangeArg) -> Option<Vec<Range<T>>> {
     let mut ranges = Vec::new();
     let mut arg = m;
     loop {
-        let start = range_boundary(&arg.range_part.range_boundary).ok()?;
+        let start = range_boundary(&arg.range_part.range_boundary)?;
         let end = match &arg.range_part.range_part_opt {
-            Some(end) => Some(range_boundary(&end.range_boundary).ok()?),
+            Some(end) => Some(range_boundary(&end.range_boundary)?),
             None => None,
         };
         ranges.push(Range { start, end });
@@ -1063,20 +981,149 @@ fn range_arg_lenient(m: &RangeArg) -> Option<Vec<Range<i64>>> {
     }
 }
 
-fn range(m: &RangeStmt, kind: YangType) -> RangeNode {
-    match &*m.range_arg_str {
-        RangeArgStr::RangeArg(m) => range_arg(&m.range_arg, kind),
-        RangeArgStr::DoubleQuotationRangeArgDoubleQuotation(m) => range_arg(&m.range_arg, kind),
+/// The range `m` of a type of kind `kind`, or `None` when it is not
+/// one that is kept.
+///
+/// The range of an integer type is `None` only when a bound is not a
+/// number of that type, and `type_stmt_check` refuses a file with such
+/// a bound before it is read here.
+fn range_arg(m: &RangeArg, kind: YangType) -> Option<RangeNode> {
+    Some(match kind {
+        YangType::Int8 => RangeNode::I8(range_parts(m)?),
+        YangType::Int16 => RangeNode::I16(range_parts(m)?),
+        YangType::Int32 => RangeNode::I32(range_parts(m)?),
+        YangType::Int64 => RangeNode::I64(range_parts(m)?),
+        YangType::Uint8 => RangeNode::U8(range_parts(m)?),
+        YangType::Uint16 => RangeNode::U16(range_parts(m)?),
+        YangType::Uint32 => RangeNode::U32(range_parts(m)?),
+        YangType::Uint64 => RangeNode::U64(range_parts(m)?),
+        // A range on a typedef (`type my-number { range "1..10"; }`):
+        // which integer type it restricts is known only when the
+        // typedef is resolved, so its bounds are kept as the widest
+        // integers that hold them until then (`RangeNode::cast`). A
+        // range that reads as neither is one of a `decimal64`, which is
+        // not kept, as for a `decimal64` written directly.
+        YangType::Path => match range_parts::<i64>(m) {
+            Some(ranges) => RangeNode::I64(ranges),
+            None => RangeNode::U64(range_parts(m)?),
+        },
+        _ => RangeNode::U8(Vec::new()),
+    })
+}
+
+fn range_arg_of<'a, 't>(m: &'a RangeArgStr<'t>) -> &'a RangeArg<'t> {
+    match m {
+        RangeArgStr::RangeArg(m) => &m.range_arg,
+        RangeArgStr::DoubleQuotationRangeArgDoubleQuotation(m) => &m.range_arg,
     }
 }
 
-fn length(m: &LengthStmt) -> RangeNode {
-    match &*m.range_arg_str {
-        RangeArgStr::RangeArg(m) => range_arg(&m.range_arg, YangType::Uint64),
-        RangeArgStr::DoubleQuotationRangeArgDoubleQuotation(m) => {
-            range_arg(&m.range_arg, YangType::Uint64)
+fn range(m: &RangeStmt, kind: YangType) -> Option<RangeNode> {
+    range_arg(range_arg_of(&m.range_arg_str), kind)
+}
+
+fn length(m: &LengthStmt) -> Option<RangeNode> {
+    range_arg(range_arg_of(&m.range_arg_str), YangType::Uint64)
+}
+
+/// Whether `text`, a bound of a range, is a number of the type `kind`.
+/// Anything is one of a type that is not an integer: the bounds of its
+/// range are not read.
+fn bound_fits(text: &str, kind: YangType) -> bool {
+    match kind {
+        YangType::Int8 => text.parse::<i8>().is_ok(),
+        YangType::Int16 => text.parse::<i16>().is_ok(),
+        YangType::Int32 => text.parse::<i32>().is_ok(),
+        YangType::Int64 => text.parse::<i64>().is_ok(),
+        YangType::Uint8 => text.parse::<u8>().is_ok(),
+        YangType::Uint16 => text.parse::<u16>().is_ok(),
+        YangType::Uint32 => text.parse::<u32>().is_ok(),
+        YangType::Uint64 => text.parse::<u64>().is_ok(),
+        _ => true,
+    }
+}
+
+/// The first bound of `m` that is not a number of the type `kind`, as
+/// a syntax error at that bound: "`stmt` bound … is not `what`".
+fn bounds_check(m: &RangeArg, kind: YangType, stmt: &str, what: &str) -> parol_runtime::Result<()> {
+    let mut arg = m;
+    loop {
+        let part = &arg.range_part;
+        let bounds = [
+            Some(&*part.range_boundary),
+            part.range_part_opt.as_ref().map(|end| &*end.range_boundary),
+        ];
+        for bound in bounds.into_iter().flatten() {
+            if let RangeBoundary::RangeNumber(m) = bound {
+                let token = &m.range_number.range_number;
+                if !bound_fits(token.text(), kind) {
+                    return Err(parol_runtime::ParserError::SyntaxErrors {
+                        entries: vec![parol_runtime::SyntaxError {
+                            cause: format!("{stmt} bound `{}` is not {what}", token.text()),
+                            error_location: Box::new(token.location.clone()),
+                            ..Default::default()
+                        }],
+                    }
+                    .into());
+                }
+            }
+        }
+        match &arg.range_arg_opt {
+            Some(rest) => arg = &rest.range_arg,
+            None => return Ok(()),
         }
     }
+}
+
+/// What the grammar cannot say of a `type` statement: a bound of a
+/// `range` on an integer type is a number of that type, and a bound of
+/// a `length` an unsigned integer.
+///
+/// `RangeNumber` takes a fraction, for the range of a `decimal64`, and
+/// any number of digits. This refuses the rest while the file is
+/// parsed, so the file fails to load with a syntax error at the bound.
+/// A range on a typedef is not checked: what it restricts is not known
+/// here.
+pub(crate) fn type_stmt_check(m: &TypeStmt) -> parol_runtime::Result<()> {
+    let TypeStmtSuffix::LBraceTypeStmtListRBrace(body) = &*m.type_stmt_suffix else {
+        return Ok(());
+    };
+    let name = identifier_ref_arg_str(&m.identifier_ref_arg_str);
+    let kind = type_kind(&name);
+    for m in body.type_stmt_list.iter() {
+        match &*m.type_stmt_list_group {
+            TypeStmtListGroup::RangeStmt(m) => bounds_check(
+                range_arg_of(&m.range_stmt.range_arg_str),
+                kind,
+                "range",
+                &format!("of type `{name}`"),
+            )?,
+            TypeStmtListGroup::StringRestrictions(m) => {
+                if let StringRestrictions::LengthStmt(l) = &*m.string_restrictions {
+                    bounds_check(
+                        range_arg_of(&l.length_stmt.range_arg_str),
+                        YangType::Uint64,
+                        "length",
+                        "an unsigned integer",
+                    )?
+                }
+            }
+            _ => {}
+        }
+    }
+    Ok(())
+}
+
+/// Whether `m` has `modifier invert-match`: the value must then not
+/// match the pattern (RFC 7950 §9.4.6).
+fn pattern_inverted(m: &PatternStmt) -> bool {
+    let PatternStmtSuffix::LBracePatternStmtListRBrace(body) = &*m.pattern_stmt_suffix else {
+        return false;
+    };
+    body.pattern_stmt_list.iter().any(|m| {
+        matches!(&*m.restriction_substmt, RestrictionSubstmt::ModifierStmt(m)
+            if ystring(&m.modifier_stmt.ystring) == "invert-match")
+    })
 }
 
 fn enum_stmt(m: &EnumStmt) -> EnumNode {
@@ -1130,15 +1177,20 @@ fn type_stmt(m: &TypeStmt) -> TypeNode {
                 }
                 TypeStmtListGroup::StringRestrictions(m) => match &*m.string_restrictions {
                     StringRestrictions::PatternStmt(p) => {
-                        node.pattern = Some(arg_str(&p.pattern_stmt.arg_str));
+                        // `pattern` is one the value must match. An
+                        // inverted pattern is not kept there: read as
+                        // an ordinary one it would refuse every valid
+                        // value.
+                        if !pattern_inverted(&p.pattern_stmt) {
+                            node.pattern = Some(arg_str(&p.pattern_stmt.arg_str));
+                        }
                     }
                     StringRestrictions::LengthStmt(l) => {
-                        node.length = Some(length(&l.length_stmt));
+                        node.length = length(&l.length_stmt);
                     }
                 },
                 TypeStmtListGroup::RangeStmt(m) => {
-                    let n = range(&m.range_stmt, kind);
-                    node.range = Some(n);
+                    node.range = range(&m.range_stmt, kind);
                 }
                 TypeStmtListGroup::BitStmt(_m) => {}
                 TypeStmtListGroup::TypeStmt(m) => {

@@ -82,11 +82,10 @@ fn gap02_restrictions_take_substatements() {
         Some("<1..8>")
     );
 
+    // `modifier invert-match` is read. The pattern is then one the
+    // value must not match, and `pattern` does not hold it.
     let inverted = top("inverted");
-    assert_eq!(
-        inverted.type_node.as_ref().unwrap().pattern.as_deref(),
-        Some("[0-9]+")
-    );
+    assert_eq!(inverted.type_node.as_ref().unwrap().pattern, None);
 
     for (leaf, range) in [("ranged", "<1..4095>"), ("ranged-unquoted", "<1..65535>")] {
         let entry = top(leaf);

@@ -1,0 +1,127 @@
+module typedef-restrict {
+  yang-version 1.1;
+  namespace "urn:example:typedef-restrict";
+  prefix tr;
+
+  typedef percent {
+    type uint8 {
+      range "0..100";
+    }
+  }
+
+  typedef plain-number {
+    type uint8;
+  }
+
+  typedef name {
+    type string {
+      length "1..64";
+    }
+  }
+
+  typedef color {
+    type enumeration {
+      enum red;
+      enum green;
+      enum blue;
+    }
+  }
+
+  // Fewer values of a typedef, in a typedef.
+  typedef warm {
+    type color {
+      enum red;
+    }
+  }
+
+  typedef counter {
+    type uint64;
+  }
+
+  typedef ratio {
+    type decimal64 {
+      fraction-digits 2;
+    }
+  }
+
+  // A range on the reference, where the typedef has one and where it
+  // has none.
+  leaf small {
+    type percent {
+      range "1..10";
+    }
+  }
+  leaf ranged {
+    type plain-number {
+      range "1..10";
+    }
+  }
+  leaf unrestricted {
+    type percent;
+  }
+
+  // A pattern and a length on the reference.
+  leaf short-name {
+    type name {
+      pattern "[a-z]+";
+      length "1..8";
+    }
+  }
+  // A pattern alone: the typedef's length stays.
+  leaf vrf {
+    type tr:name {
+      pattern "Vrf[a-zA-Z0-9_-]+";
+    }
+  }
+
+  leaf-list ports {
+    type percent {
+      range "5..6";
+    }
+  }
+
+  // On the arms of a union.
+  leaf either {
+    type union {
+      type percent {
+        range "1..10";
+      }
+      type name {
+        length "1..8";
+      }
+    }
+  }
+
+  leaf warm-color {
+    type warm;
+  }
+  leaf two-colors {
+    type color {
+      enum blue;
+      enum red;
+    }
+  }
+
+  // A bound no signed integer holds.
+  leaf big {
+    type counter {
+      range "10000000000000000000..max";
+    }
+  }
+  // The range of a decimal64 is not kept.
+  leaf part {
+    type ratio {
+      range "0.5..1.5";
+    }
+  }
+
+  // An inverted pattern beside an ordinary one.
+  leaf not-reserved {
+    type string {
+      pattern "[a-z]+";
+      pattern "xml.*" {
+        modifier invert-match;
+      }
+    }
+  }
+}

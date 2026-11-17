@@ -800,18 +800,23 @@ where
     enabled
 }
 
-fn type_union_resolve<T>(top: &T, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode>
+fn type_union_resolve<T>(
+    top: &T,
+    store: &YangStore,
+    type_node: &TypeNode,
+    visiting: &mut Vec<(String, String)>,
+) -> Option<TypeNode>
 where
     T: ModuleCommon,
 {
     let mut nodes = Vec::<TypeNode>::new();
     for node in type_node.union.iter() {
         if node.kind == YangType::Path {
-            if let Some(n) = type_path_resolve(top, store, node) {
+            if let Some(n) = type_path_resolve_at(top, store, node, visiting) {
                 if n.kind == YangType::Union {
                     // A typedef'd arm whose base is itself a union
                     // (e.g. `type union { type some-union; … }`).
-                    // type_path_resolve already returned its fully
+                    // type_path_resolve_at already returned its fully
                     // resolved arms, so flatten them in directly —
                     // keeping every arm, not just the String ones.
                     for m in n.union.iter() {
@@ -850,40 +855,35 @@ where
     Some(type_node)
 }
 
-/// How many typedefs a type may be defined through. Well beyond any
-/// real chain; it only stops typedefs that are defined by each other.
-const TYPEDEF_DEPTH: usize = 32;
-
 /// Resolve `type_node`, a reference to a typedef written in `top`, to
 /// the built-in type it stands for.
 fn type_path_resolve<T>(top: &T, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode>
 where
     T: ModuleCommon,
 {
-    type_path_resolve_at(top, store, type_node, 0)
+    type_path_resolve_at(top, store, type_node, &mut Vec::new())
 }
 
+/// `visiting` is the chain of typedefs being resolved, each as its
+/// module and its name: see `typedef_resolve`.
 fn type_path_resolve_at<T>(
     top: &T,
     store: &YangStore,
     type_node: &TypeNode,
-    depth: usize,
+    visiting: &mut Vec<(String, String)>,
 ) -> Option<TypeNode>
 where
     T: ModuleCommon,
 {
-    if depth > TYPEDEF_DEPTH {
-        return None;
-    }
     match path_module(&type_node.name) {
         // `top`'s own prefix: the typedef is one of its own, as with no
         // prefix at all.
         Some((prefix, name)) if top.get_prefix() == Some(prefix.as_str()) => {
-            typedef_resolve(top, store, top.get_typedef(), &name, type_node, depth)
+            typedef_resolve(top, store, top.get_typedef(), &name, type_node, visiting)
         }
         Some((prefix, name)) => {
             let module = store.find_module(&prefix_resolve(top, prefix))?;
-            typedef_resolve(module, store, &module.typedef, &name, type_node, depth)
+            typedef_resolve(module, store, &module.typedef, &name, type_node, visiting)
         }
         None => typedef_resolve(
             top,
@@ -891,24 +891,29 @@ where
             top.get_typedef(),
             &type_node.name,
             type_node,
-            depth,
+            visiting,
         ),
     }
 }
 
 /// The type of the typedef `name` of `defining`, the module that
-/// defines it, for the reference `reference`.
+/// defines it, for the reference `reference`: the type the typedef
+/// stands for, with the restrictions `reference` adds to it.
 ///
 /// What the typedef's own type names (another typedef, the arms of a
 /// union) is looked up in `defining`: its prefixes are that module's,
 /// not those of the module the reference was written in.
+///
+/// A typedef that is defined by itself, directly, through other
+/// typedefs or through the arms of a union, has no type: a reference
+/// back into `visiting` resolves to nothing.
 fn typedef_resolve<T>(
     defining: &T,
     store: &YangStore,
     typedefs: &[TypedefNode],
     name: &str,
     reference: &TypeNode,
-    depth: usize,
+    visiting: &mut Vec<(String, String)>,
 ) -> Option<TypeNode>
 where
     T: ModuleCommon,
@@ -918,39 +923,68 @@ where
         .find(|typedef| typedef.name == name)?
         .type_node
         .as_ref()?;
-    let mut node = node.clone();
-    match node.kind {
+    let key = (defining.get_name().to_string(), name.to_string());
+    if visiting.contains(&key) {
+        return None;
+    }
+    visiting.push(key);
+    let resolved = match node.kind {
         // A typedef of a typedef. The result is the type at the end of
         // the chain, known by the name of the last typedef before it
         // (`inet:ipv4-address` for a chain that ends there), with the
         // restrictions each typedef on the way adds.
-        YangType::Path => {
-            let mut base = type_path_resolve_at(defining, store, &node, depth + 1)?;
-            if node.pattern.is_some() {
-                base.pattern = node.pattern;
-            }
-            if node.length.is_some() {
-                base.length = node.length;
-            }
-            // Read before the type it restricts was known: see
-            // `RangeNode::cast`.
-            if let Some(range) = node.range.as_ref().and_then(|r| r.cast(base.kind)) {
-                base.range = Some(range);
-            }
-            Some(base)
-        }
-        YangType::Union => {
+        YangType::Path => type_path_resolve_at(defining, store, node, visiting),
+        // Its arms that are typedefs are resolved the same way,
+        // otherwise a leaf like `type peer-id-or-all` reaches the
+        // matcher with every arm still `kind = Path` and nothing
+        // dispatches.
+        YangType::Union => type_union_resolve(defining, store, node, visiting).map(|mut node| {
             node.typedef = Some(reference.name.clone());
-            // Its arms that are typedefs are resolved the same way,
-            // otherwise a leaf like `type peer-id-or-all` reaches the
-            // matcher with every arm still `kind = Path` and nothing
-            // dispatches.
-            type_union_resolve(defining, store, &node)
-        }
+            node
+        }),
         _ => {
+            let mut node = node.clone();
             node.typedef = Some(reference.name.clone());
             Some(node)
         }
+    };
+    visiting.pop();
+    let mut resolved = resolved?;
+    type_restrict(&mut resolved, reference);
+    Some(resolved)
+}
+
+/// Apply to `node`, the type a typedef stands for, the restrictions
+/// written on `reference`, a type statement that names the typedef:
+/// `type percent { range "1..10"; }` on a leaf, on an arm of a union
+/// or in another typedef (RFC 7950 §7.3.4).
+fn type_restrict(node: &mut TypeNode, reference: &TypeNode) {
+    // A `pattern`, `length` or `range` replaces the typedef's.
+    if reference.pattern.is_some() {
+        node.pattern = reference.pattern.clone();
+    }
+    if reference.length.is_some() {
+        node.length = reference.length.clone();
+    }
+    // Read before the type it restricts was known: see
+    // `RangeNode::cast`.
+    if let Some(range) = reference.range.as_ref().and_then(|r| r.cast(node.kind)) {
+        node.range = Some(range);
+    }
+    // `enum` statements name the values that are left (§9.6.4), each
+    // under its own `if-feature` and that of the value it keeps.
+    if node.kind == YangType::Enumeration && !reference.enum_stmt.is_empty() {
+        let base = std::mem::take(&mut node.enum_stmt);
+        node.enum_stmt = reference
+            .enum_stmt
+            .iter()
+            .filter_map(|e| {
+                let kept = base.iter().find(|b| b.name == e.name)?;
+                let mut e = e.clone();
+                e.if_feature.extend(kept.if_feature.iter().cloned());
+                Some(e)
+            })
+            .collect();
     }
 }
 
@@ -964,7 +998,12 @@ where
         }
     } else if type_node.kind == YangType::Identityref {
         if let Some(base) = &type_node.base {
-            if let Some((module, name)) = path_module(base) {
+            // A base in another module. One named with `top`'s own
+            // prefix is its own, as with no prefix: the type stays an
+            // identityref.
+            if let Some((module, name)) = path_module(base)
+                && top.get_prefix() != Some(module.as_str())
+            {
                 let prefix = prefix_resolve(top, module);
                 let module = store.find_module(&prefix);
                 if let Some(m) = module {

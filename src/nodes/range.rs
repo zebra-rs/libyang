@@ -75,8 +75,8 @@ impl RangeNode {
     /// when `kind` is not an integer type or a bound does not fit it.
     ///
     /// A range written on a typedef is read before the typedef is
-    /// resolved, as `i64`; this gives it the type the typedef turns out
-    /// to stand for.
+    /// resolved, as `i64`, or as `u64` when a bound is too large for
+    /// that; this gives it the type the typedef turns out to stand for.
     pub fn cast(&self, kind: crate::YangType) -> Option<RangeNode> {
         use crate::YangType;
         fn wide<T: Copy + Into<i128>>(ranges: &[Range<T>]) -> Vec<Range<i128>> {
