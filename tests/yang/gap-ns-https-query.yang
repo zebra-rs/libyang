@@ -1,0 +1,4 @@
+module gap-ns-https-query {
+  namespace "https://example.com/yang/ns?module=x&v=1#frag";
+  prefix n;
+}

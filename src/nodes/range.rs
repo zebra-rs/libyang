@@ -70,6 +70,74 @@ impl fmt::Display for RangeNode {
     }
 }
 
+impl RangeNode {
+    /// The same ranges as ranges of the integer type `kind`, or `None`
+    /// when `kind` is not an integer type or a bound does not fit it.
+    ///
+    /// A range written on a typedef is read before the typedef is
+    /// resolved, as `i64`; this gives it the type the typedef turns out
+    /// to stand for.
+    pub fn cast(&self, kind: crate::YangType) -> Option<RangeNode> {
+        use crate::YangType;
+        fn wide<T: Copy + Into<i128>>(ranges: &[Range<T>]) -> Vec<Range<i128>> {
+            let val = |v: &RangeVal<T>| match v {
+                RangeVal::Min => RangeVal::Min,
+                RangeVal::Max => RangeVal::Max,
+                RangeVal::Val(v) => RangeVal::Val((*v).into()),
+            };
+            ranges
+                .iter()
+                .map(|r| Range {
+                    start: val(&r.start),
+                    end: r.end.as_ref().map(val),
+                })
+                .collect()
+        }
+        fn narrow<T: TryFrom<i128>>(ranges: &[Range<i128>]) -> Option<Vec<Range<T>>> {
+            let val = |v: &RangeVal<i128>| {
+                Some(match v {
+                    RangeVal::Min => RangeVal::Min,
+                    RangeVal::Max => RangeVal::Max,
+                    RangeVal::Val(v) => RangeVal::Val(T::try_from(*v).ok()?),
+                })
+            };
+            ranges
+                .iter()
+                .map(|r| {
+                    Some(Range {
+                        start: val(&r.start)?,
+                        end: match &r.end {
+                            Some(end) => Some(val(end)?),
+                            None => None,
+                        },
+                    })
+                })
+                .collect()
+        }
+        let ranges = match self {
+            RangeNode::I8(r) => wide(r),
+            RangeNode::I16(r) => wide(r),
+            RangeNode::I32(r) => wide(r),
+            RangeNode::I64(r) => wide(r),
+            RangeNode::U8(r) => wide(r),
+            RangeNode::U16(r) => wide(r),
+            RangeNode::U32(r) => wide(r),
+            RangeNode::U64(r) => wide(r),
+        };
+        Some(match kind {
+            YangType::Int8 => RangeNode::I8(narrow(&ranges)?),
+            YangType::Int16 => RangeNode::I16(narrow(&ranges)?),
+            YangType::Int32 => RangeNode::I32(narrow(&ranges)?),
+            YangType::Int64 => RangeNode::I64(narrow(&ranges)?),
+            YangType::Uint8 => RangeNode::U8(narrow(&ranges)?),
+            YangType::Uint16 => RangeNode::U16(narrow(&ranges)?),
+            YangType::Uint32 => RangeNode::U32(narrow(&ranges)?),
+            YangType::Uint64 => RangeNode::U64(narrow(&ranges)?),
+            _ => return None,
+        })
+    }
+}
+
 pub trait RangeExtract<T> {
     fn extract(&self) -> Option<Vec<Range<T>>>;
 }

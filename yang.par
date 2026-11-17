@@ -33,6 +33,10 @@
 %on KwEnum %enter Enum
 %on KwRevision, KwRevisionDate %enter Revision
 %on KwNamespace %enter Uri
+// `pattern` and `path` take a string that is often written unquoted and
+// starts with a character no identifier does (`[0-7]`, `/a:b/c`): their
+// argument is read in a scanner of its own.
+%on KwPattern, KwPath %enter Arg
 %on DoubleQuotation %push DQString
 %on SingleQuotation %push SQString
 
@@ -43,17 +47,18 @@
     %on DoubleQuotation %pop
 }
 
+// RFC 7950 §6.1.3: a single-quoted string has no escapes. A backslash in
+// it is a backslash.
 %scanner SQString {
     %auto_newline_off
     %auto_ws_off
-    %on Escape %push Esc
     %on SingleQuotation %pop
 }
 
 %scanner Esc {
     %auto_newline_off
     %auto_ws_off
-    %on Escape, DoubleQuotation, EscN, EscT, SQEscapeSeqChar %pop
+    %on Escape, DoubleQuotation, EscN, EscT %pop
 }
 
 %scanner Keyword {
@@ -64,16 +69,21 @@
     %on Semicolon %enter INITIAL
 }
 
+// A `range` or `length` ends at `;`, or at the `{` of its substatements
+// (`error-message` and the others).
 %scanner Range {
-    %on Semicolon %enter INITIAL
+    %on Semicolon, LBrace %enter INITIAL
 }
 
 %scanner Enum {
     %on Semicolon, LBrace %enter INITIAL
 }
 
+// A quoted default is an ordinary double-quoted string, which may be
+// empty and may run over several lines.
 %scanner Default {
     %on Semicolon %enter INITIAL
+    %on DoubleQuotation %push DQString
 }
 
 %scanner Revision {
@@ -108,6 +118,14 @@
     %on Semicolon %enter INITIAL
 }
 
+%scanner Arg {
+    %line_comment "//"
+    %block_comment "/\*" "\*/"
+    %on Semicolon, LBrace %enter INITIAL
+    %on DoubleQuotation %push DQString
+    %on SingleQuotation %push SQString
+}
+
 %%
 // --- Primary non-terminals for scanner transitions (parol 4.x) ---
 // parol 4.x requires every token named in an %on transition to be a primary
@@ -115,7 +133,7 @@
 // statement keywords below are therefore wrapped as KwX and used clipped
 // (`KwX^`) so the AST is identical to the old inline `'kw'^` literals.
 
-LBrace : <INITIAL, Keyword, Enum, Revision>'{';
+LBrace : <INITIAL, Keyword, Enum, Revision, Range, Arg>'{';
 
 EscN : <Esc>"n";
 EscT : <Esc>"t";
@@ -167,6 +185,8 @@ KwEnum : 'enum';
 KwRevision : 'revision';
 KwRevisionDate : 'revision-date';
 KwNamespace : 'namespace';
+KwPattern : 'pattern';
+KwPath : 'path';
 
 Yang
     : ModuleStmt
@@ -440,6 +460,7 @@ ContainerStmt
       | StatusStmt
       | DescriptionStmt
       | ReferenceStmt
+      | TypedefStmt
       | DataDefStmt
       | ActionStmt
       | NotificationStmt
@@ -549,8 +570,11 @@ DescendantSchemaNodeid
     : IdentifierRef
     | AbsoluteSchemaNodeid;
 
+// An extension's use: `prefix:keyword [argument]`, RFC 7950 §6.3.1.
+// The argument is there only when the extension declares one.
 UnknownStmt
-    : IdentifierRef Ystring Semicolon^
+    : IdentifierRef Semicolon^
+    | IdentifierRef Ystring Semicolon^
     | IdentifierRef Ystring
     LBrace^
     { TypeStmt
@@ -598,11 +622,28 @@ MustStmt
     | 'must'^ Ystring
     LBrace^
     { ErrorMessage
-    | DescriptionStmt }
+    | ErrorAppTag
+    | DescriptionStmt
+    | ReferenceStmt }
     '}'^;
 
 ErrorMessage
     : 'error-message' Ystring Semicolon;
+
+ErrorAppTag
+    : 'error-app-tag' Ystring Semicolon;
+
+// What may follow a `pattern`, `range` or `length` in braces (RFC 7950
+// §9.2.4, §9.4.4, §9.4.5).
+RestrictionSubstmt
+    : ErrorMessage
+    | ErrorAppTag
+    | ModifierStmt
+    | DescriptionStmt
+    | ReferenceStmt;
+
+ModifierStmt
+    : 'modifier' Ystring Semicolon;
 
 UnitsStmt
     : 'units' Ystring Semicolon;
@@ -634,6 +675,7 @@ ListStmt
       | StatusStmt
       | DescriptionStmt
       | ReferenceStmt
+      | TypedefStmt
       | DataDefStmt
       | ActionStmt
       | NotificationStmt
@@ -652,7 +694,7 @@ OrderedByArg
 
 DefaultStmt
     : KwDefault^ AsciiNoSemicolon Semicolon^
-    | KwDefault^ <Default>'"' AsciiNoSemicolon <Default>'"' Semicolon^;
+    | KwDefault^ DQString Semicolon^;
 
 MaxElementsStmt
     : 'max-elements'^ /[1-9][0-9]*/ Semicolon^;
@@ -704,17 +746,41 @@ RequireInstanceArgStr
     | <Mandatory>'"' MandatoryArg <Mandatory>'"';
 
 PathStmt
-    : 'path'^ Ystring Semicolon^;
+    : KwPath^ ArgStr Semicolon^;
 
 StringRestrictions
     : LengthStmt
     | PatternStmt;
 
 PatternStmt
-    : 'pattern' Ystring Semicolon;
+    : KwPattern^ ArgStr Semicolon^
+    | KwPattern^ ArgStr
+      LBrace^
+      { RestrictionSubstmt }
+      '}'^;
 
 LengthStmt
-    : KwLength^ RangeArgStr Semicolon^;
+    : KwLength^ RangeArgStr Semicolon^
+    | KwLength^ RangeArgStr
+      LBrace^
+      { RestrictionSubstmt }
+      '}'^;
+
+// The argument of `pattern` and `path`: quoted strings joined by `+`, or
+// one unquoted string.
+ArgStr
+    : BasicString [ Plus^ ArgStr ]
+    | UnquotedArg;
+
+// Anything up to whitespace, `;`, `{`, `}` or a quote (RFC 7950 §6.1.3).
+// It does not start with `+`, which joins quoted strings, nor with `//`
+// or `/*`, which start a comment: a `/` at its start is followed by
+// something else, as in a path.
+UnquotedArg
+    : <Arg>/([\u{21}\u{23}-\u{26}\u{28}-\u{2a}\u{2c}-\u{2e}\u{30}-\u{3a}\u{3c}-\u{7a}\u{7c}\u{7e}]|\u{2f}[\u{21}\u{23}-\u{26}\u{28}\u{29}\u{2b}-\u{2e}\u{30}-\u{3a}\u{3c}-\u{7a}\u{7c}\u{7e}])[\u{21}\u{23}-\u{26}\u{28}-\u{3a}\u{3c}-\u{7a}\u{7c}\u{7e}]*/;
+
+Plus
+    : <INITIAL, Arg>'+';
 
 EnumStmt
     : KwEnum^ EnumArgStr Semicolon^
@@ -741,7 +807,11 @@ EnumArgStr
     | <Enum>'"'^ AsciiNoBrace <Enum>'"'^;
 
 RangeStmt
-    : KwRange^ RangeArgStr Semicolon^;
+    : KwRange^ RangeArgStr Semicolon^
+    | KwRange^ RangeArgStr
+      LBrace^
+      { RestrictionSubstmt }
+      '}'^;
 
 RangeArgStr
     : RangeArg
@@ -756,7 +826,11 @@ RangePart
 RangeBoundary
     : <Range>'min'
     | <Range>'max'
-    | <Range>"-?[0-9]+";
+    | RangeNumber;
+
+// A bound of a `range` or `length`. A `decimal64` range has a fraction.
+RangeNumber
+    : <Range>"-?[0-9]+(\.[0-9]+)?";
 
 IdentifierRefArgStr
     : IdentifierRef
@@ -773,7 +847,7 @@ KeyArgStr
     | <Keyword>'"'^ KeyArg <Keyword>'"'^;
 
 Semicolon
-    : <INITIAL, Keyword, Range, YVersion, Enum, Revision, Mandatory, IfFeature, Status, Ordered, Default, Fraction, Value, Uri>';';
+    : <INITIAL, Keyword, Range, YVersion, Enum, Revision, Mandatory, IfFeature, Status, Ordered, Default, Fraction, Value, Uri, Arg>';';
 
 KeyArg
     : IdentifierRef [ KeyArg ];
@@ -809,8 +883,11 @@ UriStr
     : UriArg
     | <Uri>'"'^ UriArg <Uri>'"'^;
 
+// Any URI (RFC 3986): a scheme, `:`, and the rest up to whitespace, `;`
+// or the closing quote. Module namespaces are `urn:` for IETF models
+// and often `http://` elsewhere.
 UriArg
-    : <Uri>"urn:[a-zA-Z0-9\-\.:]+";
+    : <Uri>"[a-zA-Z][a-zA-Z0-9+\-\.]*:[\u{21}\u{23}-\u{3a}\u{3c}-\u{7e}]+";
 
 PrefixStmt
     : KwPrefix^ IdentifierArgStr Semicolon^;
@@ -855,7 +932,7 @@ DateArg
 // The `+` concatenation form only applies to quoted strings, so the
 // unquoted alternative is a plain `Identifier`.
 Ystring
-    : BasicString [ '+' Ystring ]
+    : BasicString [ Plus^ Ystring ]
     | Identifier;
 
 BasicString
@@ -863,7 +940,7 @@ BasicString
     | SQString;
 
 DoubleQuotation
-    : <INITIAL, DQString, Esc>'"';
+    : <INITIAL, DQString, Esc, Default, Arg>'"';
 
 DQString
     : DoubleQuotation^ { DQChar } DoubleQuotation^;
@@ -886,7 +963,7 @@ DQEscapeSeqChar
     | EscT;
 
 Escape
-    : <DQString, SQString, Esc>"\u{5C}";
+    : <DQString, Esc>"\u{5C}";
 
 NonAscii
     : <DQString, SQString>"[\n\r\u{80}-\u{D7FF}\u{E000}-\u{10FFFF}]";
@@ -898,24 +975,17 @@ SQString
     : SingleQuotation { SQChar } SingleQuotation;
 
 SQChar
-    : SQUnescaped
-    | SQEscaped;
-
-SQEscaped
-    : Escape SQEscapeSeqChar;
-
-SQEscapeSeqChar
-    : <Esc>".";
+    : SQUnescaped;
 
 SQUnescaped
     : SQNoEscape
     | NonAscii;
 
 SQNoEscape
-    : <SQString>"[ \t\u{21}-\u{26}\u{28}-\u{5B}\u{5D}-\u{7E}]+";
+    : <SQString>"[ \t\u{21}-\u{26}\u{28}-\u{7E}]+";
 
 SingleQuotation
-    : <INITIAL, SQString>"\u{27}";
+    : <INITIAL, SQString, Arg>"\u{27}";
 
 IdentifierArgStr
     : Identifier

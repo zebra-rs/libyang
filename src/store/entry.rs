@@ -653,6 +653,10 @@ where
     }
 }
 
+/// The name of the module a prefix stands for in `node`: one it
+/// imports, or `node`'s own module, whose prefix may be written on a
+/// reference to something the module defines itself (RFC 7950 §5.1,
+/// §6.4.1). A prefix that is neither is returned as it is.
 fn prefix_resolve<T>(node: &T, name: String) -> String
 where
     T: ModuleCommon,
@@ -663,6 +667,9 @@ where
         {
             return import.name.clone();
         }
+    }
+    if node.get_prefix() == Some(name.as_str()) {
+        return node.get_module_name().to_string();
     }
     name
 }
@@ -843,49 +850,108 @@ where
     Some(type_node)
 }
 
+/// How many typedefs a type may be defined through. Well beyond any
+/// real chain; it only stops typedefs that are defined by each other.
+const TYPEDEF_DEPTH: usize = 32;
+
+/// Resolve `type_node`, a reference to a typedef written in `top`, to
+/// the built-in type it stands for.
 fn type_path_resolve<T>(top: &T, store: &YangStore, type_node: &TypeNode) -> Option<TypeNode>
 where
     T: ModuleCommon,
 {
-    if let Some((module, name)) = path_module(&type_node.name) {
-        let prefix = prefix_resolve(top, module);
-        let module = store.find_module(&prefix);
-        if let Some(m) = module {
-            for typedef in m.typedef.iter() {
-                if typedef.name == name
-                    && let Some(node) = &typedef.type_node
-                {
-                    let mut node = node.clone();
-                    node.typedef = Some(type_node.name.clone());
-                    if node.kind == YangType::Union {
-                        return type_union_resolve(top, store, &node);
-                    } else {
-                        return Some(node);
-                    }
-                }
-            }
+    type_path_resolve_at(top, store, type_node, 0)
+}
+
+fn type_path_resolve_at<T>(
+    top: &T,
+    store: &YangStore,
+    type_node: &TypeNode,
+    depth: usize,
+) -> Option<TypeNode>
+where
+    T: ModuleCommon,
+{
+    if depth > TYPEDEF_DEPTH {
+        return None;
+    }
+    match path_module(&type_node.name) {
+        // `top`'s own prefix: the typedef is one of its own, as with no
+        // prefix at all.
+        Some((prefix, name)) if top.get_prefix() == Some(prefix.as_str()) => {
+            typedef_resolve(top, store, top.get_typedef(), &name, type_node, depth)
         }
-    } else {
-        for typedef in top.get_typedef().iter() {
-            if typedef.name == type_node.name
-                && let Some(node) = &typedef.type_node
-            {
-                let mut node = node.clone();
-                node.typedef = Some(type_node.name.clone());
-                if node.kind == YangType::Union {
-                    // A local typedef whose underlying type is a
-                    // union: resolve its Path arms the same way
-                    // the prefixed branch does, otherwise a leaf
-                    // like `type peer-id-or-all` reaches the
-                    // matcher with every arm still `kind = Path`
-                    // and nothing dispatches.
-                    return type_union_resolve(top, store, &node);
-                }
-                return Some(node);
+        Some((prefix, name)) => {
+            let module = store.find_module(&prefix_resolve(top, prefix))?;
+            typedef_resolve(module, store, &module.typedef, &name, type_node, depth)
+        }
+        None => typedef_resolve(
+            top,
+            store,
+            top.get_typedef(),
+            &type_node.name,
+            type_node,
+            depth,
+        ),
+    }
+}
+
+/// The type of the typedef `name` of `defining`, the module that
+/// defines it, for the reference `reference`.
+///
+/// What the typedef's own type names (another typedef, the arms of a
+/// union) is looked up in `defining`: its prefixes are that module's,
+/// not those of the module the reference was written in.
+fn typedef_resolve<T>(
+    defining: &T,
+    store: &YangStore,
+    typedefs: &[TypedefNode],
+    name: &str,
+    reference: &TypeNode,
+    depth: usize,
+) -> Option<TypeNode>
+where
+    T: ModuleCommon,
+{
+    let node = typedefs
+        .iter()
+        .find(|typedef| typedef.name == name)?
+        .type_node
+        .as_ref()?;
+    let mut node = node.clone();
+    match node.kind {
+        // A typedef of a typedef. The result is the type at the end of
+        // the chain, known by the name of the last typedef before it
+        // (`inet:ipv4-address` for a chain that ends there), with the
+        // restrictions each typedef on the way adds.
+        YangType::Path => {
+            let mut base = type_path_resolve_at(defining, store, &node, depth + 1)?;
+            if node.pattern.is_some() {
+                base.pattern = node.pattern;
             }
+            if node.length.is_some() {
+                base.length = node.length;
+            }
+            // Read before the type it restricts was known: see
+            // `RangeNode::cast`.
+            if let Some(range) = node.range.as_ref().and_then(|r| r.cast(base.kind)) {
+                base.range = Some(range);
+            }
+            Some(base)
+        }
+        YangType::Union => {
+            node.typedef = Some(reference.name.clone());
+            // Its arms that are typedefs are resolved the same way,
+            // otherwise a leaf like `type peer-id-or-all` reaches the
+            // matcher with every arm still `kind = Path` and nothing
+            // dispatches.
+            type_union_resolve(defining, store, &node)
+        }
+        _ => {
+            node.typedef = Some(reference.name.clone());
+            Some(node)
         }
     }
-    None
 }
 
 fn type_resolve<T>(top: &T, store: &YangStore, type_node: &TypeNode, ent: &mut Entry)

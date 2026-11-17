@@ -1,0 +1,179 @@
+module gap-syntax {
+  yang-version 1.1;
+  namespace "http://example.com/yang/gap-syntax";
+  prefix gs;
+
+  import gap-types {
+    prefix gt;
+  }
+
+  typedef own {
+    type string;
+  }
+
+  // A typedef of another module's typedef.
+  typedef local-flag {
+    type gt:flag;
+  }
+
+  // Three typedefs deep, the last two in another module.
+  typedef local-small {
+    type gt:small;
+  }
+
+  container top {
+    // A typedef inside a container.
+    typedef nested {
+      type uint8 {
+        range "1..9";
+      }
+    }
+
+    gt:marker;
+
+    leaf restricted {
+      type string {
+        pattern "[a-z]+" {
+          error-message "lower case only";
+          error-app-tag not-lower;
+        }
+        length "1..8" {
+          error-message "one to eight";
+        }
+      }
+    }
+    leaf inverted {
+      type string {
+        pattern "[0-9]+" {
+          modifier invert-match;
+          description "No digits.";
+          reference "RFC 7950 9.4.6";
+        }
+      }
+    }
+    leaf ranged {
+      type uint16 {
+        range "1..4095" {
+          error-message "a VLAN ID";
+          description "The VLAN ID.";
+        }
+      }
+    }
+    leaf ranged-unquoted {
+      type uint16 {
+        range 1..65535 {
+          error-message "a port";
+        }
+      }
+    }
+    leaf length-unquoted {
+      type string {
+        length 0..128 {
+          error-message "too long";
+        }
+      }
+    }
+    leaf ref {
+      type leafref {
+        path /gs:top/gs:item/gs:name;
+      }
+    }
+    leaf ref-relative {
+      type leafref {
+        path ../item/name;
+      }
+    }
+    leaf digit {
+      type string {
+        pattern [0-7];
+      }
+    }
+    leaf empty-default {
+      type string;
+      default "";
+    }
+    leaf banner {
+      type string;
+      default "line one
+               line \"two\"
+               line three";
+    }
+    leaf plain-default {
+      type uint8;
+      default 5;
+    }
+    leaf percent {
+      type decimal64 {
+        fraction-digits 2;
+        range 0.0..99.99;
+      }
+    }
+    leaf no-newline {
+      type string {
+        pattern '[^\n\r]+';
+      }
+    }
+    leaf joined {
+      type string {
+        pattern '[^ @,\\' + "']*" {
+          error-message 'no space, at sign, comma, backslash or quote';
+        }
+      }
+    }
+    leaf checked {
+      type string;
+      must "current() != 'x'" {
+        error-message "not x";
+        error-app-tag is-x;
+        description "Anything but x.";
+        reference "none";
+      }
+    }
+    leaf uses-nested {
+      type nested;
+    }
+    leaf uses-own {
+      type gs:own;
+    }
+    leaf uses-local-flag {
+      type local-flag;
+    }
+    leaf uses-local-small {
+      type gs:local-small;
+    }
+    leaf uses-union {
+      type gt:number-or-name;
+    }
+    list item {
+      key "name index";
+      // A typedef inside a list.
+      typedef index-type {
+        type uint8;
+      }
+      leaf name {
+        type string;
+      }
+      leaf index {
+        type index-type;
+      }
+    }
+    list triple {
+      key "a b c";
+      leaf a {
+        type string;
+      }
+      leaf b {
+        type string;
+      }
+      leaf c {
+        type string;
+      }
+    }
+    list single {
+      key name;
+      leaf name {
+        type string;
+      }
+    }
+  }
+}

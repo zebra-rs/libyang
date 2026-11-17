@@ -1,0 +1,4 @@
+module gap-ns-urn-quoted {
+  namespace "urn:ietf:params:xml:ns:yang:gap";
+  prefix n;
+}

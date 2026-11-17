@@ -269,6 +269,16 @@ pub trait YangGrammarTrait<'t> {
         Ok(())
     }
 
+    /// Semantic action for non-terminal 'KwPattern'
+    fn kw_pattern(&mut self, _arg: &KwPattern<'t>) -> Result<()> {
+        Ok(())
+    }
+
+    /// Semantic action for non-terminal 'KwPath'
+    fn kw_path(&mut self, _arg: &KwPath<'t>) -> Result<()> {
+        Ok(())
+    }
+
     /// Semantic action for non-terminal 'Yang'
     fn yang(&mut self, _arg: &Yang<'t>) -> Result<()> {
         Ok(())
@@ -529,6 +539,21 @@ pub trait YangGrammarTrait<'t> {
         Ok(())
     }
 
+    /// Semantic action for non-terminal 'ErrorAppTag'
+    fn error_app_tag(&mut self, _arg: &ErrorAppTag<'t>) -> Result<()> {
+        Ok(())
+    }
+
+    /// Semantic action for non-terminal 'RestrictionSubstmt'
+    fn restriction_substmt(&mut self, _arg: &RestrictionSubstmt<'t>) -> Result<()> {
+        Ok(())
+    }
+
+    /// Semantic action for non-terminal 'ModifierStmt'
+    fn modifier_stmt(&mut self, _arg: &ModifierStmt<'t>) -> Result<()> {
+        Ok(())
+    }
+
     /// Semantic action for non-terminal 'UnitsStmt'
     fn units_stmt(&mut self, _arg: &UnitsStmt<'t>) -> Result<()> {
         Ok(())
@@ -649,6 +674,21 @@ pub trait YangGrammarTrait<'t> {
         Ok(())
     }
 
+    /// Semantic action for non-terminal 'ArgStr'
+    fn arg_str(&mut self, _arg: &ArgStr<'t>) -> Result<()> {
+        Ok(())
+    }
+
+    /// Semantic action for non-terminal 'UnquotedArg'
+    fn unquoted_arg(&mut self, _arg: &UnquotedArg<'t>) -> Result<()> {
+        Ok(())
+    }
+
+    /// Semantic action for non-terminal 'Plus'
+    fn plus(&mut self, _arg: &Plus<'t>) -> Result<()> {
+        Ok(())
+    }
+
     /// Semantic action for non-terminal 'EnumStmt'
     fn enum_stmt(&mut self, _arg: &EnumStmt<'t>) -> Result<()> {
         Ok(())
@@ -696,6 +736,11 @@ pub trait YangGrammarTrait<'t> {
 
     /// Semantic action for non-terminal 'RangeBoundary'
     fn range_boundary(&mut self, _arg: &RangeBoundary<'t>) -> Result<()> {
+        Ok(())
+    }
+
+    /// Semantic action for non-terminal 'RangeNumber'
+    fn range_number(&mut self, _arg: &RangeNumber<'t>) -> Result<()> {
         Ok(())
     }
 
@@ -874,16 +919,6 @@ pub trait YangGrammarTrait<'t> {
         Ok(())
     }
 
-    /// Semantic action for non-terminal 'SQEscaped'
-    fn s_q_escaped(&mut self, _arg: &SQEscaped<'t>) -> Result<()> {
-        Ok(())
-    }
-
-    /// Semantic action for non-terminal 'SQEscapeSeqChar'
-    fn s_q_escape_seq_char(&mut self, _arg: &SQEscapeSeqChar<'t>) -> Result<()> {
-        Ok(())
-    }
-
     /// Semantic action for non-terminal 'SQUnescaped'
     fn s_q_unescaped(&mut self, _arg: &SQUnescaped<'t>) -> Result<()> {
         Ok(())
@@ -935,7 +970,7 @@ pub trait YangGrammarTrait<'t> {
 //
 
 ///
-/// Type derived for production 50
+/// Type derived for production 52
 ///
 /// `Yang: ModuleStmt;`
 ///
@@ -946,7 +981,7 @@ pub struct YangModuleStmt<'t> {
 }
 
 ///
-/// Type derived for production 51
+/// Type derived for production 53
 ///
 /// `Yang: SubmoduleStmt;`
 ///
@@ -957,7 +992,7 @@ pub struct YangSubmoduleStmt<'t> {
 }
 
 ///
-/// Type derived for production 74
+/// Type derived for production 76
 ///
 /// `ModuleHeaderStmts: YangVersionStmt;`
 ///
@@ -968,7 +1003,7 @@ pub struct ModuleHeaderStmtsYangVersionStmt<'t> {
 }
 
 ///
-/// Type derived for production 75
+/// Type derived for production 77
 ///
 /// `ModuleHeaderStmts: NamespaceStmt;`
 ///
@@ -979,7 +1014,7 @@ pub struct ModuleHeaderStmtsNamespaceStmt<'t> {
 }
 
 ///
-/// Type derived for production 76
+/// Type derived for production 78
 ///
 /// `ModuleHeaderStmts: PrefixStmt;`
 ///
@@ -990,7 +1025,7 @@ pub struct ModuleHeaderStmtsPrefixStmt<'t> {
 }
 
 ///
-/// Type derived for production 77
+/// Type derived for production 79
 ///
 /// `SubmoduleHeaderStmts: YangVersionStmt;`
 ///
@@ -1001,7 +1036,7 @@ pub struct SubmoduleHeaderStmtsYangVersionStmt<'t> {
 }
 
 ///
-/// Type derived for production 78
+/// Type derived for production 80
 ///
 /// `SubmoduleHeaderStmts: BelongsToStmt;`
 ///
@@ -1012,7 +1047,7 @@ pub struct SubmoduleHeaderStmtsBelongsToStmt<'t> {
 }
 
 ///
-/// Type derived for production 79
+/// Type derived for production 81
 ///
 /// `MetaStmts: OrganizationStmt;`
 ///
@@ -1023,7 +1058,7 @@ pub struct MetaStmtsOrganizationStmt<'t> {
 }
 
 ///
-/// Type derived for production 80
+/// Type derived for production 82
 ///
 /// `MetaStmts: ContactStmt;`
 ///
@@ -1034,7 +1069,7 @@ pub struct MetaStmtsContactStmt<'t> {
 }
 
 ///
-/// Type derived for production 81
+/// Type derived for production 83
 ///
 /// `MetaStmts: DescriptionStmt;`
 ///
@@ -1045,7 +1080,7 @@ pub struct MetaStmtsDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 82
+/// Type derived for production 84
 ///
 /// `MetaStmts: ReferenceStmt;`
 ///
@@ -1056,7 +1091,7 @@ pub struct MetaStmtsReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 83
+/// Type derived for production 85
 ///
 /// `LinkageStmts: ImportStmt;`
 ///
@@ -1067,7 +1102,7 @@ pub struct LinkageStmtsImportStmt<'t> {
 }
 
 ///
-/// Type derived for production 84
+/// Type derived for production 86
 ///
 /// `LinkageStmts: IncludeStmt;`
 ///
@@ -1078,7 +1113,7 @@ pub struct LinkageStmtsIncludeStmt<'t> {
 }
 
 ///
-/// Type derived for production 85
+/// Type derived for production 87
 ///
 /// `BodyStmts: ExtensionStmt;`
 ///
@@ -1089,7 +1124,7 @@ pub struct BodyStmtsExtensionStmt<'t> {
 }
 
 ///
-/// Type derived for production 86
+/// Type derived for production 88
 ///
 /// `BodyStmts: FeatureStmt;`
 ///
@@ -1100,7 +1135,7 @@ pub struct BodyStmtsFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 87
+/// Type derived for production 89
 ///
 /// `BodyStmts: IdentityStmt;`
 ///
@@ -1111,7 +1146,7 @@ pub struct BodyStmtsIdentityStmt<'t> {
 }
 
 ///
-/// Type derived for production 88
+/// Type derived for production 90
 ///
 /// `BodyStmts: TypedefStmt;`
 ///
@@ -1122,7 +1157,7 @@ pub struct BodyStmtsTypedefStmt<'t> {
 }
 
 ///
-/// Type derived for production 89
+/// Type derived for production 91
 ///
 /// `BodyStmts: GroupingStmt;`
 ///
@@ -1133,7 +1168,7 @@ pub struct BodyStmtsGroupingStmt<'t> {
 }
 
 ///
-/// Type derived for production 90
+/// Type derived for production 92
 ///
 /// `BodyStmts: DataDefStmt;`
 ///
@@ -1144,7 +1179,7 @@ pub struct BodyStmtsDataDefStmt<'t> {
 }
 
 ///
-/// Type derived for production 91
+/// Type derived for production 93
 ///
 /// `BodyStmts: AugmentStmt;`
 ///
@@ -1155,7 +1190,7 @@ pub struct BodyStmtsAugmentStmt<'t> {
 }
 
 ///
-/// Type derived for production 92
+/// Type derived for production 94
 ///
 /// `BodyStmts: RpcStmt;`
 ///
@@ -1166,7 +1201,7 @@ pub struct BodyStmtsRpcStmt<'t> {
 }
 
 ///
-/// Type derived for production 93
+/// Type derived for production 95
 ///
 /// `BodyStmts: NotificationStmt;`
 ///
@@ -1177,7 +1212,7 @@ pub struct BodyStmtsNotificationStmt<'t> {
 }
 
 ///
-/// Type derived for production 94
+/// Type derived for production 96
 ///
 /// `BodyStmts: DeviationStmt;`
 ///
@@ -1188,7 +1223,7 @@ pub struct BodyStmtsDeviationStmt<'t> {
 }
 
 ///
-/// Type derived for production 95
+/// Type derived for production 97
 ///
 /// `BodyStmts: UnknownStmt;`
 ///
@@ -1199,7 +1234,7 @@ pub struct BodyStmtsUnknownStmt<'t> {
 }
 
 ///
-/// Type derived for production 96
+/// Type derived for production 98
 ///
 /// `DataDefStmt: ContainerStmt;`
 ///
@@ -1210,7 +1245,7 @@ pub struct DataDefStmtContainerStmt<'t> {
 }
 
 ///
-/// Type derived for production 97
+/// Type derived for production 99
 ///
 /// `DataDefStmt: LeafStmt;`
 ///
@@ -1221,7 +1256,7 @@ pub struct DataDefStmtLeafStmt<'t> {
 }
 
 ///
-/// Type derived for production 98
+/// Type derived for production 100
 ///
 /// `DataDefStmt: LeafListStmt;`
 ///
@@ -1232,7 +1267,7 @@ pub struct DataDefStmtLeafListStmt<'t> {
 }
 
 ///
-/// Type derived for production 99
+/// Type derived for production 101
 ///
 /// `DataDefStmt: ListStmt;`
 ///
@@ -1243,7 +1278,7 @@ pub struct DataDefStmtListStmt<'t> {
 }
 
 ///
-/// Type derived for production 100
+/// Type derived for production 102
 ///
 /// `DataDefStmt: ChoiceStmt;`
 ///
@@ -1254,7 +1289,7 @@ pub struct DataDefStmtChoiceStmt<'t> {
 }
 
 ///
-/// Type derived for production 101
+/// Type derived for production 103
 ///
 /// `DataDefStmt: AnydataStmt;`
 ///
@@ -1265,7 +1300,7 @@ pub struct DataDefStmtAnydataStmt<'t> {
 }
 
 ///
-/// Type derived for production 102
+/// Type derived for production 104
 ///
 /// `DataDefStmt: AnyxmlStmt;`
 ///
@@ -1276,7 +1311,7 @@ pub struct DataDefStmtAnyxmlStmt<'t> {
 }
 
 ///
-/// Type derived for production 103
+/// Type derived for production 105
 ///
 /// `DataDefStmt: UsesStmt;`
 ///
@@ -1287,7 +1322,7 @@ pub struct DataDefStmtUsesStmt<'t> {
 }
 
 ///
-/// Type derived for production 105
+/// Type derived for production 107
 ///
 /// `YangVersionArgStr: YangVersionArg;`
 ///
@@ -1298,7 +1333,7 @@ pub struct YangVersionArgStrYangVersionArg<'t> {
 }
 
 ///
-/// Type derived for production 106
+/// Type derived for production 108
 ///
 /// `YangVersionArgStr: <YVersion>'"'^ /* Clipped */ YangVersionArg <YVersion>'"'^ /* Clipped */;`
 ///
@@ -1309,7 +1344,7 @@ pub struct YangVersionArgStrDoubleQuotationYangVersionArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 109
+/// Type derived for production 111
 ///
 /// `RpcStmtSuffix: Semicolon;`
 ///
@@ -1320,7 +1355,7 @@ pub struct RpcStmtSuffixSemicolon<'t> {
 }
 
 ///
-/// Type derived for production 110
+/// Type derived for production 112
 ///
 /// `RpcStmtSuffix: LBrace^ /* Clipped */ RpcStmtList /* Vec */ '}';`
 ///
@@ -1332,7 +1367,7 @@ pub struct RpcStmtSuffixLBraceRpcStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 112
+/// Type derived for production 114
 ///
 /// `RpcStmtListGroup: IfFeatureStmt;`
 ///
@@ -1343,7 +1378,7 @@ pub struct RpcStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 113
+/// Type derived for production 115
 ///
 /// `RpcStmtListGroup: StatusStmt;`
 ///
@@ -1354,7 +1389,7 @@ pub struct RpcStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 114
+/// Type derived for production 116
 ///
 /// `RpcStmtListGroup: DescriptionStmt;`
 ///
@@ -1365,7 +1400,7 @@ pub struct RpcStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 115
+/// Type derived for production 117
 ///
 /// `RpcStmtListGroup: ReferenceStmt;`
 ///
@@ -1376,7 +1411,7 @@ pub struct RpcStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 116
+/// Type derived for production 118
 ///
 /// `RpcStmtListGroup: TypedefStmt;`
 ///
@@ -1387,7 +1422,7 @@ pub struct RpcStmtListGroupTypedefStmt<'t> {
 }
 
 ///
-/// Type derived for production 117
+/// Type derived for production 119
 ///
 /// `RpcStmtListGroup: GroupingStmt;`
 ///
@@ -1398,7 +1433,7 @@ pub struct RpcStmtListGroupGroupingStmt<'t> {
 }
 
 ///
-/// Type derived for production 118
+/// Type derived for production 120
 ///
 /// `RpcStmtListGroup: InputStmt;`
 ///
@@ -1409,7 +1444,7 @@ pub struct RpcStmtListGroupInputStmt<'t> {
 }
 
 ///
-/// Type derived for production 119
+/// Type derived for production 121
 ///
 /// `RpcStmtListGroup: OutputStmt;`
 ///
@@ -1420,7 +1455,7 @@ pub struct RpcStmtListGroupOutputStmt<'t> {
 }
 
 ///
-/// Type derived for production 122
+/// Type derived for production 124
 ///
 /// `ExtensionStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -1429,7 +1464,7 @@ pub struct RpcStmtListGroupOutputStmt<'t> {
 pub struct ExtensionStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 123
+/// Type derived for production 125
 ///
 /// `ExtensionStmtSuffix: LBrace^ /* Clipped */ ExtensionStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -1440,7 +1475,7 @@ pub struct ExtensionStmtSuffixLBraceExtensionStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 125
+/// Type derived for production 127
 ///
 /// `ExtensionStmtListGroup: ArgumentStmt;`
 ///
@@ -1451,7 +1486,7 @@ pub struct ExtensionStmtListGroupArgumentStmt<'t> {
 }
 
 ///
-/// Type derived for production 126
+/// Type derived for production 128
 ///
 /// `ExtensionStmtListGroup: StatusStmt;`
 ///
@@ -1462,7 +1497,7 @@ pub struct ExtensionStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 127
+/// Type derived for production 129
 ///
 /// `ExtensionStmtListGroup: DescriptionStmt;`
 ///
@@ -1473,7 +1508,7 @@ pub struct ExtensionStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 128
+/// Type derived for production 130
 ///
 /// `ExtensionStmtListGroup: ReferenceStmt;`
 ///
@@ -1484,7 +1519,7 @@ pub struct ExtensionStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 132
+/// Type derived for production 134
 ///
 /// `FeatureStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -1493,7 +1528,7 @@ pub struct ExtensionStmtListGroupReferenceStmt<'t> {
 pub struct FeatureStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 133
+/// Type derived for production 135
 ///
 /// `FeatureStmtSuffix: LBrace^ /* Clipped */ FeatureStmtList /* Vec */ '}';`
 ///
@@ -1505,7 +1540,7 @@ pub struct FeatureStmtSuffixLBraceFeatureStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 135
+/// Type derived for production 137
 ///
 /// `FeatureStmtListGroup: IfFeatureStmt;`
 ///
@@ -1516,7 +1551,7 @@ pub struct FeatureStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 136
+/// Type derived for production 138
 ///
 /// `FeatureStmtListGroup: StatusStmt;`
 ///
@@ -1527,7 +1562,7 @@ pub struct FeatureStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 137
+/// Type derived for production 139
 ///
 /// `FeatureStmtListGroup: DescriptionStmt;`
 ///
@@ -1538,7 +1573,7 @@ pub struct FeatureStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 138
+/// Type derived for production 140
 ///
 /// `FeatureStmtListGroup: ReferenceStmt;`
 ///
@@ -1549,7 +1584,7 @@ pub struct FeatureStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 142
+/// Type derived for production 144
 ///
 /// `TypedefStmtListGroup: TypeStmt;`
 ///
@@ -1560,7 +1595,7 @@ pub struct TypedefStmtListGroupTypeStmt<'t> {
 }
 
 ///
-/// Type derived for production 143
+/// Type derived for production 145
 ///
 /// `TypedefStmtListGroup: UnitsStmt;`
 ///
@@ -1571,7 +1606,7 @@ pub struct TypedefStmtListGroupUnitsStmt<'t> {
 }
 
 ///
-/// Type derived for production 144
+/// Type derived for production 146
 ///
 /// `TypedefStmtListGroup: DefaultStmt;`
 ///
@@ -1582,7 +1617,7 @@ pub struct TypedefStmtListGroupDefaultStmt<'t> {
 }
 
 ///
-/// Type derived for production 145
+/// Type derived for production 147
 ///
 /// `TypedefStmtListGroup: StatusStmt;`
 ///
@@ -1593,7 +1628,7 @@ pub struct TypedefStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 146
+/// Type derived for production 148
 ///
 /// `TypedefStmtListGroup: DescriptionStmt;`
 ///
@@ -1604,7 +1639,7 @@ pub struct TypedefStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 147
+/// Type derived for production 149
 ///
 /// `TypedefStmtListGroup: ReferenceStmt;`
 ///
@@ -1615,7 +1650,7 @@ pub struct TypedefStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 151
+/// Type derived for production 153
 ///
 /// `AugmentStmtListGroup: WhenStmt;`
 ///
@@ -1626,7 +1661,7 @@ pub struct AugmentStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 152
+/// Type derived for production 154
 ///
 /// `AugmentStmtListGroup: IfFeatureStmt;`
 ///
@@ -1637,7 +1672,7 @@ pub struct AugmentStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 153
+/// Type derived for production 155
 ///
 /// `AugmentStmtListGroup: StatusStmt;`
 ///
@@ -1648,7 +1683,7 @@ pub struct AugmentStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 154
+/// Type derived for production 156
 ///
 /// `AugmentStmtListGroup: DescriptionStmt;`
 ///
@@ -1659,7 +1694,7 @@ pub struct AugmentStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 155
+/// Type derived for production 157
 ///
 /// `AugmentStmtListGroup: ReferenceStmt;`
 ///
@@ -1670,7 +1705,7 @@ pub struct AugmentStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 156
+/// Type derived for production 158
 ///
 /// `AugmentStmtListGroup: DataDefStmt;`
 ///
@@ -1681,7 +1716,7 @@ pub struct AugmentStmtListGroupDataDefStmt<'t> {
 }
 
 ///
-/// Type derived for production 157
+/// Type derived for production 159
 ///
 /// `AugmentStmtListGroup: CaseStmt;`
 ///
@@ -1692,7 +1727,7 @@ pub struct AugmentStmtListGroupCaseStmt<'t> {
 }
 
 ///
-/// Type derived for production 158
+/// Type derived for production 160
 ///
 /// `AugmentStmtListGroup: ActionStmt;`
 ///
@@ -1703,7 +1738,7 @@ pub struct AugmentStmtListGroupActionStmt<'t> {
 }
 
 ///
-/// Type derived for production 159
+/// Type derived for production 161
 ///
 /// `AugmentStmtListGroup: NotificationStmt;`
 ///
@@ -1714,7 +1749,7 @@ pub struct AugmentStmtListGroupNotificationStmt<'t> {
 }
 
 ///
-/// Type derived for production 163
+/// Type derived for production 165
 ///
 /// `WhenStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -1723,7 +1758,7 @@ pub struct AugmentStmtListGroupNotificationStmt<'t> {
 pub struct WhenStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 164
+/// Type derived for production 166
 ///
 /// `WhenStmtSuffix: LBrace^ /* Clipped */ WhenStmtList /* Vec */ '}';`
 ///
@@ -1735,7 +1770,7 @@ pub struct WhenStmtSuffixLBraceWhenStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 166
+/// Type derived for production 168
 ///
 /// `WhenStmtListGroup: DescriptionStmt;`
 ///
@@ -1746,7 +1781,7 @@ pub struct WhenStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 167
+/// Type derived for production 169
 ///
 /// `WhenStmtListGroup: ReferenceStmt;`
 ///
@@ -1757,7 +1792,7 @@ pub struct WhenStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 171
+/// Type derived for production 173
 ///
 /// `GroupingStmtListGroup: StatusStmt;`
 ///
@@ -1768,7 +1803,7 @@ pub struct GroupingStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 172
+/// Type derived for production 174
 ///
 /// `GroupingStmtListGroup: DescriptionStmt;`
 ///
@@ -1779,7 +1814,7 @@ pub struct GroupingStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 173
+/// Type derived for production 175
 ///
 /// `GroupingStmtListGroup: ReferenceStmt;`
 ///
@@ -1790,7 +1825,7 @@ pub struct GroupingStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 174
+/// Type derived for production 176
 ///
 /// `GroupingStmtListGroup: TypedefStmt;`
 ///
@@ -1801,7 +1836,7 @@ pub struct GroupingStmtListGroupTypedefStmt<'t> {
 }
 
 ///
-/// Type derived for production 175
+/// Type derived for production 177
 ///
 /// `GroupingStmtListGroup: GroupingStmt;`
 ///
@@ -1812,7 +1847,7 @@ pub struct GroupingStmtListGroupGroupingStmt<'t> {
 }
 
 ///
-/// Type derived for production 176
+/// Type derived for production 178
 ///
 /// `GroupingStmtListGroup: DataDefStmt;`
 ///
@@ -1823,7 +1858,7 @@ pub struct GroupingStmtListGroupDataDefStmt<'t> {
 }
 
 ///
-/// Type derived for production 177
+/// Type derived for production 179
 ///
 /// `GroupingStmtListGroup: ActionStmt;`
 ///
@@ -1834,7 +1869,7 @@ pub struct GroupingStmtListGroupActionStmt<'t> {
 }
 
 ///
-/// Type derived for production 178
+/// Type derived for production 180
 ///
 /// `GroupingStmtListGroup: NotificationStmt;`
 ///
@@ -1845,7 +1880,7 @@ pub struct GroupingStmtListGroupNotificationStmt<'t> {
 }
 
 ///
-/// Type derived for production 179
+/// Type derived for production 181
 ///
 /// `GroupingStmtListGroup: UnknownStmt;`
 ///
@@ -1856,7 +1891,7 @@ pub struct GroupingStmtListGroupUnknownStmt<'t> {
 }
 
 ///
-/// Type derived for production 183
+/// Type derived for production 185
 ///
 /// `IdentityStmtListGroup: IfFeatureStmt;`
 ///
@@ -1867,7 +1902,7 @@ pub struct IdentityStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 184
+/// Type derived for production 186
 ///
 /// `IdentityStmtListGroup: BaseStmt;`
 ///
@@ -1878,7 +1913,7 @@ pub struct IdentityStmtListGroupBaseStmt<'t> {
 }
 
 ///
-/// Type derived for production 185
+/// Type derived for production 187
 ///
 /// `IdentityStmtListGroup: DescriptionStmt;`
 ///
@@ -1889,7 +1924,7 @@ pub struct IdentityStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 186
+/// Type derived for production 188
 ///
 /// `IdentityStmtListGroup: ReferenceStmt;`
 ///
@@ -1900,7 +1935,7 @@ pub struct IdentityStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 190
+/// Type derived for production 192
 ///
 /// `AnyxmlStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -1909,7 +1944,7 @@ pub struct IdentityStmtListGroupReferenceStmt<'t> {
 pub struct AnyxmlStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 191
+/// Type derived for production 193
 ///
 /// `AnyxmlStmtSuffix: LBrace^ /* Clipped */ AnyxmlStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -1920,7 +1955,7 @@ pub struct AnyxmlStmtSuffixLBraceAnyxmlStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 193
+/// Type derived for production 195
 ///
 /// `AnyxmlStmtListGroup: WhenStmt;`
 ///
@@ -1931,7 +1966,7 @@ pub struct AnyxmlStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 194
+/// Type derived for production 196
 ///
 /// `AnyxmlStmtListGroup: IfFeatureStmt;`
 ///
@@ -1942,7 +1977,7 @@ pub struct AnyxmlStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 195
+/// Type derived for production 197
 ///
 /// `AnyxmlStmtListGroup: MustStmt;`
 ///
@@ -1953,7 +1988,7 @@ pub struct AnyxmlStmtListGroupMustStmt<'t> {
 }
 
 ///
-/// Type derived for production 196
+/// Type derived for production 198
 ///
 /// `AnyxmlStmtListGroup: ConfigStmt;`
 ///
@@ -1964,7 +1999,7 @@ pub struct AnyxmlStmtListGroupConfigStmt<'t> {
 }
 
 ///
-/// Type derived for production 197
+/// Type derived for production 199
 ///
 /// `AnyxmlStmtListGroup: MandatoryStmt;`
 ///
@@ -1975,7 +2010,7 @@ pub struct AnyxmlStmtListGroupMandatoryStmt<'t> {
 }
 
 ///
-/// Type derived for production 198
+/// Type derived for production 200
 ///
 /// `AnyxmlStmtListGroup: StatusStmt;`
 ///
@@ -1986,7 +2021,7 @@ pub struct AnyxmlStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 199
+/// Type derived for production 201
 ///
 /// `AnyxmlStmtListGroup: DescriptionStmt;`
 ///
@@ -1997,7 +2032,7 @@ pub struct AnyxmlStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 200
+/// Type derived for production 202
 ///
 /// `AnyxmlStmtListGroup: ReferenceStmt;`
 ///
@@ -2008,7 +2043,7 @@ pub struct AnyxmlStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 203
+/// Type derived for production 205
 ///
 /// `ChoiceStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -2017,7 +2052,7 @@ pub struct AnyxmlStmtListGroupReferenceStmt<'t> {
 pub struct ChoiceStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 204
+/// Type derived for production 206
 ///
 /// `ChoiceStmtSuffix: LBrace^ /* Clipped */ ChoiceStmtList /* Vec */ '}';`
 ///
@@ -2029,7 +2064,7 @@ pub struct ChoiceStmtSuffixLBraceChoiceStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 206
+/// Type derived for production 208
 ///
 /// `ChoiceStmtListGroup: WhenStmt;`
 ///
@@ -2040,7 +2075,7 @@ pub struct ChoiceStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 207
+/// Type derived for production 209
 ///
 /// `ChoiceStmtListGroup: IfFeatureStmt;`
 ///
@@ -2051,7 +2086,7 @@ pub struct ChoiceStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 208
+/// Type derived for production 210
 ///
 /// `ChoiceStmtListGroup: DefaultStmt;`
 ///
@@ -2062,7 +2097,7 @@ pub struct ChoiceStmtListGroupDefaultStmt<'t> {
 }
 
 ///
-/// Type derived for production 209
+/// Type derived for production 211
 ///
 /// `ChoiceStmtListGroup: ConfigStmt;`
 ///
@@ -2073,7 +2108,7 @@ pub struct ChoiceStmtListGroupConfigStmt<'t> {
 }
 
 ///
-/// Type derived for production 210
+/// Type derived for production 212
 ///
 /// `ChoiceStmtListGroup: MandatoryStmt;`
 ///
@@ -2084,7 +2119,7 @@ pub struct ChoiceStmtListGroupMandatoryStmt<'t> {
 }
 
 ///
-/// Type derived for production 211
+/// Type derived for production 213
 ///
 /// `ChoiceStmtListGroup: StatusStmt;`
 ///
@@ -2095,7 +2130,7 @@ pub struct ChoiceStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 212
+/// Type derived for production 214
 ///
 /// `ChoiceStmtListGroup: DescriptionStmt;`
 ///
@@ -2106,7 +2141,7 @@ pub struct ChoiceStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 213
+/// Type derived for production 215
 ///
 /// `ChoiceStmtListGroup: ReferenceStmt;`
 ///
@@ -2117,7 +2152,7 @@ pub struct ChoiceStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 214
+/// Type derived for production 216
 ///
 /// `ChoiceStmtListGroup: ShortCaseStmt;`
 ///
@@ -2128,7 +2163,7 @@ pub struct ChoiceStmtListGroupShortCaseStmt<'t> {
 }
 
 ///
-/// Type derived for production 215
+/// Type derived for production 217
 ///
 /// `ChoiceStmtListGroup: CaseStmt;`
 ///
@@ -2139,7 +2174,7 @@ pub struct ChoiceStmtListGroupCaseStmt<'t> {
 }
 
 ///
-/// Type derived for production 217
+/// Type derived for production 219
 ///
 /// `ShortCaseStmt: ChoiceStmt;`
 ///
@@ -2150,7 +2185,7 @@ pub struct ShortCaseStmtChoiceStmt<'t> {
 }
 
 ///
-/// Type derived for production 218
+/// Type derived for production 220
 ///
 /// `ShortCaseStmt: ContainerStmt;`
 ///
@@ -2161,7 +2196,7 @@ pub struct ShortCaseStmtContainerStmt<'t> {
 }
 
 ///
-/// Type derived for production 219
+/// Type derived for production 221
 ///
 /// `ShortCaseStmt: LeafStmt;`
 ///
@@ -2172,7 +2207,7 @@ pub struct ShortCaseStmtLeafStmt<'t> {
 }
 
 ///
-/// Type derived for production 220
+/// Type derived for production 222
 ///
 /// `ShortCaseStmt: LeafListStmt;`
 ///
@@ -2183,7 +2218,7 @@ pub struct ShortCaseStmtLeafListStmt<'t> {
 }
 
 ///
-/// Type derived for production 221
+/// Type derived for production 223
 ///
 /// `ShortCaseStmt: ListStmt;`
 ///
@@ -2194,7 +2229,7 @@ pub struct ShortCaseStmtListStmt<'t> {
 }
 
 ///
-/// Type derived for production 222
+/// Type derived for production 224
 ///
 /// `ShortCaseStmt: AnydataStmt;`
 ///
@@ -2205,7 +2240,7 @@ pub struct ShortCaseStmtAnydataStmt<'t> {
 }
 
 ///
-/// Type derived for production 223
+/// Type derived for production 225
 ///
 /// `ShortCaseStmt: AnyxmlStmt;`
 ///
@@ -2216,7 +2251,7 @@ pub struct ShortCaseStmtAnyxmlStmt<'t> {
 }
 
 ///
-/// Type derived for production 225
+/// Type derived for production 227
 ///
 /// `AnydataStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -2225,7 +2260,7 @@ pub struct ShortCaseStmtAnyxmlStmt<'t> {
 pub struct AnydataStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 226
+/// Type derived for production 228
 ///
 /// `AnydataStmtSuffix: LBrace^ /* Clipped */ AnydataStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -2236,7 +2271,7 @@ pub struct AnydataStmtSuffixLBraceAnydataStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 228
+/// Type derived for production 230
 ///
 /// `AnydataStmtListGroup: WhenStmt;`
 ///
@@ -2247,7 +2282,7 @@ pub struct AnydataStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 229
+/// Type derived for production 231
 ///
 /// `AnydataStmtListGroup: IfFeatureStmt;`
 ///
@@ -2258,7 +2293,7 @@ pub struct AnydataStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 230
+/// Type derived for production 232
 ///
 /// `AnydataStmtListGroup: MustStmt;`
 ///
@@ -2269,7 +2304,7 @@ pub struct AnydataStmtListGroupMustStmt<'t> {
 }
 
 ///
-/// Type derived for production 231
+/// Type derived for production 233
 ///
 /// `AnydataStmtListGroup: ConfigStmt;`
 ///
@@ -2280,7 +2315,7 @@ pub struct AnydataStmtListGroupConfigStmt<'t> {
 }
 
 ///
-/// Type derived for production 232
+/// Type derived for production 234
 ///
 /// `AnydataStmtListGroup: MandatoryStmt;`
 ///
@@ -2291,7 +2326,7 @@ pub struct AnydataStmtListGroupMandatoryStmt<'t> {
 }
 
 ///
-/// Type derived for production 233
+/// Type derived for production 235
 ///
 /// `AnydataStmtListGroup: StatusStmt;`
 ///
@@ -2302,7 +2337,7 @@ pub struct AnydataStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 234
+/// Type derived for production 236
 ///
 /// `AnydataStmtListGroup: DescriptionStmt;`
 ///
@@ -2313,7 +2348,7 @@ pub struct AnydataStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 235
+/// Type derived for production 237
 ///
 /// `AnydataStmtListGroup: ReferenceStmt;`
 ///
@@ -2324,7 +2359,7 @@ pub struct AnydataStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 238
+/// Type derived for production 240
 ///
 /// `CaseStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -2333,7 +2368,7 @@ pub struct AnydataStmtListGroupReferenceStmt<'t> {
 pub struct CaseStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 239
+/// Type derived for production 241
 ///
 /// `CaseStmtSuffix: LBrace^ /* Clipped */ CaseStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -2344,7 +2379,7 @@ pub struct CaseStmtSuffixLBraceCaseStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 241
+/// Type derived for production 243
 ///
 /// `CaseStmtListGroup: WhenStmt;`
 ///
@@ -2355,7 +2390,7 @@ pub struct CaseStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 242
+/// Type derived for production 244
 ///
 /// `CaseStmtListGroup: IfFeatureStmt;`
 ///
@@ -2366,7 +2401,7 @@ pub struct CaseStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 243
+/// Type derived for production 245
 ///
 /// `CaseStmtListGroup: DataDefStmt;`
 ///
@@ -2377,7 +2412,7 @@ pub struct CaseStmtListGroupDataDefStmt<'t> {
 }
 
 ///
-/// Type derived for production 244
+/// Type derived for production 246
 ///
 /// `CaseStmtListGroup: DescriptionStmt;`
 ///
@@ -2388,7 +2423,7 @@ pub struct CaseStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 245
+/// Type derived for production 247
 ///
 /// `CaseStmtListGroup: ReferenceStmt;`
 ///
@@ -2399,7 +2434,7 @@ pub struct CaseStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 248
+/// Type derived for production 250
 ///
 /// `StatusArgStr: StatusArg;`
 ///
@@ -2410,7 +2445,7 @@ pub struct StatusArgStrStatusArg<'t> {
 }
 
 ///
-/// Type derived for production 249
+/// Type derived for production 251
 ///
 /// `StatusArgStr: <Status>'"'^ /* Clipped */ StatusArg <Status>'"'^ /* Clipped */;`
 ///
@@ -2421,7 +2456,7 @@ pub struct StatusArgStrDoubleQuotationStatusArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 252
+/// Type derived for production 254
 ///
 /// `ContainerStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -2430,7 +2465,7 @@ pub struct StatusArgStrDoubleQuotationStatusArgDoubleQuotation<'t> {
 pub struct ContainerStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 253
+/// Type derived for production 255
 ///
 /// `ContainerStmtSuffix: LBrace^ /* Clipped */ ContainerStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -2441,7 +2476,7 @@ pub struct ContainerStmtSuffixLBraceContainerStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 255
+/// Type derived for production 257
 ///
 /// `ContainerStmtListGroup: WhenStmt;`
 ///
@@ -2452,7 +2487,7 @@ pub struct ContainerStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 256
+/// Type derived for production 258
 ///
 /// `ContainerStmtListGroup: IfFeatureStmt;`
 ///
@@ -2463,7 +2498,7 @@ pub struct ContainerStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 257
+/// Type derived for production 259
 ///
 /// `ContainerStmtListGroup: MustStmt;`
 ///
@@ -2474,7 +2509,7 @@ pub struct ContainerStmtListGroupMustStmt<'t> {
 }
 
 ///
-/// Type derived for production 258
+/// Type derived for production 260
 ///
 /// `ContainerStmtListGroup: PresenceStmt;`
 ///
@@ -2485,7 +2520,7 @@ pub struct ContainerStmtListGroupPresenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 259
+/// Type derived for production 261
 ///
 /// `ContainerStmtListGroup: ConfigStmt;`
 ///
@@ -2496,7 +2531,7 @@ pub struct ContainerStmtListGroupConfigStmt<'t> {
 }
 
 ///
-/// Type derived for production 260
+/// Type derived for production 262
 ///
 /// `ContainerStmtListGroup: StatusStmt;`
 ///
@@ -2507,7 +2542,7 @@ pub struct ContainerStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 261
+/// Type derived for production 263
 ///
 /// `ContainerStmtListGroup: DescriptionStmt;`
 ///
@@ -2518,7 +2553,7 @@ pub struct ContainerStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 262
+/// Type derived for production 264
 ///
 /// `ContainerStmtListGroup: ReferenceStmt;`
 ///
@@ -2529,7 +2564,18 @@ pub struct ContainerStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 263
+/// Type derived for production 265
+///
+/// `ContainerStmtListGroup: TypedefStmt;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct ContainerStmtListGroupTypedefStmt<'t> {
+    pub typedef_stmt: Box<TypedefStmt<'t>>,
+}
+
+///
+/// Type derived for production 266
 ///
 /// `ContainerStmtListGroup: DataDefStmt;`
 ///
@@ -2540,7 +2586,7 @@ pub struct ContainerStmtListGroupDataDefStmt<'t> {
 }
 
 ///
-/// Type derived for production 264
+/// Type derived for production 267
 ///
 /// `ContainerStmtListGroup: ActionStmt;`
 ///
@@ -2551,7 +2597,7 @@ pub struct ContainerStmtListGroupActionStmt<'t> {
 }
 
 ///
-/// Type derived for production 265
+/// Type derived for production 268
 ///
 /// `ContainerStmtListGroup: NotificationStmt;`
 ///
@@ -2562,7 +2608,7 @@ pub struct ContainerStmtListGroupNotificationStmt<'t> {
 }
 
 ///
-/// Type derived for production 266
+/// Type derived for production 269
 ///
 /// `ContainerStmtListGroup: UnknownStmt;`
 ///
@@ -2573,7 +2619,7 @@ pub struct ContainerStmtListGroupUnknownStmt<'t> {
 }
 
 ///
-/// Type derived for production 269
+/// Type derived for production 272
 ///
 /// `ActionStmtSuffix: Semicolon;`
 ///
@@ -2584,7 +2630,7 @@ pub struct ActionStmtSuffixSemicolon<'t> {
 }
 
 ///
-/// Type derived for production 270
+/// Type derived for production 273
 ///
 /// `ActionStmtSuffix: LBrace^ /* Clipped */ ActionStmtList /* Vec */ '}';`
 ///
@@ -2596,7 +2642,7 @@ pub struct ActionStmtSuffixLBraceActionStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 272
+/// Type derived for production 275
 ///
 /// `ActionStmtListGroup: IfFeatureStmt;`
 ///
@@ -2607,7 +2653,7 @@ pub struct ActionStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 273
+/// Type derived for production 276
 ///
 /// `ActionStmtListGroup: StatusStmt;`
 ///
@@ -2618,7 +2664,7 @@ pub struct ActionStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 274
+/// Type derived for production 277
 ///
 /// `ActionStmtListGroup: DescriptionStmt;`
 ///
@@ -2629,7 +2675,7 @@ pub struct ActionStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 275
+/// Type derived for production 278
 ///
 /// `ActionStmtListGroup: ReferenceStmt;`
 ///
@@ -2640,7 +2686,7 @@ pub struct ActionStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 276
+/// Type derived for production 279
 ///
 /// `ActionStmtListGroup: InputStmt;`
 ///
@@ -2651,7 +2697,7 @@ pub struct ActionStmtListGroupInputStmt<'t> {
 }
 
 ///
-/// Type derived for production 277
+/// Type derived for production 280
 ///
 /// `ActionStmtListGroup: OutputStmt;`
 ///
@@ -2662,7 +2708,7 @@ pub struct ActionStmtListGroupOutputStmt<'t> {
 }
 
 ///
-/// Type derived for production 287
+/// Type derived for production 290
 ///
 /// `NotificationStmtListGroup: IfFeatureStmt;`
 ///
@@ -2673,7 +2719,7 @@ pub struct NotificationStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 288
+/// Type derived for production 291
 ///
 /// `NotificationStmtListGroup: MustStmt;`
 ///
@@ -2684,7 +2730,7 @@ pub struct NotificationStmtListGroupMustStmt<'t> {
 }
 
 ///
-/// Type derived for production 289
+/// Type derived for production 292
 ///
 /// `NotificationStmtListGroup: StatusStmt;`
 ///
@@ -2695,7 +2741,7 @@ pub struct NotificationStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 290
+/// Type derived for production 293
 ///
 /// `NotificationStmtListGroup: DescriptionStmt;`
 ///
@@ -2706,7 +2752,7 @@ pub struct NotificationStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 291
+/// Type derived for production 294
 ///
 /// `NotificationStmtListGroup: ReferenceStmt;`
 ///
@@ -2717,7 +2763,7 @@ pub struct NotificationStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 292
+/// Type derived for production 295
 ///
 /// `NotificationStmtListGroup: TypedefStmt;`
 ///
@@ -2728,7 +2774,7 @@ pub struct NotificationStmtListGroupTypedefStmt<'t> {
 }
 
 ///
-/// Type derived for production 293
+/// Type derived for production 296
 ///
 /// `NotificationStmtListGroup: GroupingStmt;`
 ///
@@ -2739,7 +2785,7 @@ pub struct NotificationStmtListGroupGroupingStmt<'t> {
 }
 
 ///
-/// Type derived for production 294
+/// Type derived for production 297
 ///
 /// `NotificationStmtListGroup: DataDefStmt;`
 ///
@@ -2750,7 +2796,7 @@ pub struct NotificationStmtListGroupDataDefStmt<'t> {
 }
 
 ///
-/// Type derived for production 304
+/// Type derived for production 307
 ///
 /// `IfFeatureFactor: <IfFeature>'not' IfFeatureFactor;`
 ///
@@ -2762,7 +2808,7 @@ pub struct IfFeatureFactorNotIfFeatureFactor<'t> {
 }
 
 ///
-/// Type derived for production 305
+/// Type derived for production 308
 ///
 /// `IfFeatureFactor: <IfFeature>'(' IfFeatureExpr <IfFeature>')';`
 ///
@@ -2775,7 +2821,7 @@ pub struct IfFeatureFactorLParenIfFeatureExprRParen<'t> {
 }
 
 ///
-/// Type derived for production 306
+/// Type derived for production 309
 ///
 /// `IfFeatureFactor: Identifier;`
 ///
@@ -2786,7 +2832,7 @@ pub struct IfFeatureFactorIdentifier<'t> {
 }
 
 ///
-/// Type derived for production 307
+/// Type derived for production 310
 ///
 /// `IfFeatureFactor: <IfFeature>'"' Identifier <IfFeature>'"';`
 ///
@@ -2799,7 +2845,7 @@ pub struct IfFeatureFactorDoubleQuotationIdentifierDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 310
+/// Type derived for production 313
 ///
 /// `UsesStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -2808,7 +2854,7 @@ pub struct IfFeatureFactorDoubleQuotationIdentifierDoubleQuotation<'t> {
 pub struct UsesStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 311
+/// Type derived for production 314
 ///
 /// `UsesStmtSuffix: LBrace^ /* Clipped */ UsesStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -2819,7 +2865,7 @@ pub struct UsesStmtSuffixLBraceUsesStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 313
+/// Type derived for production 316
 ///
 /// `UsesStmtListGroup: WhenStmt;`
 ///
@@ -2830,7 +2876,7 @@ pub struct UsesStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 314
+/// Type derived for production 317
 ///
 /// `UsesStmtListGroup: IfFeatureStmt;`
 ///
@@ -2841,7 +2887,7 @@ pub struct UsesStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 315
+/// Type derived for production 318
 ///
 /// `UsesStmtListGroup: StatusStmt;`
 ///
@@ -2852,7 +2898,7 @@ pub struct UsesStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 316
+/// Type derived for production 319
 ///
 /// `UsesStmtListGroup: DescriptionStmt;`
 ///
@@ -2863,7 +2909,7 @@ pub struct UsesStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 317
+/// Type derived for production 320
 ///
 /// `UsesStmtListGroup: ReferenceStmt;`
 ///
@@ -2874,7 +2920,7 @@ pub struct UsesStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 318
+/// Type derived for production 321
 ///
 /// `UsesStmtListGroup: RefineStmt;`
 ///
@@ -2885,7 +2931,7 @@ pub struct UsesStmtListGroupRefineStmt<'t> {
 }
 
 ///
-/// Type derived for production 319
+/// Type derived for production 322
 ///
 /// `UsesStmtListGroup: AugmentStmt;`
 ///
@@ -2896,7 +2942,7 @@ pub struct UsesStmtListGroupAugmentStmt<'t> {
 }
 
 ///
-/// Type derived for production 322
+/// Type derived for production 325
 ///
 /// `RefineStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -2905,7 +2951,7 @@ pub struct UsesStmtListGroupAugmentStmt<'t> {
 pub struct RefineStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 323
+/// Type derived for production 326
 ///
 /// `RefineStmtSuffix: LBrace^ /* Clipped */ RefineStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -2916,7 +2962,7 @@ pub struct RefineStmtSuffixLBraceRefineStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 325
+/// Type derived for production 328
 ///
 /// `RefineStmtListGroup: IfFeatureStmt;`
 ///
@@ -2927,7 +2973,7 @@ pub struct RefineStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 326
+/// Type derived for production 329
 ///
 /// `RefineStmtListGroup: MustStmt;`
 ///
@@ -2938,7 +2984,7 @@ pub struct RefineStmtListGroupMustStmt<'t> {
 }
 
 ///
-/// Type derived for production 327
+/// Type derived for production 330
 ///
 /// `RefineStmtListGroup: PresenceStmt;`
 ///
@@ -2949,7 +2995,7 @@ pub struct RefineStmtListGroupPresenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 328
+/// Type derived for production 331
 ///
 /// `RefineStmtListGroup: DefaultStmt;`
 ///
@@ -2960,7 +3006,7 @@ pub struct RefineStmtListGroupDefaultStmt<'t> {
 }
 
 ///
-/// Type derived for production 329
+/// Type derived for production 332
 ///
 /// `RefineStmtListGroup: ConfigStmt;`
 ///
@@ -2971,7 +3017,7 @@ pub struct RefineStmtListGroupConfigStmt<'t> {
 }
 
 ///
-/// Type derived for production 330
+/// Type derived for production 333
 ///
 /// `RefineStmtListGroup: MandatoryStmt;`
 ///
@@ -2982,7 +3028,7 @@ pub struct RefineStmtListGroupMandatoryStmt<'t> {
 }
 
 ///
-/// Type derived for production 331
+/// Type derived for production 334
 ///
 /// `RefineStmtListGroup: MinElementsStmt;`
 ///
@@ -2993,7 +3039,7 @@ pub struct RefineStmtListGroupMinElementsStmt<'t> {
 }
 
 ///
-/// Type derived for production 332
+/// Type derived for production 335
 ///
 /// `RefineStmtListGroup: MaxElementsStmt;`
 ///
@@ -3004,7 +3050,7 @@ pub struct RefineStmtListGroupMaxElementsStmt<'t> {
 }
 
 ///
-/// Type derived for production 333
+/// Type derived for production 336
 ///
 /// `RefineStmtListGroup: DescriptionStmt;`
 ///
@@ -3015,7 +3061,7 @@ pub struct RefineStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 334
+/// Type derived for production 337
 ///
 /// `RefineStmtListGroup: ReferenceStmt;`
 ///
@@ -3026,7 +3072,7 @@ pub struct RefineStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 336
+/// Type derived for production 339
 ///
 /// `RefineArgStr: RefineArg;`
 ///
@@ -3037,7 +3083,7 @@ pub struct RefineArgStrRefineArg<'t> {
 }
 
 ///
-/// Type derived for production 337
+/// Type derived for production 340
 ///
 /// `RefineArgStr: <Keyword>'"' RefineArg <Keyword>'"';`
 ///
@@ -3050,7 +3096,7 @@ pub struct RefineArgStrDoubleQuotationRefineArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 339
+/// Type derived for production 342
 ///
 /// `DescendantSchemaNodeid: IdentifierRef;`
 ///
@@ -3061,7 +3107,7 @@ pub struct DescendantSchemaNodeidIdentifierRef<'t> {
 }
 
 ///
-/// Type derived for production 340
+/// Type derived for production 343
 ///
 /// `DescendantSchemaNodeid: AbsoluteSchemaNodeid;`
 ///
@@ -3072,7 +3118,28 @@ pub struct DescendantSchemaNodeidAbsoluteSchemaNodeid<'t> {
 }
 
 ///
-/// Type derived for production 342
+/// Type derived for production 345
+///
+/// `UnknownStmtSuffix0: Ystring UnknownStmtSuffix;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct UnknownStmtSuffix0YstringUnknownStmtSuffix<'t> {
+    pub ystring: Box<Ystring<'t>>,
+    pub unknown_stmt_suffix: Box<UnknownStmtSuffix<'t>>,
+}
+
+///
+/// Type derived for production 346
+///
+/// `UnknownStmtSuffix0: Semicolon^ /* Clipped */;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct UnknownStmtSuffix0Semicolon {}
+
+///
+/// Type derived for production 347
 ///
 /// `UnknownStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -3081,7 +3148,7 @@ pub struct DescendantSchemaNodeidAbsoluteSchemaNodeid<'t> {
 pub struct UnknownStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 343
+/// Type derived for production 348
 ///
 /// `UnknownStmtSuffix: LBrace^ /* Clipped */ UnknownStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -3092,7 +3159,7 @@ pub struct UnknownStmtSuffixLBraceUnknownStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 345
+/// Type derived for production 350
 ///
 /// `UnknownStmtListGroup: TypeStmt;`
 ///
@@ -3103,7 +3170,7 @@ pub struct UnknownStmtListGroupTypeStmt<'t> {
 }
 
 ///
-/// Type derived for production 346
+/// Type derived for production 351
 ///
 /// `UnknownStmtListGroup: DescriptionStmt;`
 ///
@@ -3114,7 +3181,7 @@ pub struct UnknownStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 350
+/// Type derived for production 355
 ///
 /// `LeafListStmtListGroup: WhenStmt;`
 ///
@@ -3125,7 +3192,7 @@ pub struct LeafListStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 351
+/// Type derived for production 356
 ///
 /// `LeafListStmtListGroup: IfFeatureStmt;`
 ///
@@ -3136,7 +3203,7 @@ pub struct LeafListStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 352
+/// Type derived for production 357
 ///
 /// `LeafListStmtListGroup: TypeStmt;`
 ///
@@ -3147,7 +3214,7 @@ pub struct LeafListStmtListGroupTypeStmt<'t> {
 }
 
 ///
-/// Type derived for production 353
+/// Type derived for production 358
 ///
 /// `LeafListStmtListGroup: UnitsStmt;`
 ///
@@ -3158,7 +3225,7 @@ pub struct LeafListStmtListGroupUnitsStmt<'t> {
 }
 
 ///
-/// Type derived for production 354
+/// Type derived for production 359
 ///
 /// `LeafListStmtListGroup: MustStmt;`
 ///
@@ -3169,7 +3236,7 @@ pub struct LeafListStmtListGroupMustStmt<'t> {
 }
 
 ///
-/// Type derived for production 355
+/// Type derived for production 360
 ///
 /// `LeafListStmtListGroup: DefaultStmt;`
 ///
@@ -3180,7 +3247,7 @@ pub struct LeafListStmtListGroupDefaultStmt<'t> {
 }
 
 ///
-/// Type derived for production 356
+/// Type derived for production 361
 ///
 /// `LeafListStmtListGroup: ConfigStmt;`
 ///
@@ -3191,7 +3258,7 @@ pub struct LeafListStmtListGroupConfigStmt<'t> {
 }
 
 ///
-/// Type derived for production 357
+/// Type derived for production 362
 ///
 /// `LeafListStmtListGroup: MinElementsStmt;`
 ///
@@ -3202,7 +3269,7 @@ pub struct LeafListStmtListGroupMinElementsStmt<'t> {
 }
 
 ///
-/// Type derived for production 358
+/// Type derived for production 363
 ///
 /// `LeafListStmtListGroup: MaxElementsStmt;`
 ///
@@ -3213,7 +3280,7 @@ pub struct LeafListStmtListGroupMaxElementsStmt<'t> {
 }
 
 ///
-/// Type derived for production 359
+/// Type derived for production 364
 ///
 /// `LeafListStmtListGroup: OrderedByStmt;`
 ///
@@ -3224,7 +3291,7 @@ pub struct LeafListStmtListGroupOrderedByStmt<'t> {
 }
 
 ///
-/// Type derived for production 360
+/// Type derived for production 365
 ///
 /// `LeafListStmtListGroup: StatusStmt;`
 ///
@@ -3235,7 +3302,7 @@ pub struct LeafListStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 361
+/// Type derived for production 366
 ///
 /// `LeafListStmtListGroup: DescriptionStmt;`
 ///
@@ -3246,7 +3313,7 @@ pub struct LeafListStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 362
+/// Type derived for production 367
 ///
 /// `LeafListStmtListGroup: ReferenceStmt;`
 ///
@@ -3257,7 +3324,7 @@ pub struct LeafListStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 363
+/// Type derived for production 368
 ///
 /// `LeafListStmtListGroup: UnknownStmt;`
 ///
@@ -3268,7 +3335,7 @@ pub struct LeafListStmtListGroupUnknownStmt<'t> {
 }
 
 ///
-/// Type derived for production 367
+/// Type derived for production 372
 ///
 /// `LeafStmtListGroup: WhenStmt;`
 ///
@@ -3279,7 +3346,7 @@ pub struct LeafStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 368
+/// Type derived for production 373
 ///
 /// `LeafStmtListGroup: StatusStmt;`
 ///
@@ -3290,7 +3357,7 @@ pub struct LeafStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 369
+/// Type derived for production 374
 ///
 /// `LeafStmtListGroup: IfFeatureStmt;`
 ///
@@ -3301,7 +3368,7 @@ pub struct LeafStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 370
+/// Type derived for production 375
 ///
 /// `LeafStmtListGroup: TypeStmt;`
 ///
@@ -3312,7 +3379,7 @@ pub struct LeafStmtListGroupTypeStmt<'t> {
 }
 
 ///
-/// Type derived for production 371
+/// Type derived for production 376
 ///
 /// `LeafStmtListGroup: UnitsStmt;`
 ///
@@ -3323,7 +3390,7 @@ pub struct LeafStmtListGroupUnitsStmt<'t> {
 }
 
 ///
-/// Type derived for production 372
+/// Type derived for production 377
 ///
 /// `LeafStmtListGroup: MustStmt;`
 ///
@@ -3334,7 +3401,7 @@ pub struct LeafStmtListGroupMustStmt<'t> {
 }
 
 ///
-/// Type derived for production 373
+/// Type derived for production 378
 ///
 /// `LeafStmtListGroup: DefaultStmt;`
 ///
@@ -3345,7 +3412,7 @@ pub struct LeafStmtListGroupDefaultStmt<'t> {
 }
 
 ///
-/// Type derived for production 374
+/// Type derived for production 379
 ///
 /// `LeafStmtListGroup: ConfigStmt;`
 ///
@@ -3356,7 +3423,7 @@ pub struct LeafStmtListGroupConfigStmt<'t> {
 }
 
 ///
-/// Type derived for production 375
+/// Type derived for production 380
 ///
 /// `LeafStmtListGroup: MandatoryStmt;`
 ///
@@ -3367,7 +3434,7 @@ pub struct LeafStmtListGroupMandatoryStmt<'t> {
 }
 
 ///
-/// Type derived for production 376
+/// Type derived for production 381
 ///
 /// `LeafStmtListGroup: DescriptionStmt;`
 ///
@@ -3378,7 +3445,7 @@ pub struct LeafStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 377
+/// Type derived for production 382
 ///
 /// `LeafStmtListGroup: ReferenceStmt;`
 ///
@@ -3389,7 +3456,7 @@ pub struct LeafStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 378
+/// Type derived for production 383
 ///
 /// `LeafStmtListGroup: UnknownStmt;`
 ///
@@ -3400,7 +3467,7 @@ pub struct LeafStmtListGroupUnknownStmt<'t> {
 }
 
 ///
-/// Type derived for production 381
+/// Type derived for production 386
 ///
 /// `MustStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -3409,7 +3476,7 @@ pub struct LeafStmtListGroupUnknownStmt<'t> {
 pub struct MustStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 382
+/// Type derived for production 387
 ///
 /// `MustStmtSuffix: LBrace^ /* Clipped */ MustStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -3420,7 +3487,7 @@ pub struct MustStmtSuffixLBraceMustStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 384
+/// Type derived for production 389
 ///
 /// `MustStmtListGroup: ErrorMessage;`
 ///
@@ -3431,7 +3498,18 @@ pub struct MustStmtListGroupErrorMessage<'t> {
 }
 
 ///
-/// Type derived for production 385
+/// Type derived for production 390
+///
+/// `MustStmtListGroup: ErrorAppTag;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct MustStmtListGroupErrorAppTag<'t> {
+    pub error_app_tag: Box<ErrorAppTag<'t>>,
+}
+
+///
+/// Type derived for production 391
 ///
 /// `MustStmtListGroup: DescriptionStmt;`
 ///
@@ -3442,7 +3520,73 @@ pub struct MustStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 391
+/// Type derived for production 392
+///
+/// `MustStmtListGroup: ReferenceStmt;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct MustStmtListGroupReferenceStmt<'t> {
+    pub reference_stmt: Box<ReferenceStmt<'t>>,
+}
+
+///
+/// Type derived for production 396
+///
+/// `RestrictionSubstmt: ErrorMessage;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct RestrictionSubstmtErrorMessage<'t> {
+    pub error_message: Box<ErrorMessage<'t>>,
+}
+
+///
+/// Type derived for production 397
+///
+/// `RestrictionSubstmt: ErrorAppTag;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct RestrictionSubstmtErrorAppTag<'t> {
+    pub error_app_tag: Box<ErrorAppTag<'t>>,
+}
+
+///
+/// Type derived for production 398
+///
+/// `RestrictionSubstmt: ModifierStmt;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct RestrictionSubstmtModifierStmt<'t> {
+    pub modifier_stmt: Box<ModifierStmt<'t>>,
+}
+
+///
+/// Type derived for production 399
+///
+/// `RestrictionSubstmt: DescriptionStmt;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct RestrictionSubstmtDescriptionStmt<'t> {
+    pub description_stmt: Box<DescriptionStmt<'t>>,
+}
+
+///
+/// Type derived for production 400
+///
+/// `RestrictionSubstmt: ReferenceStmt;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct RestrictionSubstmtReferenceStmt<'t> {
+    pub reference_stmt: Box<ReferenceStmt<'t>>,
+}
+
+///
+/// Type derived for production 405
 ///
 /// `MandatoryArgStr: MandatoryArg;`
 ///
@@ -3453,7 +3597,7 @@ pub struct MandatoryArgStrMandatoryArg<'t> {
 }
 
 ///
-/// Type derived for production 392
+/// Type derived for production 406
 ///
 /// `MandatoryArgStr: <Mandatory>'"' MandatoryArg <Mandatory>'"';`
 ///
@@ -3466,7 +3610,7 @@ pub struct MandatoryArgStrDoubleQuotationMandatoryArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 396
+/// Type derived for production 410
 ///
 /// `ListStmtListGroup: WhenStmt;`
 ///
@@ -3477,7 +3621,7 @@ pub struct ListStmtListGroupWhenStmt<'t> {
 }
 
 ///
-/// Type derived for production 397
+/// Type derived for production 411
 ///
 /// `ListStmtListGroup: IfFeatureStmt;`
 ///
@@ -3488,7 +3632,7 @@ pub struct ListStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 398
+/// Type derived for production 412
 ///
 /// `ListStmtListGroup: MustStmt;`
 ///
@@ -3499,7 +3643,7 @@ pub struct ListStmtListGroupMustStmt<'t> {
 }
 
 ///
-/// Type derived for production 399
+/// Type derived for production 413
 ///
 /// `ListStmtListGroup: KeyStmt;`
 ///
@@ -3510,7 +3654,7 @@ pub struct ListStmtListGroupKeyStmt<'t> {
 }
 
 ///
-/// Type derived for production 400
+/// Type derived for production 414
 ///
 /// `ListStmtListGroup: ConfigStmt;`
 ///
@@ -3521,7 +3665,7 @@ pub struct ListStmtListGroupConfigStmt<'t> {
 }
 
 ///
-/// Type derived for production 401
+/// Type derived for production 415
 ///
 /// `ListStmtListGroup: MinElementsStmt;`
 ///
@@ -3532,7 +3676,7 @@ pub struct ListStmtListGroupMinElementsStmt<'t> {
 }
 
 ///
-/// Type derived for production 402
+/// Type derived for production 416
 ///
 /// `ListStmtListGroup: MaxElementsStmt;`
 ///
@@ -3543,7 +3687,7 @@ pub struct ListStmtListGroupMaxElementsStmt<'t> {
 }
 
 ///
-/// Type derived for production 403
+/// Type derived for production 417
 ///
 /// `ListStmtListGroup: OrderedByStmt;`
 ///
@@ -3554,7 +3698,7 @@ pub struct ListStmtListGroupOrderedByStmt<'t> {
 }
 
 ///
-/// Type derived for production 404
+/// Type derived for production 418
 ///
 /// `ListStmtListGroup: StatusStmt;`
 ///
@@ -3565,7 +3709,7 @@ pub struct ListStmtListGroupStatusStmt<'t> {
 }
 
 ///
-/// Type derived for production 405
+/// Type derived for production 419
 ///
 /// `ListStmtListGroup: DescriptionStmt;`
 ///
@@ -3576,7 +3720,7 @@ pub struct ListStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 406
+/// Type derived for production 420
 ///
 /// `ListStmtListGroup: ReferenceStmt;`
 ///
@@ -3587,7 +3731,18 @@ pub struct ListStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 407
+/// Type derived for production 421
+///
+/// `ListStmtListGroup: TypedefStmt;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct ListStmtListGroupTypedefStmt<'t> {
+    pub typedef_stmt: Box<TypedefStmt<'t>>,
+}
+
+///
+/// Type derived for production 422
 ///
 /// `ListStmtListGroup: DataDefStmt;`
 ///
@@ -3598,7 +3753,7 @@ pub struct ListStmtListGroupDataDefStmt<'t> {
 }
 
 ///
-/// Type derived for production 408
+/// Type derived for production 423
 ///
 /// `ListStmtListGroup: ActionStmt;`
 ///
@@ -3609,7 +3764,7 @@ pub struct ListStmtListGroupActionStmt<'t> {
 }
 
 ///
-/// Type derived for production 409
+/// Type derived for production 424
 ///
 /// `ListStmtListGroup: NotificationStmt;`
 ///
@@ -3620,7 +3775,7 @@ pub struct ListStmtListGroupNotificationStmt<'t> {
 }
 
 ///
-/// Type derived for production 410
+/// Type derived for production 425
 ///
 /// `ListStmtListGroup: UnknownStmt;`
 ///
@@ -3631,7 +3786,7 @@ pub struct ListStmtListGroupUnknownStmt<'t> {
 }
 
 ///
-/// Type derived for production 413
+/// Type derived for production 428
 ///
 /// `OrderedByArgStr: OrderedByArg;`
 ///
@@ -3642,7 +3797,7 @@ pub struct OrderedByArgStrOrderedByArg<'t> {
 }
 
 ///
-/// Type derived for production 414
+/// Type derived for production 429
 ///
 /// `OrderedByArgStr: <Ordered>'"' OrderedByArg <Ordered>'"';`
 ///
@@ -3655,7 +3810,7 @@ pub struct OrderedByArgStrDoubleQuotationOrderedByArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 417
+/// Type derived for production 432
 ///
 /// `DefaultStmtSuffix: AsciiNoSemicolon Semicolon^ /* Clipped */;`
 ///
@@ -3666,20 +3821,18 @@ pub struct DefaultStmtSuffixAsciiNoSemicolonSemicolon<'t> {
 }
 
 ///
-/// Type derived for production 418
+/// Type derived for production 433
 ///
-/// `DefaultStmtSuffix: <Default>'"' AsciiNoSemicolon <Default>'"' Semicolon^ /* Clipped */;`
+/// `DefaultStmtSuffix: DQString Semicolon^ /* Clipped */;`
 ///
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
-pub struct DefaultStmtSuffixDoubleQuotationAsciiNoSemicolonDoubleQuotationSemicolon<'t> {
-    pub double_quotation: Token<'t>, /* " */
-    pub ascii_no_semicolon: Box<AsciiNoSemicolon<'t>>,
-    pub double_quotation0: Token<'t>, /* " */
+pub struct DefaultStmtSuffixDQStringSemicolon<'t> {
+    pub d_q_string: Box<DQString<'t>>,
 }
 
 ///
-/// Type derived for production 422
+/// Type derived for production 437
 ///
 /// `TypeStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -3688,7 +3841,7 @@ pub struct DefaultStmtSuffixDoubleQuotationAsciiNoSemicolonDoubleQuotationSemico
 pub struct TypeStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 423
+/// Type derived for production 438
 ///
 /// `TypeStmtSuffix: LBrace^ /* Clipped */ TypeStmtList /* Vec */ <INITIAL, Keyword>'}'^ /* Clipped */;`
 ///
@@ -3699,7 +3852,7 @@ pub struct TypeStmtSuffixLBraceTypeStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 425
+/// Type derived for production 440
 ///
 /// `TypeStmtListGroup: FractionDigitsStmt;`
 ///
@@ -3710,7 +3863,7 @@ pub struct TypeStmtListGroupFractionDigitsStmt<'t> {
 }
 
 ///
-/// Type derived for production 426
+/// Type derived for production 441
 ///
 /// `TypeStmtListGroup: EnumStmt;`
 ///
@@ -3721,7 +3874,7 @@ pub struct TypeStmtListGroupEnumStmt<'t> {
 }
 
 ///
-/// Type derived for production 427
+/// Type derived for production 442
 ///
 /// `TypeStmtListGroup: BaseStmt;`
 ///
@@ -3732,7 +3885,7 @@ pub struct TypeStmtListGroupBaseStmt<'t> {
 }
 
 ///
-/// Type derived for production 428
+/// Type derived for production 443
 ///
 /// `TypeStmtListGroup: LeafrefSpecification;`
 ///
@@ -3743,7 +3896,7 @@ pub struct TypeStmtListGroupLeafrefSpecification<'t> {
 }
 
 ///
-/// Type derived for production 429
+/// Type derived for production 444
 ///
 /// `TypeStmtListGroup: StringRestrictions;`
 ///
@@ -3754,7 +3907,7 @@ pub struct TypeStmtListGroupStringRestrictions<'t> {
 }
 
 ///
-/// Type derived for production 430
+/// Type derived for production 445
 ///
 /// `TypeStmtListGroup: RangeStmt;`
 ///
@@ -3765,7 +3918,7 @@ pub struct TypeStmtListGroupRangeStmt<'t> {
 }
 
 ///
-/// Type derived for production 431
+/// Type derived for production 446
 ///
 /// `TypeStmtListGroup: BitStmt;`
 ///
@@ -3776,7 +3929,7 @@ pub struct TypeStmtListGroupBitStmt<'t> {
 }
 
 ///
-/// Type derived for production 432
+/// Type derived for production 447
 ///
 /// `TypeStmtListGroup: TypeStmt;`
 ///
@@ -3787,7 +3940,7 @@ pub struct TypeStmtListGroupTypeStmt<'t> {
 }
 
 ///
-/// Type derived for production 437
+/// Type derived for production 452
 ///
 /// `BitStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -3796,7 +3949,7 @@ pub struct TypeStmtListGroupTypeStmt<'t> {
 pub struct BitStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 438
+/// Type derived for production 453
 ///
 /// `BitStmtSuffix: LBrace^ /* Clipped */ BitStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -3807,7 +3960,7 @@ pub struct BitStmtSuffixLBraceBitStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 440
+/// Type derived for production 455
 ///
 /// `BitStmtListGroup: PositionStmt;`
 ///
@@ -3818,7 +3971,7 @@ pub struct BitStmtListGroupPositionStmt<'t> {
 }
 
 ///
-/// Type derived for production 441
+/// Type derived for production 456
 ///
 /// `BitStmtListGroup: DescriptionStmt;`
 ///
@@ -3829,7 +3982,7 @@ pub struct BitStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 442
+/// Type derived for production 457
 ///
 /// `BitStmtListGroup: ReferenceStmt;`
 ///
@@ -3840,7 +3993,7 @@ pub struct BitStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 445
+/// Type derived for production 460
 ///
 /// `LeafrefSpecification: PathStmt;`
 ///
@@ -3851,7 +4004,7 @@ pub struct LeafrefSpecificationPathStmt<'t> {
 }
 
 ///
-/// Type derived for production 446
+/// Type derived for production 461
 ///
 /// `LeafrefSpecification: RequireInstanceStmt;`
 ///
@@ -3862,7 +4015,7 @@ pub struct LeafrefSpecificationRequireInstanceStmt<'t> {
 }
 
 ///
-/// Type derived for production 448
+/// Type derived for production 463
 ///
 /// `RequireInstanceArgStr: MandatoryArg;`
 ///
@@ -3873,7 +4026,7 @@ pub struct RequireInstanceArgStrMandatoryArg<'t> {
 }
 
 ///
-/// Type derived for production 449
+/// Type derived for production 464
 ///
 /// `RequireInstanceArgStr: <Mandatory>'"' MandatoryArg <Mandatory>'"';`
 ///
@@ -3886,7 +4039,7 @@ pub struct RequireInstanceArgStrDoubleQuotationMandatoryArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 451
+/// Type derived for production 466
 ///
 /// `StringRestrictions: LengthStmt;`
 ///
@@ -3897,7 +4050,7 @@ pub struct StringRestrictionsLengthStmt<'t> {
 }
 
 ///
-/// Type derived for production 452
+/// Type derived for production 467
 ///
 /// `StringRestrictions: PatternStmt;`
 ///
@@ -3908,7 +4061,70 @@ pub struct StringRestrictionsPatternStmt<'t> {
 }
 
 ///
-/// Type derived for production 456
+/// Type derived for production 469
+///
+/// `PatternStmtSuffix: Semicolon^ /* Clipped */;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct PatternStmtSuffixSemicolon {}
+
+///
+/// Type derived for production 470
+///
+/// `PatternStmtSuffix: LBrace^ /* Clipped */ PatternStmtList /* Vec */ '}'^ /* Clipped */;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct PatternStmtSuffixLBracePatternStmtListRBrace<'t> {
+    pub pattern_stmt_list: Vec<PatternStmtList<'t>>,
+}
+
+///
+/// Type derived for production 474
+///
+/// `LengthStmtSuffix: Semicolon^ /* Clipped */;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct LengthStmtSuffixSemicolon {}
+
+///
+/// Type derived for production 475
+///
+/// `LengthStmtSuffix: LBrace^ /* Clipped */ LengthStmtList /* Vec */ '}'^ /* Clipped */;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct LengthStmtSuffixLBraceLengthStmtListRBrace<'t> {
+    pub length_stmt_list: Vec<LengthStmtList<'t>>,
+}
+
+///
+/// Type derived for production 478
+///
+/// `ArgStr: BasicString ArgStrOpt /* Option */;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct ArgStrBasicStringArgStrOpt<'t> {
+    pub basic_string: Box<BasicString<'t>>,
+    pub arg_str_opt: Option<ArgStrOpt<'t>>,
+}
+
+///
+/// Type derived for production 479
+///
+/// `ArgStr: UnquotedArg;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct ArgStrUnquotedArg<'t> {
+    pub unquoted_arg: Box<UnquotedArg<'t>>,
+}
+
+///
+/// Type derived for production 485
 ///
 /// `EnumStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -3917,7 +4133,7 @@ pub struct StringRestrictionsPatternStmt<'t> {
 pub struct EnumStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 457
+/// Type derived for production 486
 ///
 /// `EnumStmtSuffix: LBrace^ /* Clipped */ EnumStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -3928,7 +4144,7 @@ pub struct EnumStmtSuffixLBraceEnumStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 459
+/// Type derived for production 488
 ///
 /// `EnumStmtListGroup: IfFeatureStmt;`
 ///
@@ -3939,7 +4155,7 @@ pub struct EnumStmtListGroupIfFeatureStmt<'t> {
 }
 
 ///
-/// Type derived for production 460
+/// Type derived for production 489
 ///
 /// `EnumStmtListGroup: DescriptionStmt;`
 ///
@@ -3950,7 +4166,7 @@ pub struct EnumStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 461
+/// Type derived for production 490
 ///
 /// `EnumStmtListGroup: ValueStmt;`
 ///
@@ -3961,7 +4177,7 @@ pub struct EnumStmtListGroupValueStmt<'t> {
 }
 
 ///
-/// Type derived for production 462
+/// Type derived for production 491
 ///
 /// `EnumStmtListGroup: ReferenceStmt;`
 ///
@@ -3972,7 +4188,7 @@ pub struct EnumStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 465
+/// Type derived for production 494
 ///
 /// `IntegerValueStr: IntegerValue;`
 ///
@@ -3983,7 +4199,7 @@ pub struct IntegerValueStrIntegerValue<'t> {
 }
 
 ///
-/// Type derived for production 466
+/// Type derived for production 495
 ///
 /// `IntegerValueStr: <Value>'"' IntegerValue <Value>'"';`
 ///
@@ -3996,7 +4212,7 @@ pub struct IntegerValueStrDoubleQuotationIntegerValueDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 468
+/// Type derived for production 497
 ///
 /// `EnumArgStr: AsciiNoBrace;`
 ///
@@ -4007,7 +4223,7 @@ pub struct EnumArgStrAsciiNoBrace<'t> {
 }
 
 ///
-/// Type derived for production 469
+/// Type derived for production 498
 ///
 /// `EnumArgStr: <Enum>'"'^ /* Clipped */ AsciiNoBrace <Enum>'"'^ /* Clipped */;`
 ///
@@ -4018,7 +4234,27 @@ pub struct EnumArgStrDoubleQuotationAsciiNoBraceDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 471
+/// Type derived for production 500
+///
+/// `RangeStmtSuffix: Semicolon^ /* Clipped */;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct RangeStmtSuffixSemicolon {}
+
+///
+/// Type derived for production 501
+///
+/// `RangeStmtSuffix: LBrace^ /* Clipped */ RangeStmtList /* Vec */ '}'^ /* Clipped */;`
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct RangeStmtSuffixLBraceRangeStmtListRBrace<'t> {
+    pub range_stmt_list: Vec<RangeStmtList<'t>>,
+}
+
+///
+/// Type derived for production 504
 ///
 /// `RangeArgStr: RangeArg;`
 ///
@@ -4029,7 +4265,7 @@ pub struct RangeArgStrRangeArg<'t> {
 }
 
 ///
-/// Type derived for production 472
+/// Type derived for production 505
 ///
 /// `RangeArgStr: <Range>'"'^ /* Clipped */ RangeArg <Range>'"'^ /* Clipped */;`
 ///
@@ -4040,7 +4276,7 @@ pub struct RangeArgStrDoubleQuotationRangeArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 479
+/// Type derived for production 512
 ///
 /// `RangeBoundary: <Range>'min';`
 ///
@@ -4051,7 +4287,7 @@ pub struct RangeBoundaryMin<'t> {
 }
 
 ///
-/// Type derived for production 480
+/// Type derived for production 513
 ///
 /// `RangeBoundary: <Range>'max';`
 ///
@@ -4062,18 +4298,18 @@ pub struct RangeBoundaryMax<'t> {
 }
 
 ///
-/// Type derived for production 481
+/// Type derived for production 514
 ///
-/// `RangeBoundary: <Range>"-?[0-9]+";`
+/// `RangeBoundary: RangeNumber;`
 ///
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
-pub struct RangeBoundaryMinusQuestLBracket0Minus9RBracketPlus<'t> {
-    pub minus_quest_l_bracket0_minus9_r_bracket_plus: Token<'t>, /* -?[0-9]+ */
+pub struct RangeBoundaryRangeNumber<'t> {
+    pub range_number: Box<RangeNumber<'t>>,
 }
 
 ///
-/// Type derived for production 482
+/// Type derived for production 516
 ///
 /// `IdentifierRefArgStr: IdentifierRef;`
 ///
@@ -4084,7 +4320,7 @@ pub struct IdentifierRefArgStrIdentifierRef<'t> {
 }
 
 ///
-/// Type derived for production 483
+/// Type derived for production 517
 ///
 /// `IdentifierRefArgStr: <Keyword, IfFeature>'"' IdentifierRef <Keyword, IfFeature>'"';`
 ///
@@ -4097,7 +4333,7 @@ pub struct IdentifierRefArgStrDoubleQuotationIdentifierRefDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 488
+/// Type derived for production 522
 ///
 /// `KeyArgStr: KeyArg;`
 ///
@@ -4108,7 +4344,7 @@ pub struct KeyArgStrKeyArg<'t> {
 }
 
 ///
-/// Type derived for production 489
+/// Type derived for production 523
 ///
 /// `KeyArgStr: <Keyword>'"'^ /* Clipped */ KeyArg <Keyword>'"'^ /* Clipped */;`
 ///
@@ -4119,7 +4355,7 @@ pub struct KeyArgStrDoubleQuotationKeyArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 497
+/// Type derived for production 531
 ///
 /// `ImportStmtListGroup: PrefixStmt;`
 ///
@@ -4130,7 +4366,7 @@ pub struct ImportStmtListGroupPrefixStmt<'t> {
 }
 
 ///
-/// Type derived for production 498
+/// Type derived for production 532
 ///
 /// `ImportStmtListGroup: RevisionDateStmt;`
 ///
@@ -4141,7 +4377,7 @@ pub struct ImportStmtListGroupRevisionDateStmt<'t> {
 }
 
 ///
-/// Type derived for production 499
+/// Type derived for production 533
 ///
 /// `ImportStmtListGroup: DescriptionStmt;`
 ///
@@ -4152,7 +4388,7 @@ pub struct ImportStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 500
+/// Type derived for production 534
 ///
 /// `ImportStmtListGroup: ReferenceStmt;`
 ///
@@ -4163,7 +4399,7 @@ pub struct ImportStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 503
+/// Type derived for production 537
 ///
 /// `IncludeStmtSuffix: Semicolon^ /* Clipped */;`
 ///
@@ -4172,7 +4408,7 @@ pub struct ImportStmtListGroupReferenceStmt<'t> {
 pub struct IncludeStmtSuffixSemicolon {}
 
 ///
-/// Type derived for production 504
+/// Type derived for production 538
 ///
 /// `IncludeStmtSuffix: LBrace^ /* Clipped */ IncludeStmtList /* Vec */ '}'^ /* Clipped */;`
 ///
@@ -4183,7 +4419,7 @@ pub struct IncludeStmtSuffixLBraceIncludeStmtListRBrace<'t> {
 }
 
 ///
-/// Type derived for production 506
+/// Type derived for production 540
 ///
 /// `IncludeStmtListGroup: RevisionDateStmt;`
 ///
@@ -4194,7 +4430,7 @@ pub struct IncludeStmtListGroupRevisionDateStmt<'t> {
 }
 
 ///
-/// Type derived for production 507
+/// Type derived for production 541
 ///
 /// `IncludeStmtListGroup: DescriptionStmt;`
 ///
@@ -4205,7 +4441,7 @@ pub struct IncludeStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 508
+/// Type derived for production 542
 ///
 /// `IncludeStmtListGroup: ReferenceStmt;`
 ///
@@ -4216,7 +4452,7 @@ pub struct IncludeStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 512
+/// Type derived for production 546
 ///
 /// `UriStr: UriArg;`
 ///
@@ -4227,7 +4463,7 @@ pub struct UriStrUriArg<'t> {
 }
 
 ///
-/// Type derived for production 513
+/// Type derived for production 547
 ///
 /// `UriStr: <Uri>'"'^ /* Clipped */ UriArg <Uri>'"'^ /* Clipped */;`
 ///
@@ -4238,7 +4474,7 @@ pub struct UriStrDoubleQuotationUriArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 523
+/// Type derived for production 557
 ///
 /// `RevisionStmtListGroup: DescriptionStmt;`
 ///
@@ -4249,7 +4485,7 @@ pub struct RevisionStmtListGroupDescriptionStmt<'t> {
 }
 
 ///
-/// Type derived for production 524
+/// Type derived for production 558
 ///
 /// `RevisionStmtListGroup: ReferenceStmt;`
 ///
@@ -4260,7 +4496,7 @@ pub struct RevisionStmtListGroupReferenceStmt<'t> {
 }
 
 ///
-/// Type derived for production 526
+/// Type derived for production 560
 ///
 /// `DateArgStr: DateArg;`
 ///
@@ -4271,7 +4507,7 @@ pub struct DateArgStrDateArg<'t> {
 }
 
 ///
-/// Type derived for production 527
+/// Type derived for production 561
 ///
 /// `DateArgStr: <Revision>'"'^ /* Clipped */ DateArg <Revision>'"'^ /* Clipped */;`
 ///
@@ -4282,7 +4518,7 @@ pub struct DateArgStrDoubleQuotationDateArgDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 529
+/// Type derived for production 563
 ///
 /// `Ystring: BasicString YstringOpt /* Option */;`
 ///
@@ -4294,7 +4530,7 @@ pub struct YstringBasicStringYstringOpt<'t> {
 }
 
 ///
-/// Type derived for production 530
+/// Type derived for production 564
 ///
 /// `Ystring: Identifier;`
 ///
@@ -4305,7 +4541,7 @@ pub struct YstringIdentifier<'t> {
 }
 
 ///
-/// Type derived for production 533
+/// Type derived for production 567
 ///
 /// `BasicString: DQString;`
 ///
@@ -4316,7 +4552,7 @@ pub struct BasicStringDQString<'t> {
 }
 
 ///
-/// Type derived for production 534
+/// Type derived for production 568
 ///
 /// `BasicString: SQString;`
 ///
@@ -4327,7 +4563,7 @@ pub struct BasicStringSQString<'t> {
 }
 
 ///
-/// Type derived for production 539
+/// Type derived for production 573
 ///
 /// `DQChar: DQUnescaped;`
 ///
@@ -4338,7 +4574,7 @@ pub struct DQCharDQUnescaped<'t> {
 }
 
 ///
-/// Type derived for production 540
+/// Type derived for production 574
 ///
 /// `DQChar: DQEscaped;`
 ///
@@ -4349,7 +4585,7 @@ pub struct DQCharDQEscaped<'t> {
 }
 
 ///
-/// Type derived for production 541
+/// Type derived for production 575
 ///
 /// `DQUnescaped: DQNoEscape;`
 ///
@@ -4360,7 +4596,7 @@ pub struct DQUnescapedDQNoEscape<'t> {
 }
 
 ///
-/// Type derived for production 542
+/// Type derived for production 576
 ///
 /// `DQUnescaped: NonAscii;`
 ///
@@ -4371,7 +4607,7 @@ pub struct DQUnescapedNonAscii<'t> {
 }
 
 ///
-/// Type derived for production 544
+/// Type derived for production 578
 ///
 /// `DQEscapeSeqChar: Escape;`
 ///
@@ -4382,7 +4618,7 @@ pub struct DQEscapeSeqCharEscape<'t> {
 }
 
 ///
-/// Type derived for production 545
+/// Type derived for production 579
 ///
 /// `DQEscapeSeqChar: DoubleQuotation;`
 ///
@@ -4393,7 +4629,7 @@ pub struct DQEscapeSeqCharDoubleQuotation<'t> {
 }
 
 ///
-/// Type derived for production 546
+/// Type derived for production 580
 ///
 /// `DQEscapeSeqChar: EscN;`
 ///
@@ -4404,7 +4640,7 @@ pub struct DQEscapeSeqCharEscN<'t> {
 }
 
 ///
-/// Type derived for production 547
+/// Type derived for production 581
 ///
 /// `DQEscapeSeqChar: EscT;`
 ///
@@ -4415,29 +4651,7 @@ pub struct DQEscapeSeqCharEscT<'t> {
 }
 
 ///
-/// Type derived for production 554
-///
-/// `SQChar: SQUnescaped;`
-///
-#[allow(dead_code)]
-#[derive(Debug, Clone)]
-pub struct SQCharSQUnescaped<'t> {
-    pub s_q_unescaped: Box<SQUnescaped<'t>>,
-}
-
-///
-/// Type derived for production 555
-///
-/// `SQChar: SQEscaped;`
-///
-#[allow(dead_code)]
-#[derive(Debug, Clone)]
-pub struct SQCharSQEscaped<'t> {
-    pub s_q_escaped: Box<SQEscaped<'t>>,
-}
-
-///
-/// Type derived for production 558
+/// Type derived for production 589
 ///
 /// `SQUnescaped: SQNoEscape;`
 ///
@@ -4448,7 +4662,7 @@ pub struct SQUnescapedSQNoEscape<'t> {
 }
 
 ///
-/// Type derived for production 559
+/// Type derived for production 590
 ///
 /// `SQUnescaped: NonAscii;`
 ///
@@ -4459,7 +4673,7 @@ pub struct SQUnescapedNonAscii<'t> {
 }
 
 ///
-/// Type derived for production 562
+/// Type derived for production 593
 ///
 /// `IdentifierArgStr: Identifier;`
 ///
@@ -4470,7 +4684,7 @@ pub struct IdentifierArgStrIdentifier<'t> {
 }
 
 ///
-/// Type derived for production 563
+/// Type derived for production 594
 ///
 /// `IdentifierArgStr: <Keyword>'"'^ /* Clipped */ Identifier <Keyword>'"'^ /* Clipped */;`
 ///
@@ -4626,6 +4840,25 @@ pub enum AnyxmlStmtListGroup<'t> {
 pub enum AnyxmlStmtSuffix<'t> {
     Semicolon(AnyxmlStmtSuffixSemicolon),
     LBraceAnyxmlStmtListRBrace(AnyxmlStmtSuffixLBraceAnyxmlStmtListRBrace<'t>),
+}
+
+///
+/// Type derived for non-terminal ArgStr
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub enum ArgStr<'t> {
+    BasicStringArgStrOpt(ArgStrBasicStringArgStrOpt<'t>),
+    UnquotedArg(ArgStrUnquotedArg<'t>),
+}
+
+///
+/// Type derived for non-terminal ArgStrOpt
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct ArgStrOpt<'t> {
+    pub arg_str: Box<ArgStr<'t>>,
 }
 
 ///
@@ -4930,6 +5163,7 @@ pub enum ContainerStmtListGroup<'t> {
     StatusStmt(ContainerStmtListGroupStatusStmt<'t>),
     DescriptionStmt(ContainerStmtListGroupDescriptionStmt<'t>),
     ReferenceStmt(ContainerStmtListGroupReferenceStmt<'t>),
+    TypedefStmt(ContainerStmtListGroupTypedefStmt<'t>),
     DataDefStmt(ContainerStmtListGroupDataDefStmt<'t>),
     ActionStmt(ContainerStmtListGroupActionStmt<'t>),
     NotificationStmt(ContainerStmtListGroupNotificationStmt<'t>),
@@ -5066,9 +5300,7 @@ pub struct DefaultStmt<'t> {
 #[derive(Debug, Clone)]
 pub enum DefaultStmtSuffix<'t> {
     AsciiNoSemicolonSemicolon(DefaultStmtSuffixAsciiNoSemicolonSemicolon<'t>),
-    DoubleQuotationAsciiNoSemicolonDoubleQuotationSemicolon(
-        DefaultStmtSuffixDoubleQuotationAsciiNoSemicolonDoubleQuotationSemicolon<'t>,
-    ),
+    DQStringSemicolon(DefaultStmtSuffixDQStringSemicolon<'t>),
 }
 
 ///
@@ -5160,6 +5392,17 @@ pub enum EnumStmtListGroup<'t> {
 pub enum EnumStmtSuffix<'t> {
     Semicolon(EnumStmtSuffixSemicolon),
     LBraceEnumStmtListRBrace(EnumStmtSuffixLBraceEnumStmtListRBrace<'t>),
+}
+
+///
+/// Type derived for non-terminal ErrorAppTag
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct ErrorAppTag<'t> {
+    pub error_minus_app_minus_tag: Token<'t>, /* error-app-tag */
+    pub ystring: Box<Ystring<'t>>,
+    pub semicolon: Box<Semicolon<'t>>,
 }
 
 ///
@@ -5931,6 +6174,24 @@ pub struct KwOrderedBy<'t> {
 }
 
 ///
+/// Type derived for non-terminal KwPath
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct KwPath<'t> {
+    pub kw_path: Token<'t>, /* path */
+}
+
+///
+/// Type derived for non-terminal KwPattern
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct KwPattern<'t> {
+    pub kw_pattern: Token<'t>, /* pattern */
+}
+
+///
 /// Type derived for non-terminal KwPosition
 ///
 #[allow(dead_code)]
@@ -6171,6 +6432,26 @@ pub enum LeafrefSpecification<'t> {
 #[derive(Debug, Clone)]
 pub struct LengthStmt<'t> {
     pub range_arg_str: Box<RangeArgStr<'t>>,
+    pub length_stmt_suffix: Box<LengthStmtSuffix<'t>>,
+}
+
+///
+/// Type derived for non-terminal LengthStmtList
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct LengthStmtList<'t> {
+    pub restriction_substmt: Box<RestrictionSubstmt<'t>>,
+}
+
+///
+/// Type derived for non-terminal LengthStmtSuffix
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub enum LengthStmtSuffix<'t> {
+    Semicolon(LengthStmtSuffixSemicolon),
+    LBraceLengthStmtListRBrace(LengthStmtSuffixLBraceLengthStmtListRBrace<'t>),
 }
 
 ///
@@ -6219,6 +6500,7 @@ pub enum ListStmtListGroup<'t> {
     StatusStmt(ListStmtListGroupStatusStmt<'t>),
     DescriptionStmt(ListStmtListGroupDescriptionStmt<'t>),
     ReferenceStmt(ListStmtListGroupReferenceStmt<'t>),
+    TypedefStmt(ListStmtListGroupTypedefStmt<'t>),
     DataDefStmt(ListStmtListGroupDataDefStmt<'t>),
     ActionStmt(ListStmtListGroupActionStmt<'t>),
     NotificationStmt(ListStmtListGroupNotificationStmt<'t>),
@@ -6284,6 +6566,17 @@ pub enum MetaStmts<'t> {
 #[derive(Debug, Clone)]
 pub struct MinElementsStmt<'t> {
     pub l_bracket1_minus9_r_bracket_l_bracket0_minus9_r_bracket_star: Token<'t>, /* [1-9][0-9]* */
+}
+
+///
+/// Type derived for non-terminal ModifierStmt
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct ModifierStmt<'t> {
+    pub modifier: Token<'t>, /* modifier */
+    pub ystring: Box<Ystring<'t>>,
+    pub semicolon: Box<Semicolon<'t>>,
 }
 
 ///
@@ -6382,7 +6675,9 @@ pub struct MustStmtList<'t> {
 #[derive(Debug, Clone)]
 pub enum MustStmtListGroup<'t> {
     ErrorMessage(MustStmtListGroupErrorMessage<'t>),
+    ErrorAppTag(MustStmtListGroupErrorAppTag<'t>),
     DescriptionStmt(MustStmtListGroupDescriptionStmt<'t>),
+    ReferenceStmt(MustStmtListGroupReferenceStmt<'t>),
 }
 
 ///
@@ -6515,7 +6810,7 @@ pub struct OutputStmtList<'t> {
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct PathStmt<'t> {
-    pub ystring: Box<Ystring<'t>>,
+    pub arg_str: Box<ArgStr<'t>>,
 }
 
 ///
@@ -6524,9 +6819,36 @@ pub struct PathStmt<'t> {
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct PatternStmt<'t> {
-    pub pattern: Token<'t>, /* pattern */
-    pub ystring: Box<Ystring<'t>>,
-    pub semicolon: Box<Semicolon<'t>>,
+    pub arg_str: Box<ArgStr<'t>>,
+    pub pattern_stmt_suffix: Box<PatternStmtSuffix<'t>>,
+}
+
+///
+/// Type derived for non-terminal PatternStmtList
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct PatternStmtList<'t> {
+    pub restriction_substmt: Box<RestrictionSubstmt<'t>>,
+}
+
+///
+/// Type derived for non-terminal PatternStmtSuffix
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub enum PatternStmtSuffix<'t> {
+    Semicolon(PatternStmtSuffixSemicolon),
+    LBracePatternStmtListRBrace(PatternStmtSuffixLBracePatternStmtListRBrace<'t>),
+}
+
+///
+/// Type derived for non-terminal Plus
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct Plus<'t> {
+    pub plus: Token<'t>, /* + */
 }
 
 ///
@@ -6594,7 +6916,16 @@ pub enum RangeArgStr<'t> {
 pub enum RangeBoundary<'t> {
     Min(RangeBoundaryMin<'t>),
     Max(RangeBoundaryMax<'t>),
-    MinusQuestLBracket0Minus9RBracketPlus(RangeBoundaryMinusQuestLBracket0Minus9RBracketPlus<'t>),
+    RangeNumber(RangeBoundaryRangeNumber<'t>),
+}
+
+///
+/// Type derived for non-terminal RangeNumber
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct RangeNumber<'t> {
+    pub range_number: Token<'t>, /* -?[0-9]+(\.[0-9]+)? */
 }
 
 ///
@@ -6624,6 +6955,26 @@ pub struct RangePartOpt<'t> {
 #[derive(Debug, Clone)]
 pub struct RangeStmt<'t> {
     pub range_arg_str: Box<RangeArgStr<'t>>,
+    pub range_stmt_suffix: Box<RangeStmtSuffix<'t>>,
+}
+
+///
+/// Type derived for non-terminal RangeStmtList
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct RangeStmtList<'t> {
+    pub restriction_substmt: Box<RestrictionSubstmt<'t>>,
+}
+
+///
+/// Type derived for non-terminal RangeStmtSuffix
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub enum RangeStmtSuffix<'t> {
+    Semicolon(RangeStmtSuffixSemicolon),
+    LBraceRangeStmtListRBrace(RangeStmtSuffixLBraceRangeStmtListRBrace<'t>),
 }
 
 ///
@@ -6726,6 +7077,19 @@ pub struct RequireInstanceStmt<'t> {
 }
 
 ///
+/// Type derived for non-terminal RestrictionSubstmt
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub enum RestrictionSubstmt<'t> {
+    ErrorMessage(RestrictionSubstmtErrorMessage<'t>),
+    ErrorAppTag(RestrictionSubstmtErrorAppTag<'t>),
+    ModifierStmt(RestrictionSubstmtModifierStmt<'t>),
+    DescriptionStmt(RestrictionSubstmtDescriptionStmt<'t>),
+    ReferenceStmt(RestrictionSubstmtReferenceStmt<'t>),
+}
+
+///
 /// Type derived for non-terminal RevisionDateStmt
 ///
 #[allow(dead_code)]
@@ -6813,28 +7177,8 @@ pub enum RpcStmtSuffix<'t> {
 ///
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
-pub enum SQChar<'t> {
-    SQUnescaped(SQCharSQUnescaped<'t>),
-    SQEscaped(SQCharSQEscaped<'t>),
-}
-
-///
-/// Type derived for non-terminal SQEscapeSeqChar
-///
-#[allow(dead_code)]
-#[derive(Debug, Clone)]
-pub struct SQEscapeSeqChar<'t> {
-    pub s_q_escape_seq_char: Token<'t>, /* . */
-}
-
-///
-/// Type derived for non-terminal SQEscaped
-///
-#[allow(dead_code)]
-#[derive(Debug, Clone)]
-pub struct SQEscaped<'t> {
-    pub escape: Box<Escape<'t>>,
-    pub s_q_escape_seq_char: Box<SQEscapeSeqChar<'t>>,
+pub struct SQChar<'t> {
+    pub s_q_unescaped: Box<SQUnescaped<'t>>,
 }
 
 ///
@@ -6843,7 +7187,7 @@ pub struct SQEscaped<'t> {
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct SQNoEscape<'t> {
-    pub s_q_no_escape: Token<'t>, /* [ \t\u{21}-\u{26}\u{28}-\u{5B}\u{5D}-\u{7E}]+ */
+    pub s_q_no_escape: Token<'t>, /* [ \t\u{21}-\u{26}\u{28}-\u{7E}]+ */
 }
 
 ///
@@ -7114,8 +7458,7 @@ pub struct UnitsStmt<'t> {
 #[derive(Debug, Clone)]
 pub struct UnknownStmt<'t> {
     pub identifier_ref: Box<IdentifierRef<'t>>,
-    pub ystring: Box<Ystring<'t>>,
-    pub unknown_stmt_suffix: Box<UnknownStmtSuffix<'t>>,
+    pub unknown_stmt_suffix0: Box<UnknownStmtSuffix0<'t>>,
 }
 
 ///
@@ -7148,12 +7491,31 @@ pub enum UnknownStmtSuffix<'t> {
 }
 
 ///
+/// Type derived for non-terminal UnknownStmtSuffix0
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub enum UnknownStmtSuffix0<'t> {
+    YstringUnknownStmtSuffix(UnknownStmtSuffix0YstringUnknownStmtSuffix<'t>),
+    Semicolon(UnknownStmtSuffix0Semicolon),
+}
+
+///
+/// Type derived for non-terminal UnquotedArg
+///
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct UnquotedArg<'t> {
+    pub unquoted_arg: Token<'t>, /* ([\u{21}\u{23}-\u{26}\u{28}-\u{2a}\u{2c}-\u{2e}\u{30}-\u{3a}\u{3c}-\u{7a}\u{7c}\u{7e}]|\u{2f}[\u{21}\u{23}-\u{26}\u{28}\u{29}\u{2b}-\u{2e}\u{30}-\u{3a}\u{3c}-\u{7a}\u{7c}\u{7e}])[\u{21}\u{23}-\u{26}\u{28}-\u{3a}\u{3c}-\u{7a}\u{7c}\u{7e}]* */
+}
+
+///
 /// Type derived for non-terminal UriArg
 ///
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct UriArg<'t> {
-    pub uri_arg: Token<'t>, /* urn:[a-zA-Z0-9\-\.:]+ */
+    pub uri_arg: Token<'t>, /* [a-zA-Z][a-zA-Z0-9+\-\.]*:[\u{21}\u{23}-\u{3a}\u{3c}-\u{7e}]+ */
 }
 
 ///
@@ -7314,7 +7676,6 @@ pub enum Ystring<'t> {
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct YstringOpt<'t> {
-    pub plus: Token<'t>, /* + */
     pub ystring: Box<Ystring<'t>>,
 }
 
@@ -7339,6 +7700,8 @@ pub enum ASTType<'t> {
     AnyxmlStmtList(Vec<AnyxmlStmtList<'t>>),
     AnyxmlStmtListGroup(AnyxmlStmtListGroup<'t>),
     AnyxmlStmtSuffix(AnyxmlStmtSuffix<'t>),
+    ArgStr(ArgStr<'t>),
+    ArgStrOpt(Option<ArgStrOpt<'t>>),
     ArgumentStmt(ArgumentStmt<'t>),
     AsciiNoBrace(AsciiNoBrace<'t>),
     AsciiNoSemicolon(AsciiNoSemicolon<'t>),
@@ -7389,6 +7752,7 @@ pub enum ASTType<'t> {
     EnumStmtList(Vec<EnumStmtList<'t>>),
     EnumStmtListGroup(EnumStmtListGroup<'t>),
     EnumStmtSuffix(EnumStmtSuffix<'t>),
+    ErrorAppTag(ErrorAppTag<'t>),
     ErrorMessage(ErrorMessage<'t>),
     EscN(EscN<'t>),
     EscT(EscT<'t>),
@@ -7468,6 +7832,8 @@ pub enum ASTType<'t> {
     KwNamespace(KwNamespace<'t>),
     KwNotification(KwNotification<'t>),
     KwOrderedBy(KwOrderedBy<'t>),
+    KwPath(KwPath<'t>),
+    KwPattern(KwPattern<'t>),
     KwPosition(KwPosition<'t>),
     KwPrefix(KwPrefix<'t>),
     KwRange(KwRange<'t>),
@@ -7492,6 +7858,8 @@ pub enum ASTType<'t> {
     LeafStmtListGroup(LeafStmtListGroup<'t>),
     LeafrefSpecification(LeafrefSpecification<'t>),
     LengthStmt(LengthStmt<'t>),
+    LengthStmtList(Vec<LengthStmtList<'t>>),
+    LengthStmtSuffix(LengthStmtSuffix<'t>),
     LinkageStmts(LinkageStmts<'t>),
     ListStmt(ListStmt<'t>),
     ListStmtList(Vec<ListStmtList<'t>>),
@@ -7502,6 +7870,7 @@ pub enum ASTType<'t> {
     MaxElementsStmt(MaxElementsStmt<'t>),
     MetaStmts(MetaStmts<'t>),
     MinElementsStmt(MinElementsStmt<'t>),
+    ModifierStmt(ModifierStmt<'t>),
     ModuleHeaderStmts(ModuleHeaderStmts<'t>),
     ModuleStmt(ModuleStmt<'t>),
     ModuleStmtList(Vec<ModuleStmtList<'t>>),
@@ -7526,6 +7895,9 @@ pub enum ASTType<'t> {
     OutputStmtList(Vec<OutputStmtList<'t>>),
     PathStmt(PathStmt<'t>),
     PatternStmt(PatternStmt<'t>),
+    PatternStmtList(Vec<PatternStmtList<'t>>),
+    PatternStmtSuffix(PatternStmtSuffix<'t>),
+    Plus(Plus<'t>),
     PositionStmt(PositionStmt<'t>),
     PrefixStmt(PrefixStmt<'t>),
     PresenceStmt(PresenceStmt<'t>),
@@ -7533,9 +7905,12 @@ pub enum ASTType<'t> {
     RangeArgOpt(Option<RangeArgOpt<'t>>),
     RangeArgStr(RangeArgStr<'t>),
     RangeBoundary(RangeBoundary<'t>),
+    RangeNumber(RangeNumber<'t>),
     RangePart(RangePart<'t>),
     RangePartOpt(Option<RangePartOpt<'t>>),
     RangeStmt(RangeStmt<'t>),
+    RangeStmtList(Vec<RangeStmtList<'t>>),
+    RangeStmtSuffix(RangeStmtSuffix<'t>),
     ReferenceStmt(ReferenceStmt<'t>),
     RefineArg(RefineArg<'t>),
     RefineArgStr(RefineArgStr<'t>),
@@ -7545,6 +7920,7 @@ pub enum ASTType<'t> {
     RefineStmtSuffix(RefineStmtSuffix<'t>),
     RequireInstanceArgStr(RequireInstanceArgStr<'t>),
     RequireInstanceStmt(RequireInstanceStmt<'t>),
+    RestrictionSubstmt(RestrictionSubstmt<'t>),
     RevisionDateStmt(RevisionDateStmt<'t>),
     RevisionStmt(RevisionStmt<'t>),
     RevisionStmtList(Vec<RevisionStmtList<'t>>),
@@ -7554,8 +7930,6 @@ pub enum ASTType<'t> {
     RpcStmtListGroup(RpcStmtListGroup<'t>),
     RpcStmtSuffix(RpcStmtSuffix<'t>),
     SQChar(SQChar<'t>),
-    SQEscapeSeqChar(SQEscapeSeqChar<'t>),
-    SQEscaped(SQEscaped<'t>),
     SQNoEscape(SQNoEscape<'t>),
     SQString(SQString<'t>),
     SQStringList(Vec<SQStringList<'t>>),
@@ -7586,6 +7960,8 @@ pub enum ASTType<'t> {
     UnknownStmtList(Vec<UnknownStmtList<'t>>),
     UnknownStmtListGroup(UnknownStmtListGroup<'t>),
     UnknownStmtSuffix(UnknownStmtSuffix<'t>),
+    UnknownStmtSuffix0(UnknownStmtSuffix0<'t>),
+    UnquotedArg(UnquotedArg<'t>),
     UriArg(UriArg<'t>),
     UriStr(UriStr<'t>),
     UsesStmt(UsesStmt<'t>),
@@ -7668,7 +8044,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
 
     /// Semantic action for production 0:
     ///
-    /// `LBrace: <INITIAL, Keyword, Enum, Revision>'{';`
+    /// `LBrace: <INITIAL, Keyword, Range, Enum, Revision, Arg>'{';`
     ///
     #[parol_runtime::function_name::named]
     fn l_brace(&mut self, l_brace: &ParseTreeType<'t>) -> Result<()> {
@@ -8476,6 +8852,38 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
 
     /// Semantic action for production 50:
     ///
+    /// `KwPattern: 'pattern';`
+    ///
+    #[parol_runtime::function_name::named]
+    fn kw_pattern(&mut self, kw_pattern: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let kw_pattern = kw_pattern.token()?.clone();
+        let kw_pattern_built = KwPattern { kw_pattern };
+        // Calling user action here
+        self.user_grammar.kw_pattern(&kw_pattern_built)?;
+        self.push(ASTType::KwPattern(kw_pattern_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 51:
+    ///
+    /// `KwPath: 'path';`
+    ///
+    #[parol_runtime::function_name::named]
+    fn kw_path(&mut self, kw_path: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let kw_path = kw_path.token()?.clone();
+        let kw_path_built = KwPath { kw_path };
+        // Calling user action here
+        self.user_grammar.kw_path(&kw_path_built)?;
+        self.push(ASTType::KwPath(kw_path_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 52:
+    ///
     /// `Yang: ModuleStmt;`
     ///
     #[parol_runtime::function_name::named]
@@ -8493,7 +8901,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 51:
+    /// Semantic action for production 53:
     ///
     /// `Yang: SubmoduleStmt;`
     ///
@@ -8512,7 +8920,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 52:
+    /// Semantic action for production 54:
     ///
     /// `ModuleStmt: KwModule^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ ModuleStmtList /* Vec */ ModuleStmtList0 /* Vec */ ModuleStmtList1 /* Vec */ ModuleStmtList2 /* Vec */ ModuleStmtList3 /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -8558,7 +8966,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 53:
+    /// Semantic action for production 55:
     ///
     /// `ModuleStmtList3 /* Vec<T>::Push */: BodyStmts ModuleStmtList3;`
     ///
@@ -8581,7 +8989,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 54:
+    /// Semantic action for production 56:
     ///
     /// `ModuleStmtList3 /* Vec<T>::New */: ;`
     ///
@@ -8594,7 +9002,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 55:
+    /// Semantic action for production 57:
     ///
     /// `ModuleStmtList2 /* Vec<T>::Push */: RevisionStmt ModuleStmtList2;`
     ///
@@ -8617,7 +9025,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 56:
+    /// Semantic action for production 58:
     ///
     /// `ModuleStmtList2 /* Vec<T>::New */: ;`
     ///
@@ -8630,7 +9038,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 57:
+    /// Semantic action for production 59:
     ///
     /// `ModuleStmtList1 /* Vec<T>::Push */: MetaStmts ModuleStmtList1;`
     ///
@@ -8653,7 +9061,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 58:
+    /// Semantic action for production 60:
     ///
     /// `ModuleStmtList1 /* Vec<T>::New */: ;`
     ///
@@ -8666,7 +9074,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 59:
+    /// Semantic action for production 61:
     ///
     /// `ModuleStmtList0 /* Vec<T>::Push */: LinkageStmts ModuleStmtList0;`
     ///
@@ -8689,7 +9097,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 60:
+    /// Semantic action for production 62:
     ///
     /// `ModuleStmtList0 /* Vec<T>::New */: ;`
     ///
@@ -8702,7 +9110,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 61:
+    /// Semantic action for production 63:
     ///
     /// `ModuleStmtList /* Vec<T>::Push */: ModuleHeaderStmts ModuleStmtList;`
     ///
@@ -8725,7 +9133,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 62:
+    /// Semantic action for production 64:
     ///
     /// `ModuleStmtList /* Vec<T>::New */: ;`
     ///
@@ -8738,7 +9146,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 63:
+    /// Semantic action for production 65:
     ///
     /// `SubmoduleStmt: KwSubmodule^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ SubmoduleStmtList /* Vec */ SubmoduleStmtList0 /* Vec */ SubmoduleStmtList1 /* Vec */ SubmoduleStmtList2 /* Vec */ SubmoduleStmtList3 /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -8784,7 +9192,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 64:
+    /// Semantic action for production 66:
     ///
     /// `SubmoduleStmtList3 /* Vec<T>::Push */: BodyStmts SubmoduleStmtList3;`
     ///
@@ -8808,7 +9216,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 65:
+    /// Semantic action for production 67:
     ///
     /// `SubmoduleStmtList3 /* Vec<T>::New */: ;`
     ///
@@ -8824,7 +9232,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 66:
+    /// Semantic action for production 68:
     ///
     /// `SubmoduleStmtList2 /* Vec<T>::Push */: RevisionStmt SubmoduleStmtList2;`
     ///
@@ -8848,7 +9256,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 67:
+    /// Semantic action for production 69:
     ///
     /// `SubmoduleStmtList2 /* Vec<T>::New */: ;`
     ///
@@ -8864,7 +9272,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 68:
+    /// Semantic action for production 70:
     ///
     /// `SubmoduleStmtList1 /* Vec<T>::Push */: MetaStmts SubmoduleStmtList1;`
     ///
@@ -8888,7 +9296,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 69:
+    /// Semantic action for production 71:
     ///
     /// `SubmoduleStmtList1 /* Vec<T>::New */: ;`
     ///
@@ -8904,7 +9312,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 70:
+    /// Semantic action for production 72:
     ///
     /// `SubmoduleStmtList0 /* Vec<T>::Push */: LinkageStmts SubmoduleStmtList0;`
     ///
@@ -8928,7 +9336,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 71:
+    /// Semantic action for production 73:
     ///
     /// `SubmoduleStmtList0 /* Vec<T>::New */: ;`
     ///
@@ -8944,7 +9352,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 72:
+    /// Semantic action for production 74:
     ///
     /// `SubmoduleStmtList /* Vec<T>::Push */: SubmoduleHeaderStmts SubmoduleStmtList;`
     ///
@@ -8969,7 +9377,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 73:
+    /// Semantic action for production 75:
     ///
     /// `SubmoduleStmtList /* Vec<T>::New */: ;`
     ///
@@ -8985,7 +9393,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 74:
+    /// Semantic action for production 76:
     ///
     /// `ModuleHeaderStmts: YangVersionStmt;`
     ///
@@ -9009,7 +9417,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 75:
+    /// Semantic action for production 77:
     ///
     /// `ModuleHeaderStmts: NamespaceStmt;`
     ///
@@ -9033,7 +9441,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 76:
+    /// Semantic action for production 78:
     ///
     /// `ModuleHeaderStmts: PrefixStmt;`
     ///
@@ -9057,7 +9465,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 77:
+    /// Semantic action for production 79:
     ///
     /// `SubmoduleHeaderStmts: YangVersionStmt;`
     ///
@@ -9081,7 +9489,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 78:
+    /// Semantic action for production 80:
     ///
     /// `SubmoduleHeaderStmts: BelongsToStmt;`
     ///
@@ -9105,7 +9513,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 79:
+    /// Semantic action for production 81:
     ///
     /// `MetaStmts: OrganizationStmt;`
     ///
@@ -9124,7 +9532,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 80:
+    /// Semantic action for production 82:
     ///
     /// `MetaStmts: ContactStmt;`
     ///
@@ -9143,7 +9551,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 81:
+    /// Semantic action for production 83:
     ///
     /// `MetaStmts: DescriptionStmt;`
     ///
@@ -9162,7 +9570,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 82:
+    /// Semantic action for production 84:
     ///
     /// `MetaStmts: ReferenceStmt;`
     ///
@@ -9181,7 +9589,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 83:
+    /// Semantic action for production 85:
     ///
     /// `LinkageStmts: ImportStmt;`
     ///
@@ -9200,7 +9608,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 84:
+    /// Semantic action for production 86:
     ///
     /// `LinkageStmts: IncludeStmt;`
     ///
@@ -9219,7 +9627,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 85:
+    /// Semantic action for production 87:
     ///
     /// `BodyStmts: ExtensionStmt;`
     ///
@@ -9238,7 +9646,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 86:
+    /// Semantic action for production 88:
     ///
     /// `BodyStmts: FeatureStmt;`
     ///
@@ -9257,7 +9665,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 87:
+    /// Semantic action for production 89:
     ///
     /// `BodyStmts: IdentityStmt;`
     ///
@@ -9276,7 +9684,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 88:
+    /// Semantic action for production 90:
     ///
     /// `BodyStmts: TypedefStmt;`
     ///
@@ -9295,7 +9703,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 89:
+    /// Semantic action for production 91:
     ///
     /// `BodyStmts: GroupingStmt;`
     ///
@@ -9314,7 +9722,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 90:
+    /// Semantic action for production 92:
     ///
     /// `BodyStmts: DataDefStmt;`
     ///
@@ -9333,7 +9741,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 91:
+    /// Semantic action for production 93:
     ///
     /// `BodyStmts: AugmentStmt;`
     ///
@@ -9352,7 +9760,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 92:
+    /// Semantic action for production 94:
     ///
     /// `BodyStmts: RpcStmt;`
     ///
@@ -9371,7 +9779,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 93:
+    /// Semantic action for production 95:
     ///
     /// `BodyStmts: NotificationStmt;`
     ///
@@ -9390,7 +9798,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 94:
+    /// Semantic action for production 96:
     ///
     /// `BodyStmts: DeviationStmt;`
     ///
@@ -9409,7 +9817,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 95:
+    /// Semantic action for production 97:
     ///
     /// `BodyStmts: UnknownStmt;`
     ///
@@ -9428,7 +9836,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 96:
+    /// Semantic action for production 98:
     ///
     /// `DataDefStmt: ContainerStmt;`
     ///
@@ -9447,7 +9855,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 97:
+    /// Semantic action for production 99:
     ///
     /// `DataDefStmt: LeafStmt;`
     ///
@@ -9466,7 +9874,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 98:
+    /// Semantic action for production 100:
     ///
     /// `DataDefStmt: LeafListStmt;`
     ///
@@ -9485,7 +9893,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 99:
+    /// Semantic action for production 101:
     ///
     /// `DataDefStmt: ListStmt;`
     ///
@@ -9504,7 +9912,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 100:
+    /// Semantic action for production 102:
     ///
     /// `DataDefStmt: ChoiceStmt;`
     ///
@@ -9523,7 +9931,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 101:
+    /// Semantic action for production 103:
     ///
     /// `DataDefStmt: AnydataStmt;`
     ///
@@ -9542,7 +9950,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 102:
+    /// Semantic action for production 104:
     ///
     /// `DataDefStmt: AnyxmlStmt;`
     ///
@@ -9561,7 +9969,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 103:
+    /// Semantic action for production 105:
     ///
     /// `DataDefStmt: UsesStmt;`
     ///
@@ -9580,7 +9988,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 104:
+    /// Semantic action for production 106:
     ///
     /// `YangVersionStmt: KwYangVersion^ /* Clipped */ YangVersionArgStr Semicolon^ /* Clipped */;`
     ///
@@ -9607,7 +10015,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 105:
+    /// Semantic action for production 107:
     ///
     /// `YangVersionArgStr: YangVersionArg;`
     ///
@@ -9631,7 +10039,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 106:
+    /// Semantic action for production 108:
     ///
     /// `YangVersionArgStr: <YVersion>'"'^ /* Clipped */ YangVersionArg <YVersion>'"'^ /* Clipped */;`
     ///
@@ -9663,7 +10071,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 107:
+    /// Semantic action for production 109:
     ///
     /// `DeviationStmt: KwDeviation^ /* Clipped */ AbsoluteSchemaNodeid Semicolon;`
     ///
@@ -9690,7 +10098,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 108:
+    /// Semantic action for production 110:
     ///
     /// `RpcStmt: KwRpc^ /* Clipped */ IdentifierArgStr RpcStmtSuffix;`
     ///
@@ -9716,7 +10124,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 109:
+    /// Semantic action for production 111:
     ///
     /// `RpcStmtSuffix: Semicolon;`
     ///
@@ -9733,7 +10141,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 110:
+    /// Semantic action for production 112:
     ///
     /// `RpcStmtSuffix: LBrace^ /* Clipped */ RpcStmtList /* Vec */ '}';`
     ///
@@ -9759,7 +10167,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 111:
+    /// Semantic action for production 113:
     ///
     /// `RpcStmtList /* Vec<T>::Push */: RpcStmtListGroup RpcStmtList;`
     ///
@@ -9782,7 +10190,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 112:
+    /// Semantic action for production 114:
     ///
     /// `RpcStmtListGroup: IfFeatureStmt;`
     ///
@@ -9803,7 +10211,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 113:
+    /// Semantic action for production 115:
     ///
     /// `RpcStmtListGroup: StatusStmt;`
     ///
@@ -9823,7 +10231,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 114:
+    /// Semantic action for production 116:
     ///
     /// `RpcStmtListGroup: DescriptionStmt;`
     ///
@@ -9844,7 +10252,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 115:
+    /// Semantic action for production 117:
     ///
     /// `RpcStmtListGroup: ReferenceStmt;`
     ///
@@ -9865,7 +10273,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 116:
+    /// Semantic action for production 118:
     ///
     /// `RpcStmtListGroup: TypedefStmt;`
     ///
@@ -9886,7 +10294,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 117:
+    /// Semantic action for production 119:
     ///
     /// `RpcStmtListGroup: GroupingStmt;`
     ///
@@ -9907,7 +10315,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 118:
+    /// Semantic action for production 120:
     ///
     /// `RpcStmtListGroup: InputStmt;`
     ///
@@ -9927,7 +10335,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 119:
+    /// Semantic action for production 121:
     ///
     /// `RpcStmtListGroup: OutputStmt;`
     ///
@@ -9947,7 +10355,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 120:
+    /// Semantic action for production 122:
     ///
     /// `RpcStmtList /* Vec<T>::New */: ;`
     ///
@@ -9960,7 +10368,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 121:
+    /// Semantic action for production 123:
     ///
     /// `ExtensionStmt: KwExtension^ /* Clipped */ IdentifierArgStr ExtensionStmtSuffix;`
     ///
@@ -9987,7 +10395,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 122:
+    /// Semantic action for production 124:
     ///
     /// `ExtensionStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -10006,7 +10414,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 123:
+    /// Semantic action for production 125:
     ///
     /// `ExtensionStmtSuffix: LBrace^ /* Clipped */ ExtensionStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -10034,7 +10442,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 124:
+    /// Semantic action for production 126:
     ///
     /// `ExtensionStmtList /* Vec<T>::Push */: ExtensionStmtListGroup ExtensionStmtList;`
     ///
@@ -10063,7 +10471,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 125:
+    /// Semantic action for production 127:
     ///
     /// `ExtensionStmtListGroup: ArgumentStmt;`
     ///
@@ -10084,7 +10492,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 126:
+    /// Semantic action for production 128:
     ///
     /// `ExtensionStmtListGroup: StatusStmt;`
     ///
@@ -10105,7 +10513,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 127:
+    /// Semantic action for production 129:
     ///
     /// `ExtensionStmtListGroup: DescriptionStmt;`
     ///
@@ -10126,7 +10534,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 128:
+    /// Semantic action for production 130:
     ///
     /// `ExtensionStmtListGroup: ReferenceStmt;`
     ///
@@ -10147,7 +10555,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 129:
+    /// Semantic action for production 131:
     ///
     /// `ExtensionStmtList /* Vec<T>::New */: ;`
     ///
@@ -10163,7 +10571,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 130:
+    /// Semantic action for production 132:
     ///
     /// `ArgumentStmt: KwArgument^ /* Clipped */ IdentifierArgStr Semicolon^ /* Clipped */;`
     ///
@@ -10188,7 +10596,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 131:
+    /// Semantic action for production 133:
     ///
     /// `FeatureStmt: KwFeature^ /* Clipped */ IdentifierArgStr FeatureStmtSuffix;`
     ///
@@ -10214,7 +10622,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 132:
+    /// Semantic action for production 134:
     ///
     /// `FeatureStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -10232,7 +10640,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 133:
+    /// Semantic action for production 135:
     ///
     /// `FeatureStmtSuffix: LBrace^ /* Clipped */ FeatureStmtList /* Vec */ '}';`
     ///
@@ -10262,7 +10670,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 134:
+    /// Semantic action for production 136:
     ///
     /// `FeatureStmtList /* Vec<T>::Push */: FeatureStmtListGroup FeatureStmtList;`
     ///
@@ -10286,7 +10694,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 135:
+    /// Semantic action for production 137:
     ///
     /// `FeatureStmtListGroup: IfFeatureStmt;`
     ///
@@ -10307,7 +10715,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 136:
+    /// Semantic action for production 138:
     ///
     /// `FeatureStmtListGroup: StatusStmt;`
     ///
@@ -10328,7 +10736,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 137:
+    /// Semantic action for production 139:
     ///
     /// `FeatureStmtListGroup: DescriptionStmt;`
     ///
@@ -10349,7 +10757,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 138:
+    /// Semantic action for production 140:
     ///
     /// `FeatureStmtListGroup: ReferenceStmt;`
     ///
@@ -10370,7 +10778,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 139:
+    /// Semantic action for production 141:
     ///
     /// `FeatureStmtList /* Vec<T>::New */: ;`
     ///
@@ -10383,7 +10791,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 140:
+    /// Semantic action for production 142:
     ///
     /// `TypedefStmt: KwTypedef^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ TypedefStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -10413,7 +10821,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 141:
+    /// Semantic action for production 143:
     ///
     /// `TypedefStmtList /* Vec<T>::Push */: TypedefStmtListGroup TypedefStmtList;`
     ///
@@ -10437,7 +10845,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 142:
+    /// Semantic action for production 144:
     ///
     /// `TypedefStmtListGroup: TypeStmt;`
     ///
@@ -10458,7 +10866,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 143:
+    /// Semantic action for production 145:
     ///
     /// `TypedefStmtListGroup: UnitsStmt;`
     ///
@@ -10479,7 +10887,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 144:
+    /// Semantic action for production 146:
     ///
     /// `TypedefStmtListGroup: DefaultStmt;`
     ///
@@ -10500,7 +10908,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 145:
+    /// Semantic action for production 147:
     ///
     /// `TypedefStmtListGroup: StatusStmt;`
     ///
@@ -10521,7 +10929,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 146:
+    /// Semantic action for production 148:
     ///
     /// `TypedefStmtListGroup: DescriptionStmt;`
     ///
@@ -10542,7 +10950,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 147:
+    /// Semantic action for production 149:
     ///
     /// `TypedefStmtListGroup: ReferenceStmt;`
     ///
@@ -10563,7 +10971,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 148:
+    /// Semantic action for production 150:
     ///
     /// `TypedefStmtList /* Vec<T>::New */: ;`
     ///
@@ -10576,7 +10984,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 149:
+    /// Semantic action for production 151:
     ///
     /// `AugmentStmt: 'augment'^ /* Clipped */ AugmentArgStr LBrace^ /* Clipped */ AugmentStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -10605,7 +11013,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 150:
+    /// Semantic action for production 152:
     ///
     /// `AugmentStmtList /* Vec<T>::Push */: AugmentStmtListGroup AugmentStmtList;`
     ///
@@ -10629,7 +11037,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 151:
+    /// Semantic action for production 153:
     ///
     /// `AugmentStmtListGroup: WhenStmt;`
     ///
@@ -10650,7 +11058,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 152:
+    /// Semantic action for production 154:
     ///
     /// `AugmentStmtListGroup: IfFeatureStmt;`
     ///
@@ -10671,7 +11079,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 153:
+    /// Semantic action for production 155:
     ///
     /// `AugmentStmtListGroup: StatusStmt;`
     ///
@@ -10692,7 +11100,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 154:
+    /// Semantic action for production 156:
     ///
     /// `AugmentStmtListGroup: DescriptionStmt;`
     ///
@@ -10713,7 +11121,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 155:
+    /// Semantic action for production 157:
     ///
     /// `AugmentStmtListGroup: ReferenceStmt;`
     ///
@@ -10734,7 +11142,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 156:
+    /// Semantic action for production 158:
     ///
     /// `AugmentStmtListGroup: DataDefStmt;`
     ///
@@ -10755,7 +11163,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 157:
+    /// Semantic action for production 159:
     ///
     /// `AugmentStmtListGroup: CaseStmt;`
     ///
@@ -10776,7 +11184,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 158:
+    /// Semantic action for production 160:
     ///
     /// `AugmentStmtListGroup: ActionStmt;`
     ///
@@ -10797,7 +11205,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 159:
+    /// Semantic action for production 161:
     ///
     /// `AugmentStmtListGroup: NotificationStmt;`
     ///
@@ -10818,7 +11226,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 160:
+    /// Semantic action for production 162:
     ///
     /// `AugmentStmtList /* Vec<T>::New */: ;`
     ///
@@ -10831,7 +11239,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 161:
+    /// Semantic action for production 163:
     ///
     /// `AugmentArgStr: Ystring;`
     ///
@@ -10849,7 +11257,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 162:
+    /// Semantic action for production 164:
     ///
     /// `WhenStmt: 'when'^ /* Clipped */ Ystring WhenStmtSuffix;`
     ///
@@ -10874,7 +11282,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 163:
+    /// Semantic action for production 165:
     ///
     /// `WhenStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -10889,7 +11297,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 164:
+    /// Semantic action for production 166:
     ///
     /// `WhenStmtSuffix: LBrace^ /* Clipped */ WhenStmtList /* Vec */ '}';`
     ///
@@ -10915,7 +11323,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 165:
+    /// Semantic action for production 167:
     ///
     /// `WhenStmtList /* Vec<T>::Push */: WhenStmtListGroup WhenStmtList;`
     ///
@@ -10939,7 +11347,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 166:
+    /// Semantic action for production 168:
     ///
     /// `WhenStmtListGroup: DescriptionStmt;`
     ///
@@ -10960,7 +11368,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 167:
+    /// Semantic action for production 169:
     ///
     /// `WhenStmtListGroup: ReferenceStmt;`
     ///
@@ -10981,7 +11389,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 168:
+    /// Semantic action for production 170:
     ///
     /// `WhenStmtList /* Vec<T>::New */: ;`
     ///
@@ -10994,7 +11402,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 169:
+    /// Semantic action for production 171:
     ///
     /// `GroupingStmt: KwGrouping^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ GroupingStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -11024,7 +11432,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 170:
+    /// Semantic action for production 172:
     ///
     /// `GroupingStmtList /* Vec<T>::Push */: GroupingStmtListGroup GroupingStmtList;`
     ///
@@ -11052,7 +11460,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 171:
+    /// Semantic action for production 173:
     ///
     /// `GroupingStmtListGroup: StatusStmt;`
     ///
@@ -11073,7 +11481,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 172:
+    /// Semantic action for production 174:
     ///
     /// `GroupingStmtListGroup: DescriptionStmt;`
     ///
@@ -11094,7 +11502,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 173:
+    /// Semantic action for production 175:
     ///
     /// `GroupingStmtListGroup: ReferenceStmt;`
     ///
@@ -11115,7 +11523,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 174:
+    /// Semantic action for production 176:
     ///
     /// `GroupingStmtListGroup: TypedefStmt;`
     ///
@@ -11136,7 +11544,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 175:
+    /// Semantic action for production 177:
     ///
     /// `GroupingStmtListGroup: GroupingStmt;`
     ///
@@ -11157,7 +11565,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 176:
+    /// Semantic action for production 178:
     ///
     /// `GroupingStmtListGroup: DataDefStmt;`
     ///
@@ -11178,7 +11586,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 177:
+    /// Semantic action for production 179:
     ///
     /// `GroupingStmtListGroup: ActionStmt;`
     ///
@@ -11199,7 +11607,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 178:
+    /// Semantic action for production 180:
     ///
     /// `GroupingStmtListGroup: NotificationStmt;`
     ///
@@ -11220,7 +11628,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 179:
+    /// Semantic action for production 181:
     ///
     /// `GroupingStmtListGroup: UnknownStmt;`
     ///
@@ -11241,7 +11649,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 180:
+    /// Semantic action for production 182:
     ///
     /// `GroupingStmtList /* Vec<T>::New */: ;`
     ///
@@ -11257,7 +11665,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 181:
+    /// Semantic action for production 183:
     ///
     /// `IdentityStmt: KwIdentity^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ IdentityStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -11287,7 +11695,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 182:
+    /// Semantic action for production 184:
     ///
     /// `IdentityStmtList /* Vec<T>::Push */: IdentityStmtListGroup IdentityStmtList;`
     ///
@@ -11315,7 +11723,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 183:
+    /// Semantic action for production 185:
     ///
     /// `IdentityStmtListGroup: IfFeatureStmt;`
     ///
@@ -11336,7 +11744,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 184:
+    /// Semantic action for production 186:
     ///
     /// `IdentityStmtListGroup: BaseStmt;`
     ///
@@ -11357,7 +11765,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 185:
+    /// Semantic action for production 187:
     ///
     /// `IdentityStmtListGroup: DescriptionStmt;`
     ///
@@ -11378,7 +11786,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 186:
+    /// Semantic action for production 188:
     ///
     /// `IdentityStmtListGroup: ReferenceStmt;`
     ///
@@ -11399,7 +11807,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 187:
+    /// Semantic action for production 189:
     ///
     /// `IdentityStmtList /* Vec<T>::New */: ;`
     ///
@@ -11415,7 +11823,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 188:
+    /// Semantic action for production 190:
     ///
     /// `BaseStmt: KwBase^ /* Clipped */ IdentifierRefArgStr Semicolon^ /* Clipped */;`
     ///
@@ -11441,7 +11849,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 189:
+    /// Semantic action for production 191:
     ///
     /// `AnyxmlStmt: KwAnyxml^ /* Clipped */ IdentifierArgStr AnyxmlStmtSuffix;`
     ///
@@ -11467,7 +11875,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 190:
+    /// Semantic action for production 192:
     ///
     /// `AnyxmlStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -11485,7 +11893,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 191:
+    /// Semantic action for production 193:
     ///
     /// `AnyxmlStmtSuffix: LBrace^ /* Clipped */ AnyxmlStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -11512,7 +11920,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 192:
+    /// Semantic action for production 194:
     ///
     /// `AnyxmlStmtList /* Vec<T>::Push */: AnyxmlStmtListGroup AnyxmlStmtList;`
     ///
@@ -11536,7 +11944,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 193:
+    /// Semantic action for production 195:
     ///
     /// `AnyxmlStmtListGroup: WhenStmt;`
     ///
@@ -11557,7 +11965,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 194:
+    /// Semantic action for production 196:
     ///
     /// `AnyxmlStmtListGroup: IfFeatureStmt;`
     ///
@@ -11578,7 +11986,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 195:
+    /// Semantic action for production 197:
     ///
     /// `AnyxmlStmtListGroup: MustStmt;`
     ///
@@ -11599,7 +12007,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 196:
+    /// Semantic action for production 198:
     ///
     /// `AnyxmlStmtListGroup: ConfigStmt;`
     ///
@@ -11620,7 +12028,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 197:
+    /// Semantic action for production 199:
     ///
     /// `AnyxmlStmtListGroup: MandatoryStmt;`
     ///
@@ -11641,7 +12049,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 198:
+    /// Semantic action for production 200:
     ///
     /// `AnyxmlStmtListGroup: StatusStmt;`
     ///
@@ -11662,7 +12070,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 199:
+    /// Semantic action for production 201:
     ///
     /// `AnyxmlStmtListGroup: DescriptionStmt;`
     ///
@@ -11683,7 +12091,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 200:
+    /// Semantic action for production 202:
     ///
     /// `AnyxmlStmtListGroup: ReferenceStmt;`
     ///
@@ -11704,7 +12112,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 201:
+    /// Semantic action for production 203:
     ///
     /// `AnyxmlStmtList /* Vec<T>::New */: ;`
     ///
@@ -11717,7 +12125,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 202:
+    /// Semantic action for production 204:
     ///
     /// `ChoiceStmt: KwChoice^ /* Clipped */ IdentifierRefArgStr ChoiceStmtSuffix;`
     ///
@@ -11744,7 +12152,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 203:
+    /// Semantic action for production 205:
     ///
     /// `ChoiceStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -11762,7 +12170,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 204:
+    /// Semantic action for production 206:
     ///
     /// `ChoiceStmtSuffix: LBrace^ /* Clipped */ ChoiceStmtList /* Vec */ '}';`
     ///
@@ -11792,7 +12200,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 205:
+    /// Semantic action for production 207:
     ///
     /// `ChoiceStmtList /* Vec<T>::Push */: ChoiceStmtListGroup ChoiceStmtList;`
     ///
@@ -11816,7 +12224,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 206:
+    /// Semantic action for production 208:
     ///
     /// `ChoiceStmtListGroup: WhenStmt;`
     ///
@@ -11837,7 +12245,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 207:
+    /// Semantic action for production 209:
     ///
     /// `ChoiceStmtListGroup: IfFeatureStmt;`
     ///
@@ -11858,7 +12266,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 208:
+    /// Semantic action for production 210:
     ///
     /// `ChoiceStmtListGroup: DefaultStmt;`
     ///
@@ -11879,7 +12287,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 209:
+    /// Semantic action for production 211:
     ///
     /// `ChoiceStmtListGroup: ConfigStmt;`
     ///
@@ -11900,7 +12308,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 210:
+    /// Semantic action for production 212:
     ///
     /// `ChoiceStmtListGroup: MandatoryStmt;`
     ///
@@ -11921,7 +12329,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 211:
+    /// Semantic action for production 213:
     ///
     /// `ChoiceStmtListGroup: StatusStmt;`
     ///
@@ -11942,7 +12350,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 212:
+    /// Semantic action for production 214:
     ///
     /// `ChoiceStmtListGroup: DescriptionStmt;`
     ///
@@ -11963,7 +12371,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 213:
+    /// Semantic action for production 215:
     ///
     /// `ChoiceStmtListGroup: ReferenceStmt;`
     ///
@@ -11984,7 +12392,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 214:
+    /// Semantic action for production 216:
     ///
     /// `ChoiceStmtListGroup: ShortCaseStmt;`
     ///
@@ -12005,7 +12413,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 215:
+    /// Semantic action for production 217:
     ///
     /// `ChoiceStmtListGroup: CaseStmt;`
     ///
@@ -12026,7 +12434,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 216:
+    /// Semantic action for production 218:
     ///
     /// `ChoiceStmtList /* Vec<T>::New */: ;`
     ///
@@ -12039,7 +12447,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 217:
+    /// Semantic action for production 219:
     ///
     /// `ShortCaseStmt: ChoiceStmt;`
     ///
@@ -12059,7 +12467,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 218:
+    /// Semantic action for production 220:
     ///
     /// `ShortCaseStmt: ContainerStmt;`
     ///
@@ -12079,7 +12487,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 219:
+    /// Semantic action for production 221:
     ///
     /// `ShortCaseStmt: LeafStmt;`
     ///
@@ -12099,7 +12507,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 220:
+    /// Semantic action for production 222:
     ///
     /// `ShortCaseStmt: LeafListStmt;`
     ///
@@ -12119,7 +12527,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 221:
+    /// Semantic action for production 223:
     ///
     /// `ShortCaseStmt: ListStmt;`
     ///
@@ -12139,7 +12547,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 222:
+    /// Semantic action for production 224:
     ///
     /// `ShortCaseStmt: AnydataStmt;`
     ///
@@ -12159,7 +12567,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 223:
+    /// Semantic action for production 225:
     ///
     /// `ShortCaseStmt: AnyxmlStmt;`
     ///
@@ -12179,7 +12587,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 224:
+    /// Semantic action for production 226:
     ///
     /// `AnydataStmt: KwAnydata^ /* Clipped */ IdentifierArgStr AnydataStmtSuffix;`
     ///
@@ -12205,7 +12613,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 225:
+    /// Semantic action for production 227:
     ///
     /// `AnydataStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -12223,7 +12631,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 226:
+    /// Semantic action for production 228:
     ///
     /// `AnydataStmtSuffix: LBrace^ /* Clipped */ AnydataStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -12250,7 +12658,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 227:
+    /// Semantic action for production 229:
     ///
     /// `AnydataStmtList /* Vec<T>::Push */: AnydataStmtListGroup AnydataStmtList;`
     ///
@@ -12274,7 +12682,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 228:
+    /// Semantic action for production 230:
     ///
     /// `AnydataStmtListGroup: WhenStmt;`
     ///
@@ -12295,7 +12703,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 229:
+    /// Semantic action for production 231:
     ///
     /// `AnydataStmtListGroup: IfFeatureStmt;`
     ///
@@ -12316,7 +12724,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 230:
+    /// Semantic action for production 232:
     ///
     /// `AnydataStmtListGroup: MustStmt;`
     ///
@@ -12337,7 +12745,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 231:
+    /// Semantic action for production 233:
     ///
     /// `AnydataStmtListGroup: ConfigStmt;`
     ///
@@ -12358,7 +12766,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 232:
+    /// Semantic action for production 234:
     ///
     /// `AnydataStmtListGroup: MandatoryStmt;`
     ///
@@ -12379,7 +12787,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 233:
+    /// Semantic action for production 235:
     ///
     /// `AnydataStmtListGroup: StatusStmt;`
     ///
@@ -12400,7 +12808,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 234:
+    /// Semantic action for production 236:
     ///
     /// `AnydataStmtListGroup: DescriptionStmt;`
     ///
@@ -12421,7 +12829,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 235:
+    /// Semantic action for production 237:
     ///
     /// `AnydataStmtListGroup: ReferenceStmt;`
     ///
@@ -12442,7 +12850,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 236:
+    /// Semantic action for production 238:
     ///
     /// `AnydataStmtList /* Vec<T>::New */: ;`
     ///
@@ -12455,7 +12863,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 237:
+    /// Semantic action for production 239:
     ///
     /// `CaseStmt: KwCase^ /* Clipped */ IdentifierArgStr CaseStmtSuffix;`
     ///
@@ -12481,7 +12889,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 238:
+    /// Semantic action for production 240:
     ///
     /// `CaseStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -12496,7 +12904,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 239:
+    /// Semantic action for production 241:
     ///
     /// `CaseStmtSuffix: LBrace^ /* Clipped */ CaseStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -12518,7 +12926,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 240:
+    /// Semantic action for production 242:
     ///
     /// `CaseStmtList /* Vec<T>::Push */: CaseStmtListGroup CaseStmtList;`
     ///
@@ -12542,7 +12950,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 241:
+    /// Semantic action for production 243:
     ///
     /// `CaseStmtListGroup: WhenStmt;`
     ///
@@ -12563,7 +12971,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 242:
+    /// Semantic action for production 244:
     ///
     /// `CaseStmtListGroup: IfFeatureStmt;`
     ///
@@ -12584,7 +12992,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 243:
+    /// Semantic action for production 245:
     ///
     /// `CaseStmtListGroup: DataDefStmt;`
     ///
@@ -12605,7 +13013,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 244:
+    /// Semantic action for production 246:
     ///
     /// `CaseStmtListGroup: DescriptionStmt;`
     ///
@@ -12626,7 +13034,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 245:
+    /// Semantic action for production 247:
     ///
     /// `CaseStmtListGroup: ReferenceStmt;`
     ///
@@ -12647,7 +13055,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 246:
+    /// Semantic action for production 248:
     ///
     /// `CaseStmtList /* Vec<T>::New */: ;`
     ///
@@ -12660,7 +13068,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 247:
+    /// Semantic action for production 249:
     ///
     /// `StatusStmt: KwStatus^ /* Clipped */ StatusArgStr Semicolon^ /* Clipped */;`
     ///
@@ -12685,7 +13093,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 248:
+    /// Semantic action for production 250:
     ///
     /// `StatusArgStr: StatusArg;`
     ///
@@ -12704,7 +13112,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 249:
+    /// Semantic action for production 251:
     ///
     /// `StatusArgStr: <Status>'"'^ /* Clipped */ StatusArg <Status>'"'^ /* Clipped */;`
     ///
@@ -12729,7 +13137,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 250:
+    /// Semantic action for production 252:
     ///
     /// `StatusArg: <Status>/current|obsolete|deprecated/;`
     ///
@@ -12745,7 +13153,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 251:
+    /// Semantic action for production 253:
     ///
     /// `ContainerStmt: KwContainer^ /* Clipped */ IdentifierArgStr ContainerStmtSuffix;`
     ///
@@ -12772,7 +13180,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 252:
+    /// Semantic action for production 254:
     ///
     /// `ContainerStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -12791,7 +13199,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 253:
+    /// Semantic action for production 255:
     ///
     /// `ContainerStmtSuffix: LBrace^ /* Clipped */ ContainerStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -12819,7 +13227,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 254:
+    /// Semantic action for production 256:
     ///
     /// `ContainerStmtList /* Vec<T>::Push */: ContainerStmtListGroup ContainerStmtList;`
     ///
@@ -12848,7 +13256,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 255:
+    /// Semantic action for production 257:
     ///
     /// `ContainerStmtListGroup: WhenStmt;`
     ///
@@ -12869,7 +13277,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 256:
+    /// Semantic action for production 258:
     ///
     /// `ContainerStmtListGroup: IfFeatureStmt;`
     ///
@@ -12890,7 +13298,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 257:
+    /// Semantic action for production 259:
     ///
     /// `ContainerStmtListGroup: MustStmt;`
     ///
@@ -12911,7 +13319,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 258:
+    /// Semantic action for production 260:
     ///
     /// `ContainerStmtListGroup: PresenceStmt;`
     ///
@@ -12932,7 +13340,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 259:
+    /// Semantic action for production 261:
     ///
     /// `ContainerStmtListGroup: ConfigStmt;`
     ///
@@ -12953,7 +13361,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 260:
+    /// Semantic action for production 262:
     ///
     /// `ContainerStmtListGroup: StatusStmt;`
     ///
@@ -12974,7 +13382,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 261:
+    /// Semantic action for production 263:
     ///
     /// `ContainerStmtListGroup: DescriptionStmt;`
     ///
@@ -12995,7 +13403,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 262:
+    /// Semantic action for production 264:
     ///
     /// `ContainerStmtListGroup: ReferenceStmt;`
     ///
@@ -13016,20 +13424,20 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 263:
+    /// Semantic action for production 265:
     ///
-    /// `ContainerStmtListGroup: DataDefStmt;`
+    /// `ContainerStmtListGroup: TypedefStmt;`
     ///
     #[parol_runtime::function_name::named]
-    fn container_stmt_list_group_8(&mut self, _data_def_stmt: &ParseTreeType<'t>) -> Result<()> {
+    fn container_stmt_list_group_8(&mut self, _typedef_stmt: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let data_def_stmt = pop_item!(self, data_def_stmt, DataDefStmt, context);
-        let container_stmt_list_group_8_built = ContainerStmtListGroupDataDefStmt {
-            data_def_stmt: Box::new(data_def_stmt),
+        let typedef_stmt = pop_item!(self, typedef_stmt, TypedefStmt, context);
+        let container_stmt_list_group_8_built = ContainerStmtListGroupTypedefStmt {
+            typedef_stmt: Box::new(typedef_stmt),
         };
         let container_stmt_list_group_8_built =
-            ContainerStmtListGroup::DataDefStmt(container_stmt_list_group_8_built);
+            ContainerStmtListGroup::TypedefStmt(container_stmt_list_group_8_built);
         self.push(
             ASTType::ContainerStmtListGroup(container_stmt_list_group_8_built),
             context,
@@ -13037,20 +13445,20 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 264:
+    /// Semantic action for production 266:
     ///
-    /// `ContainerStmtListGroup: ActionStmt;`
+    /// `ContainerStmtListGroup: DataDefStmt;`
     ///
     #[parol_runtime::function_name::named]
-    fn container_stmt_list_group_9(&mut self, _action_stmt: &ParseTreeType<'t>) -> Result<()> {
+    fn container_stmt_list_group_9(&mut self, _data_def_stmt: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let action_stmt = pop_item!(self, action_stmt, ActionStmt, context);
-        let container_stmt_list_group_9_built = ContainerStmtListGroupActionStmt {
-            action_stmt: Box::new(action_stmt),
+        let data_def_stmt = pop_item!(self, data_def_stmt, DataDefStmt, context);
+        let container_stmt_list_group_9_built = ContainerStmtListGroupDataDefStmt {
+            data_def_stmt: Box::new(data_def_stmt),
         };
         let container_stmt_list_group_9_built =
-            ContainerStmtListGroup::ActionStmt(container_stmt_list_group_9_built);
+            ContainerStmtListGroup::DataDefStmt(container_stmt_list_group_9_built);
         self.push(
             ASTType::ContainerStmtListGroup(container_stmt_list_group_9_built),
             context,
@@ -13058,23 +13466,20 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 265:
+    /// Semantic action for production 267:
     ///
-    /// `ContainerStmtListGroup: NotificationStmt;`
+    /// `ContainerStmtListGroup: ActionStmt;`
     ///
     #[parol_runtime::function_name::named]
-    fn container_stmt_list_group_10(
-        &mut self,
-        _notification_stmt: &ParseTreeType<'t>,
-    ) -> Result<()> {
+    fn container_stmt_list_group_10(&mut self, _action_stmt: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let notification_stmt = pop_item!(self, notification_stmt, NotificationStmt, context);
-        let container_stmt_list_group_10_built = ContainerStmtListGroupNotificationStmt {
-            notification_stmt: Box::new(notification_stmt),
+        let action_stmt = pop_item!(self, action_stmt, ActionStmt, context);
+        let container_stmt_list_group_10_built = ContainerStmtListGroupActionStmt {
+            action_stmt: Box::new(action_stmt),
         };
         let container_stmt_list_group_10_built =
-            ContainerStmtListGroup::NotificationStmt(container_stmt_list_group_10_built);
+            ContainerStmtListGroup::ActionStmt(container_stmt_list_group_10_built);
         self.push(
             ASTType::ContainerStmtListGroup(container_stmt_list_group_10_built),
             context,
@@ -13082,20 +13487,23 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 266:
+    /// Semantic action for production 268:
     ///
-    /// `ContainerStmtListGroup: UnknownStmt;`
+    /// `ContainerStmtListGroup: NotificationStmt;`
     ///
     #[parol_runtime::function_name::named]
-    fn container_stmt_list_group_11(&mut self, _unknown_stmt: &ParseTreeType<'t>) -> Result<()> {
+    fn container_stmt_list_group_11(
+        &mut self,
+        _notification_stmt: &ParseTreeType<'t>,
+    ) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let unknown_stmt = pop_item!(self, unknown_stmt, UnknownStmt, context);
-        let container_stmt_list_group_11_built = ContainerStmtListGroupUnknownStmt {
-            unknown_stmt: Box::new(unknown_stmt),
+        let notification_stmt = pop_item!(self, notification_stmt, NotificationStmt, context);
+        let container_stmt_list_group_11_built = ContainerStmtListGroupNotificationStmt {
+            notification_stmt: Box::new(notification_stmt),
         };
         let container_stmt_list_group_11_built =
-            ContainerStmtListGroup::UnknownStmt(container_stmt_list_group_11_built);
+            ContainerStmtListGroup::NotificationStmt(container_stmt_list_group_11_built);
         self.push(
             ASTType::ContainerStmtListGroup(container_stmt_list_group_11_built),
             context,
@@ -13103,7 +13511,28 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 267:
+    /// Semantic action for production 269:
+    ///
+    /// `ContainerStmtListGroup: UnknownStmt;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn container_stmt_list_group_12(&mut self, _unknown_stmt: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let unknown_stmt = pop_item!(self, unknown_stmt, UnknownStmt, context);
+        let container_stmt_list_group_12_built = ContainerStmtListGroupUnknownStmt {
+            unknown_stmt: Box::new(unknown_stmt),
+        };
+        let container_stmt_list_group_12_built =
+            ContainerStmtListGroup::UnknownStmt(container_stmt_list_group_12_built);
+        self.push(
+            ASTType::ContainerStmtListGroup(container_stmt_list_group_12_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 270:
     ///
     /// `ContainerStmtList /* Vec<T>::New */: ;`
     ///
@@ -13119,7 +13548,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 268:
+    /// Semantic action for production 271:
     ///
     /// `ActionStmt: KwAction^ /* Clipped */ IdentifierArgStr ActionStmtSuffix;`
     ///
@@ -13145,7 +13574,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 269:
+    /// Semantic action for production 272:
     ///
     /// `ActionStmtSuffix: Semicolon;`
     ///
@@ -13165,7 +13594,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 270:
+    /// Semantic action for production 273:
     ///
     /// `ActionStmtSuffix: LBrace^ /* Clipped */ ActionStmtList /* Vec */ '}';`
     ///
@@ -13195,7 +13624,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 271:
+    /// Semantic action for production 274:
     ///
     /// `ActionStmtList /* Vec<T>::Push */: ActionStmtListGroup ActionStmtList;`
     ///
@@ -13219,7 +13648,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 272:
+    /// Semantic action for production 275:
     ///
     /// `ActionStmtListGroup: IfFeatureStmt;`
     ///
@@ -13240,7 +13669,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 273:
+    /// Semantic action for production 276:
     ///
     /// `ActionStmtListGroup: StatusStmt;`
     ///
@@ -13261,7 +13690,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 274:
+    /// Semantic action for production 277:
     ///
     /// `ActionStmtListGroup: DescriptionStmt;`
     ///
@@ -13282,7 +13711,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 275:
+    /// Semantic action for production 278:
     ///
     /// `ActionStmtListGroup: ReferenceStmt;`
     ///
@@ -13303,7 +13732,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 276:
+    /// Semantic action for production 279:
     ///
     /// `ActionStmtListGroup: InputStmt;`
     ///
@@ -13324,7 +13753,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 277:
+    /// Semantic action for production 280:
     ///
     /// `ActionStmtListGroup: OutputStmt;`
     ///
@@ -13345,7 +13774,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 278:
+    /// Semantic action for production 281:
     ///
     /// `ActionStmtList /* Vec<T>::New */: ;`
     ///
@@ -13358,7 +13787,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 279:
+    /// Semantic action for production 282:
     ///
     /// `InputStmt: 'input' LBrace^ /* Clipped */ InputStmtList /* Vec */ '}';`
     ///
@@ -13387,7 +13816,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 280:
+    /// Semantic action for production 283:
     ///
     /// `InputStmtList /* Vec<T>::Push */: DataDefStmt InputStmtList;`
     ///
@@ -13410,7 +13839,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 281:
+    /// Semantic action for production 284:
     ///
     /// `InputStmtList /* Vec<T>::New */: ;`
     ///
@@ -13423,7 +13852,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 282:
+    /// Semantic action for production 285:
     ///
     /// `OutputStmt: 'output' LBrace^ /* Clipped */ OutputStmtList /* Vec */ '}';`
     ///
@@ -13453,7 +13882,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 283:
+    /// Semantic action for production 286:
     ///
     /// `OutputStmtList /* Vec<T>::Push */: DataDefStmt OutputStmtList;`
     ///
@@ -13476,7 +13905,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 284:
+    /// Semantic action for production 287:
     ///
     /// `OutputStmtList /* Vec<T>::New */: ;`
     ///
@@ -13489,7 +13918,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 285:
+    /// Semantic action for production 288:
     ///
     /// `NotificationStmt: KwNotification^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ NotificationStmtList /* Vec */ '}';`
     ///
@@ -13522,7 +13951,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 286:
+    /// Semantic action for production 289:
     ///
     /// `NotificationStmtList /* Vec<T>::Push */: NotificationStmtListGroup NotificationStmtList;`
     ///
@@ -13554,7 +13983,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 287:
+    /// Semantic action for production 290:
     ///
     /// `NotificationStmtListGroup: IfFeatureStmt;`
     ///
@@ -13578,7 +14007,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 288:
+    /// Semantic action for production 291:
     ///
     /// `NotificationStmtListGroup: MustStmt;`
     ///
@@ -13599,7 +14028,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 289:
+    /// Semantic action for production 292:
     ///
     /// `NotificationStmtListGroup: StatusStmt;`
     ///
@@ -13620,7 +14049,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 290:
+    /// Semantic action for production 293:
     ///
     /// `NotificationStmtListGroup: DescriptionStmt;`
     ///
@@ -13644,7 +14073,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 291:
+    /// Semantic action for production 294:
     ///
     /// `NotificationStmtListGroup: ReferenceStmt;`
     ///
@@ -13668,7 +14097,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 292:
+    /// Semantic action for production 295:
     ///
     /// `NotificationStmtListGroup: TypedefStmt;`
     ///
@@ -13689,7 +14118,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 293:
+    /// Semantic action for production 296:
     ///
     /// `NotificationStmtListGroup: GroupingStmt;`
     ///
@@ -13710,7 +14139,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 294:
+    /// Semantic action for production 297:
     ///
     /// `NotificationStmtListGroup: DataDefStmt;`
     ///
@@ -13731,7 +14160,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 295:
+    /// Semantic action for production 298:
     ///
     /// `NotificationStmtList /* Vec<T>::New */: ;`
     ///
@@ -13747,7 +14176,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 296:
+    /// Semantic action for production 299:
     ///
     /// `IfFeatureStmt: KwIfFeature^ /* Clipped */ IfFeatureExprStr Semicolon^ /* Clipped */;`
     ///
@@ -13772,7 +14201,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 297:
+    /// Semantic action for production 300:
     ///
     /// `IfFeatureExprStr: IfFeatureExpr;`
     ///
@@ -13794,7 +14223,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 298:
+    /// Semantic action for production 301:
     ///
     /// `IfFeatureExpr: IfFeatureTerm IfFeatureExprOpt /* Option */;`
     ///
@@ -13818,7 +14247,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 299:
+    /// Semantic action for production 302:
     ///
     /// `IfFeatureExprOpt /* Option<T>::Some */: <IfFeature>'or' IfFeatureExpr;`
     ///
@@ -13843,7 +14272,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 300:
+    /// Semantic action for production 303:
     ///
     /// `IfFeatureExprOpt /* Option<T>::None */: ;`
     ///
@@ -13855,7 +14284,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 301:
+    /// Semantic action for production 304:
     ///
     /// `IfFeatureTerm: IfFeatureFactor IfFeatureTermOpt /* Option */;`
     ///
@@ -13879,7 +14308,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 302:
+    /// Semantic action for production 305:
     ///
     /// `IfFeatureTermOpt /* Option<T>::Some */: <IfFeature>'and' IfFeatureTerm;`
     ///
@@ -13904,7 +14333,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 303:
+    /// Semantic action for production 306:
     ///
     /// `IfFeatureTermOpt /* Option<T>::None */: ;`
     ///
@@ -13916,7 +14345,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 304:
+    /// Semantic action for production 307:
     ///
     /// `IfFeatureFactor: <IfFeature>'not' IfFeatureFactor;`
     ///
@@ -13943,7 +14372,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 305:
+    /// Semantic action for production 308:
     ///
     /// `IfFeatureFactor: <IfFeature>'(' IfFeatureExpr <IfFeature>')';`
     ///
@@ -13973,7 +14402,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 306:
+    /// Semantic action for production 309:
     ///
     /// `IfFeatureFactor: Identifier;`
     ///
@@ -13993,7 +14422,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 307:
+    /// Semantic action for production 310:
     ///
     /// `IfFeatureFactor: <IfFeature>'"' Identifier <IfFeature>'"';`
     ///
@@ -14023,7 +14452,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 308:
+    /// Semantic action for production 311:
     ///
     /// `PresenceStmt: 'presence'^ /* Clipped */ Ystring Semicolon^ /* Clipped */;`
     ///
@@ -14047,7 +14476,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 309:
+    /// Semantic action for production 312:
     ///
     /// `UsesStmt: KwUses^ /* Clipped */ IdentifierRefArgStr UsesStmtSuffix;`
     ///
@@ -14074,7 +14503,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 310:
+    /// Semantic action for production 313:
     ///
     /// `UsesStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -14089,7 +14518,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 311:
+    /// Semantic action for production 314:
     ///
     /// `UsesStmtSuffix: LBrace^ /* Clipped */ UsesStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -14111,7 +14540,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 312:
+    /// Semantic action for production 315:
     ///
     /// `UsesStmtList /* Vec<T>::Push */: UsesStmtListGroup UsesStmtList;`
     ///
@@ -14135,7 +14564,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 313:
+    /// Semantic action for production 316:
     ///
     /// `UsesStmtListGroup: WhenStmt;`
     ///
@@ -14156,7 +14585,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 314:
+    /// Semantic action for production 317:
     ///
     /// `UsesStmtListGroup: IfFeatureStmt;`
     ///
@@ -14177,7 +14606,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 315:
+    /// Semantic action for production 318:
     ///
     /// `UsesStmtListGroup: StatusStmt;`
     ///
@@ -14198,7 +14627,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 316:
+    /// Semantic action for production 319:
     ///
     /// `UsesStmtListGroup: DescriptionStmt;`
     ///
@@ -14219,7 +14648,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 317:
+    /// Semantic action for production 320:
     ///
     /// `UsesStmtListGroup: ReferenceStmt;`
     ///
@@ -14240,7 +14669,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 318:
+    /// Semantic action for production 321:
     ///
     /// `UsesStmtListGroup: RefineStmt;`
     ///
@@ -14261,7 +14690,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 319:
+    /// Semantic action for production 322:
     ///
     /// `UsesStmtListGroup: AugmentStmt;`
     ///
@@ -14282,7 +14711,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 320:
+    /// Semantic action for production 323:
     ///
     /// `UsesStmtList /* Vec<T>::New */: ;`
     ///
@@ -14295,7 +14724,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 321:
+    /// Semantic action for production 324:
     ///
     /// `RefineStmt: KwRefine^ /* Clipped */ RefineArgStr RefineStmtSuffix;`
     ///
@@ -14321,7 +14750,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 322:
+    /// Semantic action for production 325:
     ///
     /// `RefineStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -14339,7 +14768,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 323:
+    /// Semantic action for production 326:
     ///
     /// `RefineStmtSuffix: LBrace^ /* Clipped */ RefineStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -14366,7 +14795,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 324:
+    /// Semantic action for production 327:
     ///
     /// `RefineStmtList /* Vec<T>::Push */: RefineStmtListGroup RefineStmtList;`
     ///
@@ -14390,7 +14819,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 325:
+    /// Semantic action for production 328:
     ///
     /// `RefineStmtListGroup: IfFeatureStmt;`
     ///
@@ -14411,7 +14840,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 326:
+    /// Semantic action for production 329:
     ///
     /// `RefineStmtListGroup: MustStmt;`
     ///
@@ -14432,7 +14861,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 327:
+    /// Semantic action for production 330:
     ///
     /// `RefineStmtListGroup: PresenceStmt;`
     ///
@@ -14453,7 +14882,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 328:
+    /// Semantic action for production 331:
     ///
     /// `RefineStmtListGroup: DefaultStmt;`
     ///
@@ -14474,7 +14903,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 329:
+    /// Semantic action for production 332:
     ///
     /// `RefineStmtListGroup: ConfigStmt;`
     ///
@@ -14495,7 +14924,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 330:
+    /// Semantic action for production 333:
     ///
     /// `RefineStmtListGroup: MandatoryStmt;`
     ///
@@ -14516,7 +14945,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 331:
+    /// Semantic action for production 334:
     ///
     /// `RefineStmtListGroup: MinElementsStmt;`
     ///
@@ -14537,7 +14966,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 332:
+    /// Semantic action for production 335:
     ///
     /// `RefineStmtListGroup: MaxElementsStmt;`
     ///
@@ -14558,7 +14987,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 333:
+    /// Semantic action for production 336:
     ///
     /// `RefineStmtListGroup: DescriptionStmt;`
     ///
@@ -14579,7 +15008,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 334:
+    /// Semantic action for production 337:
     ///
     /// `RefineStmtListGroup: ReferenceStmt;`
     ///
@@ -14600,7 +15029,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 335:
+    /// Semantic action for production 338:
     ///
     /// `RefineStmtList /* Vec<T>::New */: ;`
     ///
@@ -14613,7 +15042,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 336:
+    /// Semantic action for production 339:
     ///
     /// `RefineArgStr: RefineArg;`
     ///
@@ -14632,7 +15061,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 337:
+    /// Semantic action for production 340:
     ///
     /// `RefineArgStr: <Keyword>'"' RefineArg <Keyword>'"';`
     ///
@@ -14661,7 +15090,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 338:
+    /// Semantic action for production 341:
     ///
     /// `RefineArg: DescendantSchemaNodeid;`
     ///
@@ -14684,7 +15113,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 339:
+    /// Semantic action for production 342:
     ///
     /// `DescendantSchemaNodeid: IdentifierRef;`
     ///
@@ -14708,7 +15137,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 340:
+    /// Semantic action for production 343:
     ///
     /// `DescendantSchemaNodeid: AbsoluteSchemaNodeid;`
     ///
@@ -14736,26 +15165,24 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 341:
+    /// Semantic action for production 344:
     ///
-    /// `UnknownStmt: IdentifierRef Ystring UnknownStmtSuffix;`
+    /// `UnknownStmt: IdentifierRef UnknownStmtSuffix0;`
     ///
     #[parol_runtime::function_name::named]
     fn unknown_stmt(
         &mut self,
         _identifier_ref: &ParseTreeType<'t>,
-        _ystring: &ParseTreeType<'t>,
-        _unknown_stmt_suffix: &ParseTreeType<'t>,
+        _unknown_stmt_suffix0: &ParseTreeType<'t>,
     ) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let unknown_stmt_suffix = pop_item!(self, unknown_stmt_suffix, UnknownStmtSuffix, context);
-        let ystring = pop_item!(self, ystring, Ystring, context);
+        let unknown_stmt_suffix0 =
+            pop_item!(self, unknown_stmt_suffix0, UnknownStmtSuffix0, context);
         let identifier_ref = pop_item!(self, identifier_ref, IdentifierRef, context);
         let unknown_stmt_built = UnknownStmt {
             identifier_ref: Box::new(identifier_ref),
-            ystring: Box::new(ystring),
-            unknown_stmt_suffix: Box::new(unknown_stmt_suffix),
+            unknown_stmt_suffix0: Box::new(unknown_stmt_suffix0),
         };
         // Calling user action here
         self.user_grammar.unknown_stmt(&unknown_stmt_built)?;
@@ -14763,7 +15190,53 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 342:
+    /// Semantic action for production 345:
+    ///
+    /// `UnknownStmtSuffix0: Ystring UnknownStmtSuffix;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn unknown_stmt_suffix0_0(
+        &mut self,
+        _ystring: &ParseTreeType<'t>,
+        _unknown_stmt_suffix: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let unknown_stmt_suffix = pop_item!(self, unknown_stmt_suffix, UnknownStmtSuffix, context);
+        let ystring = pop_item!(self, ystring, Ystring, context);
+        let unknown_stmt_suffix0_0_built = UnknownStmtSuffix0YstringUnknownStmtSuffix {
+            ystring: Box::new(ystring),
+            unknown_stmt_suffix: Box::new(unknown_stmt_suffix),
+        };
+        let unknown_stmt_suffix0_0_built =
+            UnknownStmtSuffix0::YstringUnknownStmtSuffix(unknown_stmt_suffix0_0_built);
+        self.push(
+            ASTType::UnknownStmtSuffix0(unknown_stmt_suffix0_0_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 346:
+    ///
+    /// `UnknownStmtSuffix0: Semicolon^ /* Clipped */;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn unknown_stmt_suffix0_1(&mut self, _semicolon: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        self.pop(context);
+        let unknown_stmt_suffix0_1_built = UnknownStmtSuffix0Semicolon {};
+        let unknown_stmt_suffix0_1_built =
+            UnknownStmtSuffix0::Semicolon(unknown_stmt_suffix0_1_built);
+        self.push(
+            ASTType::UnknownStmtSuffix0(unknown_stmt_suffix0_1_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 347:
     ///
     /// `UnknownStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -14781,7 +15254,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 343:
+    /// Semantic action for production 348:
     ///
     /// `UnknownStmtSuffix: LBrace^ /* Clipped */ UnknownStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -14808,7 +15281,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 344:
+    /// Semantic action for production 349:
     ///
     /// `UnknownStmtList /* Vec<T>::Push */: UnknownStmtListGroup UnknownStmtList;`
     ///
@@ -14832,7 +15305,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 345:
+    /// Semantic action for production 350:
     ///
     /// `UnknownStmtListGroup: TypeStmt;`
     ///
@@ -14853,7 +15326,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 346:
+    /// Semantic action for production 351:
     ///
     /// `UnknownStmtListGroup: DescriptionStmt;`
     ///
@@ -14874,7 +15347,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 347:
+    /// Semantic action for production 352:
     ///
     /// `UnknownStmtList /* Vec<T>::New */: ;`
     ///
@@ -14887,7 +15360,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 348:
+    /// Semantic action for production 353:
     ///
     /// `LeafListStmt: KwLeafList^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ LeafListStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -14917,7 +15390,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 349:
+    /// Semantic action for production 354:
     ///
     /// `LeafListStmtList /* Vec<T>::Push */: LeafListStmtListGroup LeafListStmtList;`
     ///
@@ -14946,7 +15419,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 350:
+    /// Semantic action for production 355:
     ///
     /// `LeafListStmtListGroup: WhenStmt;`
     ///
@@ -14967,7 +15440,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 351:
+    /// Semantic action for production 356:
     ///
     /// `LeafListStmtListGroup: IfFeatureStmt;`
     ///
@@ -14988,7 +15461,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 352:
+    /// Semantic action for production 357:
     ///
     /// `LeafListStmtListGroup: TypeStmt;`
     ///
@@ -15009,7 +15482,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 353:
+    /// Semantic action for production 358:
     ///
     /// `LeafListStmtListGroup: UnitsStmt;`
     ///
@@ -15030,7 +15503,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 354:
+    /// Semantic action for production 359:
     ///
     /// `LeafListStmtListGroup: MustStmt;`
     ///
@@ -15051,7 +15524,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 355:
+    /// Semantic action for production 360:
     ///
     /// `LeafListStmtListGroup: DefaultStmt;`
     ///
@@ -15072,7 +15545,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 356:
+    /// Semantic action for production 361:
     ///
     /// `LeafListStmtListGroup: ConfigStmt;`
     ///
@@ -15093,7 +15566,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 357:
+    /// Semantic action for production 362:
     ///
     /// `LeafListStmtListGroup: MinElementsStmt;`
     ///
@@ -15117,7 +15590,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 358:
+    /// Semantic action for production 363:
     ///
     /// `LeafListStmtListGroup: MaxElementsStmt;`
     ///
@@ -15141,7 +15614,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 359:
+    /// Semantic action for production 364:
     ///
     /// `LeafListStmtListGroup: OrderedByStmt;`
     ///
@@ -15162,7 +15635,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 360:
+    /// Semantic action for production 365:
     ///
     /// `LeafListStmtListGroup: StatusStmt;`
     ///
@@ -15183,7 +15656,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 361:
+    /// Semantic action for production 366:
     ///
     /// `LeafListStmtListGroup: DescriptionStmt;`
     ///
@@ -15207,7 +15680,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 362:
+    /// Semantic action for production 367:
     ///
     /// `LeafListStmtListGroup: ReferenceStmt;`
     ///
@@ -15228,7 +15701,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 363:
+    /// Semantic action for production 368:
     ///
     /// `LeafListStmtListGroup: UnknownStmt;`
     ///
@@ -15249,7 +15722,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 364:
+    /// Semantic action for production 369:
     ///
     /// `LeafListStmtList /* Vec<T>::New */: ;`
     ///
@@ -15265,7 +15738,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 365:
+    /// Semantic action for production 370:
     ///
     /// `LeafStmt: KwLeaf^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ LeafStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -15294,7 +15767,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 366:
+    /// Semantic action for production 371:
     ///
     /// `LeafStmtList /* Vec<T>::Push */: LeafStmtListGroup LeafStmtList;`
     ///
@@ -15318,7 +15791,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 367:
+    /// Semantic action for production 372:
     ///
     /// `LeafStmtListGroup: WhenStmt;`
     ///
@@ -15339,7 +15812,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 368:
+    /// Semantic action for production 373:
     ///
     /// `LeafStmtListGroup: StatusStmt;`
     ///
@@ -15360,7 +15833,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 369:
+    /// Semantic action for production 374:
     ///
     /// `LeafStmtListGroup: IfFeatureStmt;`
     ///
@@ -15381,7 +15854,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 370:
+    /// Semantic action for production 375:
     ///
     /// `LeafStmtListGroup: TypeStmt;`
     ///
@@ -15402,7 +15875,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 371:
+    /// Semantic action for production 376:
     ///
     /// `LeafStmtListGroup: UnitsStmt;`
     ///
@@ -15423,7 +15896,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 372:
+    /// Semantic action for production 377:
     ///
     /// `LeafStmtListGroup: MustStmt;`
     ///
@@ -15444,7 +15917,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 373:
+    /// Semantic action for production 378:
     ///
     /// `LeafStmtListGroup: DefaultStmt;`
     ///
@@ -15465,7 +15938,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 374:
+    /// Semantic action for production 379:
     ///
     /// `LeafStmtListGroup: ConfigStmt;`
     ///
@@ -15486,7 +15959,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 375:
+    /// Semantic action for production 380:
     ///
     /// `LeafStmtListGroup: MandatoryStmt;`
     ///
@@ -15507,7 +15980,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 376:
+    /// Semantic action for production 381:
     ///
     /// `LeafStmtListGroup: DescriptionStmt;`
     ///
@@ -15528,7 +16001,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 377:
+    /// Semantic action for production 382:
     ///
     /// `LeafStmtListGroup: ReferenceStmt;`
     ///
@@ -15549,7 +16022,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 378:
+    /// Semantic action for production 383:
     ///
     /// `LeafStmtListGroup: UnknownStmt;`
     ///
@@ -15570,7 +16043,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 379:
+    /// Semantic action for production 384:
     ///
     /// `LeafStmtList /* Vec<T>::New */: ;`
     ///
@@ -15583,7 +16056,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 380:
+    /// Semantic action for production 385:
     ///
     /// `MustStmt: 'must'^ /* Clipped */ Ystring MustStmtSuffix;`
     ///
@@ -15608,7 +16081,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 381:
+    /// Semantic action for production 386:
     ///
     /// `MustStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -15623,7 +16096,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 382:
+    /// Semantic action for production 387:
     ///
     /// `MustStmtSuffix: LBrace^ /* Clipped */ MustStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -15645,7 +16118,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 383:
+    /// Semantic action for production 388:
     ///
     /// `MustStmtList /* Vec<T>::Push */: MustStmtListGroup MustStmtList;`
     ///
@@ -15669,7 +16142,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 384:
+    /// Semantic action for production 389:
     ///
     /// `MustStmtListGroup: ErrorMessage;`
     ///
@@ -15690,20 +16163,20 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 385:
+    /// Semantic action for production 390:
     ///
-    /// `MustStmtListGroup: DescriptionStmt;`
+    /// `MustStmtListGroup: ErrorAppTag;`
     ///
     #[parol_runtime::function_name::named]
-    fn must_stmt_list_group_1(&mut self, _description_stmt: &ParseTreeType<'t>) -> Result<()> {
+    fn must_stmt_list_group_1(&mut self, _error_app_tag: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let description_stmt = pop_item!(self, description_stmt, DescriptionStmt, context);
-        let must_stmt_list_group_1_built = MustStmtListGroupDescriptionStmt {
-            description_stmt: Box::new(description_stmt),
+        let error_app_tag = pop_item!(self, error_app_tag, ErrorAppTag, context);
+        let must_stmt_list_group_1_built = MustStmtListGroupErrorAppTag {
+            error_app_tag: Box::new(error_app_tag),
         };
         let must_stmt_list_group_1_built =
-            MustStmtListGroup::DescriptionStmt(must_stmt_list_group_1_built);
+            MustStmtListGroup::ErrorAppTag(must_stmt_list_group_1_built);
         self.push(
             ASTType::MustStmtListGroup(must_stmt_list_group_1_built),
             context,
@@ -15711,7 +16184,49 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 386:
+    /// Semantic action for production 391:
+    ///
+    /// `MustStmtListGroup: DescriptionStmt;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn must_stmt_list_group_2(&mut self, _description_stmt: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let description_stmt = pop_item!(self, description_stmt, DescriptionStmt, context);
+        let must_stmt_list_group_2_built = MustStmtListGroupDescriptionStmt {
+            description_stmt: Box::new(description_stmt),
+        };
+        let must_stmt_list_group_2_built =
+            MustStmtListGroup::DescriptionStmt(must_stmt_list_group_2_built);
+        self.push(
+            ASTType::MustStmtListGroup(must_stmt_list_group_2_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 392:
+    ///
+    /// `MustStmtListGroup: ReferenceStmt;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn must_stmt_list_group_3(&mut self, _reference_stmt: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let reference_stmt = pop_item!(self, reference_stmt, ReferenceStmt, context);
+        let must_stmt_list_group_3_built = MustStmtListGroupReferenceStmt {
+            reference_stmt: Box::new(reference_stmt),
+        };
+        let must_stmt_list_group_3_built =
+            MustStmtListGroup::ReferenceStmt(must_stmt_list_group_3_built);
+        self.push(
+            ASTType::MustStmtListGroup(must_stmt_list_group_3_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 393:
     ///
     /// `MustStmtList /* Vec<T>::New */: ;`
     ///
@@ -15724,7 +16239,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 387:
+    /// Semantic action for production 394:
     ///
     /// `ErrorMessage: 'error-message' Ystring Semicolon;`
     ///
@@ -15751,7 +16266,181 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 388:
+    /// Semantic action for production 395:
+    ///
+    /// `ErrorAppTag: 'error-app-tag' Ystring Semicolon;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn error_app_tag(
+        &mut self,
+        error_minus_app_minus_tag: &ParseTreeType<'t>,
+        _ystring: &ParseTreeType<'t>,
+        _semicolon: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let error_minus_app_minus_tag = error_minus_app_minus_tag.token()?.clone();
+        let semicolon = pop_item!(self, semicolon, Semicolon, context);
+        let ystring = pop_item!(self, ystring, Ystring, context);
+        let error_app_tag_built = ErrorAppTag {
+            error_minus_app_minus_tag,
+            ystring: Box::new(ystring),
+            semicolon: Box::new(semicolon),
+        };
+        // Calling user action here
+        self.user_grammar.error_app_tag(&error_app_tag_built)?;
+        self.push(ASTType::ErrorAppTag(error_app_tag_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 396:
+    ///
+    /// `RestrictionSubstmt: ErrorMessage;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn restriction_substmt_0(&mut self, _error_message: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let error_message = pop_item!(self, error_message, ErrorMessage, context);
+        let restriction_substmt_0_built = RestrictionSubstmtErrorMessage {
+            error_message: Box::new(error_message),
+        };
+        let restriction_substmt_0_built =
+            RestrictionSubstmt::ErrorMessage(restriction_substmt_0_built);
+        // Calling user action here
+        self.user_grammar
+            .restriction_substmt(&restriction_substmt_0_built)?;
+        self.push(
+            ASTType::RestrictionSubstmt(restriction_substmt_0_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 397:
+    ///
+    /// `RestrictionSubstmt: ErrorAppTag;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn restriction_substmt_1(&mut self, _error_app_tag: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let error_app_tag = pop_item!(self, error_app_tag, ErrorAppTag, context);
+        let restriction_substmt_1_built = RestrictionSubstmtErrorAppTag {
+            error_app_tag: Box::new(error_app_tag),
+        };
+        let restriction_substmt_1_built =
+            RestrictionSubstmt::ErrorAppTag(restriction_substmt_1_built);
+        // Calling user action here
+        self.user_grammar
+            .restriction_substmt(&restriction_substmt_1_built)?;
+        self.push(
+            ASTType::RestrictionSubstmt(restriction_substmt_1_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 398:
+    ///
+    /// `RestrictionSubstmt: ModifierStmt;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn restriction_substmt_2(&mut self, _modifier_stmt: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let modifier_stmt = pop_item!(self, modifier_stmt, ModifierStmt, context);
+        let restriction_substmt_2_built = RestrictionSubstmtModifierStmt {
+            modifier_stmt: Box::new(modifier_stmt),
+        };
+        let restriction_substmt_2_built =
+            RestrictionSubstmt::ModifierStmt(restriction_substmt_2_built);
+        // Calling user action here
+        self.user_grammar
+            .restriction_substmt(&restriction_substmt_2_built)?;
+        self.push(
+            ASTType::RestrictionSubstmt(restriction_substmt_2_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 399:
+    ///
+    /// `RestrictionSubstmt: DescriptionStmt;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn restriction_substmt_3(&mut self, _description_stmt: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let description_stmt = pop_item!(self, description_stmt, DescriptionStmt, context);
+        let restriction_substmt_3_built = RestrictionSubstmtDescriptionStmt {
+            description_stmt: Box::new(description_stmt),
+        };
+        let restriction_substmt_3_built =
+            RestrictionSubstmt::DescriptionStmt(restriction_substmt_3_built);
+        // Calling user action here
+        self.user_grammar
+            .restriction_substmt(&restriction_substmt_3_built)?;
+        self.push(
+            ASTType::RestrictionSubstmt(restriction_substmt_3_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 400:
+    ///
+    /// `RestrictionSubstmt: ReferenceStmt;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn restriction_substmt_4(&mut self, _reference_stmt: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let reference_stmt = pop_item!(self, reference_stmt, ReferenceStmt, context);
+        let restriction_substmt_4_built = RestrictionSubstmtReferenceStmt {
+            reference_stmt: Box::new(reference_stmt),
+        };
+        let restriction_substmt_4_built =
+            RestrictionSubstmt::ReferenceStmt(restriction_substmt_4_built);
+        // Calling user action here
+        self.user_grammar
+            .restriction_substmt(&restriction_substmt_4_built)?;
+        self.push(
+            ASTType::RestrictionSubstmt(restriction_substmt_4_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 401:
+    ///
+    /// `ModifierStmt: 'modifier' Ystring Semicolon;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn modifier_stmt(
+        &mut self,
+        modifier: &ParseTreeType<'t>,
+        _ystring: &ParseTreeType<'t>,
+        _semicolon: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let modifier = modifier.token()?.clone();
+        let semicolon = pop_item!(self, semicolon, Semicolon, context);
+        let ystring = pop_item!(self, ystring, Ystring, context);
+        let modifier_stmt_built = ModifierStmt {
+            modifier,
+            ystring: Box::new(ystring),
+            semicolon: Box::new(semicolon),
+        };
+        // Calling user action here
+        self.user_grammar.modifier_stmt(&modifier_stmt_built)?;
+        self.push(ASTType::ModifierStmt(modifier_stmt_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 402:
     ///
     /// `UnitsStmt: 'units' Ystring Semicolon;`
     ///
@@ -15778,7 +16467,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 389:
+    /// Semantic action for production 403:
     ///
     /// `ConfigStmt: KwConfig^ /* Clipped */ MandatoryArgStr Semicolon;`
     ///
@@ -15804,7 +16493,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 390:
+    /// Semantic action for production 404:
     ///
     /// `MandatoryStmt: KwMandatory^ /* Clipped */ MandatoryArgStr Semicolon;`
     ///
@@ -15830,7 +16519,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 391:
+    /// Semantic action for production 405:
     ///
     /// `MandatoryArgStr: MandatoryArg;`
     ///
@@ -15850,7 +16539,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 392:
+    /// Semantic action for production 406:
     ///
     /// `MandatoryArgStr: <Mandatory>'"' MandatoryArg <Mandatory>'"';`
     ///
@@ -15880,7 +16569,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 393:
+    /// Semantic action for production 407:
     ///
     /// `MandatoryArg: <Mandatory>/true|false/;`
     ///
@@ -15896,7 +16585,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 394:
+    /// Semantic action for production 408:
     ///
     /// `ListStmt: KwList^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ ListStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -15925,7 +16614,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 395:
+    /// Semantic action for production 409:
     ///
     /// `ListStmtList /* Vec<T>::Push */: ListStmtListGroup ListStmtList;`
     ///
@@ -15949,7 +16638,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 396:
+    /// Semantic action for production 410:
     ///
     /// `ListStmtListGroup: WhenStmt;`
     ///
@@ -15970,7 +16659,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 397:
+    /// Semantic action for production 411:
     ///
     /// `ListStmtListGroup: IfFeatureStmt;`
     ///
@@ -15991,7 +16680,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 398:
+    /// Semantic action for production 412:
     ///
     /// `ListStmtListGroup: MustStmt;`
     ///
@@ -16012,7 +16701,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 399:
+    /// Semantic action for production 413:
     ///
     /// `ListStmtListGroup: KeyStmt;`
     ///
@@ -16032,7 +16721,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 400:
+    /// Semantic action for production 414:
     ///
     /// `ListStmtListGroup: ConfigStmt;`
     ///
@@ -16053,7 +16742,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 401:
+    /// Semantic action for production 415:
     ///
     /// `ListStmtListGroup: MinElementsStmt;`
     ///
@@ -16074,7 +16763,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 402:
+    /// Semantic action for production 416:
     ///
     /// `ListStmtListGroup: MaxElementsStmt;`
     ///
@@ -16095,7 +16784,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 403:
+    /// Semantic action for production 417:
     ///
     /// `ListStmtListGroup: OrderedByStmt;`
     ///
@@ -16116,7 +16805,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 404:
+    /// Semantic action for production 418:
     ///
     /// `ListStmtListGroup: StatusStmt;`
     ///
@@ -16137,7 +16826,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 405:
+    /// Semantic action for production 419:
     ///
     /// `ListStmtListGroup: DescriptionStmt;`
     ///
@@ -16158,7 +16847,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 406:
+    /// Semantic action for production 420:
     ///
     /// `ListStmtListGroup: ReferenceStmt;`
     ///
@@ -16179,20 +16868,20 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 407:
+    /// Semantic action for production 421:
     ///
-    /// `ListStmtListGroup: DataDefStmt;`
+    /// `ListStmtListGroup: TypedefStmt;`
     ///
     #[parol_runtime::function_name::named]
-    fn list_stmt_list_group_11(&mut self, _data_def_stmt: &ParseTreeType<'t>) -> Result<()> {
+    fn list_stmt_list_group_11(&mut self, _typedef_stmt: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let data_def_stmt = pop_item!(self, data_def_stmt, DataDefStmt, context);
-        let list_stmt_list_group_11_built = ListStmtListGroupDataDefStmt {
-            data_def_stmt: Box::new(data_def_stmt),
+        let typedef_stmt = pop_item!(self, typedef_stmt, TypedefStmt, context);
+        let list_stmt_list_group_11_built = ListStmtListGroupTypedefStmt {
+            typedef_stmt: Box::new(typedef_stmt),
         };
         let list_stmt_list_group_11_built =
-            ListStmtListGroup::DataDefStmt(list_stmt_list_group_11_built);
+            ListStmtListGroup::TypedefStmt(list_stmt_list_group_11_built);
         self.push(
             ASTType::ListStmtListGroup(list_stmt_list_group_11_built),
             context,
@@ -16200,20 +16889,20 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 408:
+    /// Semantic action for production 422:
     ///
-    /// `ListStmtListGroup: ActionStmt;`
+    /// `ListStmtListGroup: DataDefStmt;`
     ///
     #[parol_runtime::function_name::named]
-    fn list_stmt_list_group_12(&mut self, _action_stmt: &ParseTreeType<'t>) -> Result<()> {
+    fn list_stmt_list_group_12(&mut self, _data_def_stmt: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let action_stmt = pop_item!(self, action_stmt, ActionStmt, context);
-        let list_stmt_list_group_12_built = ListStmtListGroupActionStmt {
-            action_stmt: Box::new(action_stmt),
+        let data_def_stmt = pop_item!(self, data_def_stmt, DataDefStmt, context);
+        let list_stmt_list_group_12_built = ListStmtListGroupDataDefStmt {
+            data_def_stmt: Box::new(data_def_stmt),
         };
         let list_stmt_list_group_12_built =
-            ListStmtListGroup::ActionStmt(list_stmt_list_group_12_built);
+            ListStmtListGroup::DataDefStmt(list_stmt_list_group_12_built);
         self.push(
             ASTType::ListStmtListGroup(list_stmt_list_group_12_built),
             context,
@@ -16221,20 +16910,20 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 409:
+    /// Semantic action for production 423:
     ///
-    /// `ListStmtListGroup: NotificationStmt;`
+    /// `ListStmtListGroup: ActionStmt;`
     ///
     #[parol_runtime::function_name::named]
-    fn list_stmt_list_group_13(&mut self, _notification_stmt: &ParseTreeType<'t>) -> Result<()> {
+    fn list_stmt_list_group_13(&mut self, _action_stmt: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let notification_stmt = pop_item!(self, notification_stmt, NotificationStmt, context);
-        let list_stmt_list_group_13_built = ListStmtListGroupNotificationStmt {
-            notification_stmt: Box::new(notification_stmt),
+        let action_stmt = pop_item!(self, action_stmt, ActionStmt, context);
+        let list_stmt_list_group_13_built = ListStmtListGroupActionStmt {
+            action_stmt: Box::new(action_stmt),
         };
         let list_stmt_list_group_13_built =
-            ListStmtListGroup::NotificationStmt(list_stmt_list_group_13_built);
+            ListStmtListGroup::ActionStmt(list_stmt_list_group_13_built);
         self.push(
             ASTType::ListStmtListGroup(list_stmt_list_group_13_built),
             context,
@@ -16242,20 +16931,20 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 410:
+    /// Semantic action for production 424:
     ///
-    /// `ListStmtListGroup: UnknownStmt;`
+    /// `ListStmtListGroup: NotificationStmt;`
     ///
     #[parol_runtime::function_name::named]
-    fn list_stmt_list_group_14(&mut self, _unknown_stmt: &ParseTreeType<'t>) -> Result<()> {
+    fn list_stmt_list_group_14(&mut self, _notification_stmt: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let unknown_stmt = pop_item!(self, unknown_stmt, UnknownStmt, context);
-        let list_stmt_list_group_14_built = ListStmtListGroupUnknownStmt {
-            unknown_stmt: Box::new(unknown_stmt),
+        let notification_stmt = pop_item!(self, notification_stmt, NotificationStmt, context);
+        let list_stmt_list_group_14_built = ListStmtListGroupNotificationStmt {
+            notification_stmt: Box::new(notification_stmt),
         };
         let list_stmt_list_group_14_built =
-            ListStmtListGroup::UnknownStmt(list_stmt_list_group_14_built);
+            ListStmtListGroup::NotificationStmt(list_stmt_list_group_14_built);
         self.push(
             ASTType::ListStmtListGroup(list_stmt_list_group_14_built),
             context,
@@ -16263,7 +16952,28 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 411:
+    /// Semantic action for production 425:
+    ///
+    /// `ListStmtListGroup: UnknownStmt;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn list_stmt_list_group_15(&mut self, _unknown_stmt: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let unknown_stmt = pop_item!(self, unknown_stmt, UnknownStmt, context);
+        let list_stmt_list_group_15_built = ListStmtListGroupUnknownStmt {
+            unknown_stmt: Box::new(unknown_stmt),
+        };
+        let list_stmt_list_group_15_built =
+            ListStmtListGroup::UnknownStmt(list_stmt_list_group_15_built);
+        self.push(
+            ASTType::ListStmtListGroup(list_stmt_list_group_15_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 426:
     ///
     /// `ListStmtList /* Vec<T>::New */: ;`
     ///
@@ -16276,7 +16986,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 412:
+    /// Semantic action for production 427:
     ///
     /// `OrderedByStmt: KwOrderedBy^ /* Clipped */ OrderedByArgStr Semicolon^ /* Clipped */;`
     ///
@@ -16301,7 +17011,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 413:
+    /// Semantic action for production 428:
     ///
     /// `OrderedByArgStr: OrderedByArg;`
     ///
@@ -16324,7 +17034,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 414:
+    /// Semantic action for production 429:
     ///
     /// `OrderedByArgStr: <Ordered>'"' OrderedByArg <Ordered>'"';`
     ///
@@ -16358,7 +17068,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 415:
+    /// Semantic action for production 430:
     ///
     /// `OrderedByArg: <Ordered>/user|system/;`
     ///
@@ -16374,7 +17084,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 416:
+    /// Semantic action for production 431:
     ///
     /// `DefaultStmt: KwDefault^ /* Clipped */ DefaultStmtSuffix;`
     ///
@@ -16397,7 +17107,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 417:
+    /// Semantic action for production 432:
     ///
     /// `DefaultStmtSuffix: AsciiNoSemicolon Semicolon^ /* Clipped */;`
     ///
@@ -16423,34 +17133,25 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 418:
+    /// Semantic action for production 433:
     ///
-    /// `DefaultStmtSuffix: <Default>'"' AsciiNoSemicolon <Default>'"' Semicolon^ /* Clipped */;`
+    /// `DefaultStmtSuffix: DQString Semicolon^ /* Clipped */;`
     ///
     #[parol_runtime::function_name::named]
     fn default_stmt_suffix_1(
         &mut self,
-        double_quotation: &ParseTreeType<'t>,
-        _ascii_no_semicolon: &ParseTreeType<'t>,
-        double_quotation0: &ParseTreeType<'t>,
+        _d_q_string: &ParseTreeType<'t>,
         _semicolon: &ParseTreeType<'t>,
     ) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let double_quotation = double_quotation.token()?.clone();
-        let double_quotation0 = double_quotation0.token()?.clone();
         self.pop(context);
-        let ascii_no_semicolon = pop_item!(self, ascii_no_semicolon, AsciiNoSemicolon, context);
+        let d_q_string = pop_item!(self, d_q_string, DQString, context);
+        let default_stmt_suffix_1_built = DefaultStmtSuffixDQStringSemicolon {
+            d_q_string: Box::new(d_q_string),
+        };
         let default_stmt_suffix_1_built =
-            DefaultStmtSuffixDoubleQuotationAsciiNoSemicolonDoubleQuotationSemicolon {
-                double_quotation,
-                ascii_no_semicolon: Box::new(ascii_no_semicolon),
-                double_quotation0,
-            };
-        let default_stmt_suffix_1_built =
-            DefaultStmtSuffix::DoubleQuotationAsciiNoSemicolonDoubleQuotationSemicolon(
-                default_stmt_suffix_1_built,
-            );
+            DefaultStmtSuffix::DQStringSemicolon(default_stmt_suffix_1_built);
         self.push(
             ASTType::DefaultStmtSuffix(default_stmt_suffix_1_built),
             context,
@@ -16458,7 +17159,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 419:
+    /// Semantic action for production 434:
     ///
     /// `MaxElementsStmt: 'max-elements'^ /* Clipped */ /[1-9][0-9]*/ Semicolon^ /* Clipped */;`
     ///
@@ -16486,7 +17187,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 420:
+    /// Semantic action for production 435:
     ///
     /// `MinElementsStmt: 'min-elements'^ /* Clipped */ /[1-9][0-9]*/ Semicolon^ /* Clipped */;`
     ///
@@ -16514,7 +17215,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 421:
+    /// Semantic action for production 436:
     ///
     /// `TypeStmt: KwType^ /* Clipped */ IdentifierRefArgStr TypeStmtSuffix;`
     ///
@@ -16541,7 +17242,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 422:
+    /// Semantic action for production 437:
     ///
     /// `TypeStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -16556,7 +17257,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 423:
+    /// Semantic action for production 438:
     ///
     /// `TypeStmtSuffix: LBrace^ /* Clipped */ TypeStmtList /* Vec */ <INITIAL, Keyword>'}'^ /* Clipped */;`
     ///
@@ -16578,7 +17279,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 424:
+    /// Semantic action for production 439:
     ///
     /// `TypeStmtList /* Vec<T>::Push */: TypeStmtListGroup TypeStmtList;`
     ///
@@ -16602,7 +17303,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 425:
+    /// Semantic action for production 440:
     ///
     /// `TypeStmtListGroup: FractionDigitsStmt;`
     ///
@@ -16624,7 +17325,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 426:
+    /// Semantic action for production 441:
     ///
     /// `TypeStmtListGroup: EnumStmt;`
     ///
@@ -16645,7 +17346,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 427:
+    /// Semantic action for production 442:
     ///
     /// `TypeStmtListGroup: BaseStmt;`
     ///
@@ -16666,7 +17367,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 428:
+    /// Semantic action for production 443:
     ///
     /// `TypeStmtListGroup: LeafrefSpecification;`
     ///
@@ -16688,7 +17389,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 429:
+    /// Semantic action for production 444:
     ///
     /// `TypeStmtListGroup: StringRestrictions;`
     ///
@@ -16709,7 +17410,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 430:
+    /// Semantic action for production 445:
     ///
     /// `TypeStmtListGroup: RangeStmt;`
     ///
@@ -16730,7 +17431,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 431:
+    /// Semantic action for production 446:
     ///
     /// `TypeStmtListGroup: BitStmt;`
     ///
@@ -16750,7 +17451,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 432:
+    /// Semantic action for production 447:
     ///
     /// `TypeStmtListGroup: TypeStmt;`
     ///
@@ -16771,7 +17472,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 433:
+    /// Semantic action for production 448:
     ///
     /// `TypeStmtList /* Vec<T>::New */: ;`
     ///
@@ -16784,7 +17485,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 434:
+    /// Semantic action for production 449:
     ///
     /// `FractionDigitsStmt: KwFractionDigits^ /* Clipped */ FractionDigitsArg Semicolon^ /* Clipped */;`
     ///
@@ -16813,7 +17514,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 435:
+    /// Semantic action for production 450:
     ///
     /// `FractionDigitsArg: <Fraction>/1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|/;`
     ///
@@ -16835,7 +17536,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 436:
+    /// Semantic action for production 451:
     ///
     /// `BitStmt: KwBit^ /* Clipped */ IdentifierArgStr BitStmtSuffix;`
     ///
@@ -16861,7 +17562,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 437:
+    /// Semantic action for production 452:
     ///
     /// `BitStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -16876,7 +17577,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 438:
+    /// Semantic action for production 453:
     ///
     /// `BitStmtSuffix: LBrace^ /* Clipped */ BitStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -16898,7 +17599,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 439:
+    /// Semantic action for production 454:
     ///
     /// `BitStmtList /* Vec<T>::Push */: BitStmtListGroup BitStmtList;`
     ///
@@ -16921,7 +17622,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 440:
+    /// Semantic action for production 455:
     ///
     /// `BitStmtListGroup: PositionStmt;`
     ///
@@ -16942,7 +17643,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 441:
+    /// Semantic action for production 456:
     ///
     /// `BitStmtListGroup: DescriptionStmt;`
     ///
@@ -16963,7 +17664,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 442:
+    /// Semantic action for production 457:
     ///
     /// `BitStmtListGroup: ReferenceStmt;`
     ///
@@ -16984,7 +17685,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 443:
+    /// Semantic action for production 458:
     ///
     /// `BitStmtList /* Vec<T>::New */: ;`
     ///
@@ -16997,7 +17698,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 444:
+    /// Semantic action for production 459:
     ///
     /// `PositionStmt: KwPosition^ /* Clipped */ IntegerValueStr Semicolon^ /* Clipped */;`
     ///
@@ -17022,7 +17723,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 445:
+    /// Semantic action for production 460:
     ///
     /// `LeafrefSpecification: PathStmt;`
     ///
@@ -17046,7 +17747,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 446:
+    /// Semantic action for production 461:
     ///
     /// `LeafrefSpecification: RequireInstanceStmt;`
     ///
@@ -17074,7 +17775,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 447:
+    /// Semantic action for production 462:
     ///
     /// `RequireInstanceStmt: KwRequireInstance^ /* Clipped */ RequireInstanceArgStr Semicolon;`
     ///
@@ -17109,7 +17810,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 448:
+    /// Semantic action for production 463:
     ///
     /// `RequireInstanceArgStr: MandatoryArg;`
     ///
@@ -17133,7 +17834,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 449:
+    /// Semantic action for production 464:
     ///
     /// `RequireInstanceArgStr: <Mandatory>'"' MandatoryArg <Mandatory>'"';`
     ///
@@ -17169,23 +17870,24 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 450:
+    /// Semantic action for production 465:
     ///
-    /// `PathStmt: 'path'^ /* Clipped */ Ystring Semicolon^ /* Clipped */;`
+    /// `PathStmt: KwPath^ /* Clipped */ ArgStr Semicolon^ /* Clipped */;`
     ///
     #[parol_runtime::function_name::named]
     fn path_stmt(
         &mut self,
-        _path: &ParseTreeType<'t>,
-        _ystring: &ParseTreeType<'t>,
+        _kw_path: &ParseTreeType<'t>,
+        _arg_str: &ParseTreeType<'t>,
         _semicolon: &ParseTreeType<'t>,
     ) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
         self.pop(context);
-        let ystring = pop_item!(self, ystring, Ystring, context);
+        let arg_str = pop_item!(self, arg_str, ArgStr, context);
+        self.pop(context);
         let path_stmt_built = PathStmt {
-            ystring: Box::new(ystring),
+            arg_str: Box::new(arg_str),
         };
         // Calling user action here
         self.user_grammar.path_stmt(&path_stmt_built)?;
@@ -17193,7 +17895,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 451:
+    /// Semantic action for production 466:
     ///
     /// `StringRestrictions: LengthStmt;`
     ///
@@ -17217,7 +17919,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 452:
+    /// Semantic action for production 467:
     ///
     /// `StringRestrictions: PatternStmt;`
     ///
@@ -17241,26 +17943,25 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 453:
+    /// Semantic action for production 468:
     ///
-    /// `PatternStmt: 'pattern' Ystring Semicolon;`
+    /// `PatternStmt: KwPattern^ /* Clipped */ ArgStr PatternStmtSuffix;`
     ///
     #[parol_runtime::function_name::named]
     fn pattern_stmt(
         &mut self,
-        pattern: &ParseTreeType<'t>,
-        _ystring: &ParseTreeType<'t>,
-        _semicolon: &ParseTreeType<'t>,
+        _kw_pattern: &ParseTreeType<'t>,
+        _arg_str: &ParseTreeType<'t>,
+        _pattern_stmt_suffix: &ParseTreeType<'t>,
     ) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let pattern = pattern.token()?.clone();
-        let semicolon = pop_item!(self, semicolon, Semicolon, context);
-        let ystring = pop_item!(self, ystring, Ystring, context);
+        let pattern_stmt_suffix = pop_item!(self, pattern_stmt_suffix, PatternStmtSuffix, context);
+        let arg_str = pop_item!(self, arg_str, ArgStr, context);
+        self.pop(context);
         let pattern_stmt_built = PatternStmt {
-            pattern,
-            ystring: Box::new(ystring),
-            semicolon: Box::new(semicolon),
+            arg_str: Box::new(arg_str),
+            pattern_stmt_suffix: Box::new(pattern_stmt_suffix),
         };
         // Calling user action here
         self.user_grammar.pattern_stmt(&pattern_stmt_built)?;
@@ -17268,24 +17969,106 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 454:
+    /// Semantic action for production 469:
     ///
-    /// `LengthStmt: KwLength^ /* Clipped */ RangeArgStr Semicolon^ /* Clipped */;`
+    /// `PatternStmtSuffix: Semicolon^ /* Clipped */;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn pattern_stmt_suffix_0(&mut self, _semicolon: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        self.pop(context);
+        let pattern_stmt_suffix_0_built = PatternStmtSuffixSemicolon {};
+        let pattern_stmt_suffix_0_built = PatternStmtSuffix::Semicolon(pattern_stmt_suffix_0_built);
+        self.push(
+            ASTType::PatternStmtSuffix(pattern_stmt_suffix_0_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 470:
+    ///
+    /// `PatternStmtSuffix: LBrace^ /* Clipped */ PatternStmtList /* Vec */ '}'^ /* Clipped */;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn pattern_stmt_suffix_1(
+        &mut self,
+        _l_brace: &ParseTreeType<'t>,
+        _pattern_stmt_list: &ParseTreeType<'t>,
+        _r_brace: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let pattern_stmt_list =
+            pop_and_reverse_item!(self, pattern_stmt_list, PatternStmtList, context);
+        self.pop(context);
+        let pattern_stmt_suffix_1_built =
+            PatternStmtSuffixLBracePatternStmtListRBrace { pattern_stmt_list };
+        let pattern_stmt_suffix_1_built =
+            PatternStmtSuffix::LBracePatternStmtListRBrace(pattern_stmt_suffix_1_built);
+        self.push(
+            ASTType::PatternStmtSuffix(pattern_stmt_suffix_1_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 471:
+    ///
+    /// `PatternStmtList /* Vec<T>::Push */: RestrictionSubstmt PatternStmtList;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn pattern_stmt_list_0(
+        &mut self,
+        _restriction_substmt: &ParseTreeType<'t>,
+        _pattern_stmt_list: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let mut pattern_stmt_list = pop_item!(self, pattern_stmt_list, PatternStmtList, context);
+        let restriction_substmt = pop_item!(self, restriction_substmt, RestrictionSubstmt, context);
+        let pattern_stmt_list_0_built = PatternStmtList {
+            restriction_substmt: Box::new(restriction_substmt),
+        };
+        // Add an element to the vector
+        pattern_stmt_list.push(pattern_stmt_list_0_built);
+        self.push(ASTType::PatternStmtList(pattern_stmt_list), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 472:
+    ///
+    /// `PatternStmtList /* Vec<T>::New */: ;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn pattern_stmt_list_1(&mut self) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let pattern_stmt_list_1_built = Vec::new();
+        self.push(ASTType::PatternStmtList(pattern_stmt_list_1_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 473:
+    ///
+    /// `LengthStmt: KwLength^ /* Clipped */ RangeArgStr LengthStmtSuffix;`
     ///
     #[parol_runtime::function_name::named]
     fn length_stmt(
         &mut self,
         _kw_length: &ParseTreeType<'t>,
         _range_arg_str: &ParseTreeType<'t>,
-        _semicolon: &ParseTreeType<'t>,
+        _length_stmt_suffix: &ParseTreeType<'t>,
     ) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        self.pop(context);
+        let length_stmt_suffix = pop_item!(self, length_stmt_suffix, LengthStmtSuffix, context);
         let range_arg_str = pop_item!(self, range_arg_str, RangeArgStr, context);
         self.pop(context);
         let length_stmt_built = LengthStmt {
             range_arg_str: Box::new(range_arg_str),
+            length_stmt_suffix: Box::new(length_stmt_suffix),
         };
         // Calling user action here
         self.user_grammar.length_stmt(&length_stmt_built)?;
@@ -17293,7 +18076,197 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 455:
+    /// Semantic action for production 474:
+    ///
+    /// `LengthStmtSuffix: Semicolon^ /* Clipped */;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn length_stmt_suffix_0(&mut self, _semicolon: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        self.pop(context);
+        let length_stmt_suffix_0_built = LengthStmtSuffixSemicolon {};
+        let length_stmt_suffix_0_built = LengthStmtSuffix::Semicolon(length_stmt_suffix_0_built);
+        self.push(
+            ASTType::LengthStmtSuffix(length_stmt_suffix_0_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 475:
+    ///
+    /// `LengthStmtSuffix: LBrace^ /* Clipped */ LengthStmtList /* Vec */ '}'^ /* Clipped */;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn length_stmt_suffix_1(
+        &mut self,
+        _l_brace: &ParseTreeType<'t>,
+        _length_stmt_list: &ParseTreeType<'t>,
+        _r_brace: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let length_stmt_list =
+            pop_and_reverse_item!(self, length_stmt_list, LengthStmtList, context);
+        self.pop(context);
+        let length_stmt_suffix_1_built =
+            LengthStmtSuffixLBraceLengthStmtListRBrace { length_stmt_list };
+        let length_stmt_suffix_1_built =
+            LengthStmtSuffix::LBraceLengthStmtListRBrace(length_stmt_suffix_1_built);
+        self.push(
+            ASTType::LengthStmtSuffix(length_stmt_suffix_1_built),
+            context,
+        );
+        Ok(())
+    }
+
+    /// Semantic action for production 476:
+    ///
+    /// `LengthStmtList /* Vec<T>::Push */: RestrictionSubstmt LengthStmtList;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn length_stmt_list_0(
+        &mut self,
+        _restriction_substmt: &ParseTreeType<'t>,
+        _length_stmt_list: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let mut length_stmt_list = pop_item!(self, length_stmt_list, LengthStmtList, context);
+        let restriction_substmt = pop_item!(self, restriction_substmt, RestrictionSubstmt, context);
+        let length_stmt_list_0_built = LengthStmtList {
+            restriction_substmt: Box::new(restriction_substmt),
+        };
+        // Add an element to the vector
+        length_stmt_list.push(length_stmt_list_0_built);
+        self.push(ASTType::LengthStmtList(length_stmt_list), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 477:
+    ///
+    /// `LengthStmtList /* Vec<T>::New */: ;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn length_stmt_list_1(&mut self) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let length_stmt_list_1_built = Vec::new();
+        self.push(ASTType::LengthStmtList(length_stmt_list_1_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 478:
+    ///
+    /// `ArgStr: BasicString ArgStrOpt /* Option */;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn arg_str_0(
+        &mut self,
+        _basic_string: &ParseTreeType<'t>,
+        _arg_str_opt: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let arg_str_opt = pop_item!(self, arg_str_opt, ArgStrOpt, context);
+        let basic_string = pop_item!(self, basic_string, BasicString, context);
+        let arg_str_0_built = ArgStrBasicStringArgStrOpt {
+            basic_string: Box::new(basic_string),
+            arg_str_opt,
+        };
+        let arg_str_0_built = ArgStr::BasicStringArgStrOpt(arg_str_0_built);
+        // Calling user action here
+        self.user_grammar.arg_str(&arg_str_0_built)?;
+        self.push(ASTType::ArgStr(arg_str_0_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 479:
+    ///
+    /// `ArgStr: UnquotedArg;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn arg_str_1(&mut self, _unquoted_arg: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let unquoted_arg = pop_item!(self, unquoted_arg, UnquotedArg, context);
+        let arg_str_1_built = ArgStrUnquotedArg {
+            unquoted_arg: Box::new(unquoted_arg),
+        };
+        let arg_str_1_built = ArgStr::UnquotedArg(arg_str_1_built);
+        // Calling user action here
+        self.user_grammar.arg_str(&arg_str_1_built)?;
+        self.push(ASTType::ArgStr(arg_str_1_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 480:
+    ///
+    /// `ArgStrOpt /* Option<T>::Some */: Plus^ /* Clipped */ ArgStr;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn arg_str_opt_0(
+        &mut self,
+        _plus: &ParseTreeType<'t>,
+        _arg_str: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let arg_str = pop_item!(self, arg_str, ArgStr, context);
+        self.pop(context);
+        let arg_str_opt_0_built = ArgStrOpt {
+            arg_str: Box::new(arg_str),
+        };
+        self.push(ASTType::ArgStrOpt(Some(arg_str_opt_0_built)), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 481:
+    ///
+    /// `ArgStrOpt /* Option<T>::None */: ;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn arg_str_opt_1(&mut self) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        self.push(ASTType::ArgStrOpt(None), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 482:
+    ///
+    /// `UnquotedArg: <Arg>/([\u{21}\u{23}-\u{26}\u{28}-\u{2a}\u{2c}-\u{2e}\u{30}-\u{3a}\u{3c}-\u{7a}\u{7c}\u{7e}]|\u{2f}[\u{21}\u{23}-\u{26}\u{28}\u{29}\u{2b}-\u{2e}\u{30}-\u{3a}\u{3c}-\u{7a}\u{7c}\u{7e}])[\u{21}\u{23}-\u{26}\u{28}-\u{3a}\u{3c}-\u{7a}\u{7c}\u{7e}]*/;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn unquoted_arg(&mut self, unquoted_arg: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let unquoted_arg = unquoted_arg.token()?.clone();
+        let unquoted_arg_built = UnquotedArg { unquoted_arg };
+        // Calling user action here
+        self.user_grammar.unquoted_arg(&unquoted_arg_built)?;
+        self.push(ASTType::UnquotedArg(unquoted_arg_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 483:
+    ///
+    /// `Plus: <INITIAL, Arg>'+';`
+    ///
+    #[parol_runtime::function_name::named]
+    fn plus(&mut self, plus: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let plus = plus.token()?.clone();
+        let plus_built = Plus { plus };
+        // Calling user action here
+        self.user_grammar.plus(&plus_built)?;
+        self.push(ASTType::Plus(plus_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 484:
     ///
     /// `EnumStmt: KwEnum^ /* Clipped */ EnumArgStr EnumStmtSuffix;`
     ///
@@ -17319,7 +18292,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 456:
+    /// Semantic action for production 485:
     ///
     /// `EnumStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -17334,7 +18307,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 457:
+    /// Semantic action for production 486:
     ///
     /// `EnumStmtSuffix: LBrace^ /* Clipped */ EnumStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -17356,7 +18329,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 458:
+    /// Semantic action for production 487:
     ///
     /// `EnumStmtList /* Vec<T>::Push */: EnumStmtListGroup EnumStmtList;`
     ///
@@ -17380,7 +18353,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 459:
+    /// Semantic action for production 488:
     ///
     /// `EnumStmtListGroup: IfFeatureStmt;`
     ///
@@ -17401,7 +18374,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 460:
+    /// Semantic action for production 489:
     ///
     /// `EnumStmtListGroup: DescriptionStmt;`
     ///
@@ -17422,7 +18395,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 461:
+    /// Semantic action for production 490:
     ///
     /// `EnumStmtListGroup: ValueStmt;`
     ///
@@ -17443,7 +18416,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 462:
+    /// Semantic action for production 491:
     ///
     /// `EnumStmtListGroup: ReferenceStmt;`
     ///
@@ -17464,7 +18437,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 463:
+    /// Semantic action for production 492:
     ///
     /// `EnumStmtList /* Vec<T>::New */: ;`
     ///
@@ -17477,7 +18450,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 464:
+    /// Semantic action for production 493:
     ///
     /// `ValueStmt: KwValue^ /* Clipped */ IntegerValueStr Semicolon^ /* Clipped */;`
     ///
@@ -17502,7 +18475,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 465:
+    /// Semantic action for production 494:
     ///
     /// `IntegerValueStr: IntegerValue;`
     ///
@@ -17522,7 +18495,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 466:
+    /// Semantic action for production 495:
     ///
     /// `IntegerValueStr: <Value>'"' IntegerValue <Value>'"';`
     ///
@@ -17552,7 +18525,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 467:
+    /// Semantic action for production 496:
     ///
     /// `IntegerValue: <Value>/[0-9]+/;`
     ///
@@ -17568,7 +18541,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 468:
+    /// Semantic action for production 497:
     ///
     /// `EnumArgStr: AsciiNoBrace;`
     ///
@@ -17587,7 +18560,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 469:
+    /// Semantic action for production 498:
     ///
     /// `EnumArgStr: <Enum>'"'^ /* Clipped */ AsciiNoBrace <Enum>'"'^ /* Clipped */;`
     ///
@@ -17612,24 +18585,25 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 470:
+    /// Semantic action for production 499:
     ///
-    /// `RangeStmt: KwRange^ /* Clipped */ RangeArgStr Semicolon^ /* Clipped */;`
+    /// `RangeStmt: KwRange^ /* Clipped */ RangeArgStr RangeStmtSuffix;`
     ///
     #[parol_runtime::function_name::named]
     fn range_stmt(
         &mut self,
         _kw_range: &ParseTreeType<'t>,
         _range_arg_str: &ParseTreeType<'t>,
-        _semicolon: &ParseTreeType<'t>,
+        _range_stmt_suffix: &ParseTreeType<'t>,
     ) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        self.pop(context);
+        let range_stmt_suffix = pop_item!(self, range_stmt_suffix, RangeStmtSuffix, context);
         let range_arg_str = pop_item!(self, range_arg_str, RangeArgStr, context);
         self.pop(context);
         let range_stmt_built = RangeStmt {
             range_arg_str: Box::new(range_arg_str),
+            range_stmt_suffix: Box::new(range_stmt_suffix),
         };
         // Calling user action here
         self.user_grammar.range_stmt(&range_stmt_built)?;
@@ -17637,7 +18611,81 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 471:
+    /// Semantic action for production 500:
+    ///
+    /// `RangeStmtSuffix: Semicolon^ /* Clipped */;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn range_stmt_suffix_0(&mut self, _semicolon: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        self.pop(context);
+        let range_stmt_suffix_0_built = RangeStmtSuffixSemicolon {};
+        let range_stmt_suffix_0_built = RangeStmtSuffix::Semicolon(range_stmt_suffix_0_built);
+        self.push(ASTType::RangeStmtSuffix(range_stmt_suffix_0_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 501:
+    ///
+    /// `RangeStmtSuffix: LBrace^ /* Clipped */ RangeStmtList /* Vec */ '}'^ /* Clipped */;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn range_stmt_suffix_1(
+        &mut self,
+        _l_brace: &ParseTreeType<'t>,
+        _range_stmt_list: &ParseTreeType<'t>,
+        _r_brace: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let range_stmt_list = pop_and_reverse_item!(self, range_stmt_list, RangeStmtList, context);
+        self.pop(context);
+        let range_stmt_suffix_1_built =
+            RangeStmtSuffixLBraceRangeStmtListRBrace { range_stmt_list };
+        let range_stmt_suffix_1_built =
+            RangeStmtSuffix::LBraceRangeStmtListRBrace(range_stmt_suffix_1_built);
+        self.push(ASTType::RangeStmtSuffix(range_stmt_suffix_1_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 502:
+    ///
+    /// `RangeStmtList /* Vec<T>::Push */: RestrictionSubstmt RangeStmtList;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn range_stmt_list_0(
+        &mut self,
+        _restriction_substmt: &ParseTreeType<'t>,
+        _range_stmt_list: &ParseTreeType<'t>,
+    ) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let mut range_stmt_list = pop_item!(self, range_stmt_list, RangeStmtList, context);
+        let restriction_substmt = pop_item!(self, restriction_substmt, RestrictionSubstmt, context);
+        let range_stmt_list_0_built = RangeStmtList {
+            restriction_substmt: Box::new(restriction_substmt),
+        };
+        // Add an element to the vector
+        range_stmt_list.push(range_stmt_list_0_built);
+        self.push(ASTType::RangeStmtList(range_stmt_list), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 503:
+    ///
+    /// `RangeStmtList /* Vec<T>::New */: ;`
+    ///
+    #[parol_runtime::function_name::named]
+    fn range_stmt_list_1(&mut self) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let range_stmt_list_1_built = Vec::new();
+        self.push(ASTType::RangeStmtList(range_stmt_list_1_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 504:
     ///
     /// `RangeArgStr: RangeArg;`
     ///
@@ -17656,7 +18704,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 472:
+    /// Semantic action for production 505:
     ///
     /// `RangeArgStr: <Range>'"'^ /* Clipped */ RangeArg <Range>'"'^ /* Clipped */;`
     ///
@@ -17681,7 +18729,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 473:
+    /// Semantic action for production 506:
     ///
     /// `RangeArg: RangePart RangeArgOpt /* Option */;`
     ///
@@ -17705,7 +18753,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 474:
+    /// Semantic action for production 507:
     ///
     /// `RangeArgOpt /* Option<T>::Some */: <Range>'|' RangeArg;`
     ///
@@ -17727,7 +18775,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 475:
+    /// Semantic action for production 508:
     ///
     /// `RangeArgOpt /* Option<T>::None */: ;`
     ///
@@ -17739,7 +18787,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 476:
+    /// Semantic action for production 509:
     ///
     /// `RangePart: RangeBoundary RangePartOpt /* Option */;`
     ///
@@ -17763,7 +18811,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 477:
+    /// Semantic action for production 510:
     ///
     /// `RangePartOpt /* Option<T>::Some */: <Range>'..' RangeBoundary;`
     ///
@@ -17785,7 +18833,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 478:
+    /// Semantic action for production 511:
     ///
     /// `RangePartOpt /* Option<T>::None */: ;`
     ///
@@ -17797,7 +18845,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 479:
+    /// Semantic action for production 512:
     ///
     /// `RangeBoundary: <Range>'min';`
     ///
@@ -17814,7 +18862,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 480:
+    /// Semantic action for production 513:
     ///
     /// `RangeBoundary: <Range>'max';`
     ///
@@ -17831,33 +18879,42 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 481:
+    /// Semantic action for production 514:
     ///
-    /// `RangeBoundary: <Range>"-?[0-9]+";`
+    /// `RangeBoundary: RangeNumber;`
     ///
     #[parol_runtime::function_name::named]
-    fn range_boundary_2(
-        &mut self,
-        minus_quest_l_bracket0_minus9_r_bracket_plus: &ParseTreeType<'t>,
-    ) -> Result<()> {
+    fn range_boundary_2(&mut self, _range_number: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let minus_quest_l_bracket0_minus9_r_bracket_plus =
-            minus_quest_l_bracket0_minus9_r_bracket_plus
-                .token()?
-                .clone();
-        let range_boundary_2_built = RangeBoundaryMinusQuestLBracket0Minus9RBracketPlus {
-            minus_quest_l_bracket0_minus9_r_bracket_plus,
+        let range_number = pop_item!(self, range_number, RangeNumber, context);
+        let range_boundary_2_built = RangeBoundaryRangeNumber {
+            range_number: Box::new(range_number),
         };
-        let range_boundary_2_built =
-            RangeBoundary::MinusQuestLBracket0Minus9RBracketPlus(range_boundary_2_built);
+        let range_boundary_2_built = RangeBoundary::RangeNumber(range_boundary_2_built);
         // Calling user action here
         self.user_grammar.range_boundary(&range_boundary_2_built)?;
         self.push(ASTType::RangeBoundary(range_boundary_2_built), context);
         Ok(())
     }
 
-    /// Semantic action for production 482:
+    /// Semantic action for production 515:
+    ///
+    /// `RangeNumber: <Range>"-?[0-9]+(\.[0-9]+)?";`
+    ///
+    #[parol_runtime::function_name::named]
+    fn range_number(&mut self, range_number: &ParseTreeType<'t>) -> Result<()> {
+        let context = function_name!();
+        trace!("{}", self.trace_item_stack(context));
+        let range_number = range_number.token()?.clone();
+        let range_number_built = RangeNumber { range_number };
+        // Calling user action here
+        self.user_grammar.range_number(&range_number_built)?;
+        self.push(ASTType::RangeNumber(range_number_built), context);
+        Ok(())
+    }
+
+    /// Semantic action for production 516:
     ///
     /// `IdentifierRefArgStr: IdentifierRef;`
     ///
@@ -17881,7 +18938,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 483:
+    /// Semantic action for production 517:
     ///
     /// `IdentifierRefArgStr: <Keyword, IfFeature>'"' IdentifierRef <Keyword, IfFeature>'"';`
     ///
@@ -17917,7 +18974,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 484:
+    /// Semantic action for production 518:
     ///
     /// `IdentifierRef: IdentifierRefOpt /* Option */ Identifier;`
     ///
@@ -17941,7 +18998,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 485:
+    /// Semantic action for production 519:
     ///
     /// `IdentifierRefOpt /* Option<T>::Some */: Identifier <Keyword, IfFeature>':';`
     ///
@@ -17966,7 +19023,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 486:
+    /// Semantic action for production 520:
     ///
     /// `IdentifierRefOpt /* Option<T>::None */: ;`
     ///
@@ -17978,7 +19035,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 487:
+    /// Semantic action for production 521:
     ///
     /// `KeyStmt: KwKey^ /* Clipped */ KeyArgStr Semicolon^ /* Clipped */;`
     ///
@@ -18003,7 +19060,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 488:
+    /// Semantic action for production 522:
     ///
     /// `KeyArgStr: KeyArg;`
     ///
@@ -18022,7 +19079,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 489:
+    /// Semantic action for production 523:
     ///
     /// `KeyArgStr: <Keyword>'"'^ /* Clipped */ KeyArg <Keyword>'"'^ /* Clipped */;`
     ///
@@ -18047,9 +19104,9 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 490:
+    /// Semantic action for production 524:
     ///
-    /// `Semicolon: <INITIAL, Keyword, YVersion, Range, Enum, Default, Revision, Mandatory, IfFeature, Status, Value, Fraction, Ordered, Uri>';';`
+    /// `Semicolon: <INITIAL, Keyword, YVersion, Range, Enum, Default, Revision, Mandatory, IfFeature, Status, Value, Fraction, Ordered, Uri, Arg>';';`
     ///
     #[parol_runtime::function_name::named]
     fn semicolon(&mut self, semicolon: &ParseTreeType<'t>) -> Result<()> {
@@ -18063,7 +19120,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 491:
+    /// Semantic action for production 525:
     ///
     /// `KeyArg: IdentifierRef KeyArgOpt /* Option */;`
     ///
@@ -18087,7 +19144,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 492:
+    /// Semantic action for production 526:
     ///
     /// `KeyArgOpt /* Option<T>::Some */: KeyArg;`
     ///
@@ -18103,7 +19160,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 493:
+    /// Semantic action for production 527:
     ///
     /// `KeyArgOpt /* Option<T>::None */: ;`
     ///
@@ -18115,7 +19172,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 494:
+    /// Semantic action for production 528:
     ///
     /// `AbsoluteSchemaNodeid: <Keyword, IfFeature>'/' IdentifierRef;`
     ///
@@ -18143,7 +19200,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 495:
+    /// Semantic action for production 529:
     ///
     /// `ImportStmt: KwImport^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ ImportStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -18173,7 +19230,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 496:
+    /// Semantic action for production 530:
     ///
     /// `ImportStmtList /* Vec<T>::Push */: ImportStmtListGroup ImportStmtList;`
     ///
@@ -18197,7 +19254,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 497:
+    /// Semantic action for production 531:
     ///
     /// `ImportStmtListGroup: PrefixStmt;`
     ///
@@ -18218,7 +19275,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 498:
+    /// Semantic action for production 532:
     ///
     /// `ImportStmtListGroup: RevisionDateStmt;`
     ///
@@ -18239,7 +19296,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 499:
+    /// Semantic action for production 533:
     ///
     /// `ImportStmtListGroup: DescriptionStmt;`
     ///
@@ -18260,7 +19317,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 500:
+    /// Semantic action for production 534:
     ///
     /// `ImportStmtListGroup: ReferenceStmt;`
     ///
@@ -18281,7 +19338,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 501:
+    /// Semantic action for production 535:
     ///
     /// `ImportStmtList /* Vec<T>::New */: ;`
     ///
@@ -18294,7 +19351,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 502:
+    /// Semantic action for production 536:
     ///
     /// `IncludeStmt: KwInclude^ /* Clipped */ IdentifierArgStr IncludeStmtSuffix;`
     ///
@@ -18320,7 +19377,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 503:
+    /// Semantic action for production 537:
     ///
     /// `IncludeStmtSuffix: Semicolon^ /* Clipped */;`
     ///
@@ -18338,7 +19395,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 504:
+    /// Semantic action for production 538:
     ///
     /// `IncludeStmtSuffix: LBrace^ /* Clipped */ IncludeStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -18365,7 +19422,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 505:
+    /// Semantic action for production 539:
     ///
     /// `IncludeStmtList /* Vec<T>::Push */: IncludeStmtListGroup IncludeStmtList;`
     ///
@@ -18389,7 +19446,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 506:
+    /// Semantic action for production 540:
     ///
     /// `IncludeStmtListGroup: RevisionDateStmt;`
     ///
@@ -18410,7 +19467,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 507:
+    /// Semantic action for production 541:
     ///
     /// `IncludeStmtListGroup: DescriptionStmt;`
     ///
@@ -18431,7 +19488,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 508:
+    /// Semantic action for production 542:
     ///
     /// `IncludeStmtListGroup: ReferenceStmt;`
     ///
@@ -18452,7 +19509,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 509:
+    /// Semantic action for production 543:
     ///
     /// `IncludeStmtList /* Vec<T>::New */: ;`
     ///
@@ -18465,7 +19522,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 510:
+    /// Semantic action for production 544:
     ///
     /// `RevisionDateStmt: KwRevisionDate^ /* Clipped */ DateArgStr Semicolon^ /* Clipped */;`
     ///
@@ -18491,7 +19548,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 511:
+    /// Semantic action for production 545:
     ///
     /// `NamespaceStmt: KwNamespace^ /* Clipped */ UriStr Semicolon^ /* Clipped */;`
     ///
@@ -18516,7 +19573,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 512:
+    /// Semantic action for production 546:
     ///
     /// `UriStr: UriArg;`
     ///
@@ -18535,7 +19592,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 513:
+    /// Semantic action for production 547:
     ///
     /// `UriStr: <Uri>'"'^ /* Clipped */ UriArg <Uri>'"'^ /* Clipped */;`
     ///
@@ -18559,9 +19616,9 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 514:
+    /// Semantic action for production 548:
     ///
-    /// `UriArg: <Uri>"urn:[a-zA-Z0-9\-\.:]+";`
+    /// `UriArg: <Uri>"[a-zA-Z][a-zA-Z0-9+\-\.]*:[\u{21}\u{23}-\u{3a}\u{3c}-\u{7e}]+";`
     ///
     #[parol_runtime::function_name::named]
     fn uri_arg(&mut self, uri_arg: &ParseTreeType<'t>) -> Result<()> {
@@ -18575,7 +19632,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 515:
+    /// Semantic action for production 549:
     ///
     /// `PrefixStmt: KwPrefix^ /* Clipped */ IdentifierArgStr Semicolon^ /* Clipped */;`
     ///
@@ -18600,7 +19657,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 516:
+    /// Semantic action for production 550:
     ///
     /// `BelongsToStmt: KwBelongsTo^ /* Clipped */ IdentifierArgStr LBrace^ /* Clipped */ PrefixStmt '}'^ /* Clipped */;`
     ///
@@ -18629,7 +19686,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 517:
+    /// Semantic action for production 551:
     ///
     /// `OrganizationStmt: 'organization'^ /* Clipped */ Ystring Semicolon;`
     ///
@@ -18655,7 +19712,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 518:
+    /// Semantic action for production 552:
     ///
     /// `ContactStmt: 'contact'^ /* Clipped */ Ystring Semicolon;`
     ///
@@ -18680,7 +19737,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 519:
+    /// Semantic action for production 553:
     ///
     /// `DescriptionStmt: 'description'^ /* Clipped */ Ystring Semicolon^ /* Clipped */;`
     ///
@@ -18705,7 +19762,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 520:
+    /// Semantic action for production 554:
     ///
     /// `ReferenceStmt: 'reference'^ /* Clipped */ Ystring Semicolon^ /* Clipped */;`
     ///
@@ -18729,7 +19786,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 521:
+    /// Semantic action for production 555:
     ///
     /// `RevisionStmt: KwRevision^ /* Clipped */ DateArgStr LBrace^ /* Clipped */ RevisionStmtList /* Vec */ '}'^ /* Clipped */;`
     ///
@@ -18759,7 +19816,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 522:
+    /// Semantic action for production 556:
     ///
     /// `RevisionStmtList /* Vec<T>::Push */: RevisionStmtListGroup RevisionStmtList;`
     ///
@@ -18787,7 +19844,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 523:
+    /// Semantic action for production 557:
     ///
     /// `RevisionStmtListGroup: DescriptionStmt;`
     ///
@@ -18808,7 +19865,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 524:
+    /// Semantic action for production 558:
     ///
     /// `RevisionStmtListGroup: ReferenceStmt;`
     ///
@@ -18829,7 +19886,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 525:
+    /// Semantic action for production 559:
     ///
     /// `RevisionStmtList /* Vec<T>::New */: ;`
     ///
@@ -18845,7 +19902,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 526:
+    /// Semantic action for production 560:
     ///
     /// `DateArgStr: DateArg;`
     ///
@@ -18864,7 +19921,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 527:
+    /// Semantic action for production 561:
     ///
     /// `DateArgStr: <Revision>'"'^ /* Clipped */ DateArg <Revision>'"'^ /* Clipped */;`
     ///
@@ -18889,7 +19946,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 528:
+    /// Semantic action for production 562:
     ///
     /// `DateArg: <Revision>/\d{4}-\d{2}-\d{2}/;`
     ///
@@ -18905,7 +19962,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 529:
+    /// Semantic action for production 563:
     ///
     /// `Ystring: BasicString YstringOpt /* Option */;`
     ///
@@ -18930,7 +19987,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 530:
+    /// Semantic action for production 564:
     ///
     /// `Ystring: Identifier;`
     ///
@@ -18949,29 +20006,28 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 531:
+    /// Semantic action for production 565:
     ///
-    /// `YstringOpt /* Option<T>::Some */: '+' Ystring;`
+    /// `YstringOpt /* Option<T>::Some */: Plus^ /* Clipped */ Ystring;`
     ///
     #[parol_runtime::function_name::named]
     fn ystring_opt_0(
         &mut self,
-        plus: &ParseTreeType<'t>,
+        _plus: &ParseTreeType<'t>,
         _ystring: &ParseTreeType<'t>,
     ) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
-        let plus = plus.token()?.clone();
         let ystring = pop_item!(self, ystring, Ystring, context);
+        self.pop(context);
         let ystring_opt_0_built = YstringOpt {
-            plus,
             ystring: Box::new(ystring),
         };
         self.push(ASTType::YstringOpt(Some(ystring_opt_0_built)), context);
         Ok(())
     }
 
-    /// Semantic action for production 532:
+    /// Semantic action for production 566:
     ///
     /// `YstringOpt /* Option<T>::None */: ;`
     ///
@@ -18983,7 +20039,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 533:
+    /// Semantic action for production 567:
     ///
     /// `BasicString: DQString;`
     ///
@@ -19002,7 +20058,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 534:
+    /// Semantic action for production 568:
     ///
     /// `BasicString: SQString;`
     ///
@@ -19021,9 +20077,9 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 535:
+    /// Semantic action for production 569:
     ///
-    /// `DoubleQuotation: <INITIAL, DQString, Esc>'"';`
+    /// `DoubleQuotation: <INITIAL, DQString, Esc, Default, Arg>'"';`
     ///
     #[parol_runtime::function_name::named]
     fn double_quotation(&mut self, double_quotation: &ParseTreeType<'t>) -> Result<()> {
@@ -19038,7 +20094,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 536:
+    /// Semantic action for production 570:
     ///
     /// `DQString: DoubleQuotation^ /* Clipped */ DQStringList /* Vec */ DoubleQuotation^ /* Clipped */;`
     ///
@@ -19061,7 +20117,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 537:
+    /// Semantic action for production 571:
     ///
     /// `DQStringList /* Vec<T>::Push */: DQChar DQStringList;`
     ///
@@ -19084,7 +20140,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 538:
+    /// Semantic action for production 572:
     ///
     /// `DQStringList /* Vec<T>::New */: ;`
     ///
@@ -19097,7 +20153,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 539:
+    /// Semantic action for production 573:
     ///
     /// `DQChar: DQUnescaped;`
     ///
@@ -19116,7 +20172,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 540:
+    /// Semantic action for production 574:
     ///
     /// `DQChar: DQEscaped;`
     ///
@@ -19135,7 +20191,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 541:
+    /// Semantic action for production 575:
     ///
     /// `DQUnescaped: DQNoEscape;`
     ///
@@ -19154,7 +20210,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 542:
+    /// Semantic action for production 576:
     ///
     /// `DQUnescaped: NonAscii;`
     ///
@@ -19173,7 +20229,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 543:
+    /// Semantic action for production 577:
     ///
     /// `DQEscaped: Escape DQEscapeSeqChar;`
     ///
@@ -19197,7 +20253,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 544:
+    /// Semantic action for production 578:
     ///
     /// `DQEscapeSeqChar: Escape;`
     ///
@@ -19220,7 +20276,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 545:
+    /// Semantic action for production 579:
     ///
     /// `DQEscapeSeqChar: DoubleQuotation;`
     ///
@@ -19244,7 +20300,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 546:
+    /// Semantic action for production 580:
     ///
     /// `DQEscapeSeqChar: EscN;`
     ///
@@ -19267,7 +20323,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 547:
+    /// Semantic action for production 581:
     ///
     /// `DQEscapeSeqChar: EscT;`
     ///
@@ -19290,9 +20346,9 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 548:
+    /// Semantic action for production 582:
     ///
-    /// `Escape: <DQString, SQString, Esc>"\u{5C}";`
+    /// `Escape: <DQString, Esc>"\u{5C}";`
     ///
     #[parol_runtime::function_name::named]
     fn escape(&mut self, escape: &ParseTreeType<'t>) -> Result<()> {
@@ -19306,7 +20362,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 549:
+    /// Semantic action for production 583:
     ///
     /// `NonAscii: <DQString, SQString>"[\n\r\u{80}-\u{D7FF}\u{E000}-\u{10FFFF}]";`
     ///
@@ -19322,7 +20378,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 550:
+    /// Semantic action for production 584:
     ///
     /// `DQNoEscape: <DQString>"[ \n\r\t\u{21}\u{23}-\u{5B}\u{5D}-\u{7E}]+";`
     ///
@@ -19338,7 +20394,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 551:
+    /// Semantic action for production 585:
     ///
     /// `SQString: SingleQuotation SQStringList /* Vec */ SingleQuotation;`
     ///
@@ -19365,7 +20421,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 552:
+    /// Semantic action for production 586:
     ///
     /// `SQStringList /* Vec<T>::Push */: SQChar SQStringList;`
     ///
@@ -19388,7 +20444,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 553:
+    /// Semantic action for production 587:
     ///
     /// `SQStringList /* Vec<T>::New */: ;`
     ///
@@ -19401,88 +20457,25 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 554:
+    /// Semantic action for production 588:
     ///
     /// `SQChar: SQUnescaped;`
     ///
     #[parol_runtime::function_name::named]
-    fn s_q_char_0(&mut self, _s_q_unescaped: &ParseTreeType<'t>) -> Result<()> {
+    fn s_q_char(&mut self, _s_q_unescaped: &ParseTreeType<'t>) -> Result<()> {
         let context = function_name!();
         trace!("{}", self.trace_item_stack(context));
         let s_q_unescaped = pop_item!(self, s_q_unescaped, SQUnescaped, context);
-        let s_q_char_0_built = SQCharSQUnescaped {
+        let s_q_char_built = SQChar {
             s_q_unescaped: Box::new(s_q_unescaped),
         };
-        let s_q_char_0_built = SQChar::SQUnescaped(s_q_char_0_built);
         // Calling user action here
-        self.user_grammar.s_q_char(&s_q_char_0_built)?;
-        self.push(ASTType::SQChar(s_q_char_0_built), context);
+        self.user_grammar.s_q_char(&s_q_char_built)?;
+        self.push(ASTType::SQChar(s_q_char_built), context);
         Ok(())
     }
 
-    /// Semantic action for production 555:
-    ///
-    /// `SQChar: SQEscaped;`
-    ///
-    #[parol_runtime::function_name::named]
-    fn s_q_char_1(&mut self, _s_q_escaped: &ParseTreeType<'t>) -> Result<()> {
-        let context = function_name!();
-        trace!("{}", self.trace_item_stack(context));
-        let s_q_escaped = pop_item!(self, s_q_escaped, SQEscaped, context);
-        let s_q_char_1_built = SQCharSQEscaped {
-            s_q_escaped: Box::new(s_q_escaped),
-        };
-        let s_q_char_1_built = SQChar::SQEscaped(s_q_char_1_built);
-        // Calling user action here
-        self.user_grammar.s_q_char(&s_q_char_1_built)?;
-        self.push(ASTType::SQChar(s_q_char_1_built), context);
-        Ok(())
-    }
-
-    /// Semantic action for production 556:
-    ///
-    /// `SQEscaped: Escape SQEscapeSeqChar;`
-    ///
-    #[parol_runtime::function_name::named]
-    fn s_q_escaped(
-        &mut self,
-        _escape: &ParseTreeType<'t>,
-        _s_q_escape_seq_char: &ParseTreeType<'t>,
-    ) -> Result<()> {
-        let context = function_name!();
-        trace!("{}", self.trace_item_stack(context));
-        let s_q_escape_seq_char = pop_item!(self, s_q_escape_seq_char, SQEscapeSeqChar, context);
-        let escape = pop_item!(self, escape, Escape, context);
-        let s_q_escaped_built = SQEscaped {
-            escape: Box::new(escape),
-            s_q_escape_seq_char: Box::new(s_q_escape_seq_char),
-        };
-        // Calling user action here
-        self.user_grammar.s_q_escaped(&s_q_escaped_built)?;
-        self.push(ASTType::SQEscaped(s_q_escaped_built), context);
-        Ok(())
-    }
-
-    /// Semantic action for production 557:
-    ///
-    /// `SQEscapeSeqChar: <Esc>".";`
-    ///
-    #[parol_runtime::function_name::named]
-    fn s_q_escape_seq_char(&mut self, s_q_escape_seq_char: &ParseTreeType<'t>) -> Result<()> {
-        let context = function_name!();
-        trace!("{}", self.trace_item_stack(context));
-        let s_q_escape_seq_char = s_q_escape_seq_char.token()?.clone();
-        let s_q_escape_seq_char_built = SQEscapeSeqChar {
-            s_q_escape_seq_char,
-        };
-        // Calling user action here
-        self.user_grammar
-            .s_q_escape_seq_char(&s_q_escape_seq_char_built)?;
-        self.push(ASTType::SQEscapeSeqChar(s_q_escape_seq_char_built), context);
-        Ok(())
-    }
-
-    /// Semantic action for production 558:
+    /// Semantic action for production 589:
     ///
     /// `SQUnescaped: SQNoEscape;`
     ///
@@ -19501,7 +20494,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 559:
+    /// Semantic action for production 590:
     ///
     /// `SQUnescaped: NonAscii;`
     ///
@@ -19520,9 +20513,9 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 560:
+    /// Semantic action for production 591:
     ///
-    /// `SQNoEscape: <SQString>"[ \t\u{21}-\u{26}\u{28}-\u{5B}\u{5D}-\u{7E}]+";`
+    /// `SQNoEscape: <SQString>"[ \t\u{21}-\u{26}\u{28}-\u{7E}]+";`
     ///
     #[parol_runtime::function_name::named]
     fn s_q_no_escape(&mut self, s_q_no_escape: &ParseTreeType<'t>) -> Result<()> {
@@ -19536,9 +20529,9 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 561:
+    /// Semantic action for production 592:
     ///
-    /// `SingleQuotation: <INITIAL, SQString>"\u{27}";`
+    /// `SingleQuotation: <INITIAL, SQString, Arg>"\u{27}";`
     ///
     #[parol_runtime::function_name::named]
     fn single_quotation(&mut self, single_quotation: &ParseTreeType<'t>) -> Result<()> {
@@ -19553,7 +20546,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 562:
+    /// Semantic action for production 593:
     ///
     /// `IdentifierArgStr: Identifier;`
     ///
@@ -19576,7 +20569,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 563:
+    /// Semantic action for production 594:
     ///
     /// `IdentifierArgStr: <Keyword>'"'^ /* Clipped */ Identifier <Keyword>'"'^ /* Clipped */;`
     ///
@@ -19605,7 +20598,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 564:
+    /// Semantic action for production 595:
     ///
     /// `Identifier: <INITIAL, Keyword, IfFeature>/[a-zA-Z_][a-zA-Z0-9_\-\/\.:]*/;`
     ///
@@ -19621,7 +20614,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 565:
+    /// Semantic action for production 596:
     ///
     /// `AsciiNoSemicolon: <Default>/[ \t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7e}]+/;`
     ///
@@ -19638,7 +20631,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 566:
+    /// Semantic action for production 597:
     ///
     /// `AsciiNoBrace: <Enum>/[\t\u{21}\u{23}-\u{3a}\u{3c}-\u{5b}\u{5d}-\u{7a}\u{7c}\u{7e}]+/;`
     ///
@@ -19654,7 +20647,7 @@ impl<'t, 'u> YangGrammarAuto<'t, 'u> {
         Ok(())
     }
 
-    /// Semantic action for production 567:
+    /// Semantic action for production 598:
     ///
     /// `YangVersionArg: <YVersion>"1.1|1";`
     ///
@@ -19732,9 +20725,11 @@ impl<'t> UserActionsTrait<'t> for YangGrammarAuto<'t, '_> {
             47 => self.kw_revision(&children[0]),
             48 => self.kw_revision_date(&children[0]),
             49 => self.kw_namespace(&children[0]),
-            50 => self.yang_0(&children[0]),
-            51 => self.yang_1(&children[0]),
-            52 => self.module_stmt(
+            50 => self.kw_pattern(&children[0]),
+            51 => self.kw_path(&children[0]),
+            52 => self.yang_0(&children[0]),
+            53 => self.yang_1(&children[0]),
+            54 => self.module_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
@@ -19745,17 +20740,17 @@ impl<'t> UserActionsTrait<'t> for YangGrammarAuto<'t, '_> {
                 &children[7],
                 &children[8],
             ),
-            53 => self.module_stmt_list3_0(&children[0], &children[1]),
-            54 => self.module_stmt_list3_1(),
-            55 => self.module_stmt_list2_0(&children[0], &children[1]),
-            56 => self.module_stmt_list2_1(),
-            57 => self.module_stmt_list1_0(&children[0], &children[1]),
-            58 => self.module_stmt_list1_1(),
-            59 => self.module_stmt_list0_0(&children[0], &children[1]),
-            60 => self.module_stmt_list0_1(),
-            61 => self.module_stmt_list_0(&children[0], &children[1]),
-            62 => self.module_stmt_list_1(),
-            63 => self.submodule_stmt(
+            55 => self.module_stmt_list3_0(&children[0], &children[1]),
+            56 => self.module_stmt_list3_1(),
+            57 => self.module_stmt_list2_0(&children[0], &children[1]),
+            58 => self.module_stmt_list2_1(),
+            59 => self.module_stmt_list1_0(&children[0], &children[1]),
+            60 => self.module_stmt_list1_1(),
+            61 => self.module_stmt_list0_0(&children[0], &children[1]),
+            62 => self.module_stmt_list0_1(),
+            63 => self.module_stmt_list_0(&children[0], &children[1]),
+            64 => self.module_stmt_list_1(),
+            65 => self.submodule_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
@@ -19766,578 +20761,605 @@ impl<'t> UserActionsTrait<'t> for YangGrammarAuto<'t, '_> {
                 &children[7],
                 &children[8],
             ),
-            64 => self.submodule_stmt_list3_0(&children[0], &children[1]),
-            65 => self.submodule_stmt_list3_1(),
-            66 => self.submodule_stmt_list2_0(&children[0], &children[1]),
-            67 => self.submodule_stmt_list2_1(),
-            68 => self.submodule_stmt_list1_0(&children[0], &children[1]),
-            69 => self.submodule_stmt_list1_1(),
-            70 => self.submodule_stmt_list0_0(&children[0], &children[1]),
-            71 => self.submodule_stmt_list0_1(),
-            72 => self.submodule_stmt_list_0(&children[0], &children[1]),
-            73 => self.submodule_stmt_list_1(),
-            74 => self.module_header_stmts_0(&children[0]),
-            75 => self.module_header_stmts_1(&children[0]),
-            76 => self.module_header_stmts_2(&children[0]),
-            77 => self.submodule_header_stmts_0(&children[0]),
-            78 => self.submodule_header_stmts_1(&children[0]),
-            79 => self.meta_stmts_0(&children[0]),
-            80 => self.meta_stmts_1(&children[0]),
-            81 => self.meta_stmts_2(&children[0]),
-            82 => self.meta_stmts_3(&children[0]),
-            83 => self.linkage_stmts_0(&children[0]),
-            84 => self.linkage_stmts_1(&children[0]),
-            85 => self.body_stmts_0(&children[0]),
-            86 => self.body_stmts_1(&children[0]),
-            87 => self.body_stmts_2(&children[0]),
-            88 => self.body_stmts_3(&children[0]),
-            89 => self.body_stmts_4(&children[0]),
-            90 => self.body_stmts_5(&children[0]),
-            91 => self.body_stmts_6(&children[0]),
-            92 => self.body_stmts_7(&children[0]),
-            93 => self.body_stmts_8(&children[0]),
-            94 => self.body_stmts_9(&children[0]),
-            95 => self.body_stmts_10(&children[0]),
-            96 => self.data_def_stmt_0(&children[0]),
-            97 => self.data_def_stmt_1(&children[0]),
-            98 => self.data_def_stmt_2(&children[0]),
-            99 => self.data_def_stmt_3(&children[0]),
-            100 => self.data_def_stmt_4(&children[0]),
-            101 => self.data_def_stmt_5(&children[0]),
-            102 => self.data_def_stmt_6(&children[0]),
-            103 => self.data_def_stmt_7(&children[0]),
-            104 => self.yang_version_stmt(&children[0], &children[1], &children[2]),
-            105 => self.yang_version_arg_str_0(&children[0]),
-            106 => self.yang_version_arg_str_1(&children[0], &children[1], &children[2]),
-            107 => self.deviation_stmt(&children[0], &children[1], &children[2]),
-            108 => self.rpc_stmt(&children[0], &children[1], &children[2]),
-            109 => self.rpc_stmt_suffix_0(&children[0]),
-            110 => self.rpc_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            111 => self.rpc_stmt_list_0(&children[0], &children[1]),
-            112 => self.rpc_stmt_list_group_0(&children[0]),
-            113 => self.rpc_stmt_list_group_1(&children[0]),
-            114 => self.rpc_stmt_list_group_2(&children[0]),
-            115 => self.rpc_stmt_list_group_3(&children[0]),
-            116 => self.rpc_stmt_list_group_4(&children[0]),
-            117 => self.rpc_stmt_list_group_5(&children[0]),
-            118 => self.rpc_stmt_list_group_6(&children[0]),
-            119 => self.rpc_stmt_list_group_7(&children[0]),
-            120 => self.rpc_stmt_list_1(),
-            121 => self.extension_stmt(&children[0], &children[1], &children[2]),
-            122 => self.extension_stmt_suffix_0(&children[0]),
-            123 => self.extension_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            124 => self.extension_stmt_list_0(&children[0], &children[1]),
-            125 => self.extension_stmt_list_group_0(&children[0]),
-            126 => self.extension_stmt_list_group_1(&children[0]),
-            127 => self.extension_stmt_list_group_2(&children[0]),
-            128 => self.extension_stmt_list_group_3(&children[0]),
-            129 => self.extension_stmt_list_1(),
-            130 => self.argument_stmt(&children[0], &children[1], &children[2]),
-            131 => self.feature_stmt(&children[0], &children[1], &children[2]),
-            132 => self.feature_stmt_suffix_0(&children[0]),
-            133 => self.feature_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            134 => self.feature_stmt_list_0(&children[0], &children[1]),
-            135 => self.feature_stmt_list_group_0(&children[0]),
-            136 => self.feature_stmt_list_group_1(&children[0]),
-            137 => self.feature_stmt_list_group_2(&children[0]),
-            138 => self.feature_stmt_list_group_3(&children[0]),
-            139 => self.feature_stmt_list_1(),
-            140 => self.typedef_stmt(
+            66 => self.submodule_stmt_list3_0(&children[0], &children[1]),
+            67 => self.submodule_stmt_list3_1(),
+            68 => self.submodule_stmt_list2_0(&children[0], &children[1]),
+            69 => self.submodule_stmt_list2_1(),
+            70 => self.submodule_stmt_list1_0(&children[0], &children[1]),
+            71 => self.submodule_stmt_list1_1(),
+            72 => self.submodule_stmt_list0_0(&children[0], &children[1]),
+            73 => self.submodule_stmt_list0_1(),
+            74 => self.submodule_stmt_list_0(&children[0], &children[1]),
+            75 => self.submodule_stmt_list_1(),
+            76 => self.module_header_stmts_0(&children[0]),
+            77 => self.module_header_stmts_1(&children[0]),
+            78 => self.module_header_stmts_2(&children[0]),
+            79 => self.submodule_header_stmts_0(&children[0]),
+            80 => self.submodule_header_stmts_1(&children[0]),
+            81 => self.meta_stmts_0(&children[0]),
+            82 => self.meta_stmts_1(&children[0]),
+            83 => self.meta_stmts_2(&children[0]),
+            84 => self.meta_stmts_3(&children[0]),
+            85 => self.linkage_stmts_0(&children[0]),
+            86 => self.linkage_stmts_1(&children[0]),
+            87 => self.body_stmts_0(&children[0]),
+            88 => self.body_stmts_1(&children[0]),
+            89 => self.body_stmts_2(&children[0]),
+            90 => self.body_stmts_3(&children[0]),
+            91 => self.body_stmts_4(&children[0]),
+            92 => self.body_stmts_5(&children[0]),
+            93 => self.body_stmts_6(&children[0]),
+            94 => self.body_stmts_7(&children[0]),
+            95 => self.body_stmts_8(&children[0]),
+            96 => self.body_stmts_9(&children[0]),
+            97 => self.body_stmts_10(&children[0]),
+            98 => self.data_def_stmt_0(&children[0]),
+            99 => self.data_def_stmt_1(&children[0]),
+            100 => self.data_def_stmt_2(&children[0]),
+            101 => self.data_def_stmt_3(&children[0]),
+            102 => self.data_def_stmt_4(&children[0]),
+            103 => self.data_def_stmt_5(&children[0]),
+            104 => self.data_def_stmt_6(&children[0]),
+            105 => self.data_def_stmt_7(&children[0]),
+            106 => self.yang_version_stmt(&children[0], &children[1], &children[2]),
+            107 => self.yang_version_arg_str_0(&children[0]),
+            108 => self.yang_version_arg_str_1(&children[0], &children[1], &children[2]),
+            109 => self.deviation_stmt(&children[0], &children[1], &children[2]),
+            110 => self.rpc_stmt(&children[0], &children[1], &children[2]),
+            111 => self.rpc_stmt_suffix_0(&children[0]),
+            112 => self.rpc_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            113 => self.rpc_stmt_list_0(&children[0], &children[1]),
+            114 => self.rpc_stmt_list_group_0(&children[0]),
+            115 => self.rpc_stmt_list_group_1(&children[0]),
+            116 => self.rpc_stmt_list_group_2(&children[0]),
+            117 => self.rpc_stmt_list_group_3(&children[0]),
+            118 => self.rpc_stmt_list_group_4(&children[0]),
+            119 => self.rpc_stmt_list_group_5(&children[0]),
+            120 => self.rpc_stmt_list_group_6(&children[0]),
+            121 => self.rpc_stmt_list_group_7(&children[0]),
+            122 => self.rpc_stmt_list_1(),
+            123 => self.extension_stmt(&children[0], &children[1], &children[2]),
+            124 => self.extension_stmt_suffix_0(&children[0]),
+            125 => self.extension_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            126 => self.extension_stmt_list_0(&children[0], &children[1]),
+            127 => self.extension_stmt_list_group_0(&children[0]),
+            128 => self.extension_stmt_list_group_1(&children[0]),
+            129 => self.extension_stmt_list_group_2(&children[0]),
+            130 => self.extension_stmt_list_group_3(&children[0]),
+            131 => self.extension_stmt_list_1(),
+            132 => self.argument_stmt(&children[0], &children[1], &children[2]),
+            133 => self.feature_stmt(&children[0], &children[1], &children[2]),
+            134 => self.feature_stmt_suffix_0(&children[0]),
+            135 => self.feature_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            136 => self.feature_stmt_list_0(&children[0], &children[1]),
+            137 => self.feature_stmt_list_group_0(&children[0]),
+            138 => self.feature_stmt_list_group_1(&children[0]),
+            139 => self.feature_stmt_list_group_2(&children[0]),
+            140 => self.feature_stmt_list_group_3(&children[0]),
+            141 => self.feature_stmt_list_1(),
+            142 => self.typedef_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            141 => self.typedef_stmt_list_0(&children[0], &children[1]),
-            142 => self.typedef_stmt_list_group_0(&children[0]),
-            143 => self.typedef_stmt_list_group_1(&children[0]),
-            144 => self.typedef_stmt_list_group_2(&children[0]),
-            145 => self.typedef_stmt_list_group_3(&children[0]),
-            146 => self.typedef_stmt_list_group_4(&children[0]),
-            147 => self.typedef_stmt_list_group_5(&children[0]),
-            148 => self.typedef_stmt_list_1(),
-            149 => self.augment_stmt(
+            143 => self.typedef_stmt_list_0(&children[0], &children[1]),
+            144 => self.typedef_stmt_list_group_0(&children[0]),
+            145 => self.typedef_stmt_list_group_1(&children[0]),
+            146 => self.typedef_stmt_list_group_2(&children[0]),
+            147 => self.typedef_stmt_list_group_3(&children[0]),
+            148 => self.typedef_stmt_list_group_4(&children[0]),
+            149 => self.typedef_stmt_list_group_5(&children[0]),
+            150 => self.typedef_stmt_list_1(),
+            151 => self.augment_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            150 => self.augment_stmt_list_0(&children[0], &children[1]),
-            151 => self.augment_stmt_list_group_0(&children[0]),
-            152 => self.augment_stmt_list_group_1(&children[0]),
-            153 => self.augment_stmt_list_group_2(&children[0]),
-            154 => self.augment_stmt_list_group_3(&children[0]),
-            155 => self.augment_stmt_list_group_4(&children[0]),
-            156 => self.augment_stmt_list_group_5(&children[0]),
-            157 => self.augment_stmt_list_group_6(&children[0]),
-            158 => self.augment_stmt_list_group_7(&children[0]),
-            159 => self.augment_stmt_list_group_8(&children[0]),
-            160 => self.augment_stmt_list_1(),
-            161 => self.augment_arg_str(&children[0]),
-            162 => self.when_stmt(&children[0], &children[1], &children[2]),
-            163 => self.when_stmt_suffix_0(&children[0]),
-            164 => self.when_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            165 => self.when_stmt_list_0(&children[0], &children[1]),
-            166 => self.when_stmt_list_group_0(&children[0]),
-            167 => self.when_stmt_list_group_1(&children[0]),
-            168 => self.when_stmt_list_1(),
-            169 => self.grouping_stmt(
+            152 => self.augment_stmt_list_0(&children[0], &children[1]),
+            153 => self.augment_stmt_list_group_0(&children[0]),
+            154 => self.augment_stmt_list_group_1(&children[0]),
+            155 => self.augment_stmt_list_group_2(&children[0]),
+            156 => self.augment_stmt_list_group_3(&children[0]),
+            157 => self.augment_stmt_list_group_4(&children[0]),
+            158 => self.augment_stmt_list_group_5(&children[0]),
+            159 => self.augment_stmt_list_group_6(&children[0]),
+            160 => self.augment_stmt_list_group_7(&children[0]),
+            161 => self.augment_stmt_list_group_8(&children[0]),
+            162 => self.augment_stmt_list_1(),
+            163 => self.augment_arg_str(&children[0]),
+            164 => self.when_stmt(&children[0], &children[1], &children[2]),
+            165 => self.when_stmt_suffix_0(&children[0]),
+            166 => self.when_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            167 => self.when_stmt_list_0(&children[0], &children[1]),
+            168 => self.when_stmt_list_group_0(&children[0]),
+            169 => self.when_stmt_list_group_1(&children[0]),
+            170 => self.when_stmt_list_1(),
+            171 => self.grouping_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            170 => self.grouping_stmt_list_0(&children[0], &children[1]),
-            171 => self.grouping_stmt_list_group_0(&children[0]),
-            172 => self.grouping_stmt_list_group_1(&children[0]),
-            173 => self.grouping_stmt_list_group_2(&children[0]),
-            174 => self.grouping_stmt_list_group_3(&children[0]),
-            175 => self.grouping_stmt_list_group_4(&children[0]),
-            176 => self.grouping_stmt_list_group_5(&children[0]),
-            177 => self.grouping_stmt_list_group_6(&children[0]),
-            178 => self.grouping_stmt_list_group_7(&children[0]),
-            179 => self.grouping_stmt_list_group_8(&children[0]),
-            180 => self.grouping_stmt_list_1(),
-            181 => self.identity_stmt(
+            172 => self.grouping_stmt_list_0(&children[0], &children[1]),
+            173 => self.grouping_stmt_list_group_0(&children[0]),
+            174 => self.grouping_stmt_list_group_1(&children[0]),
+            175 => self.grouping_stmt_list_group_2(&children[0]),
+            176 => self.grouping_stmt_list_group_3(&children[0]),
+            177 => self.grouping_stmt_list_group_4(&children[0]),
+            178 => self.grouping_stmt_list_group_5(&children[0]),
+            179 => self.grouping_stmt_list_group_6(&children[0]),
+            180 => self.grouping_stmt_list_group_7(&children[0]),
+            181 => self.grouping_stmt_list_group_8(&children[0]),
+            182 => self.grouping_stmt_list_1(),
+            183 => self.identity_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            182 => self.identity_stmt_list_0(&children[0], &children[1]),
-            183 => self.identity_stmt_list_group_0(&children[0]),
-            184 => self.identity_stmt_list_group_1(&children[0]),
-            185 => self.identity_stmt_list_group_2(&children[0]),
-            186 => self.identity_stmt_list_group_3(&children[0]),
-            187 => self.identity_stmt_list_1(),
-            188 => self.base_stmt(&children[0], &children[1], &children[2]),
-            189 => self.anyxml_stmt(&children[0], &children[1], &children[2]),
-            190 => self.anyxml_stmt_suffix_0(&children[0]),
-            191 => self.anyxml_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            192 => self.anyxml_stmt_list_0(&children[0], &children[1]),
-            193 => self.anyxml_stmt_list_group_0(&children[0]),
-            194 => self.anyxml_stmt_list_group_1(&children[0]),
-            195 => self.anyxml_stmt_list_group_2(&children[0]),
-            196 => self.anyxml_stmt_list_group_3(&children[0]),
-            197 => self.anyxml_stmt_list_group_4(&children[0]),
-            198 => self.anyxml_stmt_list_group_5(&children[0]),
-            199 => self.anyxml_stmt_list_group_6(&children[0]),
-            200 => self.anyxml_stmt_list_group_7(&children[0]),
-            201 => self.anyxml_stmt_list_1(),
-            202 => self.choice_stmt(&children[0], &children[1], &children[2]),
-            203 => self.choice_stmt_suffix_0(&children[0]),
-            204 => self.choice_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            205 => self.choice_stmt_list_0(&children[0], &children[1]),
-            206 => self.choice_stmt_list_group_0(&children[0]),
-            207 => self.choice_stmt_list_group_1(&children[0]),
-            208 => self.choice_stmt_list_group_2(&children[0]),
-            209 => self.choice_stmt_list_group_3(&children[0]),
-            210 => self.choice_stmt_list_group_4(&children[0]),
-            211 => self.choice_stmt_list_group_5(&children[0]),
-            212 => self.choice_stmt_list_group_6(&children[0]),
-            213 => self.choice_stmt_list_group_7(&children[0]),
-            214 => self.choice_stmt_list_group_8(&children[0]),
-            215 => self.choice_stmt_list_group_9(&children[0]),
-            216 => self.choice_stmt_list_1(),
-            217 => self.short_case_stmt_0(&children[0]),
-            218 => self.short_case_stmt_1(&children[0]),
-            219 => self.short_case_stmt_2(&children[0]),
-            220 => self.short_case_stmt_3(&children[0]),
-            221 => self.short_case_stmt_4(&children[0]),
-            222 => self.short_case_stmt_5(&children[0]),
-            223 => self.short_case_stmt_6(&children[0]),
-            224 => self.anydata_stmt(&children[0], &children[1], &children[2]),
-            225 => self.anydata_stmt_suffix_0(&children[0]),
-            226 => self.anydata_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            227 => self.anydata_stmt_list_0(&children[0], &children[1]),
-            228 => self.anydata_stmt_list_group_0(&children[0]),
-            229 => self.anydata_stmt_list_group_1(&children[0]),
-            230 => self.anydata_stmt_list_group_2(&children[0]),
-            231 => self.anydata_stmt_list_group_3(&children[0]),
-            232 => self.anydata_stmt_list_group_4(&children[0]),
-            233 => self.anydata_stmt_list_group_5(&children[0]),
-            234 => self.anydata_stmt_list_group_6(&children[0]),
-            235 => self.anydata_stmt_list_group_7(&children[0]),
-            236 => self.anydata_stmt_list_1(),
-            237 => self.case_stmt(&children[0], &children[1], &children[2]),
-            238 => self.case_stmt_suffix_0(&children[0]),
-            239 => self.case_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            240 => self.case_stmt_list_0(&children[0], &children[1]),
-            241 => self.case_stmt_list_group_0(&children[0]),
-            242 => self.case_stmt_list_group_1(&children[0]),
-            243 => self.case_stmt_list_group_2(&children[0]),
-            244 => self.case_stmt_list_group_3(&children[0]),
-            245 => self.case_stmt_list_group_4(&children[0]),
-            246 => self.case_stmt_list_1(),
-            247 => self.status_stmt(&children[0], &children[1], &children[2]),
-            248 => self.status_arg_str_0(&children[0]),
-            249 => self.status_arg_str_1(&children[0], &children[1], &children[2]),
-            250 => self.status_arg(&children[0]),
-            251 => self.container_stmt(&children[0], &children[1], &children[2]),
-            252 => self.container_stmt_suffix_0(&children[0]),
-            253 => self.container_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            254 => self.container_stmt_list_0(&children[0], &children[1]),
-            255 => self.container_stmt_list_group_0(&children[0]),
-            256 => self.container_stmt_list_group_1(&children[0]),
-            257 => self.container_stmt_list_group_2(&children[0]),
-            258 => self.container_stmt_list_group_3(&children[0]),
-            259 => self.container_stmt_list_group_4(&children[0]),
-            260 => self.container_stmt_list_group_5(&children[0]),
-            261 => self.container_stmt_list_group_6(&children[0]),
-            262 => self.container_stmt_list_group_7(&children[0]),
-            263 => self.container_stmt_list_group_8(&children[0]),
-            264 => self.container_stmt_list_group_9(&children[0]),
-            265 => self.container_stmt_list_group_10(&children[0]),
-            266 => self.container_stmt_list_group_11(&children[0]),
-            267 => self.container_stmt_list_1(),
-            268 => self.action_stmt(&children[0], &children[1], &children[2]),
-            269 => self.action_stmt_suffix_0(&children[0]),
-            270 => self.action_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            271 => self.action_stmt_list_0(&children[0], &children[1]),
-            272 => self.action_stmt_list_group_0(&children[0]),
-            273 => self.action_stmt_list_group_1(&children[0]),
-            274 => self.action_stmt_list_group_2(&children[0]),
-            275 => self.action_stmt_list_group_3(&children[0]),
-            276 => self.action_stmt_list_group_4(&children[0]),
-            277 => self.action_stmt_list_group_5(&children[0]),
-            278 => self.action_stmt_list_1(),
-            279 => self.input_stmt(&children[0], &children[1], &children[2], &children[3]),
-            280 => self.input_stmt_list_0(&children[0], &children[1]),
-            281 => self.input_stmt_list_1(),
-            282 => self.output_stmt(&children[0], &children[1], &children[2], &children[3]),
-            283 => self.output_stmt_list_0(&children[0], &children[1]),
-            284 => self.output_stmt_list_1(),
-            285 => self.notification_stmt(
+            184 => self.identity_stmt_list_0(&children[0], &children[1]),
+            185 => self.identity_stmt_list_group_0(&children[0]),
+            186 => self.identity_stmt_list_group_1(&children[0]),
+            187 => self.identity_stmt_list_group_2(&children[0]),
+            188 => self.identity_stmt_list_group_3(&children[0]),
+            189 => self.identity_stmt_list_1(),
+            190 => self.base_stmt(&children[0], &children[1], &children[2]),
+            191 => self.anyxml_stmt(&children[0], &children[1], &children[2]),
+            192 => self.anyxml_stmt_suffix_0(&children[0]),
+            193 => self.anyxml_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            194 => self.anyxml_stmt_list_0(&children[0], &children[1]),
+            195 => self.anyxml_stmt_list_group_0(&children[0]),
+            196 => self.anyxml_stmt_list_group_1(&children[0]),
+            197 => self.anyxml_stmt_list_group_2(&children[0]),
+            198 => self.anyxml_stmt_list_group_3(&children[0]),
+            199 => self.anyxml_stmt_list_group_4(&children[0]),
+            200 => self.anyxml_stmt_list_group_5(&children[0]),
+            201 => self.anyxml_stmt_list_group_6(&children[0]),
+            202 => self.anyxml_stmt_list_group_7(&children[0]),
+            203 => self.anyxml_stmt_list_1(),
+            204 => self.choice_stmt(&children[0], &children[1], &children[2]),
+            205 => self.choice_stmt_suffix_0(&children[0]),
+            206 => self.choice_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            207 => self.choice_stmt_list_0(&children[0], &children[1]),
+            208 => self.choice_stmt_list_group_0(&children[0]),
+            209 => self.choice_stmt_list_group_1(&children[0]),
+            210 => self.choice_stmt_list_group_2(&children[0]),
+            211 => self.choice_stmt_list_group_3(&children[0]),
+            212 => self.choice_stmt_list_group_4(&children[0]),
+            213 => self.choice_stmt_list_group_5(&children[0]),
+            214 => self.choice_stmt_list_group_6(&children[0]),
+            215 => self.choice_stmt_list_group_7(&children[0]),
+            216 => self.choice_stmt_list_group_8(&children[0]),
+            217 => self.choice_stmt_list_group_9(&children[0]),
+            218 => self.choice_stmt_list_1(),
+            219 => self.short_case_stmt_0(&children[0]),
+            220 => self.short_case_stmt_1(&children[0]),
+            221 => self.short_case_stmt_2(&children[0]),
+            222 => self.short_case_stmt_3(&children[0]),
+            223 => self.short_case_stmt_4(&children[0]),
+            224 => self.short_case_stmt_5(&children[0]),
+            225 => self.short_case_stmt_6(&children[0]),
+            226 => self.anydata_stmt(&children[0], &children[1], &children[2]),
+            227 => self.anydata_stmt_suffix_0(&children[0]),
+            228 => self.anydata_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            229 => self.anydata_stmt_list_0(&children[0], &children[1]),
+            230 => self.anydata_stmt_list_group_0(&children[0]),
+            231 => self.anydata_stmt_list_group_1(&children[0]),
+            232 => self.anydata_stmt_list_group_2(&children[0]),
+            233 => self.anydata_stmt_list_group_3(&children[0]),
+            234 => self.anydata_stmt_list_group_4(&children[0]),
+            235 => self.anydata_stmt_list_group_5(&children[0]),
+            236 => self.anydata_stmt_list_group_6(&children[0]),
+            237 => self.anydata_stmt_list_group_7(&children[0]),
+            238 => self.anydata_stmt_list_1(),
+            239 => self.case_stmt(&children[0], &children[1], &children[2]),
+            240 => self.case_stmt_suffix_0(&children[0]),
+            241 => self.case_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            242 => self.case_stmt_list_0(&children[0], &children[1]),
+            243 => self.case_stmt_list_group_0(&children[0]),
+            244 => self.case_stmt_list_group_1(&children[0]),
+            245 => self.case_stmt_list_group_2(&children[0]),
+            246 => self.case_stmt_list_group_3(&children[0]),
+            247 => self.case_stmt_list_group_4(&children[0]),
+            248 => self.case_stmt_list_1(),
+            249 => self.status_stmt(&children[0], &children[1], &children[2]),
+            250 => self.status_arg_str_0(&children[0]),
+            251 => self.status_arg_str_1(&children[0], &children[1], &children[2]),
+            252 => self.status_arg(&children[0]),
+            253 => self.container_stmt(&children[0], &children[1], &children[2]),
+            254 => self.container_stmt_suffix_0(&children[0]),
+            255 => self.container_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            256 => self.container_stmt_list_0(&children[0], &children[1]),
+            257 => self.container_stmt_list_group_0(&children[0]),
+            258 => self.container_stmt_list_group_1(&children[0]),
+            259 => self.container_stmt_list_group_2(&children[0]),
+            260 => self.container_stmt_list_group_3(&children[0]),
+            261 => self.container_stmt_list_group_4(&children[0]),
+            262 => self.container_stmt_list_group_5(&children[0]),
+            263 => self.container_stmt_list_group_6(&children[0]),
+            264 => self.container_stmt_list_group_7(&children[0]),
+            265 => self.container_stmt_list_group_8(&children[0]),
+            266 => self.container_stmt_list_group_9(&children[0]),
+            267 => self.container_stmt_list_group_10(&children[0]),
+            268 => self.container_stmt_list_group_11(&children[0]),
+            269 => self.container_stmt_list_group_12(&children[0]),
+            270 => self.container_stmt_list_1(),
+            271 => self.action_stmt(&children[0], &children[1], &children[2]),
+            272 => self.action_stmt_suffix_0(&children[0]),
+            273 => self.action_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            274 => self.action_stmt_list_0(&children[0], &children[1]),
+            275 => self.action_stmt_list_group_0(&children[0]),
+            276 => self.action_stmt_list_group_1(&children[0]),
+            277 => self.action_stmt_list_group_2(&children[0]),
+            278 => self.action_stmt_list_group_3(&children[0]),
+            279 => self.action_stmt_list_group_4(&children[0]),
+            280 => self.action_stmt_list_group_5(&children[0]),
+            281 => self.action_stmt_list_1(),
+            282 => self.input_stmt(&children[0], &children[1], &children[2], &children[3]),
+            283 => self.input_stmt_list_0(&children[0], &children[1]),
+            284 => self.input_stmt_list_1(),
+            285 => self.output_stmt(&children[0], &children[1], &children[2], &children[3]),
+            286 => self.output_stmt_list_0(&children[0], &children[1]),
+            287 => self.output_stmt_list_1(),
+            288 => self.notification_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            286 => self.notification_stmt_list_0(&children[0], &children[1]),
-            287 => self.notification_stmt_list_group_0(&children[0]),
-            288 => self.notification_stmt_list_group_1(&children[0]),
-            289 => self.notification_stmt_list_group_2(&children[0]),
-            290 => self.notification_stmt_list_group_3(&children[0]),
-            291 => self.notification_stmt_list_group_4(&children[0]),
-            292 => self.notification_stmt_list_group_5(&children[0]),
-            293 => self.notification_stmt_list_group_6(&children[0]),
-            294 => self.notification_stmt_list_group_7(&children[0]),
-            295 => self.notification_stmt_list_1(),
-            296 => self.if_feature_stmt(&children[0], &children[1], &children[2]),
-            297 => self.if_feature_expr_str(&children[0]),
-            298 => self.if_feature_expr(&children[0], &children[1]),
-            299 => self.if_feature_expr_opt_0(&children[0], &children[1]),
-            300 => self.if_feature_expr_opt_1(),
-            301 => self.if_feature_term(&children[0], &children[1]),
-            302 => self.if_feature_term_opt_0(&children[0], &children[1]),
-            303 => self.if_feature_term_opt_1(),
-            304 => self.if_feature_factor_0(&children[0], &children[1]),
-            305 => self.if_feature_factor_1(&children[0], &children[1], &children[2]),
-            306 => self.if_feature_factor_2(&children[0]),
-            307 => self.if_feature_factor_3(&children[0], &children[1], &children[2]),
-            308 => self.presence_stmt(&children[0], &children[1], &children[2]),
-            309 => self.uses_stmt(&children[0], &children[1], &children[2]),
-            310 => self.uses_stmt_suffix_0(&children[0]),
-            311 => self.uses_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            312 => self.uses_stmt_list_0(&children[0], &children[1]),
-            313 => self.uses_stmt_list_group_0(&children[0]),
-            314 => self.uses_stmt_list_group_1(&children[0]),
-            315 => self.uses_stmt_list_group_2(&children[0]),
-            316 => self.uses_stmt_list_group_3(&children[0]),
-            317 => self.uses_stmt_list_group_4(&children[0]),
-            318 => self.uses_stmt_list_group_5(&children[0]),
-            319 => self.uses_stmt_list_group_6(&children[0]),
-            320 => self.uses_stmt_list_1(),
-            321 => self.refine_stmt(&children[0], &children[1], &children[2]),
-            322 => self.refine_stmt_suffix_0(&children[0]),
-            323 => self.refine_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            324 => self.refine_stmt_list_0(&children[0], &children[1]),
-            325 => self.refine_stmt_list_group_0(&children[0]),
-            326 => self.refine_stmt_list_group_1(&children[0]),
-            327 => self.refine_stmt_list_group_2(&children[0]),
-            328 => self.refine_stmt_list_group_3(&children[0]),
-            329 => self.refine_stmt_list_group_4(&children[0]),
-            330 => self.refine_stmt_list_group_5(&children[0]),
-            331 => self.refine_stmt_list_group_6(&children[0]),
-            332 => self.refine_stmt_list_group_7(&children[0]),
-            333 => self.refine_stmt_list_group_8(&children[0]),
-            334 => self.refine_stmt_list_group_9(&children[0]),
-            335 => self.refine_stmt_list_1(),
-            336 => self.refine_arg_str_0(&children[0]),
-            337 => self.refine_arg_str_1(&children[0], &children[1], &children[2]),
-            338 => self.refine_arg(&children[0]),
-            339 => self.descendant_schema_nodeid_0(&children[0]),
-            340 => self.descendant_schema_nodeid_1(&children[0]),
-            341 => self.unknown_stmt(&children[0], &children[1], &children[2]),
-            342 => self.unknown_stmt_suffix_0(&children[0]),
-            343 => self.unknown_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            344 => self.unknown_stmt_list_0(&children[0], &children[1]),
-            345 => self.unknown_stmt_list_group_0(&children[0]),
-            346 => self.unknown_stmt_list_group_1(&children[0]),
-            347 => self.unknown_stmt_list_1(),
-            348 => self.leaf_list_stmt(
+            289 => self.notification_stmt_list_0(&children[0], &children[1]),
+            290 => self.notification_stmt_list_group_0(&children[0]),
+            291 => self.notification_stmt_list_group_1(&children[0]),
+            292 => self.notification_stmt_list_group_2(&children[0]),
+            293 => self.notification_stmt_list_group_3(&children[0]),
+            294 => self.notification_stmt_list_group_4(&children[0]),
+            295 => self.notification_stmt_list_group_5(&children[0]),
+            296 => self.notification_stmt_list_group_6(&children[0]),
+            297 => self.notification_stmt_list_group_7(&children[0]),
+            298 => self.notification_stmt_list_1(),
+            299 => self.if_feature_stmt(&children[0], &children[1], &children[2]),
+            300 => self.if_feature_expr_str(&children[0]),
+            301 => self.if_feature_expr(&children[0], &children[1]),
+            302 => self.if_feature_expr_opt_0(&children[0], &children[1]),
+            303 => self.if_feature_expr_opt_1(),
+            304 => self.if_feature_term(&children[0], &children[1]),
+            305 => self.if_feature_term_opt_0(&children[0], &children[1]),
+            306 => self.if_feature_term_opt_1(),
+            307 => self.if_feature_factor_0(&children[0], &children[1]),
+            308 => self.if_feature_factor_1(&children[0], &children[1], &children[2]),
+            309 => self.if_feature_factor_2(&children[0]),
+            310 => self.if_feature_factor_3(&children[0], &children[1], &children[2]),
+            311 => self.presence_stmt(&children[0], &children[1], &children[2]),
+            312 => self.uses_stmt(&children[0], &children[1], &children[2]),
+            313 => self.uses_stmt_suffix_0(&children[0]),
+            314 => self.uses_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            315 => self.uses_stmt_list_0(&children[0], &children[1]),
+            316 => self.uses_stmt_list_group_0(&children[0]),
+            317 => self.uses_stmt_list_group_1(&children[0]),
+            318 => self.uses_stmt_list_group_2(&children[0]),
+            319 => self.uses_stmt_list_group_3(&children[0]),
+            320 => self.uses_stmt_list_group_4(&children[0]),
+            321 => self.uses_stmt_list_group_5(&children[0]),
+            322 => self.uses_stmt_list_group_6(&children[0]),
+            323 => self.uses_stmt_list_1(),
+            324 => self.refine_stmt(&children[0], &children[1], &children[2]),
+            325 => self.refine_stmt_suffix_0(&children[0]),
+            326 => self.refine_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            327 => self.refine_stmt_list_0(&children[0], &children[1]),
+            328 => self.refine_stmt_list_group_0(&children[0]),
+            329 => self.refine_stmt_list_group_1(&children[0]),
+            330 => self.refine_stmt_list_group_2(&children[0]),
+            331 => self.refine_stmt_list_group_3(&children[0]),
+            332 => self.refine_stmt_list_group_4(&children[0]),
+            333 => self.refine_stmt_list_group_5(&children[0]),
+            334 => self.refine_stmt_list_group_6(&children[0]),
+            335 => self.refine_stmt_list_group_7(&children[0]),
+            336 => self.refine_stmt_list_group_8(&children[0]),
+            337 => self.refine_stmt_list_group_9(&children[0]),
+            338 => self.refine_stmt_list_1(),
+            339 => self.refine_arg_str_0(&children[0]),
+            340 => self.refine_arg_str_1(&children[0], &children[1], &children[2]),
+            341 => self.refine_arg(&children[0]),
+            342 => self.descendant_schema_nodeid_0(&children[0]),
+            343 => self.descendant_schema_nodeid_1(&children[0]),
+            344 => self.unknown_stmt(&children[0], &children[1]),
+            345 => self.unknown_stmt_suffix0_0(&children[0], &children[1]),
+            346 => self.unknown_stmt_suffix0_1(&children[0]),
+            347 => self.unknown_stmt_suffix_0(&children[0]),
+            348 => self.unknown_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            349 => self.unknown_stmt_list_0(&children[0], &children[1]),
+            350 => self.unknown_stmt_list_group_0(&children[0]),
+            351 => self.unknown_stmt_list_group_1(&children[0]),
+            352 => self.unknown_stmt_list_1(),
+            353 => self.leaf_list_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            349 => self.leaf_list_stmt_list_0(&children[0], &children[1]),
-            350 => self.leaf_list_stmt_list_group_0(&children[0]),
-            351 => self.leaf_list_stmt_list_group_1(&children[0]),
-            352 => self.leaf_list_stmt_list_group_2(&children[0]),
-            353 => self.leaf_list_stmt_list_group_3(&children[0]),
-            354 => self.leaf_list_stmt_list_group_4(&children[0]),
-            355 => self.leaf_list_stmt_list_group_5(&children[0]),
-            356 => self.leaf_list_stmt_list_group_6(&children[0]),
-            357 => self.leaf_list_stmt_list_group_7(&children[0]),
-            358 => self.leaf_list_stmt_list_group_8(&children[0]),
-            359 => self.leaf_list_stmt_list_group_9(&children[0]),
-            360 => self.leaf_list_stmt_list_group_10(&children[0]),
-            361 => self.leaf_list_stmt_list_group_11(&children[0]),
-            362 => self.leaf_list_stmt_list_group_12(&children[0]),
-            363 => self.leaf_list_stmt_list_group_13(&children[0]),
-            364 => self.leaf_list_stmt_list_1(),
-            365 => self.leaf_stmt(
+            354 => self.leaf_list_stmt_list_0(&children[0], &children[1]),
+            355 => self.leaf_list_stmt_list_group_0(&children[0]),
+            356 => self.leaf_list_stmt_list_group_1(&children[0]),
+            357 => self.leaf_list_stmt_list_group_2(&children[0]),
+            358 => self.leaf_list_stmt_list_group_3(&children[0]),
+            359 => self.leaf_list_stmt_list_group_4(&children[0]),
+            360 => self.leaf_list_stmt_list_group_5(&children[0]),
+            361 => self.leaf_list_stmt_list_group_6(&children[0]),
+            362 => self.leaf_list_stmt_list_group_7(&children[0]),
+            363 => self.leaf_list_stmt_list_group_8(&children[0]),
+            364 => self.leaf_list_stmt_list_group_9(&children[0]),
+            365 => self.leaf_list_stmt_list_group_10(&children[0]),
+            366 => self.leaf_list_stmt_list_group_11(&children[0]),
+            367 => self.leaf_list_stmt_list_group_12(&children[0]),
+            368 => self.leaf_list_stmt_list_group_13(&children[0]),
+            369 => self.leaf_list_stmt_list_1(),
+            370 => self.leaf_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            366 => self.leaf_stmt_list_0(&children[0], &children[1]),
-            367 => self.leaf_stmt_list_group_0(&children[0]),
-            368 => self.leaf_stmt_list_group_1(&children[0]),
-            369 => self.leaf_stmt_list_group_2(&children[0]),
-            370 => self.leaf_stmt_list_group_3(&children[0]),
-            371 => self.leaf_stmt_list_group_4(&children[0]),
-            372 => self.leaf_stmt_list_group_5(&children[0]),
-            373 => self.leaf_stmt_list_group_6(&children[0]),
-            374 => self.leaf_stmt_list_group_7(&children[0]),
-            375 => self.leaf_stmt_list_group_8(&children[0]),
-            376 => self.leaf_stmt_list_group_9(&children[0]),
-            377 => self.leaf_stmt_list_group_10(&children[0]),
-            378 => self.leaf_stmt_list_group_11(&children[0]),
-            379 => self.leaf_stmt_list_1(),
-            380 => self.must_stmt(&children[0], &children[1], &children[2]),
-            381 => self.must_stmt_suffix_0(&children[0]),
-            382 => self.must_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            383 => self.must_stmt_list_0(&children[0], &children[1]),
-            384 => self.must_stmt_list_group_0(&children[0]),
-            385 => self.must_stmt_list_group_1(&children[0]),
-            386 => self.must_stmt_list_1(),
-            387 => self.error_message(&children[0], &children[1], &children[2]),
-            388 => self.units_stmt(&children[0], &children[1], &children[2]),
-            389 => self.config_stmt(&children[0], &children[1], &children[2]),
-            390 => self.mandatory_stmt(&children[0], &children[1], &children[2]),
-            391 => self.mandatory_arg_str_0(&children[0]),
-            392 => self.mandatory_arg_str_1(&children[0], &children[1], &children[2]),
-            393 => self.mandatory_arg(&children[0]),
-            394 => self.list_stmt(
+            371 => self.leaf_stmt_list_0(&children[0], &children[1]),
+            372 => self.leaf_stmt_list_group_0(&children[0]),
+            373 => self.leaf_stmt_list_group_1(&children[0]),
+            374 => self.leaf_stmt_list_group_2(&children[0]),
+            375 => self.leaf_stmt_list_group_3(&children[0]),
+            376 => self.leaf_stmt_list_group_4(&children[0]),
+            377 => self.leaf_stmt_list_group_5(&children[0]),
+            378 => self.leaf_stmt_list_group_6(&children[0]),
+            379 => self.leaf_stmt_list_group_7(&children[0]),
+            380 => self.leaf_stmt_list_group_8(&children[0]),
+            381 => self.leaf_stmt_list_group_9(&children[0]),
+            382 => self.leaf_stmt_list_group_10(&children[0]),
+            383 => self.leaf_stmt_list_group_11(&children[0]),
+            384 => self.leaf_stmt_list_1(),
+            385 => self.must_stmt(&children[0], &children[1], &children[2]),
+            386 => self.must_stmt_suffix_0(&children[0]),
+            387 => self.must_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            388 => self.must_stmt_list_0(&children[0], &children[1]),
+            389 => self.must_stmt_list_group_0(&children[0]),
+            390 => self.must_stmt_list_group_1(&children[0]),
+            391 => self.must_stmt_list_group_2(&children[0]),
+            392 => self.must_stmt_list_group_3(&children[0]),
+            393 => self.must_stmt_list_1(),
+            394 => self.error_message(&children[0], &children[1], &children[2]),
+            395 => self.error_app_tag(&children[0], &children[1], &children[2]),
+            396 => self.restriction_substmt_0(&children[0]),
+            397 => self.restriction_substmt_1(&children[0]),
+            398 => self.restriction_substmt_2(&children[0]),
+            399 => self.restriction_substmt_3(&children[0]),
+            400 => self.restriction_substmt_4(&children[0]),
+            401 => self.modifier_stmt(&children[0], &children[1], &children[2]),
+            402 => self.units_stmt(&children[0], &children[1], &children[2]),
+            403 => self.config_stmt(&children[0], &children[1], &children[2]),
+            404 => self.mandatory_stmt(&children[0], &children[1], &children[2]),
+            405 => self.mandatory_arg_str_0(&children[0]),
+            406 => self.mandatory_arg_str_1(&children[0], &children[1], &children[2]),
+            407 => self.mandatory_arg(&children[0]),
+            408 => self.list_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            395 => self.list_stmt_list_0(&children[0], &children[1]),
-            396 => self.list_stmt_list_group_0(&children[0]),
-            397 => self.list_stmt_list_group_1(&children[0]),
-            398 => self.list_stmt_list_group_2(&children[0]),
-            399 => self.list_stmt_list_group_3(&children[0]),
-            400 => self.list_stmt_list_group_4(&children[0]),
-            401 => self.list_stmt_list_group_5(&children[0]),
-            402 => self.list_stmt_list_group_6(&children[0]),
-            403 => self.list_stmt_list_group_7(&children[0]),
-            404 => self.list_stmt_list_group_8(&children[0]),
-            405 => self.list_stmt_list_group_9(&children[0]),
-            406 => self.list_stmt_list_group_10(&children[0]),
-            407 => self.list_stmt_list_group_11(&children[0]),
-            408 => self.list_stmt_list_group_12(&children[0]),
-            409 => self.list_stmt_list_group_13(&children[0]),
-            410 => self.list_stmt_list_group_14(&children[0]),
-            411 => self.list_stmt_list_1(),
-            412 => self.ordered_by_stmt(&children[0], &children[1], &children[2]),
-            413 => self.ordered_by_arg_str_0(&children[0]),
-            414 => self.ordered_by_arg_str_1(&children[0], &children[1], &children[2]),
-            415 => self.ordered_by_arg(&children[0]),
-            416 => self.default_stmt(&children[0], &children[1]),
-            417 => self.default_stmt_suffix_0(&children[0], &children[1]),
-            418 => {
-                self.default_stmt_suffix_1(&children[0], &children[1], &children[2], &children[3])
-            }
-            419 => self.max_elements_stmt(&children[0], &children[1], &children[2]),
-            420 => self.min_elements_stmt(&children[0], &children[1], &children[2]),
-            421 => self.type_stmt(&children[0], &children[1], &children[2]),
-            422 => self.type_stmt_suffix_0(&children[0]),
-            423 => self.type_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            424 => self.type_stmt_list_0(&children[0], &children[1]),
-            425 => self.type_stmt_list_group_0(&children[0]),
-            426 => self.type_stmt_list_group_1(&children[0]),
-            427 => self.type_stmt_list_group_2(&children[0]),
-            428 => self.type_stmt_list_group_3(&children[0]),
-            429 => self.type_stmt_list_group_4(&children[0]),
-            430 => self.type_stmt_list_group_5(&children[0]),
-            431 => self.type_stmt_list_group_6(&children[0]),
-            432 => self.type_stmt_list_group_7(&children[0]),
-            433 => self.type_stmt_list_1(),
-            434 => self.fraction_digits_stmt(&children[0], &children[1], &children[2]),
-            435 => self.fraction_digits_arg(&children[0]),
-            436 => self.bit_stmt(&children[0], &children[1], &children[2]),
-            437 => self.bit_stmt_suffix_0(&children[0]),
-            438 => self.bit_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            439 => self.bit_stmt_list_0(&children[0], &children[1]),
-            440 => self.bit_stmt_list_group_0(&children[0]),
-            441 => self.bit_stmt_list_group_1(&children[0]),
-            442 => self.bit_stmt_list_group_2(&children[0]),
-            443 => self.bit_stmt_list_1(),
-            444 => self.position_stmt(&children[0], &children[1], &children[2]),
-            445 => self.leafref_specification_0(&children[0]),
-            446 => self.leafref_specification_1(&children[0]),
-            447 => self.require_instance_stmt(&children[0], &children[1], &children[2]),
-            448 => self.require_instance_arg_str_0(&children[0]),
-            449 => self.require_instance_arg_str_1(&children[0], &children[1], &children[2]),
-            450 => self.path_stmt(&children[0], &children[1], &children[2]),
-            451 => self.string_restrictions_0(&children[0]),
-            452 => self.string_restrictions_1(&children[0]),
-            453 => self.pattern_stmt(&children[0], &children[1], &children[2]),
-            454 => self.length_stmt(&children[0], &children[1], &children[2]),
-            455 => self.enum_stmt(&children[0], &children[1], &children[2]),
-            456 => self.enum_stmt_suffix_0(&children[0]),
-            457 => self.enum_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            458 => self.enum_stmt_list_0(&children[0], &children[1]),
-            459 => self.enum_stmt_list_group_0(&children[0]),
-            460 => self.enum_stmt_list_group_1(&children[0]),
-            461 => self.enum_stmt_list_group_2(&children[0]),
-            462 => self.enum_stmt_list_group_3(&children[0]),
-            463 => self.enum_stmt_list_1(),
-            464 => self.value_stmt(&children[0], &children[1], &children[2]),
-            465 => self.integer_value_str_0(&children[0]),
-            466 => self.integer_value_str_1(&children[0], &children[1], &children[2]),
-            467 => self.integer_value(&children[0]),
-            468 => self.enum_arg_str_0(&children[0]),
-            469 => self.enum_arg_str_1(&children[0], &children[1], &children[2]),
-            470 => self.range_stmt(&children[0], &children[1], &children[2]),
-            471 => self.range_arg_str_0(&children[0]),
-            472 => self.range_arg_str_1(&children[0], &children[1], &children[2]),
-            473 => self.range_arg(&children[0], &children[1]),
-            474 => self.range_arg_opt_0(&children[0], &children[1]),
-            475 => self.range_arg_opt_1(),
-            476 => self.range_part(&children[0], &children[1]),
-            477 => self.range_part_opt_0(&children[0], &children[1]),
-            478 => self.range_part_opt_1(),
-            479 => self.range_boundary_0(&children[0]),
-            480 => self.range_boundary_1(&children[0]),
-            481 => self.range_boundary_2(&children[0]),
-            482 => self.identifier_ref_arg_str_0(&children[0]),
-            483 => self.identifier_ref_arg_str_1(&children[0], &children[1], &children[2]),
-            484 => self.identifier_ref(&children[0], &children[1]),
-            485 => self.identifier_ref_opt_0(&children[0], &children[1]),
-            486 => self.identifier_ref_opt_1(),
-            487 => self.key_stmt(&children[0], &children[1], &children[2]),
-            488 => self.key_arg_str_0(&children[0]),
-            489 => self.key_arg_str_1(&children[0], &children[1], &children[2]),
-            490 => self.semicolon(&children[0]),
-            491 => self.key_arg(&children[0], &children[1]),
-            492 => self.key_arg_opt_0(&children[0]),
-            493 => self.key_arg_opt_1(),
-            494 => self.absolute_schema_nodeid(&children[0], &children[1]),
-            495 => self.import_stmt(
+            409 => self.list_stmt_list_0(&children[0], &children[1]),
+            410 => self.list_stmt_list_group_0(&children[0]),
+            411 => self.list_stmt_list_group_1(&children[0]),
+            412 => self.list_stmt_list_group_2(&children[0]),
+            413 => self.list_stmt_list_group_3(&children[0]),
+            414 => self.list_stmt_list_group_4(&children[0]),
+            415 => self.list_stmt_list_group_5(&children[0]),
+            416 => self.list_stmt_list_group_6(&children[0]),
+            417 => self.list_stmt_list_group_7(&children[0]),
+            418 => self.list_stmt_list_group_8(&children[0]),
+            419 => self.list_stmt_list_group_9(&children[0]),
+            420 => self.list_stmt_list_group_10(&children[0]),
+            421 => self.list_stmt_list_group_11(&children[0]),
+            422 => self.list_stmt_list_group_12(&children[0]),
+            423 => self.list_stmt_list_group_13(&children[0]),
+            424 => self.list_stmt_list_group_14(&children[0]),
+            425 => self.list_stmt_list_group_15(&children[0]),
+            426 => self.list_stmt_list_1(),
+            427 => self.ordered_by_stmt(&children[0], &children[1], &children[2]),
+            428 => self.ordered_by_arg_str_0(&children[0]),
+            429 => self.ordered_by_arg_str_1(&children[0], &children[1], &children[2]),
+            430 => self.ordered_by_arg(&children[0]),
+            431 => self.default_stmt(&children[0], &children[1]),
+            432 => self.default_stmt_suffix_0(&children[0], &children[1]),
+            433 => self.default_stmt_suffix_1(&children[0], &children[1]),
+            434 => self.max_elements_stmt(&children[0], &children[1], &children[2]),
+            435 => self.min_elements_stmt(&children[0], &children[1], &children[2]),
+            436 => self.type_stmt(&children[0], &children[1], &children[2]),
+            437 => self.type_stmt_suffix_0(&children[0]),
+            438 => self.type_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            439 => self.type_stmt_list_0(&children[0], &children[1]),
+            440 => self.type_stmt_list_group_0(&children[0]),
+            441 => self.type_stmt_list_group_1(&children[0]),
+            442 => self.type_stmt_list_group_2(&children[0]),
+            443 => self.type_stmt_list_group_3(&children[0]),
+            444 => self.type_stmt_list_group_4(&children[0]),
+            445 => self.type_stmt_list_group_5(&children[0]),
+            446 => self.type_stmt_list_group_6(&children[0]),
+            447 => self.type_stmt_list_group_7(&children[0]),
+            448 => self.type_stmt_list_1(),
+            449 => self.fraction_digits_stmt(&children[0], &children[1], &children[2]),
+            450 => self.fraction_digits_arg(&children[0]),
+            451 => self.bit_stmt(&children[0], &children[1], &children[2]),
+            452 => self.bit_stmt_suffix_0(&children[0]),
+            453 => self.bit_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            454 => self.bit_stmt_list_0(&children[0], &children[1]),
+            455 => self.bit_stmt_list_group_0(&children[0]),
+            456 => self.bit_stmt_list_group_1(&children[0]),
+            457 => self.bit_stmt_list_group_2(&children[0]),
+            458 => self.bit_stmt_list_1(),
+            459 => self.position_stmt(&children[0], &children[1], &children[2]),
+            460 => self.leafref_specification_0(&children[0]),
+            461 => self.leafref_specification_1(&children[0]),
+            462 => self.require_instance_stmt(&children[0], &children[1], &children[2]),
+            463 => self.require_instance_arg_str_0(&children[0]),
+            464 => self.require_instance_arg_str_1(&children[0], &children[1], &children[2]),
+            465 => self.path_stmt(&children[0], &children[1], &children[2]),
+            466 => self.string_restrictions_0(&children[0]),
+            467 => self.string_restrictions_1(&children[0]),
+            468 => self.pattern_stmt(&children[0], &children[1], &children[2]),
+            469 => self.pattern_stmt_suffix_0(&children[0]),
+            470 => self.pattern_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            471 => self.pattern_stmt_list_0(&children[0], &children[1]),
+            472 => self.pattern_stmt_list_1(),
+            473 => self.length_stmt(&children[0], &children[1], &children[2]),
+            474 => self.length_stmt_suffix_0(&children[0]),
+            475 => self.length_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            476 => self.length_stmt_list_0(&children[0], &children[1]),
+            477 => self.length_stmt_list_1(),
+            478 => self.arg_str_0(&children[0], &children[1]),
+            479 => self.arg_str_1(&children[0]),
+            480 => self.arg_str_opt_0(&children[0], &children[1]),
+            481 => self.arg_str_opt_1(),
+            482 => self.unquoted_arg(&children[0]),
+            483 => self.plus(&children[0]),
+            484 => self.enum_stmt(&children[0], &children[1], &children[2]),
+            485 => self.enum_stmt_suffix_0(&children[0]),
+            486 => self.enum_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            487 => self.enum_stmt_list_0(&children[0], &children[1]),
+            488 => self.enum_stmt_list_group_0(&children[0]),
+            489 => self.enum_stmt_list_group_1(&children[0]),
+            490 => self.enum_stmt_list_group_2(&children[0]),
+            491 => self.enum_stmt_list_group_3(&children[0]),
+            492 => self.enum_stmt_list_1(),
+            493 => self.value_stmt(&children[0], &children[1], &children[2]),
+            494 => self.integer_value_str_0(&children[0]),
+            495 => self.integer_value_str_1(&children[0], &children[1], &children[2]),
+            496 => self.integer_value(&children[0]),
+            497 => self.enum_arg_str_0(&children[0]),
+            498 => self.enum_arg_str_1(&children[0], &children[1], &children[2]),
+            499 => self.range_stmt(&children[0], &children[1], &children[2]),
+            500 => self.range_stmt_suffix_0(&children[0]),
+            501 => self.range_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            502 => self.range_stmt_list_0(&children[0], &children[1]),
+            503 => self.range_stmt_list_1(),
+            504 => self.range_arg_str_0(&children[0]),
+            505 => self.range_arg_str_1(&children[0], &children[1], &children[2]),
+            506 => self.range_arg(&children[0], &children[1]),
+            507 => self.range_arg_opt_0(&children[0], &children[1]),
+            508 => self.range_arg_opt_1(),
+            509 => self.range_part(&children[0], &children[1]),
+            510 => self.range_part_opt_0(&children[0], &children[1]),
+            511 => self.range_part_opt_1(),
+            512 => self.range_boundary_0(&children[0]),
+            513 => self.range_boundary_1(&children[0]),
+            514 => self.range_boundary_2(&children[0]),
+            515 => self.range_number(&children[0]),
+            516 => self.identifier_ref_arg_str_0(&children[0]),
+            517 => self.identifier_ref_arg_str_1(&children[0], &children[1], &children[2]),
+            518 => self.identifier_ref(&children[0], &children[1]),
+            519 => self.identifier_ref_opt_0(&children[0], &children[1]),
+            520 => self.identifier_ref_opt_1(),
+            521 => self.key_stmt(&children[0], &children[1], &children[2]),
+            522 => self.key_arg_str_0(&children[0]),
+            523 => self.key_arg_str_1(&children[0], &children[1], &children[2]),
+            524 => self.semicolon(&children[0]),
+            525 => self.key_arg(&children[0], &children[1]),
+            526 => self.key_arg_opt_0(&children[0]),
+            527 => self.key_arg_opt_1(),
+            528 => self.absolute_schema_nodeid(&children[0], &children[1]),
+            529 => self.import_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            496 => self.import_stmt_list_0(&children[0], &children[1]),
-            497 => self.import_stmt_list_group_0(&children[0]),
-            498 => self.import_stmt_list_group_1(&children[0]),
-            499 => self.import_stmt_list_group_2(&children[0]),
-            500 => self.import_stmt_list_group_3(&children[0]),
-            501 => self.import_stmt_list_1(),
-            502 => self.include_stmt(&children[0], &children[1], &children[2]),
-            503 => self.include_stmt_suffix_0(&children[0]),
-            504 => self.include_stmt_suffix_1(&children[0], &children[1], &children[2]),
-            505 => self.include_stmt_list_0(&children[0], &children[1]),
-            506 => self.include_stmt_list_group_0(&children[0]),
-            507 => self.include_stmt_list_group_1(&children[0]),
-            508 => self.include_stmt_list_group_2(&children[0]),
-            509 => self.include_stmt_list_1(),
-            510 => self.revision_date_stmt(&children[0], &children[1], &children[2]),
-            511 => self.namespace_stmt(&children[0], &children[1], &children[2]),
-            512 => self.uri_str_0(&children[0]),
-            513 => self.uri_str_1(&children[0], &children[1], &children[2]),
-            514 => self.uri_arg(&children[0]),
-            515 => self.prefix_stmt(&children[0], &children[1], &children[2]),
-            516 => self.belongs_to_stmt(
+            530 => self.import_stmt_list_0(&children[0], &children[1]),
+            531 => self.import_stmt_list_group_0(&children[0]),
+            532 => self.import_stmt_list_group_1(&children[0]),
+            533 => self.import_stmt_list_group_2(&children[0]),
+            534 => self.import_stmt_list_group_3(&children[0]),
+            535 => self.import_stmt_list_1(),
+            536 => self.include_stmt(&children[0], &children[1], &children[2]),
+            537 => self.include_stmt_suffix_0(&children[0]),
+            538 => self.include_stmt_suffix_1(&children[0], &children[1], &children[2]),
+            539 => self.include_stmt_list_0(&children[0], &children[1]),
+            540 => self.include_stmt_list_group_0(&children[0]),
+            541 => self.include_stmt_list_group_1(&children[0]),
+            542 => self.include_stmt_list_group_2(&children[0]),
+            543 => self.include_stmt_list_1(),
+            544 => self.revision_date_stmt(&children[0], &children[1], &children[2]),
+            545 => self.namespace_stmt(&children[0], &children[1], &children[2]),
+            546 => self.uri_str_0(&children[0]),
+            547 => self.uri_str_1(&children[0], &children[1], &children[2]),
+            548 => self.uri_arg(&children[0]),
+            549 => self.prefix_stmt(&children[0], &children[1], &children[2]),
+            550 => self.belongs_to_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            517 => self.organization_stmt(&children[0], &children[1], &children[2]),
-            518 => self.contact_stmt(&children[0], &children[1], &children[2]),
-            519 => self.description_stmt(&children[0], &children[1], &children[2]),
-            520 => self.reference_stmt(&children[0], &children[1], &children[2]),
-            521 => self.revision_stmt(
+            551 => self.organization_stmt(&children[0], &children[1], &children[2]),
+            552 => self.contact_stmt(&children[0], &children[1], &children[2]),
+            553 => self.description_stmt(&children[0], &children[1], &children[2]),
+            554 => self.reference_stmt(&children[0], &children[1], &children[2]),
+            555 => self.revision_stmt(
                 &children[0],
                 &children[1],
                 &children[2],
                 &children[3],
                 &children[4],
             ),
-            522 => self.revision_stmt_list_0(&children[0], &children[1]),
-            523 => self.revision_stmt_list_group_0(&children[0]),
-            524 => self.revision_stmt_list_group_1(&children[0]),
-            525 => self.revision_stmt_list_1(),
-            526 => self.date_arg_str_0(&children[0]),
-            527 => self.date_arg_str_1(&children[0], &children[1], &children[2]),
-            528 => self.date_arg(&children[0]),
-            529 => self.ystring_0(&children[0], &children[1]),
-            530 => self.ystring_1(&children[0]),
-            531 => self.ystring_opt_0(&children[0], &children[1]),
-            532 => self.ystring_opt_1(),
-            533 => self.basic_string_0(&children[0]),
-            534 => self.basic_string_1(&children[0]),
-            535 => self.double_quotation(&children[0]),
-            536 => self.d_q_string(&children[0], &children[1], &children[2]),
-            537 => self.d_q_string_list_0(&children[0], &children[1]),
-            538 => self.d_q_string_list_1(),
-            539 => self.d_q_char_0(&children[0]),
-            540 => self.d_q_char_1(&children[0]),
-            541 => self.d_q_unescaped_0(&children[0]),
-            542 => self.d_q_unescaped_1(&children[0]),
-            543 => self.d_q_escaped(&children[0], &children[1]),
-            544 => self.d_q_escape_seq_char_0(&children[0]),
-            545 => self.d_q_escape_seq_char_1(&children[0]),
-            546 => self.d_q_escape_seq_char_2(&children[0]),
-            547 => self.d_q_escape_seq_char_3(&children[0]),
-            548 => self.escape(&children[0]),
-            549 => self.non_ascii(&children[0]),
-            550 => self.d_q_no_escape(&children[0]),
-            551 => self.s_q_string(&children[0], &children[1], &children[2]),
-            552 => self.s_q_string_list_0(&children[0], &children[1]),
-            553 => self.s_q_string_list_1(),
-            554 => self.s_q_char_0(&children[0]),
-            555 => self.s_q_char_1(&children[0]),
-            556 => self.s_q_escaped(&children[0], &children[1]),
-            557 => self.s_q_escape_seq_char(&children[0]),
-            558 => self.s_q_unescaped_0(&children[0]),
-            559 => self.s_q_unescaped_1(&children[0]),
-            560 => self.s_q_no_escape(&children[0]),
-            561 => self.single_quotation(&children[0]),
-            562 => self.identifier_arg_str_0(&children[0]),
-            563 => self.identifier_arg_str_1(&children[0], &children[1], &children[2]),
-            564 => self.identifier(&children[0]),
-            565 => self.ascii_no_semicolon(&children[0]),
-            566 => self.ascii_no_brace(&children[0]),
-            567 => self.yang_version_arg(&children[0]),
+            556 => self.revision_stmt_list_0(&children[0], &children[1]),
+            557 => self.revision_stmt_list_group_0(&children[0]),
+            558 => self.revision_stmt_list_group_1(&children[0]),
+            559 => self.revision_stmt_list_1(),
+            560 => self.date_arg_str_0(&children[0]),
+            561 => self.date_arg_str_1(&children[0], &children[1], &children[2]),
+            562 => self.date_arg(&children[0]),
+            563 => self.ystring_0(&children[0], &children[1]),
+            564 => self.ystring_1(&children[0]),
+            565 => self.ystring_opt_0(&children[0], &children[1]),
+            566 => self.ystring_opt_1(),
+            567 => self.basic_string_0(&children[0]),
+            568 => self.basic_string_1(&children[0]),
+            569 => self.double_quotation(&children[0]),
+            570 => self.d_q_string(&children[0], &children[1], &children[2]),
+            571 => self.d_q_string_list_0(&children[0], &children[1]),
+            572 => self.d_q_string_list_1(),
+            573 => self.d_q_char_0(&children[0]),
+            574 => self.d_q_char_1(&children[0]),
+            575 => self.d_q_unescaped_0(&children[0]),
+            576 => self.d_q_unescaped_1(&children[0]),
+            577 => self.d_q_escaped(&children[0], &children[1]),
+            578 => self.d_q_escape_seq_char_0(&children[0]),
+            579 => self.d_q_escape_seq_char_1(&children[0]),
+            580 => self.d_q_escape_seq_char_2(&children[0]),
+            581 => self.d_q_escape_seq_char_3(&children[0]),
+            582 => self.escape(&children[0]),
+            583 => self.non_ascii(&children[0]),
+            584 => self.d_q_no_escape(&children[0]),
+            585 => self.s_q_string(&children[0], &children[1], &children[2]),
+            586 => self.s_q_string_list_0(&children[0], &children[1]),
+            587 => self.s_q_string_list_1(),
+            588 => self.s_q_char(&children[0]),
+            589 => self.s_q_unescaped_0(&children[0]),
+            590 => self.s_q_unescaped_1(&children[0]),
+            591 => self.s_q_no_escape(&children[0]),
+            592 => self.single_quotation(&children[0]),
+            593 => self.identifier_arg_str_0(&children[0]),
+            594 => self.identifier_arg_str_1(&children[0], &children[1], &children[2]),
+            595 => self.identifier(&children[0]),
+            596 => self.ascii_no_semicolon(&children[0]),
+            597 => self.ascii_no_brace(&children[0]),
+            598 => self.yang_version_arg(&children[0]),
             _ => Err(ParserError::InternalError(format!(
                 "Unhandled production number: {prod_num}"
             ))

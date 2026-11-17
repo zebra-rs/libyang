@@ -1,0 +1,4 @@
+module gap-ns-urn-unquoted {
+  namespace urn:example:gap.ns-1;
+  prefix n;
+}

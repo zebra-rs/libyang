@@ -1,0 +1,23 @@
+module gap-arg-comments {
+  namespace "urn:example:gap-arg-comments";
+  prefix gc;
+
+  // A comment between `pattern` or `path` and its argument is a
+  // comment, in the scanner those two arguments are read in as well.
+  leaf a {
+    type string {
+      pattern // why
+        "[a-z]+";
+    }
+  }
+  leaf b {
+    type string {
+      pattern /* why */ '[0-9]+';
+    }
+  }
+  leaf c {
+    type leafref {
+      path /* where */ /gc:a;
+    }
+  }
+}
