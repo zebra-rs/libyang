@@ -200,6 +200,10 @@ pub struct ContainerNode {
     pub must: Vec<MustNode>,
     pub unknown: Vec<UnknownNode>,
     pub action: Vec<ActionNode>,
+    /// Typedefs written inside the container (RFC 7950 §7.5.2). They
+    /// are found here only by the parser: `yang()` moves them to the
+    /// module's own, where a type reference is looked up.
+    pub typedef: Vec<TypedefNode>,
 }
 
 impl ContainerNode {
@@ -284,6 +288,8 @@ pub struct ListNode {
     pub ordered_by: Option<OrderedByNode>,
     pub must: Vec<MustNode>,
     pub unknown: Vec<UnknownNode>,
+    /// Typedefs written inside the list: see [`ContainerNode::typedef`].
+    pub typedef: Vec<TypedefNode>,
 }
 
 impl ListNode {

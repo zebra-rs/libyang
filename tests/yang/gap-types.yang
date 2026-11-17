@@ -1,0 +1,35 @@
+module gap-types {
+  yang-version 1.1;
+  namespace "urn:example:gap-types";
+  prefix gt;
+
+  // An extension that takes no argument.
+  extension marker {
+    description "Marks a node.";
+  }
+
+  typedef flag {
+    type boolean;
+  }
+
+  typedef number {
+    type uint8;
+  }
+
+  // A typedef of one of this module's own typedefs, by its own prefix,
+  // adding a restriction.
+  typedef small {
+    type gt:number {
+      range "1..10";
+    }
+  }
+
+  // A union whose arm is one of this module's own typedefs, with no
+  // prefix: it is this module's, whoever uses the union.
+  typedef number-or-name {
+    type union {
+      type number;
+      type string;
+    }
+  }
+}

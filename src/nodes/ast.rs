@@ -10,16 +10,52 @@ pub fn yang(y: YangGrammar) -> Result<Node, YangError> {
                 let name = identifier_arg_str(&m.module_stmt.identifier_arg_str);
                 let mut node = ModuleNode::new(name);
                 module(&mut node, m);
+                let mut nested = Vec::new();
+                hoist_typedefs(&mut node.d, &mut nested);
+                for g in node.grouping.iter_mut() {
+                    hoist_typedefs(&mut g.d, &mut nested);
+                }
+                node.typedef.append(&mut nested);
                 Ok(Node::Module(Box::new(node)))
             }
             Yang::SubmoduleStmt(m) => {
                 let name = identifier_arg_str(&m.submodule_stmt.identifier_arg_str);
                 let mut node = SubmoduleNode::new(name);
                 submodule(&mut node, m);
+                let mut nested = Vec::new();
+                hoist_typedefs(&mut node.d, &mut nested);
+                for g in node.grouping.iter_mut() {
+                    hoist_typedefs(&mut g.d, &mut nested);
+                }
+                node.typedef.append(&mut nested);
                 Ok(Node::Submodule(Box::new(node)))
             }
         },
         None => Err(YangError::EmptyDocument),
+    }
+}
+
+/// Move the typedefs written inside containers and lists under `d` to
+/// `out`, the module's own.
+///
+/// RFC 7950 §5.5 scopes such a typedef to the node it is written in and
+/// that node's descendants. A type reference is looked up among the
+/// module's typedefs, so the nested ones join them, after the module's:
+/// every reference the scoping rules allow still resolves, and a name
+/// defined at both levels resolves to the module's.
+fn hoist_typedefs(d: &mut DatadefNode, out: &mut Vec<TypedefNode>) {
+    for c in d.container.iter_mut() {
+        out.append(&mut c.typedef);
+        hoist_typedefs(&mut c.d, out);
+    }
+    for l in d.list.iter_mut() {
+        out.append(&mut l.typedef);
+        hoist_typedefs(&mut l.d, out);
+    }
+    for choice in d.choice.iter_mut() {
+        for case in choice.cases.iter_mut() {
+            hoist_typedefs(&mut case.d, out);
+        }
     }
 }
 
@@ -459,6 +495,9 @@ fn container(m: &ContainerStmt) -> ContainerNode {
                 ContainerStmtListGroup::ReferenceStmt(m) => {
                     node.reference = Some(ystring(&m.reference_stmt.ystring));
                 }
+                ContainerStmtListGroup::TypedefStmt(m) => {
+                    node.typedef.push(typedef(&m.typedef_stmt));
+                }
                 ContainerStmtListGroup::DataDefStmt(m) => {
                     datadef(&mut node.d, &m.data_def_stmt);
                 }
@@ -527,14 +566,16 @@ fn leaf(m: &LeafStmt) -> LeafNode {
 }
 
 fn key(m: &KeyStmt) -> KeyNode {
-    let mut keys = Vec::new();
-    match &*m.key_arg_str {
-        KeyArgStr::KeyArg(m) => {
-            keys.push(identifier_ref(&m.key_arg.identifier_ref));
-        }
-        KeyArgStr::DoubleQuotationKeyArgDoubleQuotation(m) => {
-            keys.push(identifier_ref(&m.key_arg.identifier_ref));
-        }
+    let mut arg = match &*m.key_arg_str {
+        KeyArgStr::KeyArg(m) => &*m.key_arg,
+        KeyArgStr::DoubleQuotationKeyArgDoubleQuotation(m) => &*m.key_arg,
+    };
+    // Every leaf the key names, in order (RFC 7950 §7.8.2): the
+    // grammar reads `key "a b c"` as `a` followed by the rest.
+    let mut keys = vec![identifier_ref(&arg.identifier_ref)];
+    while let Some(rest) = &arg.key_arg_opt {
+        arg = &rest.key_arg;
+        keys.push(identifier_ref(&arg.identifier_ref));
     }
     KeyNode::new(keys)
 }
@@ -588,6 +629,9 @@ fn list(m: &ListStmt) -> ListNode {
             }
             ListStmtListGroup::ReferenceStmt(m) => {
                 node.reference = Some(ystring(&m.reference_stmt.ystring));
+            }
+            ListStmtListGroup::TypedefStmt(m) => {
+                node.typedef.push(typedef(&m.typedef_stmt));
             }
             ListStmtListGroup::DataDefStmt(m) => {
                 datadef(&mut node.d, &m.data_def_stmt);
@@ -778,8 +822,8 @@ fn identity(m: &BodyStmtsIdentityStmt) -> IdentityNode {
 
 fn namespace(m: &ModuleHeaderStmtsNamespaceStmt) -> String {
     match &*m.namespace_stmt.uri_str {
-        UriStr::UriArg(m) => m.uri_arg.uri_arg.to_string(),
-        UriStr::DoubleQuotationUriArgDoubleQuotation(m) => m.uri_arg.uri_arg.to_string(),
+        UriStr::UriArg(m) => m.uri_arg.uri_arg.text().to_string(),
+        UriStr::DoubleQuotationUriArgDoubleQuotation(m) => m.uri_arg.uri_arg.text().to_string(),
     }
 }
 
@@ -799,77 +843,88 @@ fn yang_version(m: &YangVersionStmt) -> String {
 }
 
 fn ystring(s: &Ystring) -> String {
-    let mut line = String::new();
-    let mut first = true;
-    let (basic_string, ystring_opt) = match s {
-        Ystring::BasicStringYstringOpt(inner) => (&inner.basic_string, inner.ystring_opt.as_ref()),
+    match s {
+        Ystring::BasicStringYstringOpt(inner) => {
+            let mut line = basic_string(&inner.basic_string);
+            // The YANG `+` continuation (RFC 7950 §6.1.3 — adjacent
+            // quoted strings are concatenated with no inserted
+            // characters).
+            if let Some(opt) = inner.ystring_opt.as_ref() {
+                line.push_str(&ystring(&opt.ystring));
+            }
+            line
+        }
         // RFC 7950 §6.1.3 unquoted-string form. The `Identifier`
         // token covers the common case (units / description /
         // organization / etc. with a single bareword argument); the
         // `+` concatenation grammar is reserved for the quoted form.
-        Ystring::Identifier(inner) => {
-            return inner.identifier.identifier.text().to_string();
-        }
-    };
-    match &**basic_string {
-        BasicString::DQString(m) => {
-            for s in m.d_q_string.d_q_string_list.iter() {
-                match &*s.d_q_char {
-                    DQChar::DQUnescaped(m) => match &*m.d_q_unescaped {
-                        DQUnescaped::DQNoEscape(m) => {
-                            if first {
-                                first = false
-                            } else {
-                                line.push('\n');
-                            }
-                            line.push_str(m.d_q_no_escape.d_q_no_escape.text());
-                        }
-                        DQUnescaped::NonAscii(m) => {
-                            if first {
-                                first = false
-                            } else {
-                                line.push('\n');
-                            }
-                            line.push_str(m.non_ascii.non_ascii.text());
-                        }
-                    },
-                    DQChar::DQEscaped(_m) => {
-                        // m.d_q_escaped.escape;
-                        // m.d_q_escaped.d_q_escape_seq_char;
-                    }
-                }
+        Ystring::Identifier(inner) => inner.identifier.identifier.text().to_string(),
+    }
+}
+
+/// The argument of `pattern` and `path`: quoted strings joined by `+`,
+/// or one unquoted string, which may start with a character an
+/// identifier does not (`[0-7]`, `/a:b/c:d`).
+fn arg_str(s: &ArgStr) -> String {
+    match s {
+        ArgStr::BasicStringArgStrOpt(inner) => {
+            let mut line = basic_string(&inner.basic_string);
+            if let Some(opt) = inner.arg_str_opt.as_ref() {
+                line.push_str(&arg_str(&opt.arg_str));
             }
+            line
         }
+        ArgStr::UnquotedArg(inner) => inner.unquoted_arg.unquoted_arg.text().to_string(),
+    }
+}
+
+fn basic_string(s: &BasicString) -> String {
+    match s {
+        BasicString::DQString(m) => dq_string(&m.d_q_string),
         BasicString::SQString(m) => {
+            let mut line = String::new();
+            let mut first = true;
             for s in m.s_q_string.s_q_string_list.iter() {
-                match &*s.s_q_char {
-                    SQChar::SQUnescaped(m) => match &*m.s_q_unescaped {
-                        SQUnescaped::SQNoEscape(m) => {
-                            if first {
-                                first = false
-                            } else {
-                                line.push('\n');
-                            }
-                            line.push_str(m.s_q_no_escape.s_q_no_escape.text());
-                        }
-                        SQUnescaped::NonAscii(m) => {
-                            if first {
-                                first = false
-                            } else {
-                                line.push('\n');
-                            }
-                            line.push_str(m.non_ascii.non_ascii.text());
-                        }
-                    },
-                    SQChar::SQEscaped(_m) => {}
+                // A single-quoted string has no escapes (RFC 7950
+                // §6.1.3): a backslash is in the text as it is.
+                let text = match &*s.s_q_char.s_q_unescaped {
+                    SQUnescaped::SQNoEscape(m) => m.s_q_no_escape.s_q_no_escape.text(),
+                    SQUnescaped::NonAscii(m) => m.non_ascii.non_ascii.text(),
+                };
+                if first {
+                    first = false
+                } else {
+                    line.push('\n');
                 }
+                line.push_str(text);
             }
+            line
         }
     }
-    // Handle the YANG `+` continuation (RFC 7950 §6.1.3 — adjacent
-    // quoted strings are concatenated with no inserted characters).
-    if let Some(opt) = ystring_opt {
-        line.push_str(&ystring(&opt.ystring));
+}
+
+fn dq_string(m: &DQString) -> String {
+    let mut line = String::new();
+    let mut first = true;
+    for s in m.d_q_string_list.iter() {
+        match &*s.d_q_char {
+            DQChar::DQUnescaped(m) => {
+                let text = match &*m.d_q_unescaped {
+                    DQUnescaped::DQNoEscape(m) => m.d_q_no_escape.d_q_no_escape.text(),
+                    DQUnescaped::NonAscii(m) => m.non_ascii.non_ascii.text(),
+                };
+                if first {
+                    first = false
+                } else {
+                    line.push('\n');
+                }
+                line.push_str(text);
+            }
+            DQChar::DQEscaped(_m) => {
+                // m.d_q_escaped.escape;
+                // m.d_q_escaped.d_q_escape_seq_char;
+            }
+        }
     }
     line
 }
@@ -902,8 +957,8 @@ fn range_boundary<T: FromStr>(m: &RangeBoundary) -> Result<RangeVal<T>, ()> {
     match m {
         RangeBoundary::Min(_) => Ok(RangeVal::Min),
         RangeBoundary::Max(_) => Ok(RangeVal::Max),
-        RangeBoundary::MinusQuestLBracket0Minus9RBracketPlus(m) => {
-            let v = T::from_str(m.minus_quest_l_bracket0_minus9_r_bracket_plus.text());
+        RangeBoundary::RangeNumber(m) => {
+            let v = T::from_str(m.range_number.range_number.text());
             if let Ok(v) = v {
                 Ok(RangeVal::Val(v))
             } else {
@@ -976,9 +1031,34 @@ fn range_arg(m: &RangeArg, kind: YangType) -> RangeNode {
             range_arg_type::<u64>(&mut ranges, m);
             RangeNode::U64(ranges)
         }
+        // A range on a typedef (`type my-number { range "1..10"; }`):
+        // which integer type it restricts is known only when the
+        // typedef is resolved, so its bounds are kept as the widest
+        // signed integers until then (`RangeNode::cast`). A range that
+        // does not read that way is one of a `decimal64`, which is not
+        // kept, as for a `decimal64` written directly.
+        YangType::Path => RangeNode::I64(range_arg_lenient(m).unwrap_or_default()),
         _ => {
             let ranges = Vec::<Range<u8>>::new();
             RangeNode::U8(ranges)
+        }
+    }
+}
+
+/// The parts of a range as `i64`, or `None` when a bound is not one.
+fn range_arg_lenient(m: &RangeArg) -> Option<Vec<Range<i64>>> {
+    let mut ranges = Vec::new();
+    let mut arg = m;
+    loop {
+        let start = range_boundary(&arg.range_part.range_boundary).ok()?;
+        let end = match &arg.range_part.range_part_opt {
+            Some(end) => Some(range_boundary(&end.range_boundary).ok()?),
+            None => None,
+        };
+        ranges.push(Range { start, end });
+        match &arg.range_arg_opt {
+            Some(rest) => arg = &rest.range_arg,
+            None => return Some(ranges),
         }
     }
 }
@@ -1045,12 +1125,12 @@ fn type_stmt(m: &TypeStmt) -> TypeNode {
                 }
                 TypeStmtListGroup::LeafrefSpecification(m) => {
                     if let LeafrefSpecification::PathStmt(p) = &*m.leafref_specification {
-                        node.path = Some(ystring(&p.path_stmt.ystring));
+                        node.path = Some(arg_str(&p.path_stmt.arg_str));
                     }
                 }
                 TypeStmtListGroup::StringRestrictions(m) => match &*m.string_restrictions {
                     StringRestrictions::PatternStmt(p) => {
-                        node.pattern = Some(ystring(&p.pattern_stmt.ystring));
+                        node.pattern = Some(arg_str(&p.pattern_stmt.arg_str));
                     }
                     StringRestrictions::LengthStmt(l) => {
                         node.length = Some(length(&l.length_stmt));
@@ -1354,11 +1434,11 @@ fn extension(m: &ExtensionStmt) -> ExtensionNode {
 fn unknown(m: &UnknownStmt) -> UnknownNode {
     let name = identifier_ref(&m.identifier_ref);
     let mut node = UnknownNode::new(name);
-    // `ystring` is shared between both UnknownStmtSuffix alternates
-    // (parol factored the common `IdentifierRef Ystring` prefix
-    // when the bare-identifier `'{' ... '}'` alternate was folded
-    // into the `Ystring '{' ... '}'` form).
-    node.argument = ystring(&m.ystring);
+    // An extension that declares no argument is used with none
+    // (`prefix:keyword;`): its argument is then empty.
+    if let UnknownStmtSuffix0::YstringUnknownStmtSuffix(m) = &*m.unknown_stmt_suffix0 {
+        node.argument = ystring(&m.ystring);
+    }
     node
 }
 
